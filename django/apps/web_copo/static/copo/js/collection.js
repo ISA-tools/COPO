@@ -32,6 +32,7 @@ $(document).ready( function(){
 
     $('#select_platform').on('change', platform_change_handler)
 
+    $('#exp_table').on('click', 'a', populate_exp_modal)
 
     $('#add_upload_group_button').click(function(){
         var count = parseInt($('#upload_counter').val())
@@ -540,7 +541,6 @@ $(document).ready( function(){
                 //initialise string
                 var str =''
                 var data = $.parseJSON(data)
-                console.log(data)
                 for (x in data){
                     var row = data[x]
                     str = str + '<tr>'
@@ -554,6 +554,19 @@ $(document).ready( function(){
                 $('#exp_table tr').after(str)
             }
         );
+    }
+
+    function populate_exp_modal(event){
+        link = $(event.target)
+        data_modal_id = link.parent().attr('data-exp_id')
+        $.get( "/rest/get_experiment_modal_data/",
+        {
+            data_modal_id: data_modal_id
+        },
+        function(data){
+            console.log(data)
+        })
+
     }
 
 

@@ -2,7 +2,6 @@ from django.conf.urls import patterns, url
 
 from apps.web_copo import views
 
-
 urlpatterns = patterns('',
                        url(r'^$', views.index, name='index'),
                        url(r'^testing/', views.view_test, name='test'),

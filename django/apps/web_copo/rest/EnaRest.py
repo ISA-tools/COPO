@@ -555,3 +555,8 @@ def get_experiment_table_data(request):
     el = jsonpickle.encode(elements)
 
     return HttpResponse(el, content_type='text/plain')
+
+
+def populate_exp_modal(request):
+    data_modal_id = request.GET.get('data_modal_id')
+    return HttpResponse(data_modal_id, content_type='text/plain')
