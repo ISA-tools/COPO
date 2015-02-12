@@ -88,6 +88,29 @@ function get_upload_box_html(box_id, panel_id){
      return html
  }
 
+
+ function get_files_table(files){
+    str = "<h4>Existing Files for Group</h4>"
+    str += "<table id='exp_data_table'>"
+    str += "<tr><th>File Name</th><th>Size</th><th>md5</th></tr>"
+    data_modal_id = ''
+    for(file in files){
+
+        file = files[file]
+        if(file.data_modal_id == data_modal_id){
+            str += '<tr><td></td><td></td><td></td></tr>'
+        }
+        //store the data modal id to check if there should be a break in the table next time
+        data_modal_id = file.data_modal_id
+        str += '<tr><td>' + file.name + '</td><td>' + file.size + '</td><td>' + file.md5 + '</td></tr>'
+    }
+    str += '</table>'
+    return str
+ }
+
+
+
+
 function generate_uid(){
 
     //generate semi-random uid style hash with very low probability of collision

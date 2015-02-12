@@ -20,6 +20,7 @@ $(document).ready( function(){
     })
 
     $('#add_data_button').on('click', function(){
+        $('#container').empty()
         $('input[name=data_modal_id]').val(generate_uid())
     })
 
@@ -545,7 +546,7 @@ $(document).ready( function(){
                     var row = data[x]
                     str = str + '<tr>'
 
-                    str = str + '<td data-exp_id="' + row['data_modal_id'] + '"><a>' + row['platform'] + '</a></td>'
+                    str = str + '<td data-exp_id="' + row['data_modal_id'] + '"><a style="cursor:pointer">' + row['platform'] + '</a></td>'
                     str = str + '<td>' + row['group_size'] + '</td>'
                     str = str + '<td>' + row['last_modified'] + '</td>'
 
@@ -564,9 +565,14 @@ $(document).ready( function(){
             data_modal_id: data_modal_id
         },
         function(data){
-            console.log(data)
+            $('#container').find('table').remove()
+            $('#container').find('h4').remove()
+            data = $.parseJSON(data)
+            html = get_files_table(data)
+            after = $('#container .row').first()
+            $(html).insertAfter(after)
         })
-
+        $('#newDataModal').modal('show')
     }
 
 

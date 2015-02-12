@@ -559,4 +559,23 @@ def get_experiment_table_data(request):
 
 def populate_exp_modal(request):
     data_modal_id = request.GET.get('data_modal_id')
-    return HttpResponse(data_modal_id, content_type='text/plain')
+    #get experiments
+    exps = EnaExperiment.objects.filter(data_modal_id=data_modal_id)
+
+    output_files = []
+
+    for exp in exps:
+        #for each experiment get a list of the associated files
+        files = ExpFile.objects.filter(experiment__id=exp.id)
+        for file in files:
+            #get chunked upload object
+            ch = file.file
+            #now populate output object
+            f = {}
+            f['name']=ch.filename
+            f['size']=u.filesize_toString(ch.offset)
+            f['md5']=file.md5_hash
+            f['data_modal_id']=exp.data_modal_id
+            output_files.append(f)
+
+    return HttpResponse(jsonpickle.encode(output_files), content_type='text/plain')
