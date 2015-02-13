@@ -21,7 +21,12 @@ $(document).ready( function(){
 
     $('#add_data_button').on('click', function(){
         $('#container').empty()
+        var count = parseInt($('#upload_counter').val())
         $('input[name=data_modal_id]').val(generate_uid())
+        html = get_upload_box_html(count, generate_uid())
+        var dom = jQuery.parseHTML(html)
+        $('#container').append(dom)
+        get_experimental_samples(dom)
     })
 
     //check value of initial panel id
@@ -254,6 +259,8 @@ $(document).ready( function(){
             })
         })
         $('newDataModal').modal('hide')
+        get_experiment_table_data()
+        $('#container').find('.row:first').remove()
     })
 
 
@@ -552,6 +559,7 @@ $(document).ready( function(){
 
                     str = str + '</tr>'
                 }
+                $('#exp_table tr:not(:first)').remove()
                 $('#exp_table tr').after(str)
             }
         );
@@ -565,12 +573,24 @@ $(document).ready( function(){
             data_modal_id: data_modal_id
         },
         function(data){
+            //$('#container').find('.row:first').remove()
             $('#container').find('table').remove()
             $('#container').find('h4').remove()
+            if($('#container').is(':empty')){
+                $('input[name=data_modal_id]').val(data_modal_id)
+                var count = parseInt($('#upload_counter').val())
+                html = get_upload_box_html(count, generate_uid())
+                var dom = jQuery.parseHTML(html)
+                $('#container').append(dom)
+                get_experimental_samples(dom)
+            }
+            //$('#container').find('.row').empty()
             data = $.parseJSON(data)
+            data_modal_id = data[0]['data_modal_id']
             html = get_files_table(data)
             after = $('#container .row').first()
             $(html).insertAfter(after)
+
         })
         $('#newDataModal').modal('show')
     }

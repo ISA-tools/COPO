@@ -469,7 +469,7 @@ def save_experiment(request):
         #else retrieve the existing object
         exp = EnaExperiment.objects.get(id=int(per_panel['experiment_id']))
         #and delete linked expFile objects
-        ExpFile.objects.filter(experiment__id = exp.id).delete()
+        #ExpFile.objects.filter(experiment__id = exp.id).delete()
 
     exp.platform = common['platform']
     exp.instrument = common['model']
@@ -576,6 +576,7 @@ def populate_exp_modal(request):
             f['size']=u.filesize_toString(ch.offset)
             f['md5']=file.md5_hash
             f['data_modal_id']=exp.data_modal_id
+            f['panel_id']=exp.panel_id
             output_files.append(f)
 
     return HttpResponse(jsonpickle.encode(output_files), content_type='text/plain')

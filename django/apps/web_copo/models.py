@@ -133,6 +133,6 @@ class EnaExperiment(models.Model):
 class ExpFile(models.Model):
     #class to join experiments with files
     experiment = models.ForeignKey(EnaExperiment)
-    file = models.OneToOneField(ChunkedUpload, primary_key=True)
+    file = models.OneToOneField(ChunkedUpload)
     md5_hash = models.CharField(max_length=50, null=True, blank=True)
-    testfield = models.CharField(max_length=50, null=True, blank=True)
+    
