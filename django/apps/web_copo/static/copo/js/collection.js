@@ -70,6 +70,7 @@ $(document).ready( function(){
             count = count + 1
             var html = get_upload_box_html(count, generate_uid())
             var dom = jQuery.parseHTML(html)
+
             $('#container').append(dom)
 
             //deal with csrf token
@@ -576,7 +577,7 @@ $(document).ready( function(){
             //$('#container').find('.row:first').remove()
             $('#container').find('table').remove()
             $('#container').find('h4').remove()
-            if($('#container').is(':empty')){
+            if($('#container').children().length == 0){
                 $('input[name=data_modal_id]').val(data_modal_id)
                 var count = parseInt($('#upload_counter').val())
                 html = get_upload_box_html(count, generate_uid())
@@ -588,8 +589,7 @@ $(document).ready( function(){
             data = $.parseJSON(data)
             data_modal_id = data[0]['data_modal_id']
             html = get_files_table(data)
-            after = $('#container .row').first()
-            $(html).insertAfter(after)
+            $('#existing_files').html(html)
 
         })
         $('#newDataModal').modal('show')

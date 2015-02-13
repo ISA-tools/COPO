@@ -572,6 +572,7 @@ def populate_exp_modal(request):
             ch = file.file
             #now populate output object
             f = {}
+            f['id']=ch.id
             f['name']=ch.filename
             f['size']=u.filesize_toString(ch.offset)
             f['md5']=file.md5_hash

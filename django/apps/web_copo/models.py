@@ -135,4 +135,4 @@ class ExpFile(models.Model):
     experiment = models.ForeignKey(EnaExperiment)
     file = models.OneToOneField(ChunkedUpload)
     md5_hash = models.CharField(max_length=50, null=True, blank=True)
-    
+
