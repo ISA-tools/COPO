@@ -67,7 +67,7 @@ WSGI_APPLICATION = 'project_copo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'copo',
+        'NAME': 'copo_development',
         'USER': 'root',
         'PASSWORD': 'Apple123',
         'Host': '127.0.0.1',

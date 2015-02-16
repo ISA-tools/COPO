@@ -208,6 +208,7 @@
 				<table class="table-bordered" id="exp_table">
 
 					<tr>
+						<th>Group Name</th>
 						<th>Platform Type</th>
 						<th>Group Size</th>
 						<th>Last Modified</th>
@@ -304,6 +305,11 @@
 		<div id="exp_info">
 			<form>
 				<!-- Controls for Info Panel -->
+				<div class="form-group">
+					<label for="copo_exp_name">Experiment Name</label>
+					<input type="text" name="copo_name" id="copo_exp_name" placeholder="Name"/>
+				</div>
+
 				<div class="form-group">
 					<label for="select_platform">Platform</label>
 					<select class="form-control" name="select_platform" id="select_platform" type="text"
@@ -482,11 +488,9 @@
 				</div>
 			</div>
 
-		</div>
 
-	</div>
-</div>
-<div class="row">
+
+		</div><div class="row">
 	<!--<div class="col-sm-4 col-md-4 col-lg-04" style="border:1px solid black">here</div>-->
 	<div class="col-sm-6 col-sm-6 col-sm-6 pull-right" style="margin-right:50px">
                             <span id="add_upload_group_button"
@@ -502,6 +506,11 @@
 							</span>
 	</div>
 </div>
+		<div id="existing_files"></div>
+
+	</div>
+</div>
+
 </div>
 
 

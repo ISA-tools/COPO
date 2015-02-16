@@ -85,3 +85,10 @@ form{
     margin-bottom:20px
 }
 
+#exp_data_table{
+    margin-bottom:20px
+}
+#exp_data_table .delete_cell{
+    color:red;
+    cursor:pointer;
+}

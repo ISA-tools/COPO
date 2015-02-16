@@ -469,7 +469,7 @@ def save_experiment(request):
         #else retrieve the existing object
         exp = EnaExperiment.objects.get(id=int(per_panel['experiment_id']))
         #and delete linked expFile objects
-        ExpFile.objects.filter(experiment__id = exp.id).delete()
+        #ExpFile.objects.filter(experiment__id = exp.id).delete()
 
     exp.platform = common['platform']
     exp.instrument = common['model']
@@ -479,6 +479,7 @@ def save_experiment(request):
     exp.panel_ordering = int(per_panel['panel_ordering'])
     exp.panel_id = per_panel['panel_id']
     exp.data_modal_id = per_panel['data_modal_id']
+    exp.copo_exp_name = common['copo_exp_name']
     try:
         exp.insert_size = int(common['insert_size'])
     except:
@@ -535,23 +536,65 @@ def get_experiment_table_data(request):
         utc = pytz.UTC
         last_modified = utc.localize(last_modified)
         #calculate the size of the file group and when in was last modified
-        for upload in chs:
-            total = total + upload.offset
-            print(total)
-            if upload.completed_on > last_modified:
-                last_modified = upload.completed_on
-        #create output object
-        out = {}
-        group_type = me[0].platform
-        fmt = '%d-%m-%Y %H:%M:%S'
-        out['group_size'] = u.filesize_toString(total)
-        out['last_modified'] = last_modified.strftime(fmt)
-        out['platform'] = group_type
-        out['data_modal_id'] = modal['data_modal_id']
-        elements.append(out)
+        if chs.exists():
+            for upload in chs:
+                total = total + upload.offset
+                print(total)
+                if upload.completed_on > last_modified:
+                    last_modified = upload.completed_on
+            #create output object
+            out = {}
+            group_type = me[0].platform
+            fmt = '%d-%m-%Y %H:%M:%S'
+            out['group_size'] = u.filesize_toString(total)
+            out['group_name'] = me[0].copo_exp_name
+            out['last_modified'] = last_modified.strftime(fmt)
+            out['platform'] = group_type
+            out['data_modal_id'] = modal['data_modal_id']
+            elements.append(out)
 
 
 
     el = jsonpickle.encode(elements)
 
     return HttpResponse(el, content_type='text/plain')
+
+
+def populate_exp_modal(request):
+    data_modal_id = request.GET.get('data_modal_id')
+    #get experiments
+    exps = EnaExperiment.objects.filter(data_modal_id=data_modal_id)
+
+    output_files = []
+
+    for exp in exps:
+        #for each experiment get a list of the associated files
+        files = ExpFile.objects.filter(experiment__id=exp.id)
+        for file in files:
+            #get chunked upload object
+            ch = file.file
+            #now populate output object
+            f = {}
+            f['id']=ch.id
+            f['name']=ch.filename
+            f['size']=u.filesize_toString(ch.offset)
+            f['md5']=file.md5_hash
+            f['data_modal_id']=exp.data_modal_id
+            f['panel_id']=exp.panel_id
+            output_files.append(f)
+
+    return HttpResponse(jsonpickle.encode(output_files), content_type='text/plain')
+
+def delete_file(request):
+    file_id = request.POST.get('file_id')
+    #get chunked upload object
+    ch = ChunkedUpload.objects.get(id=int(file_id))
+    ef = ch.expfile
+    #get full path
+    filepath = os.path.join(settings.MEDIA_ROOT, ch.file.name)
+    #delete file
+    os.remove(filepath)
+    #now delete database entries for the file
+    ef.delete()
+    ch.delete()
+    return HttpResponse(request.POST.get('file_id'))
