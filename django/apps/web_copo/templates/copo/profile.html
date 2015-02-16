@@ -3,8 +3,8 @@
 {% load staticfiles %}
 
 {% block stylesheet_block %}
-<link rel="stylesheet" href="{% static 'copo/css/copo/browse_style.css' %}">
-<link rel="stylesheet" href="{% static 'copo/css/copo/study.css' %}">
+	<link rel="stylesheet" href="{% static 'copo/css/copo/browse_style.css' %}">
+	<link rel="stylesheet" href="{% static 'copo/css/copo/study.css' %}">
 
 {% endblock %}
 
@@ -14,16 +14,16 @@
 {% block tagline_block %}{% endblock %}
 
 {% block breadcrumb_block %}
-<ol class="breadcrumb">
-    <li><a href="{% url 'copo:index' %}">Home</a></li>
-    <li class="active"><a href="{% url 'copo:view_profile' profile_id=profile_id %}">Profile</a></li>
-</ol>
+	<ol class="breadcrumb">
+		<li><a href="{% url 'copo:index' %}">Home</a></li>
+		<li class="active"><a href="{% url 'copo:view_profile' profile_id=profile_id %}">Profile</a></li>
+	</ol>
 {% endblock %}
 
 
 {% block browse_header_block %}
 
-<div id="browse_header">
+	<div id="browse_header">
         <span class="blue_icon">
            <a><i class="fa fa-plus-circle" data-toggle="modal" data-target="#newStudyModal"></i></a>
         </span>
@@ -34,105 +34,112 @@
             <a><i class="fa fa-trash-o"></i></a>
         </span>
 
-    <div class="input-group input-group-sm">
+		<div class="input-group input-group-sm">
             <span class="input-group-addon">
                 <i class="fa fa-search"></i>
             </span>
-        <input type="search" class="form-control" placeholder="Search">
-    </div>
-</div>
+			<input type="search" class="form-control" placeholder="Search">
+		</div>
+	</div>
 
 {% endblock %}
 
 {% block work_area %}
 
-<!-- here is the markup for the top table data pulled in from the study itself -->
-<table class="browse_table">
-    <h2 class="h2">{{ profile_title }}</h2>
-    <hr/>
-    <h3>Collections</h3>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-    </tr>
+	<!-- here is the markup for the top table data pulled in from the study itself -->
+	<table id="browse_table">
+		<h2 class="h2">{{ profile_title }}</h2>
+		<hr/>
+		<h3>Collections</h3>
+		<tr>
+			<th>Name</th>
+			<th>Type</th>
+		</tr>
 
-    {% for c in collections %}
+		{% for c in collections %}
 
-    <tr>
-        <td><a href="{% url 'copo:view_collection' collection_id=c.id %}">{{ c.name }}</a></td>
+			<tr>
+				<td data-collection_id="{{ c.id }}"><a href="{% url 'copo:view_collection' collection_id=c.id %}">{{ c.name }}</a></td>
 
-        <td>{{ c.type }}</td>
-    </tr>
+				<td>{{ c.type }}</td>
+			</tr>
 
-    {% endfor %}
+		{% endfor %}
 
-</table>
+	</table>
 
-<!-- subsequently we should loop and have some sort of collapsable table showing the existing work collections -->
-
-
-<!-- then we have a button to add a new work collection -->
-<div class="text-center add_data_button">
-    <button type="button" class="btn btn-primary btn-lg text-center" data-toggle="modal"
-            data-target="#newCollectionModal">Add Collection
-    </button>
-</div>
+	<!-- subsequently we should loop and have some sort of collapsable table showing the existing work collections -->
 
 
-<!-- here is the hidden modal which will be populated from js, will look at having a rest call to a python service to
-query the forms xml for the type of data selected by the user -->
+	<!-- then we have a button to add a new work collection and a submit to Repo button-->
+	<ul class="list-inline pull-right" id="bottom_button_group">
+		<li>
+			<button type="button" class="btn btn-primary btn-lg text-center" data-toggle="modal"
+					data-target="#newCollectionModal">Add Collection
+			</button>
+		</li>
+		<li>
+			<button type="button" class="btn btn-primary btn-lg" id="submit_to_repo_btn">Submit to Repositories</button>
+		</li>
+	</ul>
 
-<!-- Modal -->
-<div class="modal fade" id="newCollectionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                        class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">New Collection</h4>
-            </div>
-            <div class="modal-body">
+	<!-- here is the hidden modal which will be populated from js, will look at having a rest call to a python service to
+    query the forms xml for the type of data selected by the user -->
 
-                <form role="form" id="ena_study_form" action="/copo/new_collection/" method="post">
-                    {% csrf_token %}
+	<!-- Modal -->
+	<div class="modal fade" id="newCollectionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		 aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span
+							aria-hidden="true">&times;</span><span
+							class="sr-only">Close</span></button>
+					<h4 class="modal-title" id="myModalLabel">New Collection</h4>
+				</div>
+				<div class="modal-body">
 
-                    <input type="hidden" name="profile_id" value="{{ profile_id }}">
+					<form role="form" id="ena_study_form" action="/copo/new_collection/" method="post">
+						{% csrf_token %}
 
-                    <div class="form-group">
-                        <label for="collection_name">Collection Name</label><br/>
-                        <input type="text" name="collection_name" id="collection_name" class="form_control"
-                               placeholder="Enter Name"/>
-                    </div>
+						<input type="hidden" name="profile_id" value="{{ profile_id }}">
+
+						<div class="form-group">
+							<label for="collection_name">Collection Name</label><br/>
+							<input type="text" name="collection_name" id="collection_name" class="form_control"
+								   placeholder="Enter Name"/>
+						</div>
 
 
-                    <div class="form-group">
-                        <label for="collection_type">Colection Type</label>
-                        <select name="collection_type" id="collection_type" class="form-control">
-                            <option>ENA Submission</option>
-                            <option>PDF File</option>
-                            <option>Image</option>
-                            <option>Movie</option>
-                            <option>Other</option>
-                        </select>
-                    </div>
+						<div class="form-group">
+							<label for="collection_type">Colection Type</label>
+							<select name="collection_type" id="collection_type" class="form-control">
+								<option>ENA Submission</option>
+								<option>PDF File</option>
+								<option>Image</option>
+								<option>Movie</option>
+								<option>Other</option>
+							</select>
+						</div>
 
-                    <button type="submit" class="btn btn-default">Submit</button>
+						<button type="submit" class="btn btn-default">Submit</button>
 
-                </form>
+					</form>
 
-            </div>
-            <div class="modal-footer">
+				</div>
+				<div class="modal-footer">
 
-            </div>
-        </div>
-    </div>
-</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 
 
 {% endblock %}
 
 
 {% block js_block %}
-
+<script src="{% static 'copo/js/profile.js' %}"></script>
 {% endblock %}
