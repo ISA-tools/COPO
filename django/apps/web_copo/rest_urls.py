@@ -1,9 +1,6 @@
 from django.conf.urls import patterns, url
-
 import apps.web_copo.rest.EnaRest as rest
 from chunked_upload.views import *
-
-
 
 urlpatterns = patterns('',
                        url(r'^ena_study_form/', rest.get_ena_study_controls, name='get_ena_study_controls'),
@@ -27,4 +24,5 @@ urlpatterns = patterns('',
                        url(r'^save_experiment/', rest.save_experiment, name='save_experiment'),
                        url(r'^get_experiment_table_data/', rest.get_experiment_table_data, name='get_experiment_table_data'),
                        url(r'^get_experiment_modal_data/', rest.populate_exp_modal, name='populate_exp_modal'),
+                       url(r'^delete_file/', rest.delete_file, name='delete_file'),
 )

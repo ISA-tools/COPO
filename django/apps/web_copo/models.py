@@ -128,7 +128,7 @@ class EnaExperiment(models.Model):
     panel_ordering = models.IntegerField(default=0)
     panel_id = models.CharField(max_length=100, null=True, blank=True)
     data_modal_id = models.CharField(max_length=100, null=True, blank=True)
-
+    copo_exp_name = models.CharField(max_length=100, null=True, blank=True)
 
 class ExpFile(models.Model):
     #class to join experiments with files

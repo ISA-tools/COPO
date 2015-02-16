@@ -103,7 +103,11 @@ function get_upload_box_html(box_id, panel_id){
         }
         //store the data modal id to check if there should be a break in the table next time
         panel_id = file.panel_id
-        str += '<tr><td>' + file.name + '</td><td>' + file.size + '</td><td>' + file.md5 + '</td><td class="delete_cell text-center"><span class="glyphicon glyphicon-remove-sign" data-file_id="' + file.id + '"></span></td></tr>'
+        str += '<tr><td>' + file.name + '</td>' +
+        '<td>' + file.size + '</td>' +
+        '<td>' + file.md5 + '</td>' +
+        '<td class="delete_cell text-center" data-file_id="' + file.id + '">' +
+        '<span class="glyphicon glyphicon-remove-sign"></span></td></tr>'
     }
     str += '</table>'
     return str

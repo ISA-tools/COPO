@@ -479,6 +479,7 @@ def save_experiment(request):
     exp.panel_ordering = int(per_panel['panel_ordering'])
     exp.panel_id = per_panel['panel_id']
     exp.data_modal_id = per_panel['data_modal_id']
+    exp.copo_exp_name = common['copo_exp_name']
     try:
         exp.insert_size = int(common['insert_size'])
     except:
@@ -535,20 +536,22 @@ def get_experiment_table_data(request):
         utc = pytz.UTC
         last_modified = utc.localize(last_modified)
         #calculate the size of the file group and when in was last modified
-        for upload in chs:
-            total = total + upload.offset
-            print(total)
-            if upload.completed_on > last_modified:
-                last_modified = upload.completed_on
-        #create output object
-        out = {}
-        group_type = me[0].platform
-        fmt = '%d-%m-%Y %H:%M:%S'
-        out['group_size'] = u.filesize_toString(total)
-        out['last_modified'] = last_modified.strftime(fmt)
-        out['platform'] = group_type
-        out['data_modal_id'] = modal['data_modal_id']
-        elements.append(out)
+        if chs.exists():
+            for upload in chs:
+                total = total + upload.offset
+                print(total)
+                if upload.completed_on > last_modified:
+                    last_modified = upload.completed_on
+            #create output object
+            out = {}
+            group_type = me[0].platform
+            fmt = '%d-%m-%Y %H:%M:%S'
+            out['group_size'] = u.filesize_toString(total)
+            out['group_name'] = me[0].copo_exp_name
+            out['last_modified'] = last_modified.strftime(fmt)
+            out['platform'] = group_type
+            out['data_modal_id'] = modal['data_modal_id']
+            elements.append(out)
 
 
 
@@ -581,3 +584,17 @@ def populate_exp_modal(request):
             output_files.append(f)
 
     return HttpResponse(jsonpickle.encode(output_files), content_type='text/plain')
+
+def delete_file(request):
+    file_id = request.POST.get('file_id')
+    #get chunked upload object
+    ch = ChunkedUpload.objects.get(id=int(file_id))
+    ef = ch.expfile
+    #get full path
+    filepath = os.path.join(settings.MEDIA_ROOT, ch.file.name)
+    #delete file
+    os.remove(filepath)
+    #now delete database entries for the file
+    ef.delete()
+    ch.delete()
+    return HttpResponse(request.POST.get('file_id'))
