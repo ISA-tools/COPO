@@ -25,4 +25,5 @@ urlpatterns = patterns('',
                        url(r'^get_experiment_table_data/', rest.get_experiment_table_data, name='get_experiment_table_data'),
                        url(r'^get_experiment_modal_data/', rest.populate_exp_modal, name='populate_exp_modal'),
                        url(r'^delete_file/', rest.delete_file, name='delete_file'),
+                       url(r'^submit_collection/', rest.submit_collection_handler, name='submit_collection'),
 )

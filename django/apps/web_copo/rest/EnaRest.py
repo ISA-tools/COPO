@@ -15,7 +15,7 @@ import hashlib
 import project_copo.settings as settings
 import gzip
 import uuid
-import utils.RepoSubmissionUtils as repoSub
+
 
 
 class JSONResponse(HttpResponse):
@@ -606,12 +606,15 @@ def delete_file(request):
     #now delete database entries for the file
     ef.delete()
     ch.delete()
-    return HttpResponse(request.POST.get('file_id'))
+    return HttpResponse(request.POST.get('file_id'), content_type='text/plain')
 
 
 def submit_collection_handler(request):
+    import apps.web_copo.utils.RepoSubmissionUtils as r
     #method to choose correct repo handler for the collection type
     collection_id = request.POST.get('collection_id')
-    c = Collection.object.get(id=collection_id)
+    c = Collection.objects.get(id=collection_id)
     if c.type == 'ENA Submission':
-        repoSub.submit_ena(c)
+        r.submit_ena(c)
+
+    return HttpResponse('exiting', content_type='text/plain')
