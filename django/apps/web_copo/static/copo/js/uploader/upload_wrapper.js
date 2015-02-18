@@ -314,7 +314,8 @@ function finalise_group(file_id, tform){
 
         })
         $('input[value=' + file_id + ']').parents().eq(6).find('.panel-title').html(file_type + ' Files Group - ' + total + ' MB')
-        $('input[value=' + file_id + ']').parents().eq(5).css('display', 'none')    }
+        //$('input[value=' + file_id + ']').parents().eq(5).css('display', 'none')
+    }
 }
     /*
     get_upload_box_html()
