@@ -9,12 +9,13 @@ def make_submissions(c):
 
     study_path = '/Users/fshaw/Desktop/study.xml'
     sample_path = '/Users/fshaw/Desktop/sample.xml'
+    exp_path = '/Users/fshaw/Desktop/experiment.xml'
     #make study method creates study.xml submission file and returns
     #the study object associated with the collection_id
     s = make_study_xml(c, study_path)
     #same deal for make_sample_xml
     make_sample_xml(s, sample_path)
-    make_exp_xml(s)
+    make_exp_xml(s, exp_path)
 
 
 
@@ -131,6 +132,22 @@ def make_sample_xml(s, output_path):
         samp.append(attributes)
 
         root.append(samp)
+
+    f = open(output_path, 'w')
+    stamp_xml_version(f)
+
+    tree = ElementTree(root)
+    tree.write(f)
+    f.close()
+
+
+def make_exp_xml(s, output_path):
+    experiments = EnaExperiment.objects.filter(study__id=s.id)
+
+    root = Element("EXPERIMENT_SET")
+
+    for exp in experiments:
+        experiment = Element("EXPERIMENT")
 
     f = open(output_path, 'w')
     stamp_xml_version(f)
