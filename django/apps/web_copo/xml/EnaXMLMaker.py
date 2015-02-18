@@ -5,18 +5,29 @@ from chunked_upload.models import ChunkedUpload
 
 def make_submissions(c):
 
+    output_path = '/Users/fshaw/Desktop/study.xml'
 
-    #start with study.xml
-    s = EnaStudy.objects.get(collection__id=c.id)
+    #make study method creates study.xml submission file and returns
+    #the study object associated with the collection_id
+    s = make_study_xml(c, output_path )
+    #same deal for make_sample_xml
+    make_sample_xml(s.id)
 
-    f = open('/Users/fshaw/Desktop/study.xml', "w")
-    #must write the xml version in manually
+def stamp_xml_version(f):
     f.write('<?xml version="1.0" encoding="UTF-8"?>')
+
+def make_study_xml(c, output_path):
+    s = EnaStudy.objects.get(collection__id=c.id)
+    a = EnaStudyAttr.objects.filter(ena_study__id=s.id)
+
+    f = open(output_path, "w")
+
+    #must write the xml version in manually
+    stamp_xml_version(f)
 
     #STUDY_SET is the root
     root = Element("STUDY_SET")
 
-    #next is STUDY with alias the same as STUDY_TITLE
     study = Element("STUDY", {'alias': s.study_title})
 
     descriptor = Element("DESCRIPTOR")
@@ -41,9 +52,29 @@ def make_submissions(c):
     study_description.text = s.study_description
     descriptor.append(study_description)
 
+    attributes = Element("STUDY_ATTRIBUTES")
+    study.append(attributes)
+    for attr in a:
+        attribute = Element("STUDY_ATTRIBUTE")
+        tag = Element("TAG")
+        tag.text = attr.tag
+        value = Element("VALUE")
+        value.text = attr.value
+        unit = Element("UNIT")
+        unit.text = attr.unit
+        attribute.append(tag)
+        attribute.append(value)
+        attribute.append(unit)
+        attributes.append(attribute)
+
     root.append(study)
 
     #output whole tree to file
     tree = ElementTree(root)
     tree.write(f)
     f.close()
+    return s
+
+
+def make_sample_xml(s):
+    pass
