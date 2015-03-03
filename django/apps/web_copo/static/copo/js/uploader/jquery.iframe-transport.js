@@ -179,13 +179,13 @@
     });
 
     // The iframe transport returns the iframe content document as response.
-    // The following adds converters from iframe to text, json, html, xml
+    // The following adds converters from iframe to text, json, html, xml_tools
     // and script.
     // Please note that the Content-Type for JSON responses has to be text/plain
     // or text/html, if the browser doesn't include application/json in the
     // Accept header, else IE will show a download dialog.
     // The Content-Type for XML responses on the other hand has to be always
-    // application/xml or text/xml, so IE properly parses the XML response.
+    // application/xml_tools or text/xml_tools, so IE properly parses the XML response.
     // See also
     // https://github.com/blueimp/jQuery-File-Upload/wiki/Setup#content-type-negotiation
     $.ajaxSetup({

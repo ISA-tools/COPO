@@ -1,21 +1,22 @@
 __author__ = 'fshaw'
+import os
+import hashlib
+import gzip
+import uuid
+
 from django.http import HttpResponse
 from django.core.context_processors import csrf
 from rest_framework.renderers import JSONRenderer
 import jsonpickle
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
-from apps.web_copo.models import Collection, EnaStudy, EnaSample, EnaStudyAttr, EnaSampleAttr, EnaExperiment, ExpFile, DocumentForm, Document
-import apps.web_copo.xml.EnaParsers as parsers
-import apps.web_copo.utils.EnaUtils as u
 from chunked_upload.models import ChunkedUpload
 from django.core.files.base import ContentFile
-import os
-import hashlib
-import project_copo.settings as settings
-import gzip
-import uuid
 
+from apps.web_copo.models import Collection, EnaStudy, EnaSample, EnaStudyAttr, EnaSampleAttr, EnaExperiment, ExpFile
+import apps.web_copo.xml_tools.EnaParsers as parsers
+import apps.web_copo.utils.EnaUtils as u
+import project_copo.settings.settings as settings
 
 
 class JSONResponse(HttpResponse):
@@ -32,7 +33,7 @@ class JSONResponse(HttpResponse):
 
 def get_ena_study_controls(request):
     # get list of controllers
-    out = parsers.get_study_form_controls('apps/web_copo/xml/schemas/ena/SRA.study.xsd.xml')
+    out = parsers.get_study_form_controls('apps/web_copo/xml_tools/schemas/ena/SRA.study.xsd.xml')
     c_id = request.GET['collection_id']
     #check to see if there are any ena studies associated with this collection
 
@@ -106,7 +107,7 @@ def get_ena_study_attr(request):
 
 
 def get_ena_sample_controls(request):
-    html = parsers.get_sample_form_controls('apps/web_copo/xml/schemas/ena/SRA.sample.xsd.xml')
+    html = parsers.get_sample_form_controls('apps/web_copo/xml_tools/schemas/ena/SRA.sample.xsd.xml')
     return HttpResponse(html, content_type='html')
 
 
@@ -264,7 +265,7 @@ def get_sample_html(request):
 
 def populate_data_dropdowns(request):
     # specify path for experiment xsd schema
-    xsd_path = 'apps/web_copo/xml/schemas/ena/SRA.experiment.xsd.xml'
+    xsd_path = 'apps/web_copo/xml_tools/schemas/ena/SRA.experiment.xsd.xml'
     out = {}
     out['strategy_dd'] = parsers.get_library_dropdown(xsd_path, 'LIBRARY_STRATEGY')
     out['selection_dd'] = parsers.get_library_dropdown(xsd_path, 'LIBRARY_SELECTION')
@@ -345,6 +346,7 @@ def receive_data_file(request):
     from django.utils import timezone
     # need to make a chunked upload record to store deails of the file
     if request.method == 'POST':
+
         c = {}
         f = request.FILES['file']
 

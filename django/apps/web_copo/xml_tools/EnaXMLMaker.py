@@ -7,10 +7,10 @@ from chunked_upload.models import ChunkedUpload
 
 def make_submissions(c):
 
-    study_path = '/Users/fshaw/Desktop/study.xml'
-    sample_path = '/Users/fshaw/Desktop/sample.xml'
-    exp_path = '/Users/fshaw/Desktop/experiment.xml'
-    #make study method creates study.xml submission file and returns
+    study_path = '/Users/fshaw/Desktop/study.xml_tools'
+    sample_path = '/Users/fshaw/Desktop/sample.xml_tools'
+    exp_path = '/Users/fshaw/Desktop/experiment.xml_tools'
+    #make study method creates study.xml_tools submission file and returns
     #the study object associated with the collection_id
     s = make_study_xml(c, study_path)
     #same deal for make_sample_xml
@@ -20,7 +20,7 @@ def make_submissions(c):
 
 
 def stamp_xml_version(f):
-    f.write('<?xml version="1.0" encoding="UTF-8"?>')
+    f.write('<?xml_tools version="1.0" encoding="UTF-8"?>')
 
 
 
@@ -74,7 +74,7 @@ def make_study_xml(c, output_path):
 
     #output whole tree to file
     f = open(output_path, "w")
-    #must write the xml version in manually
+    #must write the xml_tools version in manually
     stamp_xml_version(f)
 
     tree = ElementTree(root)
