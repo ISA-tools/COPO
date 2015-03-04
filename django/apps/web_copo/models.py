@@ -21,6 +21,7 @@ class Profile(models.Model):
     date_created = models.DateField(default=datetime.date.today)
     date_modified = models.DateField(default=datetime.date.today)
     user = models.ForeignKey(User)
+    #test comment
 
     def __unicode__(self):
         return self.title
