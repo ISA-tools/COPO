@@ -49,7 +49,7 @@ def is_fastq_file(file_name):
             elif k == 1:
                 if not re.match('^(A|G|T|C|N|-)+$', li):
                     # return false if not only AGTC is present in data string
-                    print 'illegal character in line: ' + li
+                    print('illegal character in line: ' + li)
                     return False
                 else:
                     # store length of string
@@ -60,7 +60,7 @@ def is_fastq_file(file_name):
                     return False
             else:
                 if len(li) != second_line_length:
-                    print 'line lengths not equal' + li
+                    print ('line lengths not equal' + li)
                     # if length of 2nd and 4th lines is not equal, return false
                     return False
 

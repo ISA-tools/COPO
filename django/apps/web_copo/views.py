@@ -30,7 +30,8 @@ def try_login_with_orcid_id(request):
 def copo_login(request):
     # pdb.set_trace()
     if request.method == 'GET':
-        print 'running get'
+
+
         return render(request, 'copo/login.html')
 
     else:

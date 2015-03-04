@@ -358,7 +358,7 @@ def receive_data_file(request):
 
 
         path = chunked_upload.file
-        destination = open(os.path.join(settings.MEDIA_ROOT, path.file.name), 'w+')
+        destination = open(os.path.join(settings.MEDIA_ROOT, path.file.name), 'wb+')
         for chunk in f.chunks():
             destination.write(chunk)
         destination.close()
@@ -384,18 +384,18 @@ def hash_upload(request):
     #utiltiy method to create an md5 hash of a given file path
     # open uploaded file
     file_id = request.GET['file_id']
-    print 'hash started ' + file_id
+    print('hash started ' + file_id)
     file_upload = ChunkedUpload.objects.get(pk=file_id)
     file_name = os.path.join(settings.MEDIA_ROOT, file_upload.file.name)
 
     #now hash opened file
     md5 = hashlib.md5()
-    with open(file_name, 'r') as f:
+    with open(file_name, 'rb') as f:
         for chunk in iter(lambda: f.read(8192), b''):
             md5.update(chunk)
     output_dict = {'output_hash': md5.hexdigest(), 'file_id': file_id}
     out = jsonpickle.encode(output_dict)
-    print 'hash complete ' + file_id
+    print('hash complete ' + file_id)
     return HttpResponse(out, content_type='json')
 
 
@@ -424,7 +424,7 @@ def inspect_file(request):
 def zip_file(request):
     # need to get a reference to the file to zip
     f_id = request.GET['file_id']
-    print "zip started " + f_id
+    print("zip started " + f_id)
     file_obj = ChunkedUpload.objects.get(pk=f_id)
 
     #get the name of the file to zip and change its suffix to .gz
@@ -434,18 +434,18 @@ def zip_file(request):
         #open the file as gzip acrchive...set compression level
         temp_name = os.path.join(settings.MEDIA_ROOT, str(uuid.uuid4()) + '.tmp')
         myzip = gzip.open(temp_name, 'wb', compresslevel=1)
-        src = open(input_file_name, 'rb')
+        src = open(input_file_name, 'r')
 
         #write input file to gzip archive in n byte chunks
         n = 100000000
         for chunk in iter(lambda: src.read(n), ''):
-            myzip.write(chunk)
+            myzip.write(bytes(chunk, 'UTF-8'))
     finally:
 
         myzip.close()
         src.close()
 
-    print 'zip complete ' + f_id
+    print('zip complete ' + f_id)
     #now need to delete the old file and update the file record with the new file
     file_obj.filename = output_file_name
     file_obj.save()

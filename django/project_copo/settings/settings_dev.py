@@ -3,7 +3,7 @@
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'mysql.connector.django',
         'NAME': 'copo_development',
         'USER': 'root',
         'PASSWORD': 'Apple123',

@@ -3,18 +3,18 @@ import os
 
 # determine which system is running and import appropriate settings file
 from platform import *
-from settings_hostnames import *
+from project_copo.settings.settings_hostnames import *
 if node() == DEVELOPMENT_HOST:
-    from settings_dev import *
+    from project_copo.settings.settings_dev import *
 elif node() == PRODUCTION_HOST:
-    from settings_prod import *
+    from project_copo.settings.settings_prod import *
 else:
     raise Exception("Cannot determine execution mode for host '%s'. Please check DEVELOPMENT_HOST and PRODUCTION_HOST in settings_local.py." % node())
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '!q)6na7q*xu#24k-2jlt0hf-*dqw2vvgf4!t*_+a@(v=_6w*$t'
 
 # now import other settings
-from settings_chunked_upload import *
+from project_copo.settings.settings_chunked_upload import *
 
 LOGIN_URL = '/copo/login/'
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
