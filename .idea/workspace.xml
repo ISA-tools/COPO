@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6ce3aa18-a522-4275-b2bd-d3aa725f057d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/django/apps/web_copo/rest/EnaRest.py" afterPath="$PROJECT_DIR$/django/apps/web_copo/rest/EnaRest.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/django/apps/web_copo/utils/EnaUtils.py" afterPath="$PROJECT_DIR$/django/apps/web_copo/utils/EnaUtils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/django/django.iml" afterPath="$PROJECT_DIR$/django/django.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/django/project_copo/settings/settings.py" afterPath="$PROJECT_DIR$/django/project_copo/settings/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/django/project_copo/settings/settings_dev.py" afterPath="$PROJECT_DIR$/django/project_copo/settings/settings_dev.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/django/apps/web_copo/views.py" afterPath="$PROJECT_DIR$/django/apps/web_copo/views.py" />
-    </list>
+    <list default="true" id="6ce3aa18-a522-4275-b2bd-d3aa725f057d" name="Default" comment="" />
     <ignored path="COPO.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -116,7 +108,7 @@
       <file leaf-file-name="EnaRest.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/django/apps/web_copo/rest/EnaRest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33333334" vertical-offset="6135" max-vertical-offset="9165">
+            <state vertical-scroll-proportion="2.4" vertical-offset="5205" max-vertical-offset="9165">
               <caret line="436" column="0" selection-start-line="436" selection-start-column="0" selection-end-line="436" selection-end-column="0" />
               <folding />
             </state>
@@ -1062,7 +1054,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/django/apps/web_copo/rest/EnaRest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334" vertical-offset="6135" max-vertical-offset="9165">
+        <state vertical-scroll-proportion="2.4" vertical-offset="5205" max-vertical-offset="9165">
           <caret line="436" column="0" selection-start-line="436" selection-start-column="0" selection-end-line="436" selection-end-column="0" />
           <folding />
         </state>

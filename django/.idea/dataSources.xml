@@ -6,8 +6,6 @@
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://127.0.0.1:3306/copo</jdbc-url>
-      <user-name>root</user-name>
-      <user-password>dfebdfdadfdadfc6dfcfdf9bdf98df99</user-password>
       <driver-properties>
         <property name="zeroDateTimeBehavior" value="convertToNull" />
         <property name="tinyInt1isBit" value="false" />
@@ -18,10 +16,7 @@
       <driver-ref>mysql</driver-ref>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://127.0.0.1/copo_db</jdbc-url>
-      <user-name>root</user-name>
-      <user-password>dfebdfdadfdadfc6dfcfdf9bdf98df99</user-password>
       <libraries />
     </data-source>
   </component>
 </project>
-

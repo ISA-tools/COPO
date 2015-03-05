@@ -6,10 +6,11 @@
         <option name="rootFolder" value="$MODULE_DIR$/project_copo" />
         <option name="settingsModule" value="settings.py" />
         <option name="manageScript" value="manage.py" />
+        <option name="environment" value="&lt;map/&gt;" />
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
+  <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -24,4 +25,3 @@
     </option>
   </component>
 </module>
-
