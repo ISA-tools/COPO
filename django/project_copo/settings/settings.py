@@ -1,15 +1,18 @@
 import os
 # For further info see https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
+#get settings for environment
+from settings_hostnames import *
 # determine which system is running and import appropriate settings file
-from platform import *
-from project_copo.settings.settings_hostnames import *
-if node() == DEVELOPMENT_HOST:
+if node() == DEVELOPMENT_HOST or node() == UEA_DEV:
     from project_copo.settings.settings_dev import *
 elif node() == PRODUCTION_HOST:
     from project_copo.settings.settings_prod import *
 else:
     raise Exception("Cannot determine execution mode for host '%s'. Please check DEVELOPMENT_HOST and PRODUCTION_HOST in settings_local.py." % node())
+
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '!q)6na7q*xu#24k-2jlt0hf-*dqw2vvgf4!t*_+a@(v=_6w*$t'
 
@@ -33,10 +36,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sslserver',
     'apps.web_copo',
     'rest_framework',
-    'jfu',
     'chunked_upload',
 )
 

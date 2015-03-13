@@ -1,17 +1,17 @@
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
+#mysql.connector.django
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'copo_development',
-        'USER': 'root',
+        'USER': 'fshaw',
         'PASSWORD': 'Apple123',
         'Host': '127.0.0.1',
         'Port': '',
         'init_command' :'SET storage_engine=MyISAM',
     }
-
 }
 
 STATIC_URL = '/static/'
