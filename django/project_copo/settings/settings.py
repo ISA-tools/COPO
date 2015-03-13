@@ -4,7 +4,7 @@ import os
 #get settings for environment
 from settings_hostnames import *
 # determine which system is running and import appropriate settings file
-if node() == DEVELOPMENT_HOST or node() == UEA_DEV:
+if node() == DEVELOPMENT_HOST or node() == UEA_DEV or node() == VPN_DEV:
     from project_copo.settings.settings_dev import *
 elif node() == PRODUCTION_HOST:
     from project_copo.settings.settings_prod import *
