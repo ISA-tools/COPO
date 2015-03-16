@@ -1,17 +1,12 @@
 __author__ = 'felixshaw'
 
-from mongokit import Connection
-from django.conf import settings
-from mongo_base import MongoBase
-
-
-connection = Connection(host=settings.MONGO_HOST, port=settings.MONGO_PORT)
-db = settings.MONGO_DB
+from mongokit import Connection, Document
+from mongo_util import *
 
 
 
 @connection.register
-class EnaSub(MongoBase):
+class EnaSub(Document):
     # allows additional fields to be added to the document on the fly
     use_schemaless = True
     # shortcut to the collection these documents are store in

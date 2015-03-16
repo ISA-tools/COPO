@@ -5,11 +5,15 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import RequestContext
-
+from apps.web_copo.mongo.mongo_util import *
+from datetime import datetime
+from mongokit import Document
+import uuid
 
 from apps.web_copo.models import Collection, EnaStudy, EnaSample
 
-from mongo.mongo_copo import *
+
+import mongo.mongo_copo as mongo
 
 
 # Create your views here.
@@ -18,7 +22,7 @@ def index(request):
     username = User(username=request.user)
     # c = Collection.objects.filter(user = username)
     #study_set = Profile.objects.all()
-    profiles = connection.Profile.find()
+    profiles = mongo.connection.Profile.find()
     context = {'user': request.user, 'profiles': profiles}
     return render(request, 'copo/index.html', context)
 
@@ -32,7 +36,7 @@ def new_profile(request):
         sa += '...'
         ti = request.POST['study_title']
         #s = Profile(title=ti, user=u, abstract=a, abstract_short=sa)
-        p = connection.Profile()
+        p = mongo.connection.Profile()
         p.title = ti
         p.abstract = a
         p.short_abstract = sa
@@ -101,9 +105,11 @@ def copo_register(request):
 
 
 def view_profile(request, profile_id):
-    profile = Profile.find({"id":profile_id})
-    collections = Collection.objects.filter(profile__id=profile_id)
-    context = {'profile_id': profile_id, 'profile_title': profile.title, 'profile_abstract': profile.abstract_short, 'collections': collections}
+    profile = mongo.connection.Profile.one({"_id":to_mongo_id(profile_id)})
+
+    request.session['profile_id'] = profile_id
+    collections = profile.collections
+    context = {'profile_id': profile_id, 'profile_title': profile.title, 'profile_abstract': profile.short_abstract, 'collections': collections}
     return render(request, 'copo/profile.html', context)
 
 
@@ -113,17 +119,17 @@ def view_test(request):
 
 
 def new_collection(request):
+
     c_type = request.POST['collection_type']
     c_name = request.POST['collection_name']
-    profile_id = request.POST['profile_id']
-    b = Profile.objects.get(id=profile_id)
-
-    c = b.collection_set.create(
-        name=c_name,
-        type=c_type
-    )
-
-    context = {'request_type': c_type, 'bundle': b}
+    profile_id = request.session['profile_id']
+    id = str(uuid.uuid1())
+    #get profile
+    p = mongo.connection.Profile.one({'_id':to_mongo_id(profile_id)})
+    c = {'id': id, 'name': c_name, 'type': c_type}
+    p.collections.append(c)
+    p.save()
+    context = {'request_type': c_type, 'bundle': c}
     return HttpResponseRedirect(reverse('copo:view_profile', kwargs={'profile_id': profile_id}))
 
 

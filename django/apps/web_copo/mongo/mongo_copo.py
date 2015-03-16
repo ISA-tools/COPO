@@ -1,18 +1,15 @@
 __author__ = 'felixshaw'
 
-from mongokit import Connection
-from django.conf import settings
-from mongo_base import MongoBase
+from mongokit import Connection, Document
+
 from datetime import datetime
-
-
-connection = Connection(host=settings.MONGO_HOST, port=settings.MONGO_PORT)
-db = settings.MONGO_DB
+from mongo_util import *
+import uuid
 
 
 
 @connection.register
-class Profile(MongoBase):
+class Profile(Document):
     # allows additional fields to be added to the document on the fly
     use_schemaless = True
     # shortcut to the collection these documents are store in
@@ -23,10 +20,23 @@ class Profile(MongoBase):
     use_dot_notation = True
 
     structure = {
-        'title': basestring,
-        'abstract': basestring,
-        'short_abstract': basestring,
-        'date_created': datetime,
-        'date_modified': datetime,
-        'user': long,
+        'title':basestring,
+        'abstract':basestring,
+        'short_abstract':basestring,
+        'date_created':datetime,
+        'date_modified':datetime,
+        'user':long,
+
+        'collections':{
+            'id':basestring,
+            'name':basestring,
+            'type':basestring,
+            }
+
     }
+    indexes = [
+        {
+            'fields':'collections.id',
+            'unique':True,
+        }
+    ]

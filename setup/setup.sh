@@ -15,6 +15,8 @@ sudo pip install elementtree --allow-external elementtree --allow-unverified ele
 sudo pip install lxml
 sudo pip install pysam
 sudo pip install bson
+sudo pip install redis
+sudo pip install django-redis-sessions
 
 brew install mysql
 brew install redis
