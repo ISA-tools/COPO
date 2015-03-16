@@ -1,11 +1,13 @@
 __author__ = 'felixshaw'
-from mongokit import Connection
+import pymongo
 from django.conf import *
 from bson import ObjectId
 
-connection = Connection(host=settings.MONGO_HOST, port=settings.MONGO_PORT)
-db = settings.MONGO_DB
+#connection = Connection(host=settings.MONGO_HOST, port=settings.MONGO_PORT)
+#db = settings.MONGO_DB
 
+def get_collection_ref(collection_name):
+    return pymongo.Connection(settings.MONGO_HOST, settings.MONGO_PORT)[settings.MONGO_DB][collection_name]
 
 def to_mongo_id(id):
     return ObjectId(id)

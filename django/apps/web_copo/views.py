@@ -9,41 +9,24 @@ from apps.web_copo.mongo.mongo_util import *
 from datetime import datetime
 from mongokit import Document
 import uuid
+from mongo.copo_base_objects import Profile
 
 from apps.web_copo.models import Collection, EnaStudy, EnaSample
 
-
-import mongo.mongo_copo as mongo
 
 
 # Create your views here.
 # @login_required
 def index(request):
     username = User(username=request.user)
-    # c = Collection.objects.filter(user = username)
-    #study_set = Profile.objects.all()
-    profiles = mongo.connection.Profile.find()
+    profiles = Profile().GET_ALL()
     context = {'user': request.user, 'profiles': profiles}
     return render(request, 'copo/index.html', context)
 
 
 def new_profile(request):
     if request.method == 'POST':
-        # get current user
-        #u = User.objects.get(username=request.user)
-        a = request.POST['study_abstract']
-        sa = a[:147]
-        sa += '...'
-        ti = request.POST['study_title']
-        #s = Profile(title=ti, user=u, abstract=a, abstract_short=sa)
-        p = mongo.connection.Profile()
-        p.title = ti
-        p.abstract = a
-        p.short_abstract = sa
-        p.date_created = datetime.now()
-        p.date_modified = datetime.now()
-        p.user = request.user.id
-        p.save()
+        Profile().PUT(request)
         return HttpResponseRedirect(reverse('copo:index'))
 
 
