@@ -1,12 +1,15 @@
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import RequestContext
 
-from apps.web_copo.models import Collection, Profile, EnaStudy, EnaSample
+
+from apps.web_copo.models import Collection, EnaStudy, EnaSample
+
+from mongo.mongo_copo import *
 
 
 # Create your views here.
@@ -14,17 +17,30 @@ from apps.web_copo.models import Collection, Profile, EnaStudy, EnaSample
 def index(request):
     username = User(username=request.user)
     # c = Collection.objects.filter(user = username)
-    study_set = Profile.objects.all()
-    context = {'user': request.user, 'studies': study_set}
+    #study_set = Profile.objects.all()
+    profiles = connection.Profile.find()
+    context = {'user': request.user, 'profiles': profiles}
     return render(request, 'copo/index.html', context)
 
 
-def try_login_with_orcid_id(request):
-    username = request.POST['frm_login_username']
-    password = request.POST[('frm_login_password')]
-
-    # try to log into orchid
-    return HttpResponse('1')
+def new_profile(request):
+    if request.method == 'POST':
+        # get current user
+        #u = User.objects.get(username=request.user)
+        a = request.POST['study_abstract']
+        sa = a[:147]
+        sa += '...'
+        ti = request.POST['study_title']
+        #s = Profile(title=ti, user=u, abstract=a, abstract_short=sa)
+        p = connection.Profile()
+        p.title = ti
+        p.abstract = a
+        p.short_abstract = sa
+        p.date_created = datetime.now()
+        p.date_modified = datetime.now()
+        p.user = request.user.id
+        p.save()
+        return HttpResponseRedirect(reverse('copo:index'))
 
 
 def copo_login(request):
@@ -81,24 +97,13 @@ def copo_register(request):
         return render(request, 'copo/login.html')
 
 
-def new_profile(request):
-    if request.method == 'POST':
-        # get current user
-        u = User.objects.get(username=request.user)
-        a = request.POST['study_abstract']
-        sa = a[:147]
-        sa += '...'
-        ti = request.POST['study_title']
-        s = Profile(title=ti, user=u, abstract=a, abstract_short=sa)
-        s.save()
-        return HttpResponseRedirect('/copo/')
+
 
 
 def view_profile(request, profile_id):
-    profile = Profile.objects.get(id=profile_id)
+    profile = Profile.find({"id":profile_id})
     collections = Collection.objects.filter(profile__id=profile_id)
-    context = {'profile_id': profile_id, 'profile_title': profile.title, 'profile_abstract': profile.abstract_short,
-               'collections': collections}
+    context = {'profile_id': profile_id, 'profile_title': profile.title, 'profile_abstract': profile.abstract_short, 'collections': collections}
     return render(request, 'copo/profile.html', context)
 
 

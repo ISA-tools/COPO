@@ -1,6 +1,7 @@
 {% extends 'copo/base.html' %}
 
 {% load staticfiles %}
+{% load web_tags %}
 
 {% block stylesheet_block %}
 <link rel="stylesheet" href="{% static 'copo/css/copo/browse_style.css' %}">
@@ -93,18 +94,20 @@
         <th style="opacity: 0"></th>
         <th>Title</th>
         <th>Abstract</th>
-        <th>Date</th>
+        <th>Date Created</th>
+        <th>Last Updated</th>
     </tr>
 
 
-    {% for s in studies %}
+    {% for p in profiles %}
     <tr>
         <td style="text-align: center">
-            <a href="{% url 'copo:view_profile' profile_id=s.id %}"><i class="fa fa-pencil-square-o "></i></a>
+            <a href="{% url 'copo:view_profile' profile_id=p|mongo_id %}"><i class="fa fa-pencil-square-o "></i></a>
         </td>
-        <td>{{ s.title }}</td>
-        <td>{{ s.abstract_short }}</td>
-        <td>{{ s.date }}</td>
+        <td>{{ p.title }}</td>
+        <td>{{ p.short_abstract }}</td>
+        <td>{{ p.date_created }}</td>
+        <td>{{ p.date_updated }}</td>
     </tr>
     {% endfor %}
 

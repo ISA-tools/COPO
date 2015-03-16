@@ -14,6 +14,10 @@ DATABASES = {
     }
 }
 
+MONGO_DB = 'copo_mongo'
+MONGO_HOST = '127.0.0.1'
+MONGO_PORT = 27017
+
 STATIC_URL = '/static/'
 MEDIA_ROOT = '/Users/fshaw/Desktop/test'
 

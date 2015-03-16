@@ -14,6 +14,7 @@ sudo pip install jsonpickle
 sudo pip install elementtree --allow-external elementtree --allow-unverified elementtree
 sudo pip install lxml
 sudo pip install pysam
+sudo pip install bson
 
 brew install mysql
 brew install redis
