@@ -14,6 +14,8 @@ DATABASES = {
     }
 }
 
+MONGO_DB = 'copo'
+
 STATIC_URL = '/static/'
 MEDIA_ROOT = '/Users/fshaw/Desktop/test'
 
