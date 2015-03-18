@@ -1,16 +1,16 @@
 __author__ = 'felixshaw'
 
-import pymongo
-from resource import *
-from mongo_util import get_collection_ref
+from apps.web_copo.mongo.resource import *
+import bson.objectid as o
+from apps.web_copo.mongo.mongo_util import *
 from datetime import datetime
 
 Profiles = get_collection_ref("Profiles")
 class Profile(Resource):
 
-    def GET(self, request, id):
-        spec = {"_id": id}
-        doc = Profiles.find_one(spec)
+    def GET(self, id):
+
+        doc = Profiles.find_one({"_id": o.ObjectId(id)})
         if not doc:
             pass
         return doc
@@ -35,3 +35,30 @@ class Profile(Resource):
             "user_id": request.user.id
         }
         Profiles.insert(spec)
+
+    def ADD_COLLECTION(self, profile_id, collection_id):
+        Profiles.update(
+            {
+                "_id": o.ObjectId(profile_id)
+            },
+            {
+                '$push': {"collections": collection_id}
+            }
+        )
+
+Collections = get_collection_ref("Collections")
+class Collection(Resource):
+
+    #method to create a skelton collection object
+    def PUT(self, request):
+        c_type = request.POST['collection_type']
+        c_name = request.POST['collection_name']
+        spec = {
+            "type": c_type,
+            "name": c_name,
+        }
+        return Collections.insert(spec)
+
+    def GET(self, id):
+        return Collections.find_one({"_id": o.ObjectId(id)})
+
