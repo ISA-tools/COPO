@@ -1,12 +1,13 @@
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-#mysql.connector.django
+
+#django.db.backends.mysql
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'mysql.connector.django',
         'NAME': 'copo_development',
-        'USER': 'fshaw',
+        'USER': 'root',
         'PASSWORD': 'Apple123',
         'Host': '127.0.0.1',
         'Port': '',

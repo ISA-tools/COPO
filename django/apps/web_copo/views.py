@@ -7,11 +7,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.template import RequestContext
 from apps.web_copo.mongo.mongo_util import *
 from datetime import datetime
-from mongokit import Document
-import uuid
-from mongo.copo_base_objects import Profile
 
-from apps.web_copo.models import Collection, EnaStudy, EnaSample
+import uuid
+from mongo.copo_base_objects import Profile, Collection
+
+from apps.web_copo.models import EnaStudy, EnaSample
 
 
 
@@ -88,11 +88,13 @@ def copo_register(request):
 
 
 def view_profile(request, profile_id):
-    profile = mongo.connection.Profile.one({"_id":to_mongo_id(profile_id)})
-
+    #profile = mongo.connection.Profile.one({"_id":to_mongo_id(profile_id)})
+    profile = Profile().GET(profile_id)
     request.session['profile_id'] = profile_id
-    collections = profile.collections
-    context = {'profile_id': profile_id, 'profile_title': profile.title, 'profile_abstract': profile.short_abstract, 'collections': collections}
+    collections = []
+    for id in profile['collections']:
+        collections.append(Collection().GET(id))
+    context = {'profile_id': profile_id, 'profile_title': profile['title'], 'profile_abstract': profile['short_abstract'], 'collections': collections}
     return render(request, 'copo/profile.html', context)
 
 
@@ -103,38 +105,32 @@ def view_test(request):
 
 def new_collection(request):
 
-    c_type = request.POST['collection_type']
-    c_name = request.POST['collection_name']
+    #create the new collection
+    collection_id = Collection().PUT(request)
     profile_id = request.session['profile_id']
-    id = str(uuid.uuid1())
-    #get profile
-    p = mongo.connection.Profile.one({'_id':to_mongo_id(profile_id)})
-    c = {'id': id, 'name': c_name, 'type': c_type}
-    p.collections.append(c)
-    p.save()
-    context = {'request_type': c_type, 'bundle': c}
-    return HttpResponseRedirect(reverse('copo:view_profile', kwargs={'profile_id': profile_id}))
 
+    Profile().ADD_COLLECTION(profile_id, collection_id)
+    return HttpResponseRedirect(reverse('copo:view_profile', kwargs={'profile_id': profile_id}))
 
 def view_collection(request, collection_id):
     # collection = Collection.objects.get(id=pk)
-    collection = get_object_or_404(Collection, pk=collection_id)
+    collection = Collection().GET(collection_id)
     #get profile id for breadcrumb
-    profile_id = collection.profile.id
+    profile_id = request.session['profile_id']
     #check type of collection
-    if collection.type == 'ENA Submission':
+    if collection['type'] == 'ENA Submission':
         #get samples for enastudy association
-        try:
-            study = EnaStudy.objects.get(collection__id=int(collection_id))
-            samples = EnaSample.objects.filter(ena_study__id=study.id)
-            data_dict = {'collection': collection, 'samples': samples, 'collection_id': collection_id,
-                         'study_id': study.id, 'profile_id': profile_id}
-            return render_to_response('copo/ena_collection_multi.html', data_dict,
-                                      context_instance=RequestContext(request))
-        except ObjectDoesNotExist as e:
-            data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
-            return render(request, 'copo/ena_collection_multi.html', data_dict,
-                          context_instance=RequestContext(request))
+        #try:
+            #pass
+            #study = EnaStudy.objects.get(collection__id=int(collection_id))
+            #samples = EnaSample.objects.filter(ena_study__id=study.id)
+            #data_dict = {'collection': collection, 'samples': samples, 'collection_id': collection_id,
+            #             'study_id': study.id, 'profile_id': profile_id}
+            #return render_to_response('copo/ena_collection_multi.html', data_dict,
+            #                          context_instance=RequestContext(request))
+        #except ObjectDoesNotExist as e:
+        data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
+        return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
 
 
 def view_test2(request):

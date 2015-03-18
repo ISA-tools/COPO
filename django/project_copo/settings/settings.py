@@ -2,7 +2,7 @@ import os
 # For further info see https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 #get settings for environment
-from settings_hostnames import *
+from project_copo.settings.settings_hostnames import *
 # determine which system is running and import appropriate settings file
 if node() == DEVELOPMENT_HOST or node() == UEA_DEV or node() == VPN_DEV:
     from project_copo.settings.settings_dev import *

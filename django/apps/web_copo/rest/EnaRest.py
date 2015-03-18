@@ -88,7 +88,7 @@ def get_ena_study_controls(request):
 def get_ena_study_attr(request):
     c_id = request.GET['collection_id']
     try:
-        study = EnaStudy.objects.get(collection__id=c_id)
+        study = EnaStudy.objects.get(collection__id=1)
     except ObjectDoesNotExist:
         return HttpResponse('not found', content_type='text')
 
@@ -240,6 +240,7 @@ def save_ena_sample_callback(request):
 
 def populate_samples_form(request):
     collection_id = request.GET['collection_id']
+    collection_id = 1
     out = u.get_sample_html_from_collection_id(collection_id)
     return HttpResponse(out, content_type='html')
 
@@ -333,6 +334,7 @@ def get_instrument_models(request):
 
 def get_experimental_samples(request):
     study_id = request.GET['study_id']
+    study_id = 1
     samples = EnaSample.objects.filter(ena_study__id=study_id)
     data = serializers.serialize("json", samples)
     return HttpResponse(data, content_type="json")
@@ -523,7 +525,8 @@ def get_experiment_table_data(request):
     out = 'abc'
 
     #get all experiment objects for this study
-    e = EnaExperiment.objects.filter(study_id=request.GET.get('study_id'))
+    #e = EnaExperiment.objects.filter(study_id=request.GET.get('study_id'))
+    e = EnaExperiment.objects.filter(study_id=1)
     #now get a list of the unique data_modal_ids...this is what we should be returning a list of
     udm = e.values('data_modal_id').distinct()
     elements = []
