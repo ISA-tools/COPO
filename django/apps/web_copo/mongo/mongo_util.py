@@ -19,3 +19,6 @@ def to_django_context(cursor):
     for r in cursor:
         records.append(r.to_json_type())
     return records
+
+
+

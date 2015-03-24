@@ -13,11 +13,14 @@ from django.core.exceptions import ObjectDoesNotExist
 from chunked_upload.models import ChunkedUpload
 from django.core.files.base import ContentFile
 
-from apps.web_copo.models import Collection, EnaStudy, EnaSample, EnaStudyAttr, EnaSampleAttr, EnaExperiment, ExpFile
+from apps.web_copo.models import EnaStudy, EnaSample, EnaStudyAttr, EnaSampleAttr, EnaExperiment, ExpFile
 import apps.web_copo.xml_tools.EnaParsers as parsers
 import apps.web_copo.utils.EnaUtils as u
 import project_copo.settings.settings as settings
-
+from apps.web_copo.mongo.ena_objects import *
+from apps.web_copo.mongo.copo_base_objects import *
+from bson import Binary, Code
+from bson.json_util import dumps
 
 class JSONResponse(HttpResponse):
     """
@@ -111,129 +114,38 @@ def get_ena_sample_controls(request):
     return HttpResponse(html, content_type='html')
 
 
-def save_ena_study_callback(request):
+def save_ena_study(request):
     return_type = True;
     values = jsonpickle.decode(request.GET['values'])
     values.pop('', None)
     attributes = jsonpickle.decode(request.GET['attributes'])
     collection_id = request.GET['collection_id']
-    study_id = request.GET['study_id']
+    ena_study_id = request.GET['study_id']
+    out = ''
+    if(ena_study_id == ''):
+        ena_study_id = EnaCollection().add_study(values, attributes)
 
-    # check to see if study_id had been provided, if not we are saving a new study, if so that we should update an
-    #existing study
-    if study_id:
-        e = EnaStudy.objects.get(pk=study_id)
-        e.study_title = values['STUDY_TITLE']
-        e.study_type = values['STUDY_TYPE']
-        e.study_abstract = values['STUDY_ABSTRACT']
-        e.center_name = values['CENTER_NAME']
-        e.study_description = values['STUDY_DESCRIPTION']
-        e.center_project_name = values['CENTER_PROJECT_NAME']
-        e.save()
-        study_id = e.id
-        #now clear existing attributes and add the updated set
-        for a in e.enastudyattr_set.all():
-            a.delete()
-        for att_group in attributes:
-            a = EnaStudyAttr(
-                ena_study=e,
-                tag=att_group[0],
-                value=att_group[1],
-                unit=att_group[2]
-            )
-            a.save()
-    else:
-        try:
-            #make the study object
-            e = make_and_save_ena_study(collection_id, **values)
-            #now make attribute objects
-            for att_group in attributes:
-                a = EnaStudyAttr(
-                    ena_study=e,
-                    tag=att_group[0],
-                    value=att_group[1],
-                    unit=att_group[2]
-                )
-                a.save()
-        except(TypeError):
-            return_type = False
-
-    return_structure = {'return_value': return_type, 'study_id': e.id}
-    out = jsonpickle.encode(return_structure)
+        Collection_Head().add_collection_details(collection_id, ena_study_id)
+        request.session['collection_details'] = str(ena_study_id)
+        return_structure = {'return_value': return_type, 'study_id': str(ena_study_id)}
+        out = jsonpickle.encode(return_structure)
     return HttpResponse(out, content_type='json')
 
-
-def make_and_save_ena_study(c_id, CENTER_NAME, STUDY_DESCRIPTION, STUDY_TYPE, CENTER_PROJECT_NAME, STUDY_ABSTRACT,
-                            STUDY_TITLE):
-    e = EnaStudy()
-    e.collection_id = c_id
-    e.study_title = STUDY_TITLE
-    e.study_type = STUDY_TYPE
-    e.study_abstract = STUDY_ABSTRACT
-    e.center_name = CENTER_NAME
-    e.study_description = STUDY_DESCRIPTION
-    e.center_project_id = CENTER_PROJECT_NAME
-    e.save()
-    return e
 
 
 def save_ena_sample_callback(request):
     # get sample form list, attribute list, and the collection id
-    collection_id = jsonpickle.decode(request.GET['collection_id'])
+    collection_id = request.GET['collection_id']
     study_id = request.GET['study_id']
     sample_id = request.GET['sample_id']
     #get details of user enetered sample
     sample = jsonpickle.decode(request.GET['sample_details'])
-    #if a sample_id has been supplied then we dealing with an existing sample so should collect it from the db
-    #and edit it. If not then create a new sample
-    if sample_id:
-        enasample = EnaSample.objects.get(pk=sample_id)
-        enasample.title = sample['TITLE']
-        enasample.taxon_id = sample['TAXON_ID']
-        enasample.common_name = sample['COMMON_NAME']
-        enasample.anonymized_name = sample['ANONYMIZED_NAME']
-        enasample.individual_name = sample['INDIVIDUAL_NAME']
-        enasample.scientific_name = sample['SCIENTIFIC_NAME']
-        enasample.description = sample['DESCRIPTION']
-        enasample.save()
+    attr = jsonpickle.decode(request.GET['sample_attr'])
 
-        #now clear attributes and readd the new set
-        attr = jsonpickle.decode(request.GET['sample_attr'])
+    EnaCollection.add_sample_to_study(sample, attr, collection_id)
 
-        attrset = enasample.enasampleattr_set.all()
-        for a in attrset:
-            a.delete()
-        for a in attr:
-            at = EnaSampleAttr(tag=a[0], value=a[1], unit=a[2])
-            at.ena_sample = enasample
-            at.save()
-        out = u.get_sample_html_from_collection_id(collection_id)
-
-    else:
-
-        attr = jsonpickle.decode(request.GET['sample_attr'])
-
-        #get study
-        collection_id = int(collection_id)
-        study = EnaStudy.objects.get(pk=study_id)
-
-        #now make sample
-        enasample = EnaSample()
-        enasample.title = sample['TITLE']
-        enasample.taxon_id = sample['TAXON_ID']
-        enasample.common_name = sample['COMMON_NAME']
-        enasample.anonymized_name = sample['ANONYMIZED_NAME']
-        enasample.individual_name = sample['INDIVIDUAL_NAME']
-        enasample.scientific_name = sample['SCIENTIFIC_NAME']
-        enasample.description = sample['DESCRIPTION']
-        enasample.ena_study = study
-        enasample.save()
-
-        for a in attr:
-            at = EnaSampleAttr(tag=a[0], value=a[1], unit=a[2])
-            at.ena_sample = enasample
-            at.save()
-        out = u.get_sample_html_from_collection_id(collection_id)
+    #now clear attributes and readd the new set
+    out = u.get_sample_html_from_collection_id(collection_id)
 
     return HttpResponse(out, content_type='html')
 

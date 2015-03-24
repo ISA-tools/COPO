@@ -9,7 +9,7 @@ from apps.web_copo.mongo.mongo_util import *
 from datetime import datetime
 
 import uuid
-from mongo.copo_base_objects import Profile, Collection
+from apps.web_copo.mongo.copo_base_objects import Profile, Collection_Head
 
 from apps.web_copo.models import EnaStudy, EnaSample
 
@@ -92,8 +92,12 @@ def view_profile(request, profile_id):
     profile = Profile().GET(profile_id)
     request.session['profile_id'] = profile_id
     collections = []
-    for id in profile['collections']:
-        collections.append(Collection().GET(id))
+    try:
+        for id in profile['collections']:
+            collections.append(Collection_Head().GET(id))
+
+    except:
+        pass
     context = {'profile_id': profile_id, 'profile_title': profile['title'], 'profile_abstract': profile['short_abstract'], 'collections': collections}
     return render(request, 'copo/profile.html', context)
 
@@ -103,32 +107,25 @@ def view_test(request):
     return render(request, 'copo/testing.html', context)
 
 
-def new_collection(request):
+def new_collection_head(request):
 
     #create the new collection
-    collection_id = Collection().PUT(request)
+    collection_id = Collection_Head().PUT(request)
     profile_id = request.session['profile_id']
-
-    Profile().ADD_COLLECTION(profile_id, collection_id)
+    Profile().add_collection_head(profile_id, collection_id)
     return HttpResponseRedirect(reverse('copo:view_profile', kwargs={'profile_id': profile_id}))
 
 def view_collection(request, collection_id):
     # collection = Collection.objects.get(id=pk)
-    collection = Collection().GET(collection_id)
+    collection = Collection_Head().GET(collection_id)
+    #if(collection.details != None):
+    #    request.session['collection_details'] = collection.details[0]
     #get profile id for breadcrumb
     profile_id = request.session['profile_id']
+
+
     #check type of collection
     if collection['type'] == 'ENA Submission':
-        #get samples for enastudy association
-        #try:
-            #pass
-            #study = EnaStudy.objects.get(collection__id=int(collection_id))
-            #samples = EnaSample.objects.filter(ena_study__id=study.id)
-            #data_dict = {'collection': collection, 'samples': samples, 'collection_id': collection_id,
-            #             'study_id': study.id, 'profile_id': profile_id}
-            #return render_to_response('copo/ena_collection_multi.html', data_dict,
-            #                          context_instance=RequestContext(request))
-        #except ObjectDoesNotExist as e:
         data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
         return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
 

@@ -36,7 +36,7 @@ class Profile(Resource):
         }
         Profiles.insert(spec)
 
-    def ADD_COLLECTION(self, profile_id, collection_id):
+    def add_collection_head(self, profile_id, collection_id):
         Profiles.update(
             {
                 "_id": o.ObjectId(profile_id)
@@ -46,8 +46,9 @@ class Profile(Resource):
             }
         )
 
-Collections = get_collection_ref("Collections")
-class Collection(Resource):
+
+Collection_Heads = get_collection_ref("Collection_Heads")
+class Collection_Head(Resource):
 
     #method to create a skelton collection object
     def PUT(self, request):
@@ -57,8 +58,20 @@ class Collection(Resource):
             "type": c_type,
             "name": c_name,
         }
-        return Collections.insert(spec)
+        return Collection_Heads.insert(spec)
 
     def GET(self, id):
-        return Collections.find_one({"_id": o.ObjectId(id)})
+        return Collection_Heads.find_one({"_id": o.ObjectId(id)})
 
+    def add_collection_details(self, collection_id, details_id):
+        Collection_Heads.update(
+            {
+                "_id": o.ObjectId(collection_id)
+            },
+            {
+                '$set': {"collection_details": details_id}
+            }
+        )
+    def collection_details_id_from_head(self, head_id):
+        collection = Collection_Heads.find_one({"_id":o.ObjectId(head_id)})
+        return 0

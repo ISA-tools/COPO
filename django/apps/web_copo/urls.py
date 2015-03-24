@@ -11,6 +11,6 @@ urlpatterns = patterns('',
                        url(r'^register/', views.copo_register, name='register'),
                        url(r'^new_profile/', views.new_profile, name='new_bundle'),
                        url(r'^profile/(?P<profile_id>[a-z0-9]+)/view', views.view_profile, name='view_profile'),
-                       url(r'^new_collection/', views.new_collection, name='new_collection'),
+                       url(r'^new_collection/', views.new_collection_head, name='new_collection'),
                        url(r'^collection/(?P<collection_id>[a-z0-9]+)/view', views.view_collection, name='view_collection'),
 )
