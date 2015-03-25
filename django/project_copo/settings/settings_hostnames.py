@@ -8,3 +8,5 @@ from platform import *
 DEVELOPMENT_HOST = 'n79928.nbi.ac.uk'
 PRODUCTION_HOST = 'v0514.nbi.ac.uk'
 UEA_DEV = 'Felixs-MacBook-Pro-2.local'
+TONI_DEV = 'Etuks-MBP'
+
