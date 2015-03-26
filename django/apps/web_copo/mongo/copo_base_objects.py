@@ -72,6 +72,7 @@ class Collection_Head(Resource):
                 '$set': {"collection_details": details_id}
             }
         )
+
     def collection_details_id_from_head(self, head_id):
         collection = Collection_Heads.find_one({"_id":o.ObjectId(head_id)})
         return 0

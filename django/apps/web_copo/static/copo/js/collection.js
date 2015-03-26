@@ -8,8 +8,8 @@ $(document).ready( function(){
     $('#save_study').text('Save Study').removeAttr('disabled');
     $('input[name=exp_id]').val('');
     $('input[name=data_modal_id]').val();
-    study_form_data();
-    sample_form_data();
+
+    //sample_form_data();
     exp_form_data();
     get_experimental_samples();
     get_experiment_table_data();
@@ -392,24 +392,27 @@ $(document).ready( function(){
             }
     });
     //function to populate the study panel
+    /*
     function study_form_data(){
         var c_type = $('#collection_type').val();
         var c_id = $('#collection_id').val();
         var study_id = $('#study_id').val();
         //get the contents of the panel (excluding attributes)
+
         $.ajax({
             type:"GET",
             url:"/rest/ena_study_form/",
             async:false,
             dataType:"html",
             success:function(data){
-                $('#ena_study_form').html(data)
+                //$('#ena_study_form').html(data)
             },
             error:function(){
                 alert('no json returned')
             },
             data:{collection_type:c_type, collection_id:c_id, study_id:study_id}
         });
+
         //now get attibutes
         $.ajax({
             type:"GET",
@@ -428,7 +431,7 @@ $(document).ready( function(){
             data:{collection_id:c_id}
         });
     }
-
+    */
     //function to populate the sample input modal
     function sample_form_data(){
         var c_type = $('#collection_type').val();

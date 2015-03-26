@@ -10,7 +10,7 @@ from datetime import datetime
 
 import uuid
 from apps.web_copo.mongo.copo_base_objects import Profile, Collection_Head
-
+from apps.web_copo.mongo.ena_objects import *
 from apps.web_copo.models import EnaStudy, EnaSample
 
 
@@ -116,18 +116,21 @@ def new_collection_head(request):
     return HttpResponseRedirect(reverse('copo:view_profile', kwargs={'profile_id': profile_id}))
 
 def view_collection(request, collection_id):
-    # collection = Collection.objects.get(id=pk)
+
     collection = Collection_Head().GET(collection_id)
-    #if(collection.details != None):
-    #    request.session['collection_details'] = collection.details[0]
+
     #get profile id for breadcrumb
     profile_id = request.session['profile_id']
 
 
     #check type of collection
     if collection['type'] == 'ENA Submission':
-        data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
-        return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
+        if('collection_details' in collection):
+            request.session['collection_details'] = str(collection['collection_details'])
+            data_dict = {'collection': collection, 'collection_id': collection_id, 'study_id': request.session['collection_details'], 'profile_id': profile_id, 'study': EnaCollection().GET(request.session['collection_details'])}
+        else:
+            data_dict = {'collection': collection, 'collection_id': collection_id, 'study_id': request.session['collection_details'], 'profile_id': profile_id}
+            return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
 
 
 def view_test2(request):

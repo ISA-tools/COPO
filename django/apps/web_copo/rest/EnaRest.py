@@ -34,60 +34,9 @@ class JSONResponse(HttpResponse):
         super(JSONResponse, self).__init__(content, **kwargs)
 
 
-def get_ena_study_controls(request):
-    # get list of controllers
-    out = parsers.get_study_form_controls('apps/web_copo/xml_tools/schemas/ena/SRA.study.xsd.xml')
-    c_id = request.GET['collection_id']
-    #check to see if there are any ena studies associated with this collection
-
-    study_id = request.GET['study_id']
-
-    out_str = ''
-
-    if study_id:
-
-        #if a study ID has been provided in the ajax call, then we are dealing with an existing study, so collect it,
-        #populate the html form using its values
-        study = EnaStudy.objects.get(id=study_id)
-
-        #out_str += "<input type='hidden' id='study_id' value='" + str(study.id) + "'/>"
-        for obj in out:
-            out_str += "<div class='form-group'>"
-
-            out_str += "<label for='" + obj.name + "'>" + obj.tidy_name + "</label>"
-            if (obj.type == 'input'):
-                out_str += "<input type='text' class='form-control' id='" + str(obj.name) + "' name='" + str(
-                    obj.name) + "' value='" + str(getattr(study, obj.name.lower())) + "'/>"
-            elif (obj.type == 'textarea'):
-                out_str += "<textarea type='text' rows='6' class='form-control' id='" + str(
-                    obj.name) + "' name='" + str(obj.name) + \
-                           "'>" + str(getattr(study, obj.name.lower())) + "</textarea>"
-            else:
-                out_str += "<div class='form-group'>"
-                out_str += "<select class='form-control' name='" + str(obj.name) + "' id='" + str(obj.name) + "'>"
-                for opt in obj.values:
-                    out_str += "<option>" + str(opt) + "</option>"
-                out_str += "</select>"
-            out_str += "</div>"
-    else:
-        #else we are dealing with a study which hasn't yet been saved, so just make a blank form
-        for obj in out:
-            out_str += "<div class='form-group'>"
-            out_str += "<label for='" + obj.name + "'>" + obj.tidy_name + "</label>"
-            if (obj.type == 'input'):
-                out_str += "<input type='text' class='form-control' id='" + obj.name + "' name='" + obj.name + "'/>"
-            elif (obj.type == 'textarea'):
-                out_str += "<textarea type='text' rows='6' class='form-control' id='" + obj.name + "' name='" + obj.name + "'/>"
-            else:
-                out_str += "<div class='form-group'>"
-                out_str += "<select class='form-control' name='" + obj.name + "' id='" + obj.name + "'>"
-                for opt in obj.values:
-                    out_str += "<option>" + opt + "</option>"
-                out_str += "</select>"
-            out_str += "</div>"
-    return HttpResponse(out_str, content_type='html')
 
 
+'''
 def get_ena_study_attr(request):
     c_id = request.GET['collection_id']
     try:
@@ -107,7 +56,7 @@ def get_ena_study_attr(request):
             str += '</div>'
             str += '</div>'
     return HttpResponse(str, content_type='html')
-
+'''
 
 def get_ena_sample_controls(request):
     html = parsers.get_sample_form_controls('apps/web_copo/xml_tools/schemas/ena/SRA.sample.xsd.xml')
@@ -124,28 +73,33 @@ def save_ena_study(request):
     out = ''
     if(ena_study_id == ''):
         ena_study_id = EnaCollection().add_study(values, attributes)
-
         Collection_Head().add_collection_details(collection_id, ena_study_id)
         request.session['collection_details'] = str(ena_study_id)
         return_structure = {'return_value': return_type, 'study_id': str(ena_study_id)}
         out = jsonpickle.encode(return_structure)
+    else:
+        EnaCollection().update_study(ena_study_id, values, attributes)
+        request.session['collection_details'] = str(ena_study_id)
+        return_structure = {'return_value': return_type, 'study_id': str(ena_study_id)}
+        out = jsonpickle.encode(return_structure)
+
     return HttpResponse(out, content_type='json')
 
 
 
 def save_ena_sample_callback(request):
     # get sample form list, attribute list, and the collection id
-    collection_id = request.GET['collection_id']
-    study_id = request.GET['study_id']
+    #collection_id = request.GET['collection_id']
+    details_id = request.GET['study_id']
     sample_id = request.GET['sample_id']
     #get details of user enetered sample
     sample = jsonpickle.decode(request.GET['sample_details'])
     attr = jsonpickle.decode(request.GET['sample_attr'])
 
-    EnaCollection.add_sample_to_study(sample, attr, collection_id)
+    EnaCollection().add_sample_to_study(sample, attr, details_id)
 
     #now clear attributes and readd the new set
-    out = u.get_sample_html_from_collection_id(collection_id)
+    out = u.get_sample_html_from_details_id(details_id)
 
     return HttpResponse(out, content_type='html')
 
