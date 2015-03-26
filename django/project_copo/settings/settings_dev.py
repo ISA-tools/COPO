@@ -3,6 +3,7 @@
 
 
 #django.db.backends.mysql
+#mysql.connector.django
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',

@@ -129,8 +129,8 @@ def view_collection(request, collection_id):
             request.session['collection_details'] = str(collection['collection_details'])
             data_dict = {'collection': collection, 'collection_id': collection_id, 'study_id': request.session['collection_details'], 'profile_id': profile_id, 'study': EnaCollection().GET(request.session['collection_details'])}
         else:
-            data_dict = {'collection': collection, 'collection_id': collection_id, 'study_id': request.session['collection_details'], 'profile_id': profile_id}
-            return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
+            data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
+        return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
 
 
 def view_test2(request):

@@ -16,7 +16,7 @@
       <sourceFolder url="file://$MODULE_DIR$/apps/web_copo" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/apps/web_copo/rest" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.4.3 (/Library/Frameworks/Python.framework/Versions/3.4/bin/python3.4)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.4.3 virtualenv at ~/Documents/dev/environments/copo_python3.4" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">

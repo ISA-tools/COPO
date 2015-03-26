@@ -10,7 +10,7 @@ from rest_framework.renderers import JSONRenderer
 import jsonpickle
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
-from chunked_upload.models import ChunkedUpload
+from apps.chunked_upload.models import ChunkedUpload
 from django.core.files.base import ContentFile
 
 from apps.web_copo.models import EnaStudy, EnaSample, EnaStudyAttr, EnaSampleAttr, EnaExperiment, ExpFile
@@ -96,7 +96,10 @@ def save_ena_sample_callback(request):
     sample = jsonpickle.decode(request.GET['sample_details'])
     attr = jsonpickle.decode(request.GET['sample_attr'])
 
-    EnaCollection().add_sample_to_study(sample, attr, details_id)
+    if sample_id == '':
+        EnaCollection().add_sample_to_study(sample, attr, details_id)
+    else:
+        EnaCollection().update_sample_in_study(sample, attr, details_id)
 
     #now clear attributes and readd the new set
     out = u.get_sample_html_from_details_id(details_id)
@@ -113,21 +116,21 @@ def populate_samples_form(request):
 
 def get_sample_html(request):
     sample_id = request.GET['sample_id']
-    s = EnaSample.objects.get(id=sample_id)
-    sa = EnaSampleAttr.objects.filter(ena_sample__id=s.id)
+    #s = EnaSample.objects.get(id=sample_id)
+    #sa = EnaSampleAttr.objects.filter(ena_sample__id=s.id)
+    s = EnaCollection().get_sample(sample_id)
     out = {}
-    out['sample_id'] = str(s.id)
-    out['title'] = s.title
-    out['taxon_id'] = s.taxon_id
-    out['scientific_name'] = s.scientific_name
-    out['common_name'] = s.common_name
-    out['anonymized_name'] = s.anonymized_name
-    out['individual_name'] = s.individual_name
-    out['description'] = s.description
-    out['attributes'] = serializers.serialize("json", sa)
-    data = serializers.serialize("json", sa)
-    j = jsonpickle.encode(out)
-    return HttpResponse(j, content_type='json')
+    out['sample_id'] = str(s["_id"])
+    out['Source_Name'] = s["Source_Name"]
+    out['Taxon_ID'] = s["Taxon_ID"]
+    out['Scientific_Name'] = s["Scientific_Name"]
+    out['Common_Name'] = s["Common_Name"]
+    out['Anonymized_Name'] = s["Anonymized_Name"]
+    out['Individual_Name'] = s["Individual_Name"]
+    out['Description'] = s["Description"]
+    out['Characteristics'] = s["Characteristics"]
+
+    return HttpResponse(jsonpickle.encode(out), content_type='json')
 
 
 def populate_data_dropdowns(request):

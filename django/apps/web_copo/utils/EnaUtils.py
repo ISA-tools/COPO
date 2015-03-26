@@ -23,7 +23,7 @@ def get_sample_html_from_details_id(details_id):
     out = ''
     #construct output html
     for s in sample_set:
-        out += '<tr><td>' + '<a rest_url="' + reverse('rest:get_sample_html', args=[str(s["_id"])]) + '" href="">' + s['Source Name'] + '</a>' + '</td><td>' + s['Sample Name'] + '</td><td>' + s['Individual Name'] + '</td><td>' + s['Description'] + '</td></tr>'
+        out += '<tr><td>' + '<a rest_url="' + reverse('rest:get_sample_html', args=[str(s["_id"])]) + '" href="">' + s['Source_Name'] + '</a>' + '</td><td>' + s['Sample_Name'] + '</td><td>' + s['Individual_Name'] + '</td><td>' + s['Description'] + '</td></tr>'
     return out
 
 

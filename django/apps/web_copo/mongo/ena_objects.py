@@ -15,6 +15,10 @@ class EnaCollection(Resource):
             pass
         return doc
 
+    def get_sample(self, sample_id):
+        doc = EnaCollections.find_one({"samples._id": o.ObjectId(sample_id)}, {"samples.$": 1})
+        return doc['samples'][0]
+
     def add_study(self, values, attributes):
         spec_attr = []
         for att_group in attributes:
@@ -64,6 +68,7 @@ class EnaCollection(Resource):
         spec_attr = []
         for att_group in attributes:
             tmp = {
+                "id": o.ObjectId(),
                 "tag":att_group[0],
                 "value":att_group[1],
                 "unit":att_group[2],
@@ -72,13 +77,18 @@ class EnaCollection(Resource):
         spec = {
             "_id": o.ObjectId(),
             "Source_Name": sample['Source_Name'],
-            "Characteristics[organism]": spec_attr,
+            "Characteristics": spec_attr,
             "Term_Source_REF": "TODO:ONTOTLOGY_ID",
             "Term_Accession_Number": sample['Taxon_ID'],
             "Protocol_REF": "TODO:PROTOCOL_STRING",
             "Sample_Name": sample['Anonymized_Name'],
             "Individual_Name": sample['Individual_Name'],
             "Description": sample['Description'],
+            "Taxon_ID": sample['Taxon_ID'],
+            "Scientific_Name": sample['Scientific_Name'],
+            "Common_Name": sample['Common_Name'],
+            "Anonymized_Name": sample["Anonymized_Name"],
+
         }
 
         EnaCollections.update(
@@ -90,3 +100,6 @@ class EnaCollection(Resource):
                 '$push': {"samples": spec}
             }
         )
+
+    def update_sample_in_study(self, sample, attributes, study_id):
+        pass

@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 
-from .settings import ENCODER, MIMETYPE
+from .settings_old import ENCODER, MIMETYPE
 
 
 class Response(HttpResponse):

@@ -229,16 +229,18 @@
 				<table class="table-bordered" id="sample_table">
 
 					<tr id="sample_table_tr">
+						<th>Source Name</th>
 						<th>Sample Name</th>
-						<th>Description</th>
-						<th>Scientific Name</th>
+						<th>Individual Name</th>
 						<th>Common Name</th>
 					</tr>
 
-					{% for sample in study.samples.items %}
+					{% for sample in study.samples %}
 						<tr>
-							<td><a rest_url="{% url 'rest:get_sample_html' sample|mongo_id %}"></a></td>
-						{{ sample.Source_Name }}<br />
+							<td><a rest_url="{% url 'rest:get_sample_html' sample|mongo_id %}">{{ sample.Source_Name }}</a></td>
+							<td>{{ sample.Sample_Name }}</td>
+							<td>{{ sample.Individual_Name }}</td>
+							<td>{{ sample.Description }}</td>
 						</tr>
 					{% endfor %}
 

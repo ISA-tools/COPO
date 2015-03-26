@@ -20,8 +20,64 @@ $(document).ready( function(){
     });
 
 
+    $('#add_sample_button').on('click', function(){
+        $('#ena_sample_form').trigger("reset")
+        $('#sample_id').val('')
+    })
+
+    //handle clicks on sample table
+    $('#sample_table').find('a').on('click', function(e){
+        e.preventDefault();
+        var url = $(this).attr('rest_url');
+        //now call web service to get content for sample panel
+        var service = url.substring(0, url.lastIndexOf("/")) + '/';
+        var id = url.substring(url.lastIndexOf("/") + 1, url.length);
 
 
+        $.ajax({
+                type:"GET",
+                url:service,
+                async:false,
+                dataType:"json",
+                success:temp,
+                error:function(data){
+                    console.log(data)
+                },
+                data:{'sample_id':id}
+            });
+
+    })
+
+    function temp(data){
+                //add returned data to the form
+                $('#sample_id').val(data.sample_id);
+                $('#Source_Name').val(data.Source_Name);
+                $('#Taxon_ID').val(data.Taxon_ID);
+                $('#Scientific_Name').val(data.Scientific_Name);
+                $('#Common_Name').val(data.Common_Name);
+                $('#Anonymised_Name').val(data.Anonymised_Name);
+                $('#Individual_Name').val(data.Individual_Name);
+                $('#Description').val(data.Description);
+                //make changes for attributes
+
+
+                var at = data.Characteristics;
+                str = '';
+                for(var x = 0; x < at.length; x++){
+
+                    str += '<div class="form-group col-sm-10 attribute_group">';
+                    str += '<div class="sample_attr_vals">';
+                    str += '<input type="text" class="col-sm-3 attr" name="tag_' + at[x].id + '" value="' + at[x].tag + '"placeholder="tag"/>';
+                    str += '<input type="text" class="col-sm-3 attr" name="value_' + at[x].id + '" value="' + at[x].value + '"placeholder="value"/>';
+                    str += '<input type="text" class="col-sm-3 attr" name="unit_' + at[x].id + '" value="' + at[x].unit + '"placeholder="unit"/>';
+                    str += '</div>';
+                    str += '</div>'
+
+                }
+                $('.sample_attr_vals').remove();
+                $(str).insertBefore($('#sample_button_p'));
+                $('#newSampleModal').modal('show')
+            }
 
     $('#add_data_button').on('click', function(){
         $('#container').empty();
@@ -507,49 +563,9 @@ $(document).ready( function(){
         });
     }
 
-    function sample_table_handler(){
-        //handle clicks on sample table
-        $('#sample_table').find('a').on('click', function(e){
-            e.preventDefault();
-            var url = $(this).attr('rest_url');
-            //now call web service to get content for sample panel
-            var service = url.substring(0, url.lastIndexOf("/")) + '/';
-            var id = url.substring(url.lastIndexOf("/") + 1, url.length);
-            $.get(service,
-                {
-                    'sample_id':id
-                },
-                function(data){
-                    //add returned data to the form
-                    $('#sample_id').val(data.sample_id);
-                    $('#TITLE').val(data.title);
-                    $('#TAXON_ID').val(data.taxon_id);
-                    $('#SCIENTIFIC_NAME').val(data.scientific_name);
-                    $('#COMMON_NAME').val(data.common_name);
-                    $('#ANONYMIZED_NAME').val(data.anonymized_name);
-                    $('#INDIVIDUAL_NAME').val(data.individual_name);
-                    $('#DESCRIPTION').val(data.description);
-                    //make changes for attributes
-                    var at = JSON.parse(data.attributes);
-                    str = '';
-                    for(var x = 0; x < at.length; x++){
 
-                        str += '<div class="form-group col-sm-10 attribute_group">';
-                        str += '<div class="sample_attr_vals">';
-                        str += '<input type="text" class="col-sm-3 attr" name="tag_' + at[x].fields.id + '" value="' + at[x].fields.tag + '"placeholder="tag"/>';
-                        str += '<input type="text" class="col-sm-3 attr" name="value_' + at[x].fields.id + '" value="' + at[x].fields.value + '"placeholder="value"/>';
-                        str += '<input type="text" class="col-sm-3 attr" name="unit_' + at[x].fields.id + '" value="' + at[x].fields.unit + '"placeholder="unit"/>';
-                        str += '</div>';
-                        str += '</div>'
 
-                    }
-                    $('.sample_attr_vals').remove();
-                    $(str).insertBefore($('#sample_button_p'));
-                    $('#newSampleModal').modal('show')
-                }
-            )
-        })
-    }
+
 
     function get_experiment_table_data(){
         var study_id = $('#study_id').val();

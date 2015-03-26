@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.core.files.base import ContentFile
 from django.utils import timezone
 
-from .settings import MAX_BYTES
+from .settings_old import MAX_BYTES
 from .models import ChunkedUpload
 from .response import Response
 from .constants import http_status, COMPLETE, FAILED

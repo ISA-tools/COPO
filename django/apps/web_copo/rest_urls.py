@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 import apps.web_copo.rest.EnaRest as rest
-from chunked_upload.views import *
+from apps.chunked_upload.views import *
 
 urlpatterns = patterns('',
                        #url(r'^ena_study_form/', rest.get_ena_study_controls, name='get_ena_study_controls'),

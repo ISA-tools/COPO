@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import apps.chunked_upload.models
 from django.conf import settings
-import chunked_upload.models
 
 
 class Migration(migrations.Migration):
@@ -16,16 +16,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ChunkedUpload',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('upload_id', models.CharField(default=chunked_upload.models.generate_upload_id, unique=True, max_length=32, editable=False)),
-                ('file', models.FileField(max_length=255, upload_to=chunked_upload.models.generate_filename)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
+                ('upload_id', models.CharField(editable=False, unique=True, default=apps.chunked_upload.models.generate_upload_id, max_length=32)),
+                ('file', models.FileField(upload_to=apps.chunked_upload.models.generate_filename, max_length=255)),
                 ('filename', models.CharField(max_length=255)),
+                ('panel_id', models.IntegerField(default=1)),
                 ('offset', models.PositiveIntegerField(default=0)),
                 ('created_on', models.DateTimeField(auto_now_add=True)),
-                ('status', models.PositiveSmallIntegerField(default=1, choices=[(1, 'Uploading'), (2, 'Complete'), (3, 'Failed')])),
-                ('completed_on', models.DateTimeField(null=True, blank=True)),
-                ('panel_id', models.IntegerField(default=1)),
-                ('user', models.ForeignKey(related_name=b'chunked_uploads', to=settings.AUTH_USER_MODEL)),
+                ('status', models.PositiveSmallIntegerField(choices=[(1, 'Uploading'), (2, 'Complete'), (3, 'Failed')], default=1)),
+                ('completed_on', models.DateTimeField(blank=True, null=True)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='chunked_uploads')),
             ],
             options={
                 'abstract': False,
