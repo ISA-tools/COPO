@@ -19,6 +19,10 @@ class EnaCollection(Resource):
         doc = EnaCollections.find_one({"samples._id": o.ObjectId(sample_id)}, {"samples.$": 1})
         return doc['samples'][0]
 
+    def get_samples_in_study(self, study_id):
+        doc = EnaCollections.find({"_id": ObjectId(study_id)}, {"samples": 1})
+        return doc
+
     def add_study(self, values, attributes):
         spec_attr = []
         for att_group in attributes:

@@ -20,5 +20,10 @@ def to_django_context(cursor):
         records.append(r.to_json_type())
     return records
 
+def cursor_to_list(cursor):
+    records = []
+    for r in cursor:
+        records.append(r)
+    return records
 
 

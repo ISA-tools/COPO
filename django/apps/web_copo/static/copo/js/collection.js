@@ -540,27 +540,34 @@ $(document).ready( function(){
 
     function get_experimental_samples(context){
         var study_id = $('#study_id').val();
-        $.get( "/rest/get_experimental_samples/",
-        {
-            'study_id':study_id
-        },
-        function(data){
-
+        var request = $.ajax({
+            method:"GET",
+            dataType: 'json',
+            url: "/rest/get_experimental_samples/",
+            data: {'study_id': study_id},
+        });
+        request.done(function(data){
             var out = '';
-            for(var k = 0; k < data.length; k++){
-                out += '<option value="' + data[k].pk + '">';
-                out += data[k].fields.title;
+            data = data[0].samples
+            console.log(data)
+            for (var k = 0; k < data.length; k++) {
+                out += '<option value="' + data[k]._id.$oid + '">';
+                out += data[k].Sample_Name;
                 out += ' - ';
-                out += data[k].fields.scientific_name;
+                out += data[k].Individual_Name;
                 out += '</option>'
             }
-            if(context == undefined){
+            if (context == undefined) {
                 $('select[name=select_sample_ref]').empty().append(out)
             }
-            else{
+            else {
                 $(context).find('select[name=select_sample_ref]').empty().append(out)
             }
-        });
+
+        })
+        request.fail(function(jqXHR, status){
+            alert(status)
+        })
     }
 
 

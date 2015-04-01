@@ -203,9 +203,10 @@ def get_instrument_models(request):
 
 def get_experimental_samples(request):
     study_id = request.GET['study_id']
-    study_id = 1
-    samples = EnaSample.objects.filter(ena_study__id=study_id)
-    data = serializers.serialize("json", samples)
+    samples = EnaCollection().get_samples_in_study(study_id)
+    samples = cursor_to_list(samples)
+    data = dumps(samples)
+
     return HttpResponse(data, content_type="json")
 
 
