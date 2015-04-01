@@ -99,7 +99,7 @@ def save_ena_sample_callback(request):
     if sample_id == '':
         EnaCollection().add_sample_to_study(sample, attr, details_id)
     else:
-        EnaCollection().update_sample_in_study(sample, attr, details_id)
+        EnaCollection().update_sample_in_study(sample, attr, details_id, sample_id)
 
     #now clear attributes and readd the new set
     out = u.get_sample_html_from_details_id(details_id)

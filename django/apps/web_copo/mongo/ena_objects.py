@@ -101,5 +101,28 @@ class EnaCollection(Resource):
             }
         )
 
-    def update_sample_in_study(self, sample, attributes, study_id):
-        pass
+    def update_sample_in_study(self, sample, attributes, study_id, sample_id):
+        spec_attr = []
+        for att_group in attributes:
+            tmp = {
+                "tag":att_group[0],
+                "value":att_group[1],
+                "unit":att_group[2],
+            }
+            spec_attr.append(tmp)
+        x = sample['Source_Name']
+        EnaCollections.update(
+            {"_id": ObjectId(study_id), "samples._id": ObjectId(sample_id)},
+            { '$set': { "samples.$.Source_Name": sample['Source_Name'], "samples.$.Characteristics": spec_attr, "samples.$.Term_Source_REF": "TODO:ONTOLOGY","samples.$.Protocol_REF": "TODO:PROTOCOL_STRING","samples.$.Sample_Name": sample['Anonymized_Name'],"samples.$.Individual_Name": sample['Individual_Name'],"samples.$.Description": sample['Description'],"samples.$.Taxon_ID": sample['Taxon_ID'],"samples.$.Scientific_Name": sample['Scientific_Name'],"samples.$.Common_Name": sample['Common_Name'],"samples.$.Anonymized_Name": sample["Anonymized_Name"]} }
+        )
+        '''
+        EnaCollections.update(
+            {"_id": ObjectId(study_id), "samples._id": ObjectId(sample_id)},
+            {'$set:': {"samples.$.Source_Name": x,"samples.$.Characteristics": spec_attr,"samples.$.Term_Source_REF": "TODO:ONTOLOGY","samples.$.Protocol_REF": "TODO:PROTOCOL_STRING","samples.$.Sample_Name": sample['Anonymized_Name'],"samples.$.Individual_Name": sample['Individual_Name'],"samples.$.Description": sample['Description'],"samples.$.Taxon_ID": sample['Taxon_ID'],"samples.$.Scientific_Name": sample['Scientific_Name'],"samples.$.Common_Name": sample['Common_Name'],"samples.$.Anonymized_Name": sample["Anonymized_Name"]}}
+        )
+
+        EnaCollections.update(
+            {"_id": ObjectId(study_id), "samples._id": ObjectId(sample_id)},
+                { '$set': { "samples.$.Common_Name": "44444", "samples.$.Description": "tw@" } }
+        )
+        '''
