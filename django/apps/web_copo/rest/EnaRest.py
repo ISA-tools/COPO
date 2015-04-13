@@ -79,7 +79,7 @@ def save_ena_study(request):
         out = jsonpickle.encode(return_structure)
     else:
         EnaCollection().update_study(ena_study_id, values, attributes)
-        request.session['collection_details'] = str(ena_study_id)
+        request.session['study_id'] = str(ena_study_id)
         return_structure = {'return_value': return_type, 'study_id': str(ena_study_id)}
         out = jsonpickle.encode(return_structure)
 
@@ -344,32 +344,14 @@ def save_experiment(request):
     if(per_panel['experiment_id'] == ''):
         #if we are dealing with a new experiment (i.e. no id has been supplied)
         #then create a new object
-        exp = EnaExperiment()
+        EnaCollection().add_experiment_to_study(per_panel, common, request.session["study_id"])
     else:
         #else retrieve the existing object
-        exp = EnaExperiment.objects.get(id=int(per_panel['experiment_id']))
+        new_exp = False
 
-    exp.platform = common['platform']
-    exp.instrument = common['model']
-    exp.lib_source = common['lib_source']
-    exp.lib_selection = common['lib_selection']
-    exp.lib_strategy = common['lib_strategy']
-    exp.panel_ordering = int(per_panel['panel_ordering'])
-    exp.panel_id = per_panel['panel_id']
-    exp.data_modal_id = per_panel['data_modal_id']
-    exp.copo_exp_name = common['copo_exp_name']
-    try:
-        exp.insert_size = int(common['insert_size'])
-    except:
-        exp.insert_size = 0
-    study_id = common['study']
-    exp.study = EnaStudy.objects.get(id = int(study_id))
-    sample_id = per_panel['sample_id']
-    exp.sample = EnaSample.objects.get(id = int(sample_id))
+        #exp = EnaExperiment.objects.get(id=int(per_panel['experiment_id']))
 
-    exp.lib_name = per_panel['lib_name']
-    exp.file_type = per_panel['file_type']
-    exp.save()
+
     #here we need to loop through per_fil.files creating new ExpFile objects for each file id
 
     for k in range(0, len(per_panel['files'])):

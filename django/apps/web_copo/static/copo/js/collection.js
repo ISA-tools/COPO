@@ -198,6 +198,7 @@ $(document).ready( function(){
                     if(data.return_value == true){
                         $('#save_study').text('Saved').attr('disabled','disabled');
                         $('#study_id').val(data.study_id)
+                        get_experimental_samples()
                     }
                 },
                 error:function(){
@@ -247,6 +248,7 @@ $(document).ready( function(){
                 $('#sample_table_tr').nextAll().remove();
                 $(data).insertAfter('#sample_table_tr');
                 $('#newSampleModal').modal('hide')
+                get_experimental_samples()
             },
             error:function(){
                 alert('no json returned')
@@ -566,7 +568,7 @@ $(document).ready( function(){
 
         })
         request.fail(function(jqXHR, status){
-            alert(status)
+            //fail silently, probably becuase no study has been saved yet
         })
     }
 

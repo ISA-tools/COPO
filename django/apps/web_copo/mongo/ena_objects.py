@@ -15,14 +15,6 @@ class EnaCollection(Resource):
             pass
         return doc
 
-    def get_sample(self, sample_id):
-        doc = EnaCollections.find_one({"samples._id": o.ObjectId(sample_id)}, {"samples.$": 1})
-        return doc['samples'][0]
-
-    def get_samples_in_study(self, study_id):
-        doc = EnaCollections.find({"_id": ObjectId(study_id)}, {"samples": 1})
-        return doc
-
     def add_study(self, values, attributes):
         spec_attr = []
         for att_group in attributes:
@@ -96,12 +88,9 @@ class EnaCollection(Resource):
         }
 
         EnaCollections.update(
-            {
-
-                "_id": o.ObjectId(study_id)
-            },
-            {
-                '$push': {"samples": spec}
+            {"_id": o.ObjectId(study_id)},
+            {'$push':
+                 {"samples": spec}
             }
         )
 
@@ -119,14 +108,43 @@ class EnaCollection(Resource):
             {"_id": ObjectId(study_id), "samples._id": ObjectId(sample_id)},
             { '$set': { "samples.$.Source_Name": sample['Source_Name'], "samples.$.Characteristics": spec_attr, "samples.$.Term_Source_REF": "TODO:ONTOLOGY","samples.$.Protocol_REF": "TODO:PROTOCOL_STRING","samples.$.Sample_Name": sample['Anonymized_Name'],"samples.$.Individual_Name": sample['Individual_Name'],"samples.$.Description": sample['Description'],"samples.$.Taxon_ID": sample['Taxon_ID'],"samples.$.Scientific_Name": sample['Scientific_Name'],"samples.$.Common_Name": sample['Common_Name'],"samples.$.Anonymized_Name": sample["Anonymized_Name"]} }
         )
-        '''
-        EnaCollections.update(
-            {"_id": ObjectId(study_id), "samples._id": ObjectId(sample_id)},
-            {'$set:': {"samples.$.Source_Name": x,"samples.$.Characteristics": spec_attr,"samples.$.Term_Source_REF": "TODO:ONTOLOGY","samples.$.Protocol_REF": "TODO:PROTOCOL_STRING","samples.$.Sample_Name": sample['Anonymized_Name'],"samples.$.Individual_Name": sample['Individual_Name'],"samples.$.Description": sample['Description'],"samples.$.Taxon_ID": sample['Taxon_ID'],"samples.$.Scientific_Name": sample['Scientific_Name'],"samples.$.Common_Name": sample['Common_Name'],"samples.$.Anonymized_Name": sample["Anonymized_Name"]}}
-        )
 
+    def get_sample(self, sample_id):
+        doc = EnaCollections.find_one({"samples._id": o.ObjectId(sample_id)}, {"samples.$": 1})
+        return doc['samples'][0]
+
+    def get_samples_in_study(self, study_id):
+        doc = EnaCollections.find({"_id": ObjectId(study_id)}, {"samples": 1})
+        return doc
+
+    def get_experiment(self, experiment_id):
+        raise NotImplemented
+
+    def add_experiment_to_study(self, per_panel, common, study_id):
+        try:
+            insert_size = int(common['insert_size'])
+        except:
+            insert_size = 0
+        spec = {
+            "_id": ObjectId(),
+            "platform": common['platform'],
+            "instrument": common['model'],
+            "lib_source": common['lib_source'],
+            "lib_selection": common['lib_selection'],
+            "lib_strategy": common['lib_strategy'],
+            "panel_ordering": int(per_panel['panel_ordering']),
+            "panel_id": per_panel['panel_id'],
+            "data_modal_id": per_panel['data_modal_id'],
+            "copo_exp_name": common['copo_exp_name'],
+            "insert_size": insert_size,
+            "study_id": ObjectId(common['study']),
+            "sample_id": ObjectId(per_panel['sample_id']),
+            "lib_name": per_panel['lib_name'],
+            "file_type": per_panel['file_type'],
+        }
         EnaCollections.update(
-            {"_id": ObjectId(study_id), "samples._id": ObjectId(sample_id)},
-                { '$set': { "samples.$.Common_Name": "44444", "samples.$.Description": "tw@" } }
+            {"_id": o.ObjectId(study_id)},
+            {'$push':
+                 {"experiments": spec}
+            }
         )
-        '''
