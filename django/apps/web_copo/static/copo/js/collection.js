@@ -302,6 +302,7 @@ $(document).ready( function(){
             per_panel.file_type = p.find('#select_file_type').val();
             per_panel.lib_name = p.find('#input_library_name').val();
             per_panel.sample_id = p.find('#select_sample_ref').val();
+            per_panel.sample_name = p.find('#select_sample_ref').text();
             per_panel.panel_id = p.find('input[name=panel_id]').val();
             per_panel.panel_ordering = p.find('input[name=panel_ordering]').val();
             per_panel.data_modal_id = p.parents().eq(6).find('input[name=data_modal_id]').val();

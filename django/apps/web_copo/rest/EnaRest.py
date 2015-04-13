@@ -344,30 +344,18 @@ def save_experiment(request):
     if(per_panel['experiment_id'] == ''):
         #if we are dealing with a new experiment (i.e. no id has been supplied)
         #then create a new object
-        EnaCollection().add_experiment_to_study(per_panel, common, request.session["study_id"])
+        experiment_id = EnaCollection().add_experiment_to_study(per_panel, common, request.session["study_id"])
     else:
         #else retrieve the existing object
-        new_exp = False
+        experiment_id = EnaCollection.update_experiment_in_study(per_panel, common, request.session["study_id"])
 
-        #exp = EnaExperiment.objects.get(id=int(per_panel['experiment_id']))
-
-
-    #here we need to loop through per_fil.files creating new ExpFile objects for each file id
-
+    #here we need to loop through per_file.files adding object to exp files list
     for k in range(0, len(per_panel['files'])):
-        #for each file in the list supplied, create a new
-        #ExpFile object to join the experiment object and the chunked upload entry
-        f = ExpFile()
+        c = ChunkedUpload.objects.get(id=int(per_panel['files'][k]))
+        EnaCollection().add_file_to_experiment(experiment_id, c.id, per_panel['hashes'][k])
 
-        #get chunkedUpload object
-        f.file = ChunkedUpload.objects.get(id=int(per_panel['files'][k]))
-        #assign experiment
-        f.experiment = exp
-        f.md5_hash = per_panel['hashes'][k]
-        f.save()
-        out = {'experiment_id': exp.id}
-        out = jsonpickle.encode(out)
-    return HttpResponse(out, content_type='text/plain')
+    return HttpResponse(experiment_id, content_type='text/plain')
+
 
 def get_experiment_table_data(request):
     #this method populates a table of current experiment objects for the given ENA study object.
