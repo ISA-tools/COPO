@@ -232,6 +232,6 @@ path_to_file = "/Users/etuka/Dropbox/Dev/data/888_LIB6842_LDI5660_ACTTGA_L002_R2
 param = {
     'repository': 'ENA',
     'file_path': path_to_file,
-    'username': 'Webin-39962@webin.ebi.ac.uk',
-    'password': 'toni12'
+    'username': 'xxx',
+    'password': 'xxx'
 }
