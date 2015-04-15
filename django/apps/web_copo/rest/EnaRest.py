@@ -19,6 +19,7 @@ import apps.web_copo.utils.EnaUtils as u
 import project_copo.settings.settings as settings
 from apps.web_copo.mongo.ena_objects import *
 from apps.web_copo.mongo.copo_base_objects import *
+from apps.web_copo.mongo.mongo_util import *
 from bson import Binary, Code
 from bson.json_util import dumps
 
@@ -352,56 +353,32 @@ def save_experiment(request):
     #here we need to loop through per_file.files adding object to exp files list
     for k in range(0, len(per_panel['files'])):
         c = ChunkedUpload.objects.get(id=int(per_panel['files'][k]))
-        EnaCollection().add_file_to_experiment(experiment_id, c.id, per_panel['hashes'][k])
+        if len(per_panel['hashes'])>k:
+            hash = per_panel['hashes'][k]
+        else:
+            hash = ''
+        EnaCollection().add_file_to_study(request.session['study_id'], experiment_id, c.id, hash)
 
     return HttpResponse(experiment_id, content_type='text/plain')
 
 
 def get_experiment_table_data(request):
-    #this method populates a table of current experiment objects for the given ENA study object.
-    #this table is displayed in the Experiment Panel of an ENA Profile
-    from datetime import datetime
-    import pytz
-    out = 'abc'
+    experiment_ids = EnaCollection().get_distict_experiment_ids_in_study_(request.GET.get('study_id'))
 
-    #get all experiment objects for this study
-    #e = EnaExperiment.objects.filter(study_id=request.GET.get('study_id'))
-    e = EnaExperiment.objects.filter(study_id=1)
-    #now get a list of the unique data_modal_ids...this is what we should be returning a list of
-    udm = e.values('data_modal_id').distinct()
     elements = []
-    for modal in udm:
-        #for each modal id, get corresponding experiments
-        me = EnaExperiment.objects.filter(data_modal_id=modal['data_modal_id'])
-        #do calculation to get the size of the related files and the date the group was last modified
-        #get ids of experiment objects
-        ids = set(exp.id for exp in me)
-        #get related ExpFile objects
-        file_set = ExpFile.objects.filter(experiment__in=ids)
-        #get ids of related ExpFile objects
-        ids = set(f.file_id for f in file_set)
-        #get related chunked_upload objects
-        chs = ChunkedUpload.objects.filter(id__in=ids)
-        total = 0
-        last_modified = datetime.min
-        utc = pytz.UTC
-        last_modified = utc.localize(last_modified)
-        #calculate the size of the file group and when in was last modified
-        if chs.exists():
-            for upload in chs:
-                total = total + upload.offset
-                print(total)
-                if upload.completed_on > last_modified:
-                    last_modified = upload.completed_on
-            #create output object
+    for id in experiment_ids:
+
+        #for unique each experimental modal id, get corresponding experiments
+        for me in EnaCollection().get_experiments_by_modal_id(id):
             out = {}
-            group_type = me[0].platform
-            fmt = '%d-%m-%Y %H:%M:%S'
-            out['group_size'] = u.filesize_toString(total)
-            out['group_name'] = me[0].copo_exp_name
-            out['last_modified'] = last_modified.strftime(fmt)
-            out['platform'] = group_type
-            out['data_modal_id'] = modal['data_modal_id']
+            out['group_size'] = 'unknown'
+            if not me['experiments'][0]['copo_exp_name']:
+                out['group_name'] = "default"
+            else:
+                out['group_name'] = me['experiments'][0]['copo_exp_name']
+            out['platform'] = me['experiments'][0]['Sample_Name']
+            out['last_modified'] = str(me['experiments'][0]['last_updated'])
+            out['data_modal_id'] = id
             elements.append(out)
 
 
@@ -416,24 +393,24 @@ def populate_exp_modal(request):
     #and populates a table in the upload modal dialogue along with delete functionality
     data_modal_id = request.GET.get('data_modal_id')
     #get experiments
-    exps = EnaExperiment.objects.filter(data_modal_id=data_modal_id)
+    exps = EnaCollection().get_experiments_by_modal_id(data_modal_id)
 
     output_files = []
 
     for exp in exps:
         #for each experiment get a list of the associated files
-        files = ExpFile.objects.filter(experiment__id=exp.id)
+        files = EnaCollection().get_files_by_experiment_id(exp["experiments"][0]["_id"])
         for file in files:
             #get chunked upload object
-            ch = file.file
+            ch = ChunkedUpload.objects.get(id=file["chunked_upload_id"])
             #now populate output object
             f = {}
-            f['id']=ch.id
+            f['id']=str(ch.id)
             f['name']=ch.filename
             f['size']=u.filesize_toString(ch.offset)
-            f['md5']=file.md5_hash
-            f['data_modal_id']=exp.data_modal_id
-            f['panel_id']=exp.panel_id
+            f['md5']=file["hash"]
+            f['data_modal_id']=data_modal_id
+            f['panel_id']=exp["experiments"][0]["panel_id"]
             output_files.append(f)
 
     return HttpResponse(jsonpickle.encode(output_files), content_type='text/plain')
@@ -442,14 +419,15 @@ def delete_file(request):
     #method deletes the given file, and database objects for a given file_id
     file_id = request.POST.get('file_id')
     #get chunked upload object
+    #c_id = EnaCollection().get_chunked_upload_id_from_file_id(file_id)
     ch = ChunkedUpload.objects.get(id=int(file_id))
-    ef = ch.expfile
+
     #get full path
     filepath = os.path.join(settings.MEDIA_ROOT, ch.file.name)
     #delete file
     os.remove(filepath)
     #now delete database entries for the file
-    ef.delete()
+    EnaCollection().remove_file_from_experiment(file_id)
     ch.delete()
     return HttpResponse(request.POST.get('file_id'), content_type='text/plain')
 

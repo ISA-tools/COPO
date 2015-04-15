@@ -127,7 +127,7 @@ def view_collection(request, collection_id):
     if collection['type'] == 'ENA Submission':
         if('collection_details' in collection):
             request.session['study_id'] = str(collection['collection_details'])
-            data_dict = {'collection': collection, 'collection_id': collection_id, 'study_id': request.session['collection_details'], 'profile_id': profile_id, 'study': EnaCollection().GET(request.session['collection_details'])}
+            data_dict = {'collection': collection, 'collection_id': collection_id, 'study_id': request.session['study_id'], 'profile_id': profile_id, 'study': EnaCollection().GET(request.session['study_id'])}
         else:
             data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
         return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))

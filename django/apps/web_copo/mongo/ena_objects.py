@@ -5,6 +5,7 @@ import bson.objectid as o
 import bson.objectid
 from apps.web_copo.mongo.mongo_util import *
 import uuid
+from datetime import date
 EnaCollections = get_collection_ref("EnaCollections")
 
 class EnaCollection(Resource):
@@ -146,6 +147,7 @@ class EnaCollection(Resource):
             "sample_id": ObjectId(per_panel['sample_id']),
             "Sample_Name": per_panel['sample_name'],
             "file_type": per_panel['file_type'],
+            "last_updated": str(date.today()),
         }
         EnaCollections.update(
             {"_id": o.ObjectId(study_id)},
@@ -177,6 +179,7 @@ class EnaCollection(Resource):
             "sample_id": ObjectId(per_panel['sample_id']),
             "lib_name": per_panel['lib_name'],
             "file_type": per_panel['file_type'],
+            "last_updated": str(date.today()),
         }
         EnaCollections.update(
             {"_id": ObjectId(study_id), "experiments._id": ObjectId(experiment_id)},
@@ -185,16 +188,40 @@ class EnaCollection(Resource):
         return experiment_id
 
 
-    def add_file_to_experiment(self, experiment_id, chunked_upload_id, hash):
+    def add_file_to_study(self, study_id, experiment_id, chunked_upload_id, hash):
         _id = ObjectId()
         spec = {
             "_id": str(_id),
+            "experiment_id": str(experiment_id),
             "chunked_upload_id": chunked_upload_id,
             "hash": hash,
         }
         EnaCollections.update(
-            {"experiments._id": ObjectId(experiment_id)},
-            {"$push":{"experiments.$.files":spec}}
+            {"_id": ObjectId(study_id)},
+            {"$push":{"files":spec}}
         )
+
+
+    def get_experiment_by_id(self, study_id):
+        return EnaCollections.find_one({"_id": ObjectId(study_id)}, {"experiments": 1, "_id": 0})
+
+    def get_experiments_by_modal_id(self, modal_id):
+        return EnaCollections.find({"experiments.data_modal_id": modal_id}, {"experiments.$": 1})
+
+    def get_distict_experiment_ids_in_study_(self, study_id):
+        return EnaCollections.find({"_id": ObjectId(study_id)}).distinct("experiments.data_modal_id")
+
+    def get_chunked_upload_id_from_file_id(self, file_id):
+        return EnaCollections.find({"experiments.files": ObjectId(file_id)}, {"experiments.files.$": 1})
+
+    def get_files_by_experiment_id(self, experiment_id):
+        return EnaCollections.find(
+            {"files": {"$elemMatch": {"experiment_id": experiment_id}}},
+            {"files": 1}
+        )
+
+    def remove_file_from_experiment(self, file_id):
+        return EnaCollections.update({"experiments.files.chunked_upload_id": file_id},
+                                     {"$pull":{"experiments.files.chunked_upload_id.$": file_id}})
 
 
