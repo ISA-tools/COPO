@@ -2,26 +2,36 @@ from django.shortcuts import render, get_object_or_404, render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import RequestContext
+from django.db.models import Max
+import jsonpickle
+import pexpect
+import time
 
-from apps.web_copo.models import Collection, Profile, EnaStudy, EnaSample
+from apps.web_copo.models import Collection, Profile, EnaStudy, EnaSample, RepositoryFeedback
+# import error codes
+from project_copo.settings.error_codes import *
+from project_copo.settings.repo_settings import *
+from project_copo.settings.settings import *
 
 
 # Create your views here.
-# @login_required
+
+@login_required(login_url='/copo/login/')
 def index(request):
     username = User(username=request.user)
+    t = BASE_DIR
     # c = Collection.objects.filter(user = username)
     study_set = Profile.objects.all()
     context = {'user': request.user, 'studies': study_set}
     return render(request, 'copo/index.html', context)
 
-
 def try_login_with_orcid_id(request):
     username = request.POST['frm_login_username']
-    password = request.POST[('frm_login_password')]
+    password = request.POST['frm_login_password']
 
     # try to log into orchid
     return HttpResponse('1')
@@ -29,31 +39,38 @@ def try_login_with_orcid_id(request):
 
 def copo_login(request):
     # pdb.set_trace()
-    if request.method == 'GET':
+    if request.user.is_authenticated():
+        copo_logout(request)
 
+    login_err_message = LOGIN_ERROR_CODES["LOGIN_LOGIN_PROMPT"]
+    username = password = ''
+    next_loc = request.REQUEST.get('next', '')
 
-        return render(request, 'copo/login.html')
-
-    else:
-
+    if request.method == "POST":
         username = request.POST['frm_login_username']
         password = request.POST['frm_login_password']
 
-        if not (username or password):
-            return HttpResponseRedirect('/copo/login')
+        if not (username and password):
+            login_err_message = LOGIN_ERROR_CODES["LOGIN_NO_USERNAME_PASSWORD"]
         else:
             user = authenticate(username=username, password=password)
             if user is not None:
                 if user.is_active:
                     login(request, user)
+                    # successfully logged in!
+                    if not (next_loc):
+                        next_loc = "/copo/"
+                    return HttpResponseRedirect(next_loc)
+                else:
+                    login_err_message = LOGIN_ERROR_CODES["LOGIN_INACTIVE_ACCOUNT"]
+            else:
+                login_err_message = LOGIN_ERROR_CODES["LOGIN_INCORRECT_USERNAME_PASSWORD"]
 
-                    return HttpResponseRedirect('/copo/')
-
-                    # Return a 'disabled account' error message
-
-            # Return an 'invalid login' error message.
-
-            return render(request, 'copo/login.html')
+    return render_to_response(
+        'copo/login.html',
+        {'login_err_message': login_err_message, 'username': username, 'next': next_loc},
+        context_instance=RequestContext(request)
+    )
 
 
 def copo_logout(request):
@@ -145,3 +162,76 @@ def view_collection(request, collection_id):
 
 def view_test2(request):
     return render(request, 'copo/testing2.html')
+
+
+def manage_repo_feedback(request):
+    out = "none"
+    sess_key = request.session.session_key
+    b = RepositoryFeedback.objects.filter(session_key=sess_key).aggregate(Max('id'))
+    feedback_obj = RepositoryFeedback.objects.get(pk=b['id__max'])
+
+    # need to handle exception for none-existing db data
+    return_structure = {'pct_complete': feedback_obj.current_pct}
+    out = jsonpickle.encode(return_structure)
+    return HttpResponse(out, content_type='json')
+
+
+def initiate_repo(request):
+    status = "error"
+    if request.method == "POST":
+        # remove any existing reference to this session in the db
+        for e in RepositoryFeedback.objects.filter(session_key=request.session.session_key):
+            e.delete()
+
+        feedback_obj = RepositoryFeedback(current_pct=0, session_key=request.session.session_key)
+        feedback_obj.save()
+
+        # these might potentially come from some request object
+        file_path = param['file_path']
+        user_name = param['username']
+        password = param['password']
+        path2library = os.path.join(BASE_DIR, REPO_LIB_PATHS["ASPERA"])
+        remote_path = os.path.join("copo", time.strftime("%Y%m%d"))
+
+        cmd = "./ascp -d -QT -l300M -L- {file_path!s} {user_name!s}:{remote_path!s}".format(**locals())
+
+        os.chdir(path2library)
+
+        thread = pexpect.spawn(cmd, timeout=None)
+        thread.expect(["assword:", pexpect.EOF])
+        thread.sendline(password)
+
+        cpl = thread.compile_pattern_list([pexpect.EOF, '(\d+%)'])
+
+        while True:
+            i = thread.expect_list(cpl, timeout=None)
+            if i == 0:  # EOF! Possible error point if encountered before transfer completion
+                print("the sub process exited")
+                break
+            elif i == 1:
+                trans_pct = thread.match.group(1)
+                trans_pct = trans_pct.decode("utf-8")
+                print("%s completed" % trans_pct)
+                pct_val = trans_pct.rstrip("%")
+                feedback_obj.current_pct = pct_val
+                feedback_obj.save()
+                if int(pct_val) == 100:
+                    status = "success"
+                    print(status)
+                    break
+        thread.close()
+
+    return_structure = {'exit_status': status}
+    out = jsonpickle.encode(return_structure)
+    return HttpResponse(out, content_type='json')
+
+
+# for testing
+path_to_file = "/Users/etuka/Dropbox/Dev/data/888_LIB6842_LDI5660_ACTTGA_L002_R2_013.fastq"
+
+param = {
+    'repository': 'ENA',
+    'file_path': path_to_file,
+    'username': 'Webin-39962@webin.ebi.ac.uk',
+    'password': 'toni12'
+}

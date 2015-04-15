@@ -131,9 +131,14 @@ class EnaExperiment(models.Model):
     data_modal_id = models.CharField(max_length=100, null=True, blank=True)
     copo_exp_name = models.CharField(max_length=100, null=True, blank=True)
 
+
 class ExpFile(models.Model):
     #class to join experiments with files
     experiment = models.ForeignKey(EnaExperiment)
     file = models.OneToOneField(ChunkedUpload)
     md5_hash = models.CharField(max_length=50, null=True, blank=True)
 
+
+class RepositoryFeedback(models.Model):
+    current_pct = models.CharField(max_length=128)
+    session_key = models.CharField(max_length=128)

@@ -4,24 +4,38 @@
 <script src="{% static 'copo/js/copo.login_view.js' %}"></script>
 {% endblock %}
 
+{% block browse_header_block %}{% endblock %}
+
 {% block title_block %} Login {% endblock %}
 
 {% block tagline_block %} Please login {% endblock %}
 
 {% block main_block %}
 
+{% block work_area %}
+{{ login_err_message }}
+    <div class="generic-form">
+        <form action="{% url 'copo:login' %}" method="post">
+            {% csrf_token %}
+            {% if next %}
+            <input type="hidden" name="next" value="{{ next }}" />
+            {% endif %}
+            <input type="text" id="frm_login_username" name="frm_login_username" value="{{ username}}" placeholder="Name"/>
 
-<div class="generic-form">
-    <form method="post" action="/copo/login/">
-        {% csrf_token %}
+            <input type="password" id="frm_login_password" name="frm_login_password" placeholder="Password"/>
+            <button class="submit" id="frm_login_submit">Submit</button>
+        </form>
+        <span style="float: right; margin-top:10px"><a href="/copo/register/">Register</a></span>
+    </div>
 
-        <input type="text" id="frm_login_username" name="frm_login_username" placeholder="Name"/>
+{% comment %}<br />
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+        <span class="sr-only">45% Complete</span>
+      </div>
+    </div>{% endcomment %}
 
-        <input type="password" id="frm_login_password" name="frm_login_password" placeholder="Password"/>
-        <button class="submit" id="frm_login_submit">Submit</button>
-    </form>
-    <span style="float: right; margin-top:10px"><a href="/copo/register/">Register</a></span>
-</div>
+{% endblock %}
 
 
 {% endblock %}

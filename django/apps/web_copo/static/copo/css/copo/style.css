@@ -138,3 +138,12 @@ textarea {
 td, th{
     padding:5px
 }
+
+/* REPOSITORY CONTROLS CSS */
+#repo-feedback-cnt-1 {
+    display: none;
+}
+
+#repo-alert-cnt-1 {
+    display: none;
+}

@@ -19,10 +19,20 @@ brew install mysql
 brew install redis
 brew install mongodb
 
+sudo chown -R _mysql /usr/local/var/mysql
+sudo mysql.server start
 sh ./createdb.sh copo_development fshaw Apple123
+
+sudo mkdir /data
+sudo mkdir /data/db
+mongod
 
 # bodge needed to getg migrations working
 # go into web_copo/migrations and find initial migration, then comment out the line in dependencies
 # ('chunked_upload', '0001_initial'),
+# sudo manage.py syncdb
+# sudo manage.py makemigrations chunked_upload
+# uncommment chunked_upload
+# sudo manage.py makemigrations
 # then perform 'python manage.py makemigrations'
 # uncomment and rerun, then migrate
