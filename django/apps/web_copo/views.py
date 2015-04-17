@@ -179,7 +179,7 @@ def manage_repo_feedback(request):
 def initiate_repo(request):
     status = "error"
     if request.method == "POST":
-        # remove any existing reference to this session in the db
+        # remove any existing reference to this session key in the db
         for e in RepositoryFeedback.objects.filter(session_key=request.session.session_key):
             e.delete()
 
@@ -232,6 +232,6 @@ path_to_file = "/Users/etuka/Dropbox/Dev/data/888_LIB6842_LDI5660_ACTTGA_L002_R2
 param = {
     'repository': 'ENA',
     'file_path': path_to_file,
-    'username': 'xxx',
-    'password': 'xxx'
+    'username': 'Webin-39962@webin.ebi.ac.uk',
+    'password': 'toni12'
 }

@@ -72,11 +72,16 @@
                                 <span class="caret"></span>
 
                             </a>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                <li>login</li>
-                                <li><a href="/copo/login/">logout</a></li>
-                                <li>register</li>
-                            </ul>
+                            {% if user.is_authenticated %}
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li><a href="/copo/login/">logout</a></li>
+                                </ul>
+                            {% else %}
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li><a href="/copo/login/">login</a></li>
+                                    <li><a href="">register</a></li>
+                                </ul>
+                            {% endif %}
                         </span>
                         <!--<a href="" data-toggle="tooltip" data-placement="bottom" title="{{ user }}">{{ user }}</a>-->
                     </div>

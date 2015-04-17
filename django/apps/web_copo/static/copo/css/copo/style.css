@@ -1,6 +1,6 @@
 
 body{
-	
+
 	background-image: url("/static/copo/img/squared_metal.png");
 	background-repeat: repeat;
 	font-size:medium% !important
@@ -9,7 +9,7 @@ body{
 	width:100%;
 }
 div[class^="col-"], div[class*=" col-"] {
-    //border: 1px solid black; 
+    //border: 1px solid black;
 }
 .row{
 	//border: 1px solid black;
@@ -44,7 +44,7 @@ div[class^="col-"], div[class*=" col-"] {
 #profile_header{
 	float:right;
 	margin-top:25px;
-	
+
 }
 #profile_header a{
     margin-right:30px;
@@ -147,3 +147,5 @@ td, th{
 #repo-alert-cnt-1 {
     display: none;
 }
+
+/*USER LOGIN*/

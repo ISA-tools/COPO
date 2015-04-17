@@ -3,7 +3,7 @@
 {% load staticfiles %}
 
 {% block stylesheet_block %}
-<link rel="stylesheet" href="{% static 'copo/css/copo/browse_style.css' %}">
+<link rel="stylesheet" href="{% static 'copo/css/copo/browse_style.css' %}" xmlns="http://www.w3.org/1999/html">
 
 {% endblock %}
 
@@ -110,9 +110,10 @@
 
 </table>
 
+
 {% endblock %}
 
 
 {% block js_block %}
-<script src="{% static 'copo/js/index.js' %}"></script>
+    <script src="{% static 'copo/js/index.js' %}"></script>
 {% endblock %}
