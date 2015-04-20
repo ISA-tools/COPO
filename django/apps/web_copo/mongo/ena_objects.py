@@ -158,7 +158,7 @@ class EnaCollection(Resource):
         return str(exp_id)
 
 
-    def update_experiment_in_study(self, common, per_panel, study_id):
+    def update_experiment_in_study(self, per_panel, common, study_id):
         experiment_id = per_panel['experiment_id']
         try:
             insert_size = int(common['insert_size'])
@@ -215,13 +215,15 @@ class EnaCollection(Resource):
         return EnaCollections.find({"experiments.files": ObjectId(file_id)}, {"experiments.files.$": 1})
 
     def get_files_by_experiment_id(self, experiment_id):
-        return EnaCollections.find(
-            {"files": {"$elemMatch": {"experiment_id": experiment_id}}},
-            {"files": 1}
-        )
+        return EnaCollections.aggregate([
+            {"$match": {"files.experiment_id": str(experiment_id)}},
+            {"$unwind": "$files"},
+            {"$match": {"files.experiment_id": str(experiment_id)}},
+            {"$project": {"files": 1}}
+        ])
 
     def remove_file_from_experiment(self, file_id):
-        return EnaCollections.update({"experiments.files.chunked_upload_id": file_id},
-                                     {"$pull":{"experiments.files.chunked_upload_id.$": file_id}})
-
+        return EnaCollections.update({"files.chunked_upload_id": int(file_id)},
+            {"$pull":{"files": {"chunked_upload_id": int(file_id)
+                                }}})
 

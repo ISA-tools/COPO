@@ -348,7 +348,7 @@ def save_experiment(request):
         experiment_id = EnaCollection().add_experiment_to_study(per_panel, common, request.session["study_id"])
     else:
         #else retrieve the existing object
-        experiment_id = EnaCollection.update_experiment_in_study(per_panel, common, request.session["study_id"])
+        experiment_id = EnaCollection().update_experiment_in_study(per_panel, common, request.session["study_id"])
 
     #here we need to loop through per_file.files adding object to exp files list
     for k in range(0, len(per_panel['files'])):
@@ -358,8 +358,9 @@ def save_experiment(request):
         else:
             hash = ''
         EnaCollection().add_file_to_study(request.session['study_id'], experiment_id, c.id, hash)
+    out = {'experiment_id': experiment_id}
 
-    return HttpResponse(experiment_id, content_type='text/plain')
+    return HttpResponse(jsonpickle.encode(experiment_id), content_type='text/plain')
 
 
 def get_experiment_table_data(request):
@@ -402,15 +403,16 @@ def populate_exp_modal(request):
         files = EnaCollection().get_files_by_experiment_id(exp["experiments"][0]["_id"])
         for file in files:
             #get chunked upload object
-            ch = ChunkedUpload.objects.get(id=file["chunked_upload_id"])
+            ch = ChunkedUpload.objects.get(id=file['files']["chunked_upload_id"])
             #now populate output object
             f = {}
             f['id']=str(ch.id)
             f['name']=ch.filename
             f['size']=u.filesize_toString(ch.offset)
-            f['md5']=file["hash"]
+            f['md5']=file['files']["hash"]
             f['data_modal_id']=data_modal_id
             f['panel_id']=exp["experiments"][0]["panel_id"]
+            f['experiment_id']=str(exp["experiments"][0]["_id"])
             output_files.append(f)
 
     return HttpResponse(jsonpickle.encode(output_files), content_type='text/plain')

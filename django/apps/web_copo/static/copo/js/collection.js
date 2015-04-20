@@ -287,7 +287,7 @@ $(document).ready( function(){
 
             //get input to store experiment_id later on
             var exp_input = p.find('input[name=exp_id]');
-            per_panel.experiment_id = $(exp_input).val();
+
             p.find('input[name=file_id]').each(function(key_2, hidden_id){
                 //this is the file id
                 panel_files[key_2] = $(hidden_id).val()
@@ -297,6 +297,12 @@ $(document).ready( function(){
                 //now need to get file hash
                 panel_hashes[key_2] = $(hash_span).text()
             });
+            if($("#container").data("experiment_id") == undefined) {
+                per_panel.experiment_id = ''
+            }
+            else {
+                per_panel.experiment_id = $("#container").data("experiment_id");
+            }
             per_panel.hashes = panel_hashes;
             //now get the non-common elements for each panel box
             per_panel.file_type = p.find('#select_file_type').val();
@@ -612,7 +618,6 @@ $(document).ready( function(){
             data_modal_id: data_modal_id
         },
         function(data){
-            //$('#container').find('.row:first').remove()
             $('#container').find('table').remove();
             $('#container').find('h4').remove();
             if($('#container').children().length == 0){
@@ -621,10 +626,13 @@ $(document).ready( function(){
                 html = get_upload_box_html(count, generate_uid());
                 var dom = jQuery.parseHTML(html);
                 $('#container').append(dom);
+
                 get_experimental_samples(dom)
             }
             //$('#container').find('.row').empty()
+
             data = $.parseJSON(data);
+            $('#container').data('experiment_id', data[0].experiment_id)
             data_modal_id = data[0]['data_modal_id'];
             html = get_files_table(data);
             $('#existing_files').html(html)
