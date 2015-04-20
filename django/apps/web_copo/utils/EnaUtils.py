@@ -6,23 +6,24 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 import pysam
 from apps.web_copo.models import EnaStudy, EnaSample
+from apps.web_copo.mongo.ena_objects import *
 import pdb
 
 
-def get_sample_html_from_collection_id(collection_id):
+def get_sample_html_from_details_id(details_id):
     # get related study and sample set
     try:
-        study = EnaStudy.objects.get(collection__id=collection_id)
-        sample_set = EnaSample.objects.filter(ena_study__id=study.id)
+        #study = EnaStudy.objects.get(collection__id=collection_id)
+        #sample_set = EnaSample.objects.filter(ena_study__id=study.id)
+        details = EnaCollection().GET(details_id)
+        sample_set = details['samples']
     except ObjectDoesNotExist:
         return 'not found'
 
     out = ''
     #construct output html
     for s in sample_set:
-        out += '<tr><td>' + '<a rest_url="' + reverse('rest:get_sample_html', args=[str(s.id)]) + '" href="">' + str(
-            s.title) + '</a>' + '</td><td>' + str(s.description) + '</td><td>' + str(s.scientific_name) \
-               + '</td><td>' + str(s.common_name) + '</td></tr>'
+        out += '<tr><td>' + '<a rest_url="' + reverse('rest:get_sample_html', args=[str(s["_id"])]) + '" href="">' + s['Source_Name'] + '</a>' + '</td><td>' + s['Sample_Name'] + '</td><td>' + s['Individual_Name'] + '</td><td>' + s['Description'] + '</td></tr>'
     return out
 
 

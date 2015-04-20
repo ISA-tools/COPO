@@ -7,13 +7,23 @@ DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'copo_development',
-        'USER': 'root',
-        'PASSWORD': '',
+        'USER': 'fshaw',
+        'PASSWORD': 'Apple123',
         'Host': '127.0.0.1',
         'Port': '',
         'init_command' :'SET storage_engine=MyISAM',
     }
 }
+
+
+MONGO_DB = 'copo_mongo'
+MONGO_HOST = '127.0.0.1'
+MONGO_PORT = 27017
+
+SESSION_ENGINE = 'redis_sessions.session'
+SESSION_REDIS_HOST = '127.0.0.1'
+SESSION_REDIS_PORT = 6379
+
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = '/Users/etuka/Dropbox/Dev/util/iRODS/Vault/home/rods/copo-data'

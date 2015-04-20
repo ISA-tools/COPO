@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'apps.web_copo',
     'rest_framework',
-    'chunked_upload',
+    'apps.chunked_upload',
 )
 
 MIDDLEWARE_CLASSES = (

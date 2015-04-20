@@ -5,8 +5,7 @@
 sudo pip install django
 sudo pip install djangorestframework
 sudo pip install markdown       
-sudo pip install django-filter  
-sudo pip install django-chunked-upload
+sudo pip install django-filter
 sudo pip install --allow-all-external mysql-connector-python
 sudo pip install mongokit
 sudo pip install mysql-python
@@ -14,6 +13,10 @@ sudo pip install jsonpickle
 sudo pip install elementtree --allow-external elementtree --allow-unverified elementtree
 sudo pip install lxml
 sudo pip install pysam
+sudo pip install bson
+
+sudo pip install redis
+sudo pip install django-redis-sessions
 
 brew install mysql
 brew install redis

@@ -1,6 +1,7 @@
 {% extends 'copo/base.html' %}
 
 {% load staticfiles %}
+{% load web_tags %}
 
 {% block stylesheet_block %}
 	<link rel="stylesheet" href="{% static 'copo/css/copo/browse_style.css' %}">
@@ -49,6 +50,7 @@
 	<!-- here is the markup for the top table data pulled in from the study itself -->
 	<table id="browse_table">
 		<h2 class="h2">{{ profile_title }}</h2>
+        {{ profile_abstract }}
 		<hr/>
 		<h3>Collections</h3>
 		<tr>
@@ -59,7 +61,7 @@
 		{% for c in collections %}
 
 			<tr>
-				<td data-collection_id="{{ c.id }}"><a href="{% url 'copo:view_collection' collection_id=c.id %}">{{ c.name }}</a></td>
+				<td data-collection_id="{{ c.id }}"><a href="{% url 'copo:view_collection' collection_id=c|mongo_id %}">{{ c.name }}</a></td>
 
 				<td>{{ c.type }}</td>
 			</tr>
