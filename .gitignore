@@ -6,4 +6,5 @@ my.cnf
 *.iml
 target/
 atlassian-ide-plugin.xml
+*/.idea/
 .idea/
