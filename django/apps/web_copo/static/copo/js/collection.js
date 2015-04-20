@@ -8,8 +8,8 @@ $(document).ready( function(){
     $('#save_study').text('Save Study').removeAttr('disabled');
     $('input[name=exp_id]').val('');
     $('input[name=data_modal_id]').val();
-    study_form_data();
-    sample_form_data();
+
+    //sample_form_data();
     exp_form_data();
     get_experimental_samples();
     get_experiment_table_data();
@@ -20,8 +20,64 @@ $(document).ready( function(){
     });
 
 
+    $('#add_sample_button').on('click', function(){
+        $('#ena_sample_form').trigger("reset")
+        $('#sample_id').val('')
+    })
+
+    //handle clicks on sample table
+    $('#sample_table').find('a').on('click', function(e){
+        e.preventDefault();
+        var url = $(this).attr('rest_url');
+        //now call web service to get content for sample panel
+        var service = url.substring(0, url.lastIndexOf("/")) + '/';
+        var id = url.substring(url.lastIndexOf("/") + 1, url.length);
 
 
+        $.ajax({
+                type:"GET",
+                url:service,
+                async:false,
+                dataType:"json",
+                success:temp,
+                error:function(data){
+                    console.log(data)
+                },
+                data:{'sample_id':id}
+            });
+
+    })
+
+    function temp(data){
+                //add returned data to the form
+                $('#sample_id').val(data.sample_id);
+                $('#Source_Name').val(data.Source_Name);
+                $('#Taxon_ID').val(data.Taxon_ID);
+                $('#Scientific_Name').val(data.Scientific_Name);
+                $('#Common_Name').val(data.Common_Name);
+                $('#Anonymised_Name').val(data.Anonymised_Name);
+                $('#Individual_Name').val(data.Individual_Name);
+                $('#Description').val(data.Description);
+                //make changes for attributes
+
+
+                var at = data.Characteristics;
+                str = '';
+                for(var x = 0; x < at.length; x++){
+
+                    str += '<div class="form-group col-sm-10 attribute_group">';
+                    str += '<div class="sample_attr_vals">';
+                    str += '<input type="text" class="col-sm-3 attr" name="tag_' + at[x].id + '" value="' + at[x].tag + '"placeholder="tag"/>';
+                    str += '<input type="text" class="col-sm-3 attr" name="value_' + at[x].id + '" value="' + at[x].value + '"placeholder="value"/>';
+                    str += '<input type="text" class="col-sm-3 attr" name="unit_' + at[x].id + '" value="' + at[x].unit + '"placeholder="unit"/>';
+                    str += '</div>';
+                    str += '</div>'
+
+                }
+                $('.sample_attr_vals').remove();
+                $(str).insertBefore($('#sample_button_p'));
+                $('#newSampleModal').modal('show')
+            }
 
     $('#add_data_button').on('click', function(){
         $('#container').empty();
@@ -142,6 +198,7 @@ $(document).ready( function(){
                     if(data.return_value == true){
                         $('#save_study').text('Saved').attr('disabled','disabled');
                         $('#study_id').val(data.study_id)
+                        get_experimental_samples()
                     }
                 },
                 error:function(){
@@ -191,6 +248,7 @@ $(document).ready( function(){
                 $('#sample_table_tr').nextAll().remove();
                 $(data).insertAfter('#sample_table_tr');
                 $('#newSampleModal').modal('hide')
+                get_experimental_samples()
             },
             error:function(){
                 alert('no json returned')
@@ -229,7 +287,7 @@ $(document).ready( function(){
 
             //get input to store experiment_id later on
             var exp_input = p.find('input[name=exp_id]');
-            per_panel.experiment_id = $(exp_input).val();
+
             p.find('input[name=file_id]').each(function(key_2, hidden_id){
                 //this is the file id
                 panel_files[key_2] = $(hidden_id).val()
@@ -239,11 +297,18 @@ $(document).ready( function(){
                 //now need to get file hash
                 panel_hashes[key_2] = $(hash_span).text()
             });
+            if($("#container").data("experiment_id") == undefined) {
+                per_panel.experiment_id = ''
+            }
+            else {
+                per_panel.experiment_id = $("#container").data("experiment_id");
+            }
             per_panel.hashes = panel_hashes;
             //now get the non-common elements for each panel box
             per_panel.file_type = p.find('#select_file_type').val();
             per_panel.lib_name = p.find('#input_library_name').val();
             per_panel.sample_id = p.find('#select_sample_ref').val();
+            per_panel.sample_name = p.find('#select_sample_ref').text();
             per_panel.panel_id = p.find('input[name=panel_id]').val();
             per_panel.panel_ordering = p.find('input[name=panel_ordering]').val();
             per_panel.data_modal_id = p.parents().eq(6).find('input[name=data_modal_id]').val();
@@ -392,24 +457,27 @@ $(document).ready( function(){
             }
     });
     //function to populate the study panel
+    /*
     function study_form_data(){
         var c_type = $('#collection_type').val();
         var c_id = $('#collection_id').val();
         var study_id = $('#study_id').val();
         //get the contents of the panel (excluding attributes)
+
         $.ajax({
             type:"GET",
             url:"/rest/ena_study_form/",
             async:false,
             dataType:"html",
             success:function(data){
-                $('#ena_study_form').html(data)
+                //$('#ena_study_form').html(data)
             },
             error:function(){
                 alert('no json returned')
             },
             data:{collection_type:c_type, collection_id:c_id, study_id:study_id}
         });
+
         //now get attibutes
         $.ajax({
             type:"GET",
@@ -428,7 +496,7 @@ $(document).ready( function(){
             data:{collection_id:c_id}
         });
     }
-
+    */
     //function to populate the sample input modal
     function sample_form_data(){
         var c_type = $('#collection_type').val();
@@ -481,72 +549,39 @@ $(document).ready( function(){
 
     function get_experimental_samples(context){
         var study_id = $('#study_id').val();
-        $.get( "/rest/get_experimental_samples/",
-        {
-            'study_id':study_id
-        },
-        function(data){
-
+        var request = $.ajax({
+            method:"GET",
+            dataType: 'json',
+            url: "/rest/get_experimental_samples/",
+            data: {'study_id': study_id},
+        });
+        request.done(function(data){
             var out = '';
-            for(var k = 0; k < data.length; k++){
-                out += '<option value="' + data[k].pk + '">';
-                out += data[k].fields.title;
+            data = data[0].samples
+            console.log(data)
+            for (var k = 0; k < data.length; k++) {
+                out += '<option value="' + data[k]._id.$oid + '">';
+                out += data[k].Sample_Name;
                 out += ' - ';
-                out += data[k].fields.scientific_name;
+                out += data[k].Individual_Name;
                 out += '</option>'
             }
-            if(context == undefined){
+            if (context == undefined) {
                 $('select[name=select_sample_ref]').empty().append(out)
             }
-            else{
+            else {
                 $(context).find('select[name=select_sample_ref]').empty().append(out)
             }
-        });
-    }
 
-    function sample_table_handler(){
-        //handle clicks on sample table
-        $('#sample_table').find('a').on('click', function(e){
-            e.preventDefault();
-            var url = $(this).attr('rest_url');
-            //now call web service to get content for sample panel
-            var service = url.substring(0, url.lastIndexOf("/")) + '/';
-            var id = url.substring(url.lastIndexOf("/") + 1, url.length);
-            $.get(service,
-                {
-                    'sample_id':id
-                },
-                function(data){
-                    //add returned data to the form
-                    $('#sample_id').val(data.sample_id);
-                    $('#TITLE').val(data.title);
-                    $('#TAXON_ID').val(data.taxon_id);
-                    $('#SCIENTIFIC_NAME').val(data.scientific_name);
-                    $('#COMMON_NAME').val(data.common_name);
-                    $('#ANONYMIZED_NAME').val(data.anonymized_name);
-                    $('#INDIVIDUAL_NAME').val(data.individual_name);
-                    $('#DESCRIPTION').val(data.description);
-                    //make changes for attributes
-                    var at = JSON.parse(data.attributes);
-                    str = '';
-                    for(var x = 0; x < at.length; x++){
-
-                        str += '<div class="form-group col-sm-10 attribute_group">';
-                        str += '<div class="sample_attr_vals">';
-                        str += '<input type="text" class="col-sm-3 attr" name="tag_' + at[x].fields.id + '" value="' + at[x].fields.tag + '"placeholder="tag"/>';
-                        str += '<input type="text" class="col-sm-3 attr" name="value_' + at[x].fields.id + '" value="' + at[x].fields.value + '"placeholder="value"/>';
-                        str += '<input type="text" class="col-sm-3 attr" name="unit_' + at[x].fields.id + '" value="' + at[x].fields.unit + '"placeholder="unit"/>';
-                        str += '</div>';
-                        str += '</div>'
-
-                    }
-                    $('.sample_attr_vals').remove();
-                    $(str).insertBefore($('#sample_button_p'));
-                    $('#newSampleModal').modal('show')
-                }
-            )
+        })
+        request.fail(function(jqXHR, status){
+            //fail silently, probably becuase no study has been saved yet
         })
     }
+
+
+
+
 
     function get_experiment_table_data(){
         var study_id = $('#study_id').val();
@@ -583,7 +618,6 @@ $(document).ready( function(){
             data_modal_id: data_modal_id
         },
         function(data){
-            //$('#container').find('.row:first').remove()
             $('#container').find('table').remove();
             $('#container').find('h4').remove();
             if($('#container').children().length == 0){
@@ -592,10 +626,13 @@ $(document).ready( function(){
                 html = get_upload_box_html(count, generate_uid());
                 var dom = jQuery.parseHTML(html);
                 $('#container').append(dom);
+
                 get_experimental_samples(dom)
             }
             //$('#container').find('.row').empty()
+
             data = $.parseJSON(data);
+            $('#container').data('experiment_id', data[0].experiment_id)
             data_modal_id = data[0]['data_modal_id'];
             html = get_files_table(data);
             $('#existing_files').html(html)

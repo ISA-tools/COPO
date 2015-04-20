@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 import datetime
 from time import time
 from django.core.files.storage import FileSystemStorage
-from chunked_upload.models import ChunkedUpload
+from apps.chunked_upload.models import ChunkedUpload
 
 fs = FileSystemStorage(location='/Users/fshaw/Desktop/test')
 
