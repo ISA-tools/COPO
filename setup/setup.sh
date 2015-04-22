@@ -12,7 +12,6 @@ sudo pip install jsonpickle
 sudo pip install elementtree --allow-external elementtree --allow-unverified elementtree
 sudo pip install lxml
 sudo pip install pysam
-sudo pip install bson
 sudo pip install pexpect
 sudo pip install redis
 sudo pip install django-redis-sessions
