@@ -27,7 +27,6 @@ def index(request):
     username = User(username=request.user)
     profiles = Profile().GET_ALL()
     context = {'user': request.user, 'profiles': profiles}
-    t = BASE_DIR
     # c = Collection.objects.filter(user = username)
     
     return render(request, 'copo/index.html', context)

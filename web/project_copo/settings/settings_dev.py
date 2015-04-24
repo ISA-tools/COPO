@@ -7,9 +7,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'copo_development',
-        'USER': 'root',
-        'PASSWORD': 'Apple123',
-        'Host': '127.0.0.1',
+        'USER': 'copo',
+        'PASSWORD': 'copo',
+        'Host': 'localhost',
         'Port': '',
         'init_command' :'SET storage_engine=MyISAM',
     }
@@ -26,7 +26,7 @@ SESSION_REDIS_PORT = 6379
 
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = '/Users/fshaw/Desktop/copo_uploads'
+MEDIA_ROOT = '/Users/etuka/Desktop/copo_uploads'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

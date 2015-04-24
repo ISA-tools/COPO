@@ -5,9 +5,12 @@ import os
 from project_copo.settings.settings_hostnames import *
 # determine which system is running and import appropriate settings file
 
-if node() == DEVELOPMENT_HOST or node() == UEA_DEV or node() == TONI_DEV:
+ENVIRONMENT_TYPE="DEV"
+#ENVIRONMENT_TYPE="PROD"
+
+if ENVIRONMENT_TYPE=="DEV":
     from project_copo.settings.settings_dev import *
-elif node() == PRODUCTION_HOST:
+elif ENVIRONMENT_TYPE=="PROD":
     from project_copo.settings.settings_prod import *
 else:
     raise Exception("Cannot determine execution mode for host '%s'. Please check DEVELOPMENT_HOST and PRODUCTION_HOST in settings_local.py." % node())
@@ -101,3 +104,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
     'PAGINATE_BY': 10
 }
+
+
