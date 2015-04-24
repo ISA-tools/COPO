@@ -8,4 +8,4 @@ target/
 atlassian-ide-plugin.xml
 */.idea/
 .idea/
-*dump.rdb
+dump.rdb
