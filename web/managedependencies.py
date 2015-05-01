@@ -29,8 +29,14 @@ def start_service(process_name, display_name, start_args):
         print(display_name + " - can't determine service status!")
 
 
+# this should run as is, but might need to 'sudo chown -R yourusername /usr/local/var/mysql'
 start_service("mysql", "MySQL server", shutil.which("mysql")+".server start")
+
+# replace '/usr/local/etc/redis.conf' with path to your redis config file
+# set "daemonize yes" in '/usr/local/etc/redis.conf'
 start_service("redis-server", "Redis server", shutil.which("redis-server")+" /usr/local/etc/redis.conf")
 
+# set log_path to the full path of your mongo log file
+# might need to 'sudo chown -R yourusername /data/db'
 log_path = os.path.join(expanduser("~")+"/logs/mongo", "mongodbs.log")
 start_service("mongod", "MongoDB", shutil.which("mongod")+" --fork --logpath=%s" % log_path)
