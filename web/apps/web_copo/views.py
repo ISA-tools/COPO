@@ -7,7 +7,10 @@ from django.contrib.auth.models import User
 from django.template import RequestContext
 from django.db.models import Max
 import jsonpickle
+import json
 import pexpect
+from apps.web_copo.oauth_utils.copo_oauth1 import get_credentials
+from apps.web_copo.repos import figshare
 
 from apps.web_copo.models import RepositoryFeedback
 
@@ -31,7 +34,7 @@ def index(request):
     
     return render(request, 'copo/index.html', context)
 
-
+@login_required(login_url='/copo/login/')
 def new_profile(request):
     if request.method == 'POST':
         Profile().PUT(request)
@@ -56,6 +59,7 @@ def copo_login(request):
         else:
             user = authenticate(username=username, password=password)
             if user is not None:
+
                 if user.is_active:
                     login(request, user)
                     # successfully logged in!
@@ -101,7 +105,7 @@ def copo_register(request):
 
 
 
-
+@login_required(login_url='/copo/login/')
 def view_profile(request, profile_id):
     #profile = mongo.connection.Profile.one({"_id":to_mongo_id(profile_id)})
     profile = Profile().GET(profile_id)
@@ -117,7 +121,7 @@ def view_profile(request, profile_id):
     return render(request, 'copo/profile.html', context)
 
 
-
+@login_required(login_url='/copo/login/')
 def new_collection_head(request):
 
     #create the new collection
@@ -127,14 +131,12 @@ def new_collection_head(request):
     return HttpResponseRedirect(reverse('copo:view_profile', kwargs={'profile_id': profile_id}))
 
 
+@login_required(login_url='/copo/login/')
 def view_collection(request, collection_id):
 
     collection = Collection_Head().GET(collection_id)
-
     #get profile id for breadcrumb
     profile_id = request.session['profile_id']
-
-
     #check type of collection
     if collection['type'] == 'ENA Submission':
         if('collection_details' in collection):
@@ -142,10 +144,20 @@ def view_collection(request, collection_id):
             data_dict = {'collection': collection, 'collection_id': collection_id, 'study_id': request.session['study_id'], 'profile_id': profile_id, 'study': EnaCollection().GET(request.session['study_id'])}
         else:
             data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
-        return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
+            return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
+    elif collection['type'] == 'PDF File' or collection['type'] == 'Image':
+            data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
+            return render(request, 'copo/article.html', data_dict, context_instance=RequestContext(request))
 
 
-
+@login_required(login_url='/copo/login/')
+def submit_to_figshare(request):
+    result = figshare.make_article(oauth=get_credentials())
+    article_id = result['article_id']
+    #add file to article
+    result = figshare.add_file_to_article(oauth=get_credentials(), article_id=article_id, filename='/Users/fshaw/Downloads/COPO-Architecture.pdf')
+    context = {'input': jsonpickle.encode(result)}
+    return render(request, 'copo/article.html', context)
 
 
 def manage_repo_feedback(request):

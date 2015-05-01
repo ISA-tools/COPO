@@ -14,4 +14,5 @@ urlpatterns = patterns('apps.web_copo.views',
                        url(r'^collection/(?P<collection_id>\d+)/view', 'view_collection', name='view_collection'),
                        url(r'^repo_feedback/$', 'manage_repo_feedback', name='repo_feedback'),
                        url(r'^initiate_repo/$', 'initiate_repo', name='initiate_repo'),
+                       url(r'^submit_to_figshare/$', 'submit_to_figshare', name='submit_to_figshare'),
 )

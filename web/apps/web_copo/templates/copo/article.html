@@ -1,10 +1,66 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-	<meta charset="UTF-8">
-	<title></title>
-</head>
-<body>
+{% extends 'copo/base.html' %}
 
-</body>
-</html>
+{% load staticfiles %}
+{% load web_tags %}
+
+{% block stylesheet_block %}
+<link rel="stylesheet" href="{% static 'copo/css/copo/browse_style.css' %}" xmlns="http://www.w3.org/1999/html">
+
+{% endblock %}
+
+
+{% block title_block %} Index {% endblock %}
+
+{% block tagline_block %}
+
+
+{% endblock %}
+
+
+{% block breadcrumb_block %}
+<ol class="breadcrumb">
+    <li class="active"><a href="{% url 'copo:index' %}">Home</a></li>
+
+</ol>
+{% endblock %}
+
+{% block browse_header_block %}
+
+<div id="browse_header">
+        <span class="blue_icon">
+           <a><i class="fa fa-plus-circle" data-toggle="modal" data-target="#newStudyModal"></i></a>
+        </span>
+        <span class="blue_icon">
+            <a><i class="fa fa-pencil-square-o"></i></a>
+        </span>
+        <span class="blue_icon">
+            <a><i class="fa fa-trash-o"></i></a>
+        </span>
+
+    <div class="input-group input-group-sm">
+            <span class="input-group-addon">
+                <i class="fa fa-search"></i>
+            </span>
+        <input type="search" class="form-control" placeholder="Search">
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block work_area %}
+
+
+	<form method="get" action="{% url 'copo:submit_to_figshare' %}">
+        <input class="btn btn-default" type="submit" value="Figshare">
+    </form>
+
+
+	{{ input }}
+{% endblock %}
+
+
+{% block js_block %}
+    <script src="{% static 'copo/js/article.js' %}"></script>
+{% endblock %}

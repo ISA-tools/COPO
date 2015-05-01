@@ -30,7 +30,7 @@ def start_service(process_name, display_name, start_args):
 
 
 start_service("mysql", "MySQL server", shutil.which("mysql")+".server start")
-start_service("redis-server", "Redis server", shutil.which("redis-server")+" /usr/local/etc/redis.conf")
+start_service("redis-server", "Redis server", shutil.which("redis-server")+" /usr/local/bin/redis.conf")
 
-log_path = os.path.join(expanduser("~")+"/logs/mongo", "mongodbs.log")
-start_service("mongod", "MongoDB", shutil.which("mongod")+" --fork --logpath=%s" % log_path)
+log_path = "~/logs/mongo/mongolog.log"
+start_service("mongod", "MongoDB", shutil.which("mongod")+" --fork --logpath %s" % log_path)
