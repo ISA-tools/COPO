@@ -1,40 +1,36 @@
-#! /usr/bin/python
+#!/usr/bin/env python3
 
+import os
+from os.path import expanduser
 import subprocess
+import shutil
 
-# check and start mysql server if not running
-proc = subprocess.Popen(["mysqladmin", "-umysql", "ping"], stdout=subprocess.PIPE)
-out, err = proc.communicate()
-if not err:
-    if "alive" in out.decode("utf-8").lower():
-        print("MySQL is running.")
+
+def check_status(process_name, display_name):
+    process = subprocess.Popen(["pgrep", process_name], stdout=subprocess.PIPE)
+    out, err = process.communicate()
+    if not err:
+        if len(out.decode("utf-8")) > 0:
+            print(display_name + " is running.")
+            return 0  # service running
+        else:
+            return 1  # service not running
     else:
-        print("Attempting to start MySQL server...")
-        subprocess.call(["mysql.server", "start"])
-else:
-    print("MySQL - Cannot determine server's status.")
+        return -1  # can't determine service status
 
-# check and start redis server if not running
-proc = subprocess.Popen(["redis-cli", "ping"], stdout=subprocess.PIPE)
-out, err = proc.communicate()
-if not err:
-    if "pong" in out.decode("utf-8").lower():
-        print("Redis is running.")
-    else:
-        print("Attempting to start Redis server...")
-        subprocess.call(["redis-server", "/usr/local/etc/redis.conf"])
-else:
-    print("Redis - Cannot determine server's status.")
 
-# check and start mongo db if not running
-proc = subprocess.Popen(["pgrep","mongod"], stdout=subprocess.PIPE)
-out, err = proc.communicate()
-if not err:
-    if len(out.decode("utf-8")) > 0:
-        print("Mongo is running.")
-    else:
-        print("Attempting to start MongoDB...")
-        status = subprocess.call("mongod --fork --logpath ~/logs/mongo/mongodb.log", shell=True)
-else:
-    print("Mongo - Cannot determine server's status.")
+def start_service(process_name, display_name, start_args):
+    status = check_status(process_name, display_name)
+    if status == 1:
+        print("Attempting to start " + display_name + "...")
+        output = subprocess.check_output(start_args, shell=True)
+        check_status(process_name, display_name)
+    elif status == -1:
+        print(display_name + " - can't determine service status!")
 
+
+start_service("mysql", "MySQL server", shutil.which("mysql")+".server start")
+start_service("redis-server", "Redis server", shutil.which("redis-server")+" /usr/local/etc/redis.conf")
+
+log_path = os.path.join(expanduser("~")+"/logs/mongo", "mongodbs.log")
+start_service("mongod", "MongoDB", shutil.which("mongod")+" --fork --logpath=%s" % log_path)
