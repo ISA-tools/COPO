@@ -1,11 +1,45 @@
 __author__ = 'felix.shaw@tgac.ac.uk - 29/04/15'
 
 import json
-import requests
+
+from django.http import HttpResponse
+import jsonpickle
+
+from apps.web_copo.oauth_utils.copo_oauth1 import *
 
 
 client = requests.session()
 json_header = {'content-type': 'application/json'}
+
+
+def check_figshare_credentials(request):
+    # this method called from JS frontend - if credentials exist, set a session variable containing
+    # the oauth object and return true. If credentials don't exist, send redirect URL to frontend and return false
+    if (Figshare_token().token_exists()):
+
+        #else retrieve saved tokens and validate
+        tokens = Figshare_token().get_token_from_db()
+        if(not valid_tokens(tokens)):
+            Figshare_token().delete_old_token()
+            tokens = get_authorize_url()
+
+        resource_owner_key = tokens['owner_key']
+        resource_owner_secret = tokens['owner_secret']
+        request.session['figshare_credentials'] = OAuth1(client_key,
+                      client_secret=client_secret,
+                      resource_owner_key=resource_owner_key,
+                      resource_owner_secret=resource_owner_secret,
+                      signature_type='auth_header')
+        out = {}
+        out['exists': True]
+    else:
+        #if no token exists in the database
+        out = {}
+        out['exists'] = False
+        out['url'] = get_authorize_url()
+
+    return HttpResponse(jsonpickle.encode(out))
+
 
 def make_article(oauth=None):
     url = 'http://api.figshare.com/v1/my_data/articles'

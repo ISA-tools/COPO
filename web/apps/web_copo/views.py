@@ -7,12 +7,10 @@ from django.contrib.auth.models import User
 from django.template import RequestContext
 from django.db.models import Max
 import jsonpickle
-import json
 import pexpect
-from apps.web_copo.oauth_utils.copo_oauth1 import get_credentials
-from apps.web_copo.repos import figshare
 
 from apps.web_copo.models import RepositoryFeedback
+
 
 # import error codes
 from project_copo.settings.error_codes import *
@@ -137,6 +135,8 @@ def view_collection(request, collection_id):
     collection = Collection_Head().GET(collection_id)
     #get profile id for breadcrumb
     profile_id = request.session['profile_id']
+    #set collection id in session
+    request.session['collection_id'] = collection_id
     #check type of collection
     if collection['type'] == 'ENA Submission':
         if('collection_details' in collection):
@@ -152,10 +152,12 @@ def view_collection(request, collection_id):
 
 @login_required(login_url='/copo/login/')
 def submit_to_figshare(request):
-    result = figshare.make_article(oauth=get_credentials())
-    article_id = result['article_id']
+    #result = figshare.make_article(oauth=get_credentials())
+    #article_id = result['article_id']
     #add file to article
-    result = figshare.add_file_to_article(oauth=get_credentials(), article_id=article_id, filename='/Users/fshaw/Downloads/COPO-Architecture.pdf')
+    #result = figshare.add_file_to_article(oauth=get_credentials(), article_id=article_id, filename='/Users/fshaw/Downloads/COPO-Architecture.pdf')
+
+    result = 'test output'
     context = {'input': jsonpickle.encode(result)}
     return render(request, 'copo/article.html', context)
 

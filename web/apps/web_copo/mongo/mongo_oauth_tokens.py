@@ -1,11 +1,10 @@
 __author__ = 'felix.shaw@tgac.ac.uk - 30/04/15'
 
+from django_tools.middlewares import ThreadLocal
 
 from apps.web_copo.mongo.resource import *
-import bson.objectid as o
 from apps.web_copo.mongo.mongo_util import *
-from datetime import datetime
-from django_tools.middlewares import ThreadLocal
+
 
 FigshareTokens = get_collection_ref("Figshare_tokens")
 
