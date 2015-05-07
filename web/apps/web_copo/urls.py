@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, url
+
 import apps.web_copo.views as views
+
 urlpatterns = patterns('apps.web_copo.views',
                        url(r'^$', 'index', name='index'),
                        url(r'^login/', views.copo_login, name='login'),
@@ -16,3 +18,4 @@ urlpatterns = patterns('apps.web_copo.views',
                        url(r'^initiate_repo/$', 'initiate_repo', name='initiate_repo'),
                        url(r'^submit_to_figshare/$', 'submit_to_figshare', name='submit_to_figshare'),
 )
+

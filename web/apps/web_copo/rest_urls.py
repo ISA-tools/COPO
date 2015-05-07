@@ -26,5 +26,5 @@ urlpatterns = patterns('apps.web_copo.rest.EnaRest',
                        url(r'^get_experiment_modal_data/', rest.populate_exp_modal, name='populate_exp_modal'),
                        url(r'^delete_file/', rest.delete_file, name='delete_file'),
                        url(r'^check_figshare_credentials/', figshare.check_figshare_credentials, name='check_figshare_credentials'),
-
+                       url(r'^set_figshare_credentials/', figshare.set_figshare_credentials, name='set_figshare_credentials'),
 )

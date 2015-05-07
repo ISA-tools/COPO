@@ -14,7 +14,9 @@ function submit_to_figshare(e){
         url:"/rest/check_figshare_credentials",
         dataType:"json"
     }).done(function(data){
-        url = data.url
-        window.open(url, "_blank", "toolbar=no, scrollbars=yes, resizable=no, top=500, left=20, width=800, height=600");
+        if(data.exists == false) {
+            url = data.url
+            window.open(url, "_blank", "toolbar=no, scrollbars=yes, resizable=no, top=500, left=20, width=800, height=600");
+        }
     })
 }
