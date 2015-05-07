@@ -9,3 +9,4 @@ atlassian-ide-plugin.xml
 */.idea/
 .idea/
 dump.rdb
+*.out
