@@ -40,7 +40,7 @@ def start_service(process_name, display_name, starters):
             print(display_name + " - can't determine service status!")
 
 
-# create a list of starting procedures/paths to each service
+# create a list of starting procedures/paths to services
 mysql_starters = [
     "/usr/local/mysql/support-files/mysql.server start",
     "mysql.server start",
