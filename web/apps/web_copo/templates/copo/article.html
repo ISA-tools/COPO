@@ -52,15 +52,36 @@
 {% block work_area %}
 
 
+	<span class="btn btn-success fileinput-button">
+        <i class="glyphicon glyphicon-plus"></i>
+        <span>Select files...</span>
+        <!-- The file input field used as target for the file upload widget -->
+        <input id="fileupload" type="file" name="files[]" multiple>
+    </span>
+    <br>
+    <br>
+    <!-- The global progress bar -->
+    <div id="progress" class="progress">
+        <div class="progress-bar progress-bar-success"></div>
+    </div>
+    <!-- The container for the uploaded files -->
+    <div id="files" class="files"></div>
+    <br>
+
+
+    <!--
 	<form method="get" action="{% url 'copo:submit_to_figshare' %}">
         <input id="btn_submit_to_figshare" class="btn btn-default" type="submit" value="Figshare">
-    </form>
+    </form>-->
 
 
-	{{ input }}
 {% endblock %}
 
 
 {% block js_block %}
     <script src="{% static 'copo/js/article.js' %}"></script>
+	<script src="{% static 'copo/js/uploader/jquery.iframe-transport.js' %}"></script>
+    <script src="{% static 'copo/js/uploader/jquery.fileupload.js' %}"></script>
+    <script src="{% static 'copo/js/uploader/jquery.fileupload-process.js' %}"></script>
+    <script src="{% static 'copo/js/uploader/jquery.fileupload-ui.js' %}"></script>
 {% endblock %}
