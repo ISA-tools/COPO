@@ -4,8 +4,19 @@
 {% load web_tags %}
 
 {% block stylesheet_block %}
-<link rel="stylesheet" href="{% static 'copo/css/copo/browse_style.css' %}" xmlns="http://www.w3.org/1999/html">
-
+	<link rel="stylesheet" href="{% static 'copo/css/copo/browse_style.css' %}">
+	<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+	<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+	<link rel="stylesheet" href="{% static 'copo/css/uploader/jquery.fileupload.css' %}">
+	<link rel="stylesheet" href="{% static 'copo/css/uploader/jquery.fileupload-ui.css' %}">
+	<link rel="stylesheet" href="{% static 'copo/css/copo/smart_table.css' %}">
+	<!-- CSS adjustments for browsers with JavaScript disabled -->
+	<noscript>
+		<link rel="stylesheet" href="{% static 'copo/css/uploader/jquery.fileupload-noscript.css' %}">
+	</noscript>
+	<noscript>
+		<link rel="stylesheet" href="{% static 'copo/css/jquery.fileupload-ui-noscript.css' %}">
+	</noscript>
 {% endblock %}
 
 
@@ -18,14 +29,13 @@
 
 
 {% block breadcrumb_block %}
-<ol class="breadcrumb">
-    <li class="active"><a href="{% url 'copo:index' %}">Home</a></li>
+	<ol class="breadcrumb">
+		<li class="active"><a href="{% url 'copo:index' %}">Home</a></li>
 
-</ol>
+	</ol>
 {% endblock %}
 
 {% block browse_header_block %}
-
 <div id="browse_header">
         <span class="blue_icon">
            <a><i class="fa fa-plus-circle" data-toggle="modal" data-target="#newStudyModal"></i></a>
@@ -37,51 +47,103 @@
             <a><i class="fa fa-trash-o"></i></a>
         </span>
 
-    <div class="input-group input-group-sm">
+		<div class="input-group input-group-sm">
             <span class="input-group-addon">
                 <i class="fa fa-search"></i>
             </span>
-        <input type="search" class="form-control" placeholder="Search">
-    </div>
-</div>
-
-
+			<input type="search" class="form-control" placeholder="Search">
+		</div>
+	</div>
 
 {% endblock %}
 
 {% block work_area %}
 
 
-	<span class="btn btn-success fileinput-button">
-        <i class="glyphicon glyphicon-plus"></i>
-        <span>Select files...</span>
-        <!-- The file input field used as target for the file upload widget -->
-        <input id="fileupload" type="file" name="files[]" multiple>
-    </span>
-    <br>
-    <br>
-    <!-- The global progress bar -->
-    <div id="progress" class="progress">
-        <div class="progress-bar progress-bar-success"></div>
+
+
+
+
+    <div class="text-center">
+        <table id="files_tables">
+            <thead>
+            <tr>
+                <th>Option</th>
+                <th>Default</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+                <td>Nothing</td>
+			    <td>to see</td>
+			    <td>Here</td>
+            </tbody>
+        </table>
     </div>
-    <!-- The container for the uploaded files -->
-    <div id="files" class="files"></div>
-    <br>
+
+    <div class="text-right">
+        <button type="button" id="show_file_modal_button" class="btn btn-primary" data-toggle="modal" data-target="#file_upload_modal">
+            Add File
+        </button>
+	</div>
 
 
-    <!--
-	<form method="get" action="{% url 'copo:submit_to_figshare' %}">
-        <input id="btn_submit_to_figshare" class="btn btn-default" type="submit" value="Figshare">
-    </form>-->
+
+	<div class="modal fade" id="file_upload_modal" tabindex="-1" role="dialog" aria-labelledby="newSampleModal"
+		 aria-hidden="false">
+	<input type="hidden" name="data_modal_id" value=""/>
+	<div class="modal-dialog" style="width:1024px">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+						class="sr-only">Close</span></button>
+				<h4 class="modal-title h2" id="myDataLabel">Add Files</h4>
+			</div>
+
+			<div class="modal-body">
+				<form enctype="multipart/form-data" id="fileupload" method="POST" style="margin-right:40px">
+					{% csrf_token %}
+		<span id="upload_files_button" class="btn btn-success fileinput-button">
+			<i class="glyphicon glyphicon-plus"></i>
+			<span>Select files...</span>
+			<input type="file" name="file" multiple/>
+		</span>
+					<br/><br/>
+
+					<div id="progress" class="progress">
+						<div class="progress-bar progress-bar-success"></div>
+					</div>
+					<!-- The container for the uploaded files -->
+					<div id="files" class="files"></div>
+					<br>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
 
 
 {% endblock %}
 
 
 {% block js_block %}
-    <script src="{% static 'copo/js/article.js' %}"></script>
+	<script src="{% static 'copo/js/jquery.ui.widget.js' %}"></script>
+	<script src="{% static 'copo/js/jquery.form.js' %}"></script>
+	<script src="{% static 'copo/js/bootstrapValidator.js' %}"></script>
+	<script src="{% static 'copo/js/uploader/vendor/jquery.ui.widget.js' %}"></script>
 	<script src="{% static 'copo/js/uploader/jquery.iframe-transport.js' %}"></script>
-    <script src="{% static 'copo/js/uploader/jquery.fileupload.js' %}"></script>
-    <script src="{% static 'copo/js/uploader/jquery.fileupload-process.js' %}"></script>
-    <script src="{% static 'copo/js/uploader/jquery.fileupload-ui.js' %}"></script>
+	<script src="{% static 'copo/js/uploader/vendor/jquery.ui.widget.js' %}"></script>
+	<script src="{% static 'copo/js/uploader/jquery.iframe-transport.js' %}"></script>
+	<script src="{% static 'copo/js/uploader/jquery.fileupload.js' %}"></script>
+	<script src="{% static 'copo/js/uploader/jquery.fileupload-process.js' %}"></script>
+	<script src="{% static 'copo/js/uploader/jquery.fileupload-ui.js' %}"></script>
+
+	<script src="{% static 'copo/js/uploader/bootstrap_panel.js' %}"></script>
+
+	<script src="{% static 'copo/js/article.js' %}"></script>
+
 {% endblock %}

@@ -1,9 +1,9 @@
 
 body{
 
-	background-image: url("/static/copo/img/squared_metal.png");
+	//background-image: url("/static/copo/img/squared_metal.png");
 	background-repeat: repeat;
-	font-size:medium% !important
+	font-size:medium !important
 }
 .container{
 	width:100%;
@@ -15,7 +15,9 @@ div[class^="col-"], div[class*=" col-"] {
 	//border: 1px solid black;
 }
 .header{
-	background-color:#FFF4CF;
+	/*background-color:#FFF4CF;*/
+    background-color:#EEEEEE;
+    border-bottom: 1px solid #999999;
 	opacity:0.7;
 }
 
@@ -106,7 +108,7 @@ div[class^="col-"], div[class*=" col-"] {
     color:#163657;
 }
 .blue_icon>a:hover{
-    color:white; -moz-box-shadow: ;
+    color:white;
 }
 
 input,

@@ -13,6 +13,7 @@ from apps.web_copo.models import RepositoryFeedback
 
 
 
+
 # import error codes
 from project_copo.settings.error_codes import *
 from project_copo.settings.repo_settings import *
@@ -145,7 +146,7 @@ def view_collection(request, collection_id):
             data_dict = {'collection': collection, 'collection_id': collection_id, 'study_id': request.session['study_id'], 'profile_id': profile_id, 'study': EnaCollection().GET(request.session['study_id'])}
         else:
             data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
-            return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
+        return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
     elif collection['type'] == 'PDF File' or collection['type'] == 'Image':
             data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
             return render(request, 'copo/article.html', data_dict, context_instance=RequestContext(request))

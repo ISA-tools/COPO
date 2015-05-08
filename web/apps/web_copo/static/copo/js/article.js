@@ -5,6 +5,31 @@
 
 $(document).ready(function(){
     $('#btn_submit_to_figshare').on('click', submit_to_figshare)
+
+
+
+    'use strict';
+    // Change this to the location of your server-side upload handler:
+    $('#fileupload').fileupload({
+        url: '/rest/small_file_upload/',
+        dataType: 'json',
+        done: function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                $('<p/>').text(file.name).appendTo('#files');
+            });
+        },
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .progress-bar').css(
+                'width',
+                progress + '%'
+            );
+        },
+        add: function(e, data) {
+            data.submit();
+        }
+
+    })
 })
 
 function submit_to_figshare(e){
@@ -20,3 +45,5 @@ function submit_to_figshare(e){
         }
     })
 }
+
+
