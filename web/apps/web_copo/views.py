@@ -10,16 +10,12 @@ import jsonpickle
 import pexpect
 
 from apps.web_copo.models import RepositoryFeedback
-
-
-
-# import error codes
 from project_copo.settings.error_codes import *
 from project_copo.settings.repo_settings import *
 from project_copo.settings.settings import *
 from apps.web_copo.mongo.copo_base_objects import Profile, Collection_Head
 from apps.web_copo.mongo.ena_objects import *
-
+from apps.web_copo.repos.irods import *
 
 
 # Create your views here.
@@ -30,7 +26,7 @@ def index(request):
     profiles = Profile().GET_ALL()
     context = {'user': request.user, 'profiles': profiles}
     # c = Collection.objects.filter(user = username)
-    
+
     return render(request, 'copo/index.html', context)
 
 @login_required(login_url='/copo/login/')
@@ -145,7 +141,7 @@ def view_collection(request, collection_id):
             data_dict = {'collection': collection, 'collection_id': collection_id, 'study_id': request.session['study_id'], 'profile_id': profile_id, 'study': EnaCollection().GET(request.session['study_id'])}
         else:
             data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
-            return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
+        return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
     elif collection['type'] == 'PDF File' or collection['type'] == 'Image':
             data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
             return render(request, 'copo/article.html', data_dict, context_instance=RequestContext(request))
@@ -225,12 +221,15 @@ def initiate_repo(request):
     return HttpResponse(out, content_type='json')
 
 
-# for testing
-path_to_file = "/Users/etuka/Dropbox/Dev/data/888_LIB6842_LDI5660_ACTTGA_L002_R2_013.fastq"
+def register_to_irods(request):
+    status = register_to_irods()
+    return_structure = {'exit_status': status}
+    out = jsonpickle.encode(return_structure)
+    return HttpResponse(out, content_type='json')
 
 param = {
     'repository': 'ENA',
-    'file_path': path_to_file,
+    'file_path': '/Users/etuka/Dropbox/Dev/data/888_LIB6842_LDI5660_ACTTGA_L002_R2_013.fastq',
     'username': 'Webin-39962@webin.ebi.ac.uk',
     'password': 'toni12'
 }

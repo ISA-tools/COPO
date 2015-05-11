@@ -13,6 +13,7 @@ from apps.web_copo.mongo.ena_objects import *
 from apps.web_copo.mongo.copo_base_objects import *
 from apps.web_copo.mongo.mongo_util import *
 from bson.json_util import dumps
+from apps.web_copo.repos.irods import *
 
 
 class JSONResponse(HttpResponse):
@@ -241,6 +242,9 @@ def receive_data_file(request):
         files['files']['deleteUrl'] = ''
         files['files']['deleteType'] = 'DELETE'
 
+        status = register_to_irods()
+        print(status)
+
         str = jsonpickle.encode(files)
     return HttpResponse(str, content_type='json')
 
@@ -319,7 +323,6 @@ def zip_file(request):
     os.rename(temp_name, input_file_name)
     stats = os.stat(input_file_name)
     new_file_size = stats.st_size / 1000 / 1000
-
 
     out = {'zipped': True, 'file_name':output_file_name, 'file_size':new_file_size}
     out = jsonpickle.encode(out)
