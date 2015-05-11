@@ -185,7 +185,7 @@ def initiate_repo(request):
         file_path = param['file_path']
         user_name = param['username']
         password = param['password']
-        path2library = os.path.join(BASE_DIR, REPO_LIB_PATHS["ASPERA"])
+        path2library = os.path.join(BASE_DIR, REPOSITORIES['ENA']['resource_path'])
         remote_path = os.path.join("copo", time.strftime("%Y%m%d"))
 
         cmd = "./ascp -d -QT -l300M -L- {file_path!s} {user_name!s}:{remote_path!s}".format(**locals())

@@ -1,13 +1,6 @@
 
 # define parameters for repositories
 
-
-REPO_LIB_PATHS = {
-    "ASPERA": "reposit/aspera/Aspera Connect.app/Contents/Resources/",
-    "IRODS": "/tempZone/home/rods/copo-data",
-}
-
-
 REPOSITORIES = {
     'ENA': {
         'api': 'aspera',
