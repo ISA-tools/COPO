@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="{% static 'copo/css/uploader/jquery.fileupload.css' %}">
 	<link rel="stylesheet" href="{% static 'copo/css/uploader/jquery.fileupload-ui.css' %}">
 	<link rel="stylesheet" href="{% static 'copo/css/copo/smart_table.css' %}">
+	<link rel="stylesheet" href="{% static 'copo/css/copo/article.css' %}">
 	<!-- CSS adjustments for browsers with JavaScript disabled -->
 	<noscript>
 		<link rel="stylesheet" href="{% static 'copo/css/uploader/jquery.fileupload-noscript.css' %}">
@@ -36,7 +37,7 @@
 {% endblock %}
 
 {% block browse_header_block %}
-<div id="browse_header">
+	<div id="browse_header">
         <span class="blue_icon">
            <a><i class="fa fa-plus-circle" data-toggle="modal" data-target="#newStudyModal"></i></a>
         </span>
@@ -64,27 +65,28 @@
 
 
 
-    <div class="text-center">
-        <table id="files_tables">
-            <thead>
-            <tr>
-                <th>Option</th>
-                <th>Default</th>
-                <th>Description</th>
-            </tr>
-            </thead>
-            <tbody>
-                <td>Nothing</td>
-			    <td>to see</td>
-			    <td>Here</td>
-            </tbody>
-        </table>
-    </div>
+	<div class="text-center">
+		<table id="files_tables">
+			<thead>
+			<tr>
+				<th>Option</th>
+				<th>Default</th>
+				<th>Description</th>
+			</tr>
+			</thead>
+			<tbody>
+			<td>Nothing</td>
+			<td>to see</td>
+			<td>Here</td>
+			</tbody>
+		</table>
+	</div>
 
-    <div class="text-right">
-        <button type="button" id="show_file_modal_button" class="btn btn-primary" data-toggle="modal" data-target="#file_upload_modal">
-            Add File
-        </button>
+	<div class="text-right">
+		<button type="button" id="show_file_modal_button" class="btn btn-primary" data-toggle="modal"
+				data-target="#file_upload_modal">
+			Add File
+		</button>
 	</div>
 
 
@@ -101,22 +103,46 @@
 			</div>
 
 			<div class="modal-body">
-				<form enctype="multipart/form-data" id="fileupload" method="POST" style="margin-right:40px">
-					{% csrf_token %}
-		<span id="upload_files_button" class="btn btn-success fileinput-button">
-			<i class="glyphicon glyphicon-plus"></i>
-			<span>Select files...</span>
-			<input type="file" name="file" multiple/>
-		</span>
-					<br/><br/>
+				<div class="row">
+					<div class="col-lg-2 col-md-2"></div>
+					<div class="col-lg-8 col-md-8">
+						<form enctype="multipart/form-data" id="fileupload" action="{% url 'copo:save_article' %}" method="POST" style="margin-right:40px">
+							{% csrf_token %}
+                    <span id="upload_files_button" class="btn btn-success fileinput-button">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span>Select files...</span>
+                        <input type="file" name="file" multiple/>
+                    </span>
+							<br/><br/>
+							<div id="progress" class="progress">
+								<div class="progress-bar progress-bar-success"></div>
+							</div>
 
-					<div id="progress" class="progress">
-						<div class="progress-bar progress-bar-success"></div>
+							<!-- The container for the uploaded files -->
+							<div id="files" class="files h3"></div>
+							<div id="tags_input"></div>
+
+							<div class="form-group">
+								<label for="input_text">Enter Tags</label>
+								<input type="text" class="form-control" id="input_text" placeholder="Comma Delimited Keywords">
+							</div>
+
+
+						</form>
 					</div>
-					<!-- The container for the uploaded files -->
-					<div id="files" class="files"></div>
-					<br>
-				</form>
+					<div class="col-lg-2 col-md-2"></div>
+
+					<div class="row"></div>
+					<div class="col-lg-2 col-md-2"></div>
+					<div class="col-lg-8 col-md-8"></div>
+					<div class="col-lg-2 col-md-2">
+						<button type="button" id="btn_save_article" class="btn btn-primary">
+							Save
+						</button>
+					</div>
+				</div>
+
+
 			</div>
 		</div>
 	</div>

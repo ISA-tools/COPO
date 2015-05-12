@@ -1,0 +1,14 @@
+#tags_input{
+}
+#tags_input .label{
+    margin-right: 5px;
+    margin-top: 3px;
+    padding: 5px;
+    display: inline-block;
+}
+#tags_input .label span{
+    margin-left: 5px;
+}
+.delete_tag{
+    cursor: pointer;
+}

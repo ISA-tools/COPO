@@ -150,4 +150,7 @@ td, th{
     display: none;
 }
 
+.spacer {
+    margin-right: 20px; /* define margin as you see fit */
+}
 /*USER LOGIN*/

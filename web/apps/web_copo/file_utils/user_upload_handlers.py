@@ -4,43 +4,52 @@ from django.http import HttpResponse
 from django.utils import timezone
 import jsonpickle
 
+from apps.web_copo.mongo.figshare_objects import FigshareCollection
+
 from apps.chunked_upload.models import generate_upload_id
 from project_copo.settings.settings import *
 
 
 def receive_data_file(request):
 
-    # need to make a chunked upload record to store deails of the file
+    # need to make a chunked upload record to store details of the file
     if request.method == 'POST':
+        f = request.FILES['file']
         tags = []
         #for t in request.POST['tags']:
         #    tags.append(t)
+        filename = generate_upload_id() + '.part'
+        destination = open(os.path.join(settings.MEDIA_ROOT, filename), 'wb+')
+        for chunk in f.chunks():
+            destination.write(chunk)
+        destination.close()
 
-        f = request.FILES['file']
         user = request.user
         fname = f.__str__()
-        attrs = {'user': request.user,
+        attrs = {'user': request.user.id,
                  'original_name': fname,
                  'uploaded_on': timezone.now(),
                  'offset': f.size,
-                 'hashed_name': generate_upload_id(),
+                 'hashed_name': filename,
                  'path': settings.UPLOAD_PATH,
                  'user_id': user.id,
                  'tags': tags}
 
+        file_id = FigshareCollection().add_figshare(attrs)
 
 
         # create output structure to pass back to jquery-upload
-        files = {}
-        files['files'] = {}
-        files['files']['name'] = f._name
+        files = []
+        file = {}
+        file['name'] = f._name
 
-        files['files']['size'] = f.size / (1000 * 1000.0)
-        files['files']['id'] = 20
-        files['files']['url'] = ''
-        files['files']['thumbnailUrl'] = ''
-        files['files']['deleteUrl'] = ''
-        files['files']['deleteType'] = 'DELETE'
+        file['size'] = f.size / (1000 * 1000.0)
+        file['id'] = str(file_id)
+        file['url'] = ''
+        file['thumbnailUrl'] = ''
+        file['deleteUrl'] = ''
+        file['deleteType'] = 'DELETE'
+        files.append(file)
 
-        str = jsonpickle.encode(files)
-    return HttpResponse(str, content_type='json')
+        out = jsonpickle.encode(files)
+    return HttpResponse(out, content_type='json')
