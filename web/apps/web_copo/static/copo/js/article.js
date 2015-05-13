@@ -5,6 +5,7 @@
 
 $(document).ready(function(){
     'use strict';
+    var token = $.cookie('csrftoken')
     $('#btn_submit_to_figshare').on('click', submit_to_figshare)
     $('#btn_save_article').on('click', save_article)
 
@@ -88,7 +89,12 @@ function save_article(e){
         dataType:"json",
         data:{"files": files, "tags": tags}
     }).done(function(data){
-        console.log(data)
+        var html = ''
+        for(var i = 0; i < data.length; i++){
+            html += '<tr><td>' + data[i].original_name + '</td><td>' + data[i].uploaded_on + '</td><td>' + data[i].offset + '</td></tr>'
+        }
+        $('#files_table tbody').append(html)
+        $('#file_upload_modal').modal('hide')
     })
 
 }

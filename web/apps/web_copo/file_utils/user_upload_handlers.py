@@ -5,19 +5,17 @@ from django.utils import timezone
 import jsonpickle
 
 from apps.web_copo.mongo.figshare_objects import FigshareCollection
-
 from apps.chunked_upload.models import generate_upload_id
 from project_copo.settings.settings import *
 
 
 def receive_data_file(request):
-
     # need to make a chunked upload record to store details of the file
     if request.method == 'POST':
         f = request.FILES['file']
-        tags = []
-        #for t in request.POST['tags']:
-        #    tags.append(t)
+        repo_type = request.POST['repo']
+        # for t in request.POST['tags']:
+        # tags.append(t)
         filename = generate_upload_id() + '.part'
         destination = open(os.path.join(settings.MEDIA_ROOT, filename), 'wb+')
         for chunk in f.chunks():
@@ -26,16 +24,23 @@ def receive_data_file(request):
 
         user = request.user
         fname = f.__str__()
-        attrs = {'user': request.user.id,
+        attrs = {'user':
+                     {
+                         'id': user.id,
+                         'username': user.username,
+                         'firstname': user.first_name,
+                         'lastname': user.last_name,
+                         'email': user.email
+                     },
                  'original_name': fname,
                  'uploaded_on': timezone.now(),
                  'offset': f.size,
                  'hashed_name': filename,
                  'path': settings.UPLOAD_PATH,
-                 'user_id': user.id,
-                 'tags': tags}
+                 }
 
-        file_id = FigshareCollection().add_figshare(attrs)
+        if repo_type == 'figshare':
+            file_id = FigshareCollection().add_figshare(attrs)
 
 
         # create output structure to pass back to jquery-upload
@@ -52,4 +57,5 @@ def receive_data_file(request):
         files.append(file)
 
         out = jsonpickle.encode(files)
+
     return HttpResponse(out, content_type='json')

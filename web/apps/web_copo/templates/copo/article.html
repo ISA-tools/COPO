@@ -66,18 +66,24 @@
 
 
 	<div class="text-center">
-		<table id="files_tables">
+		<table id="files_table">
 			<thead>
 			<tr>
-				<th>Option</th>
-				<th>Default</th>
-				<th>Description</th>
+				<th>File Name</th>
+				<th>Date Uploaded</th>
+				<th>Size</th>
 			</tr>
 			</thead>
 			<tbody>
-			<td>Nothing</td>
-			<td>to see</td>
-			<td>Here</td>
+
+			{% for article in articles %}
+				<tr>
+                    <td>{{ article.original_name }}</td>
+                    <td>{{ article.uploaded_on }}</td>
+                    <td>{{ article.offset }}</td>
+				</tr>
+			{% endfor %}
+
 			</tbody>
 		</table>
 	</div>
@@ -108,10 +114,12 @@
 					<div class="col-lg-8 col-md-8">
 						<form enctype="multipart/form-data" id="fileupload" action="{% url 'copo:save_article' %}" method="POST" style="margin-right:40px">
 							{% csrf_token %}
+
                     <span id="upload_files_button" class="btn btn-success fileinput-button">
                         <i class="glyphicon glyphicon-plus"></i>
                         <span>Select files...</span>
                         <input type="file" name="file" multiple/>
+						<input type="hidden" value="figshare" name="repo"/>
                     </span>
 							<br/><br/>
 							<div id="progress" class="progress">

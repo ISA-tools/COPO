@@ -14,12 +14,14 @@ from apps.web_copo.models import RepositoryFeedback
 
 
 
+
 # import error codes
 from project_copo.settings.error_codes import *
 from project_copo.settings.repo_settings import *
 from project_copo.settings.settings import *
 from apps.web_copo.mongo.copo_base_objects import Profile, Collection_Head
 from apps.web_copo.mongo.ena_objects import *
+import apps.web_copo.mongo.figshare_objects as figshare
 
 
 
@@ -148,7 +150,8 @@ def view_collection(request, collection_id):
             data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
         return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
     elif collection['type'] == 'PDF File' or collection['type'] == 'Image':
-            data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
+            articles = figshare.FigshareCollection().get_articles_in_collection(collection_id)
+            data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id, 'articles': articles}
             return render(request, 'copo/article.html', data_dict, context_instance=RequestContext(request))
 
 
