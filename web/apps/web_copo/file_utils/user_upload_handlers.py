@@ -37,6 +37,7 @@ def receive_data_file(request):
                  'offset': f.size,
                  'hashed_name': filename,
                  'path': settings.UPLOAD_PATH,
+                 'is_clean': False
                  }
 
         if repo_type == 'figshare':

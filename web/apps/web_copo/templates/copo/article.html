@@ -11,6 +11,8 @@
 	<link rel="stylesheet" href="{% static 'copo/css/uploader/jquery.fileupload-ui.css' %}">
 	<link rel="stylesheet" href="{% static 'copo/css/copo/smart_table.css' %}">
 	<link rel="stylesheet" href="{% static 'copo/css/copo/article.css' %}">
+	<link rel="stylesheet" href="{% static 'copo/css/bootstrap/bootstrap-dialog.css' %}">
+
 	<!-- CSS adjustments for browsers with JavaScript disabled -->
 	<noscript>
 		<link rel="stylesheet" href="{% static 'copo/css/uploader/jquery.fileupload-noscript.css' %}">
@@ -72,6 +74,7 @@
 				<th>File Name</th>
 				<th>Date Uploaded</th>
 				<th>Size</th>
+				<th>Delete</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -81,6 +84,9 @@
                     <td>{{ article.original_name }}</td>
                     <td>{{ article.uploaded_on }}</td>
                     <td>{{ article.offset }}</td>
+				    <td class="delete_cell" data-article-id="{{ article|mongo_id }}">
+						<span class="glyphicon glyphicon-remove-sign"></span>
+					</td>
 				</tr>
 			{% endfor %}
 
@@ -94,6 +100,8 @@
 			Add File
 		</button>
 	</div>
+
+
 
 
 
@@ -175,7 +183,7 @@
 	<script src="{% static 'copo/js/uploader/jquery.fileupload.js' %}"></script>
 	<script src="{% static 'copo/js/uploader/jquery.fileupload-process.js' %}"></script>
 	<script src="{% static 'copo/js/uploader/jquery.fileupload-ui.js' %}"></script>
-
+    <script src="{% static 'copo/js/bootstrap-dialog.js' %}"></script>
 	<script src="{% static 'copo/js/uploader/bootstrap_panel.js' %}"></script>
 
 	<script src="{% static 'copo/js/article.js' %}"></script>

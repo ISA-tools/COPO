@@ -19,5 +19,7 @@ urlpatterns = patterns('apps.web_copo.views',
                        url(r'^initiate_repo/$', 'initiate_repo', name='initiate_repo'),
                        url(r'^submit_to_figshare/$', 'submit_to_figshare', name='submit_to_figshare'),
                        url(r'^save_article/$', FigshareCollection().save_article, name='save_article'),
+                       url(r'^delete_figshare_article/$', FigshareCollection().delete_article, name='delete_article'),
+
 )
 

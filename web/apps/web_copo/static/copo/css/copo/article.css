@@ -12,3 +12,7 @@
 .delete_tag{
     cursor: pointer;
 }
+
+#files_table tbody tr{
+    cursor: pointer
+}
