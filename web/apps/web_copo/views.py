@@ -1,31 +1,39 @@
 from django.shortcuts import render, render_to_response
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.template import RequestContext
-from django.db.models import Max
 import jsonpickle
-import pexpect
+from threading import Thread
 
-from apps.web_copo.models import RepositoryFeedback
+
 
 
 
 
 
 # import error codes
+
+
 from project_copo.settings.error_codes import *
-from project_copo.settings.repo_settings import *
-from project_copo.settings.settings import *
 from apps.web_copo.mongo.copo_base_objects import Profile, Collection_Head
 from apps.web_copo.mongo.ena_objects import *
+
 import apps.web_copo.mongo.figshare_objects as figshare
 
 
 
+from apps.web_copo.repos.irods import *
+from apps.web_copo.repos.aspera import *
+from apps.chunked_upload.models import ChunkedUpload
+from apps.web_copo.mongo.mongo_util import *
+
+
 # Create your views here.
+
 
 @login_required(login_url='/copo/login/')
 def index(request):
@@ -33,8 +41,9 @@ def index(request):
     profiles = Profile().GET_ALL()
     context = {'user': request.user, 'profiles': profiles}
     # c = Collection.objects.filter(user = username)
-    
+
     return render(request, 'copo/index.html', context)
+
 
 @login_required(login_url='/copo/login/')
 def new_profile(request):
@@ -65,7 +74,7 @@ def copo_login(request):
                 if user.is_active:
                     login(request, user)
                     # successfully logged in!
-                    if not (next_loc):
+                    if not next_loc:
                         next_loc = "/copo"
                     return HttpResponseRedirect(next_loc)
                 else:
@@ -105,11 +114,9 @@ def copo_register(request):
         return render(request, 'copo/login.html')
 
 
-
-
 @login_required(login_url='/copo/login/')
 def view_profile(request, profile_id):
-    #profile = mongo.connection.Profile.one({"_id":to_mongo_id(profile_id)})
+    # profile = mongo.connection.Profile.one({"_id":to_mongo_id(profile_id)})
     profile = Profile().GET(profile_id)
     request.session['profile_id'] = profile_id
     collections = []
@@ -126,7 +133,7 @@ def view_profile(request, profile_id):
 @login_required(login_url='/copo/login/')
 def new_collection_head(request):
 
-    #create the new collection
+    # create the new collection
     collection_id = Collection_Head().PUT(request)
     profile_id = request.session['profile_id']
     Profile().add_collection_head(profile_id, collection_id)
@@ -137,11 +144,11 @@ def new_collection_head(request):
 def view_collection(request, collection_id):
 
     collection = Collection_Head().GET(collection_id)
-    #get profile id for breadcrumb
+    # get profile id for breadcrumb
     profile_id = request.session['profile_id']
-    #set collection id in session
+    # set collection id in session
     request.session['collection_id'] = collection_id
-    #check type of collection
+    # check type of collection
     if collection['type'] == 'ENA Submission':
         if('collection_details' in collection):
             request.session['study_id'] = str(collection['collection_details'])
@@ -157,84 +164,70 @@ def view_collection(request, collection_id):
 
 @login_required(login_url='/copo/login/')
 def submit_to_figshare(request):
-    #result = figshare.make_article(oauth=get_credentials())
-    #article_id = result['article_id']
-    #add file to article
-    #result = figshare.add_file_to_article(oauth=get_credentials(), article_id=article_id, filename='/Users/fshaw/Downloads/COPO-Architecture.pdf')
+    # result = figshare.make_article(oauth=get_credentials())
+    # article_id = result['article_id']
+    # add file to article
+    # result = figshare.add_file_to_article(oauth=get_credentials(), article_id=article_id, filename='/Users/fshaw/Downloads/COPO-Architecture.pdf')
 
     result = 'test output'
     context = {'input': jsonpickle.encode(result)}
     return render(request, 'copo/article.html', context)
 
 
-def manage_repo_feedback(request):
-    out = "none"
-    sess_key = request.session.session_key
-    b = RepositoryFeedback.objects.filter(session_key=sess_key).aggregate(Max('id'))
-    feedback_obj = RepositoryFeedback.objects.get(pk=b['id__max'])
+def initiate_repo(request):
+    initiate_status = ""
+    aspera_transfer_id = ""
+    pct_complete = ""
+    exit_status = ""
+    asperacollections = get_collection_ref("AsperaCollections")
 
-    # need to handle exception for none-existing db data
-    return_structure = {'pct_complete': feedback_obj.current_pct}
+    if request.method == "POST":
+        files = request.POST["files"]
+        # todo: should expand this to include multiple files
+
+        try:
+            file_object = get_object_or_404(ChunkedUpload, pk=files)
+            path_to_files = os.path.join(settings.MEDIA_ROOT, file_object.file.name)
+
+            document = {
+                "file": path_to_files,
+                "user_id": str(request.user.id),
+                "started_on": str(datetime.datetime.now()),
+                "completed_on": '',
+                "transfer_rate": '',
+                "pct_complete": '',
+                "exit_status": ''
+                }
+
+            aspera_transfer_id = asperacollections.insert(document)
+            initiate_status = "success"
+        except:
+            initiate_status = "error"
+
+        process = Thread(target=do_aspera_transfer, args=(aspera_transfer_id,))
+        process.start()
+
+        # do_aspera_transfer(aspera_transfer_id)
+
+    elif request.method == "GET":
+        aspera_transfer_id = request.GET["transfer_id"]
+
+        document = list(asperacollections.find({"_id": ObjectId(aspera_transfer_id)},
+                                               {"pct_complete": 1, "exit_status": 1}))
+        pct_complete = document[0]['pct_complete']
+        exit_status = document[0]['exit_status']
+
+    return_structure = {'pct_complete': pct_complete,
+                        'exit_status': exit_status,
+                        'initiate_status': initiate_status,
+                        "transfer_id": str(aspera_transfer_id)
+                        }
     out = jsonpickle.encode(return_structure)
     return HttpResponse(out, content_type='json')
 
 
-def initiate_repo(request):
-    status = "error"
-    if request.method == "POST":
-        # remove any existing reference to this session key in the db
-        for e in RepositoryFeedback.objects.filter(session_key=request.session.session_key):
-            e.delete()
-
-        feedback_obj = RepositoryFeedback(current_pct=0, session_key=request.session.session_key)
-        feedback_obj.save()
-
-        # these might potentially come from some request object
-        file_path = param['file_path']
-        user_name = param['username']
-        password = param['password']
-        path2library = os.path.join(BASE_DIR, REPO_LIB_PATHS["ASPERA"])
-        remote_path = os.path.join("copo", time.strftime("%Y%m%d"))
-
-        cmd = "./ascp -d -QT -l300M -L- {file_path!s} {user_name!s}:{remote_path!s}".format(**locals())
-
-        os.chdir(path2library)
-
-        thread = pexpect.spawn(cmd, timeout=None)
-        thread.expect(["assword:", pexpect.EOF])
-        thread.sendline(password)
-
-        cpl = thread.compile_pattern_list([pexpect.EOF, '(\d+%)'])
-
-        while True:
-            i = thread.expect_list(cpl, timeout=None)
-            if i == 0:  # EOF! Possible error point if encountered before transfer completion
-                print("the sub process exited")
-                break
-            elif i == 1:
-                trans_pct = thread.match.group(1)
-                trans_pct = trans_pct.decode("utf-8")
-                print("%s completed" % trans_pct)
-                pct_val = trans_pct.rstrip("%")
-                feedback_obj.current_pct = pct_val
-                feedback_obj.save()
-                if int(pct_val) == 100:
-                    status = "success"
-                    print(status)
-                    break
-        thread.close()
-
+def register_to_irods(request):
+    status = register_to_irods()
     return_structure = {'exit_status': status}
     out = jsonpickle.encode(return_structure)
     return HttpResponse(out, content_type='json')
-
-
-# for testing
-path_to_file = "/Users/etuka/Dropbox/Dev/data/888_LIB6842_LDI5660_ACTTGA_L002_R2_013.fastq"
-
-param = {
-    'repository': 'ENA',
-    'file_path': path_to_file,
-    'username': 'Webin-39962@webin.ebi.ac.uk',
-    'password': 'toni12'
-}
