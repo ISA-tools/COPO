@@ -54,8 +54,10 @@ class FigshareCollection(Resource):
         # add tags to existing files
         out = []
         for f in input_files:
-            out.append(FigshareCollections.find_one({'_id': ObjectId(f)},
-                                                    {'original_name': 1, 'uploaded_on': 1, 'offset': 1, '_id': 0}))
+            update = FigshareCollections.find_one({'_id': ObjectId(f)},
+                                                  {'original_name': 1, 'uploaded_on': 1, 'offset': 1})
+            update["id"] = str(update["_id"])
+            out.append(update)
             for t in tags:
                 FigshareCollections.update(
                     {'_id': ObjectId(f)},

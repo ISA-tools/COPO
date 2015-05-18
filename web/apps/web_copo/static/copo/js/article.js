@@ -101,7 +101,11 @@ function save_article(e) {
     }).done(function (data) {
         var html = ''
         for (var i = 0; i < data.length; i++) {
-            html += '<tr><td>' + data[i].original_name + '</td><td>' + data[i].uploaded_on + '</td><td>' + data[i].offset + '</td></tr>'
+            html += '<tr><td>' + data[i].original_name + '</td><td>' + data[i].uploaded_on + '</td><td>' + data[i].offset + '</td>'
+            html += '<td class="delete_cell" data-article-id="' + data[i].id + '">'
+            html += '<span class="glyphicon glyphicon-remove-sign"></span>'
+            html += '</td>'
+            html += '</tr>'
         }
         $('#files_table tbody').append(html)
         $('#file_upload_modal').modal('hide')
