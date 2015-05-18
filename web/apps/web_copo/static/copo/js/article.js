@@ -113,6 +113,7 @@ function save_article(e) {
 }
 
 function table_handler(e) {
+    var x = 1
     var table_row = $(this)
 
     BootstrapDialog.show({
