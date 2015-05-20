@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 import jsonpickle
 
-from apps.web_copo.mongo.figshare_objects import FigshareCollection
+from apps.web_copo.mongo.figshare_da import FigshareCollection
 from apps.chunked_upload.models import generate_upload_id
 from project_copo.settings.settings import *
 
@@ -36,7 +36,7 @@ def receive_data_file(request):
                  'uploaded_on': timezone.now(),
                  'offset': f.size,
                  'hashed_name': filename,
-                 'path': settings.UPLOAD_PATH,
+                 'path': settings.MEDIA_ROOT,
                  'is_clean': False
                  }
 

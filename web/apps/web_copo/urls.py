@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 
 import apps.web_copo.views as views
-from apps.web_copo.mongo.figshare_objects import *
+from apps.web_copo.mongo.figshare_da import *
 
 urlpatterns = patterns('apps.web_copo.views',
                        url(r'^$', 'index', name='index'),
@@ -16,7 +16,7 @@ urlpatterns = patterns('apps.web_copo.views',
                        url(r'^new_collection/', 'new_collection_head', name='new_collection'),
                        url(r'^collection/(?P<collection_id>\d+)/view', 'view_collection', name='view_collection'),
                        url(r'^initiate_repo/$', 'initiate_repo', name='initiate_repo'),
-                       url(r'^submit_to_figshare/$', 'submit_to_figshare', name='submit_to_figshare'),
+
 
                        url(r'^save_article/$', FigshareCollection().save_article, name='save_article'),
                        url(r'^delete_figshare_article/$', FigshareCollection().delete_article, name='delete_article'),

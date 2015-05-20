@@ -2,15 +2,15 @@ __author__ = 'felix.shaw@tgac.ac.uk - 29/04/15'
 
 import json
 from urllib.parse import parse_qs
+from enum import Enum
 
 import requests
-from django.http import HttpResponse
-import jsonpickle
 from requests_oauthlib import OAuth1, OAuth1Session
-from django_tools.middlewares import ThreadLocal
 from django.core.urlresolvers import reverse
+from os import path
+import shutil
 
-from apps.web_copo.mongo.mongo_oauth_tokens import Figshare_token
+from apps.web_copo.mongo.figshare_da import *
 
 
 client = requests.session()
@@ -21,12 +21,53 @@ resource_owner_key = ''
 resource_owner_secret = ''
 tokens = None
 
+class figshare_type(Enum):
+    figure = 1
+    media = 2
+    dataset = 3
+    fileset = 4
+    poster = 5
+    paper = 6
+    presentation = 7
+    thesis = 8
+    code = 9
+
+# submit to figshare
+def submit_to_figshare(article_id):
+    try:
+        collection = FigshareCollection().get_collection_head_from_article(article_id)
+        article = FigshareCollection().get_article(article_id)
+        request = ThreadLocal.get_current_request()
+
+        # get create token
+        tokens = Figshare_token().get_token_from_db()
+        resource_owner_key = tokens['owner_key']
+        resource_owner_secret = tokens['owner_secret']
+        token_object = OAuth1(client_key,
+                        client_secret=client_secret,
+                        resource_owner_key=resource_owner_key,
+                        resource_owner_secret=resource_owner_secret,
+                        signature_type='auth_header')
+
+        # get file path
+        p = path.join(article['path'], article['hashed_name'])
+        new_name = path.join(settings.MEDIA_ROOT, article['original_name'])
+        shutil.copyfile(p, new_name)
+        # make article on figshare
+        figshare_article = make_article(name=collection['name'], description=article['description'], type=article['article_type'], oauth=token_object)
+        figshare_article_id = figshare_article['article_id']
+        add_file_to_article(oauth=token_object, article_id=figshare_article_id, filename=new_name)
+        for tag in article['tags']:
+            add_tags_to_article(oauth=token_object, article_id=figshare_article_id, tag=tag)
+    except:
+        return False
+    return True
 
 
 # figshare API methods
-def make_article(oauth=None):
+def make_article(name, description, type, oauth=None):
     url = 'http://api.figshare.com/v1/my_data/articles'
-    body = {'title': 'COPO ARTICLE', 'description': 'COPO DESCRIPTION', 'defined_type': 'paper'}
+    body = {'title': name, 'description': description, 'defined_type': type}
     response = client.post(url, auth=oauth, data=json.dumps(body), headers=json_header)
     return json.loads(response.content.decode("utf-8"))
 
@@ -65,16 +106,7 @@ def check_figshare_credentials(request):
         if(not valid_tokens(tokens)):
             Figshare_token().delete_old_token()
             tokens = get_authorize_url()
-
-        resource_owner_key = tokens['owner_key']
-        resource_owner_secret = tokens['owner_secret']
-        request.session['figshare_credentials'] = OAuth1(client_key,
-                      client_secret=client_secret,
-                      resource_owner_key=resource_owner_key,
-                      resource_owner_secret=resource_owner_secret,
-                      signature_type='auth_header')
-        out = {}
-        out['exists': True]
+        out = {'exists': True}
     else:
         #if no token exists in the database
         out = {}
@@ -82,6 +114,8 @@ def check_figshare_credentials(request):
         out['url'] = get_authorize_url()
 
     return HttpResponse(jsonpickle.encode(out))
+
+
 
 
 def set_figshare_credentials(request):

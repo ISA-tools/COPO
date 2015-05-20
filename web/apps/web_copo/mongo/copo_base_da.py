@@ -1,9 +1,12 @@
 __author__ = 'felixshaw'
 
-from apps.web_copo.mongo.resource import *
-import bson.objectid as o
-from apps.web_copo.mongo.mongo_util import *
 from datetime import datetime
+
+import bson.objectid as o
+
+from apps.web_copo.mongo.resource import *
+from apps.web_copo.mongo.mongo_util import *
+
 
 Profiles = get_collection_ref("Profiles")
 class Profile(Resource):

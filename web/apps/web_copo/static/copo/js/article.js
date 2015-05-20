@@ -8,7 +8,8 @@ $(document).ready(function () {
     var token = $.cookie('csrftoken')
     $('#btn_submit_to_figshare').on('click', submit_to_figshare)
     $('#btn_save_article').on('click', save_article)
-    $('.delete_cell').on('click', table_handler)
+    $('.delete_cell').on('click', delete_handler)
+    $('.submit_cell').on('click', submit_to_figshare)
 
 
     $('#input_text').on("keypress", function (e) {
@@ -69,12 +70,29 @@ function submit_to_figshare(e) {
             url = data.url
             window.open(url, "_blank", "toolbar=no, scrollbars=yes, resizable=no, top=500, left=20, width=800, height=600");
         }
+        else{
+            var article_id = $(e.target).closest('td').attr('data-article-id')
+            $.ajax({
+                type: "GET",
+                url: "/api/submit_to_figshare/" + article_id,
+                dataType: "json"
+            }).done(function(data){
+                if(data.success == true){
+                    BootstrapDialog.show({
+                        title: 'Success',
+                        message: 'Figshare Object Deposited'
+                    });
+                }
+            })
+        }
     })
 }
 
 function save_article(e) {
     'use strict'
     e.preventDefault()
+
+
     var file_ids = $('#files').children('input')
     var files = []
     $.each(file_ids, function (index, value) {
@@ -85,9 +103,23 @@ function save_article(e) {
     $.each(raw_tags, function (index, value) {
         tags.push($(value).text())
     })
+    var description = $('#description').val()
+    var article_type = $('#article_type').val()
+
+    if (description == ''){
+        //show do not submit alert
+        BootstrapDialog.show({
+            title: 'Error',
+            message: 'Please enter a description'
+        });
+        return false
+    }
     if (tags.length == 0) {
         //show do not submit alert
-        alert('please add some tags')
+        BootstrapDialog.show({
+            title: 'Error',
+            message: 'Please enter some tags'
+        });
         return false
     }
 
@@ -97,7 +129,7 @@ function save_article(e) {
         type: "POST",
         url: "/copo/save_article/",
         dataType: "json",
-        data: {"files": files, "tags": tags}
+        data: {"files": files, "tags": tags, "description": description, "article_type": article_type}
     }).done(function (data) {
         var html = ''
         for (var i = 0; i < data.length; i++) {
@@ -112,8 +144,8 @@ function save_article(e) {
     })
 }
 
-function table_handler(e) {
-    var x = 1
+function delete_handler(e) {
+
     var table_row = $(this)
 
     BootstrapDialog.show({
@@ -159,3 +191,5 @@ function table_handler(e) {
         ]
     });
 }
+
+

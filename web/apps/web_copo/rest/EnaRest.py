@@ -1,18 +1,20 @@
 __author__ = 'fshaw'
-import hashlib
 import gzip
+
+import hashlib
 from django.http import HttpResponse
 from django.core.context_processors import csrf
 from rest_framework.renderers import JSONRenderer
 import jsonpickle
-from apps.chunked_upload.models import ChunkedUpload
 from django.core.files.base import ContentFile
+from bson.json_util import dumps
+
+from apps.chunked_upload.models import ChunkedUpload
 import apps.web_copo.xml_tools.EnaParsers as parsers
 import apps.web_copo.utils.EnaUtils as u
-from apps.web_copo.mongo.ena_objects import *
-from apps.web_copo.mongo.copo_base_objects import *
+from apps.web_copo.mongo.ena_da import *
+from apps.web_copo.mongo.copo_base_da import *
 from apps.web_copo.mongo.mongo_util import *
-from bson.json_util import dumps
 from apps.web_copo.repos.irods import *
 
 

@@ -1,11 +1,12 @@
 __author__ = 'felix.shaw@tgac.ac.uk - 18/03/15'
 
-from apps.web_copo.mongo.resource import *
-import bson.objectid as o
-import bson.objectid
-from apps.web_copo.mongo.mongo_util import *
-import uuid
 from datetime import date
+
+import bson.objectid as o
+
+from apps.web_copo.mongo.resource import *
+from apps.web_copo.mongo.mongo_util import *
+
 
 EnaCollections = get_collection_ref("EnaCollections")
 
