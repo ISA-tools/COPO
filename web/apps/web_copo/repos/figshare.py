@@ -2,7 +2,6 @@ __author__ = 'felix.shaw@tgac.ac.uk - 29/04/15'
 
 import json
 from urllib.parse import parse_qs
-from enum import Enum
 
 import requests
 from requests_oauthlib import OAuth1, OAuth1Session
@@ -21,34 +20,26 @@ resource_owner_key = ''
 resource_owner_secret = ''
 tokens = None
 
-class figshare_type(Enum):
-    figure = 1
-    media = 2
-    dataset = 3
-    fileset = 4
-    poster = 5
-    paper = 6
-    presentation = 7
-    thesis = 8
-    code = 9
+
+def retrieve_token():
+    # get token
+    tokens = Figshare_token().get_token_from_db()
+    resource_owner_key = tokens['owner_key']
+    resource_owner_secret = tokens['owner_secret']
+    token_object = OAuth1(client_key,
+                    client_secret=client_secret,
+                    resource_owner_key=resource_owner_key,
+                    resource_owner_secret=resource_owner_secret,
+                    signature_type='auth_header')
+    return token_object
 
 # submit to figshare
 def submit_to_figshare(article_id):
     try:
+        token_object = retrieve_token()
         collection = FigshareCollection().get_collection_head_from_article(article_id)
         article = FigshareCollection().get_article(article_id)
         request = ThreadLocal.get_current_request()
-
-        # get create token
-        tokens = Figshare_token().get_token_from_db()
-        resource_owner_key = tokens['owner_key']
-        resource_owner_secret = tokens['owner_secret']
-        token_object = OAuth1(client_key,
-                        client_secret=client_secret,
-                        resource_owner_key=resource_owner_key,
-                        resource_owner_secret=resource_owner_secret,
-                        signature_type='auth_header')
-
         # get file path
         p = path.join(article['path'], article['hashed_name'])
         new_name = path.join(settings.MEDIA_ROOT, article['original_name'])
@@ -56,12 +47,24 @@ def submit_to_figshare(article_id):
         # make article on figshare
         figshare_article = make_article(name=collection['name'], description=article['description'], type=article['article_type'], oauth=token_object)
         figshare_article_id = figshare_article['article_id']
+        FigshareCollection().add_figshare_accession_to_article(figshare_id=figshare_article_id, article_id=article_id)
         add_file_to_article(oauth=token_object, article_id=figshare_article_id, filename=new_name)
         for tag in article['tags']:
             add_tags_to_article(oauth=token_object, article_id=figshare_article_id, tag=tag)
+    except RuntimeError as e:
+        print(e)
+        return None
+    return figshare_article_id
+
+def delete_from_figshare(article_id):
+    try:
+        figshare_id = FigshareCollection().get_figshare_id(article_id)
+        token_object = retrieve_token()
+        delete_article(oauth=token_object, article_id=figshare_id["figshare_accession"])
     except:
         return False
     return True
+
 
 
 # figshare API methods

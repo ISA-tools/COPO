@@ -10,24 +10,9 @@ $(document).ready(function () {
     $('#btn_save_article').on('click', save_article)
     $('.delete_cell').on('click', delete_handler)
     $('.submit_cell').on('click', submit_to_figshare)
+    $('#input_text').on("keypress", save_tags)
 
 
-    $('#input_text').on("keypress", function (e) {
-        if (e.keyCode == 13) {
-            e.preventDefault()
-            var input = $(this).val()
-            var tags = input.split(',')
-            for (var i = 0; i < tags.length; i++) {
-                $(this).val('')
-                var text = '<span class="label label-info">' + tags[i] + '<span class="glyphicon glyphicon-remove delete_tag" aria-hidden="true"></span></span>'
-                $('#tags_input').append(text)
-
-                $('.delete_tag').on('click', function (e) {
-                    $(this).parent().remove()
-                })
-            }
-        }
-    });
 
     // Change this to the location of your server-side upload handler:
     $('#fileupload').fileupload({
@@ -57,27 +42,48 @@ $(document).ready(function () {
     })
 })
 
+
+function save_tags(e) {
+    if (e.keyCode == 13) {
+        e.preventDefault()
+        var input = $(this).val()
+        var tags = input.split(',')
+        for (var i = 0; i < tags.length; i++) {
+            $(this).val('')
+            var text = '<span class="label label-info">' + tags[i] + '<span class="glyphicon glyphicon-remove delete_tag" aria-hidden="true"></span></span>'
+            $('#tags_input').append(text)
+
+            $('.delete_tag').on('click', function (e) {
+                $(this).parent().remove()
+            })
+        }
+    }
+}
+
 function submit_to_figshare(e) {
 
     e.preventDefault()
 
+    // ajax call checks if figshare creds are valid
     $.ajax({
         type: "GET",
         url: "/rest/check_figshare_credentials",
         dataType: "json"
     }).done(function (data) {
+        // if creds invalid, prompt user
         if (data.exists == false) {
             url = data.url
             window.open(url, "_blank", "toolbar=no, scrollbars=yes, resizable=no, top=500, left=20, width=800, height=600");
         }
-        else{
+        // if creds valid call submit_to_figshare backend handler
+        else {
             var article_id = $(e.target).closest('td').attr('data-article-id')
             $.ajax({
                 type: "GET",
                 url: "/api/submit_to_figshare/" + article_id,
                 dataType: "json"
-            }).done(function(data){
-                if(data.success == true){
+            }).done(function (data) {
+                if (data.success == true) {
                     BootstrapDialog.show({
                         title: 'Success',
                         message: 'Figshare Object Deposited'
@@ -92,7 +98,8 @@ function save_article(e) {
     'use strict'
     e.preventDefault()
 
-
+    // harvest data from form
+    var token = $.cookie('csrftoken')
     var file_ids = $('#files').children('input')
     var files = []
     $.each(file_ids, function (index, value) {
@@ -106,7 +113,8 @@ function save_article(e) {
     var description = $('#description').val()
     var article_type = $('#article_type').val()
 
-    if (description == ''){
+    // if description or tags not entered, do not submit
+    if (description == '') {
         //show do not submit alert
         BootstrapDialog.show({
             title: 'Error',
@@ -123,7 +131,7 @@ function save_article(e) {
         return false
     }
 
-    var token = $.cookie('csrftoken')
+    // call backend method to save metadata and filepath to mongo
     $.ajax({
         headers: {'X-CSRFToken': token},
         type: "POST",
@@ -131,6 +139,7 @@ function save_article(e) {
         dataType: "json",
         data: {"files": files, "tags": tags, "description": description, "article_type": article_type}
     }).done(function (data) {
+        // on success create new table row for front end
         var html = ''
         for (var i = 0; i < data.length; i++) {
             html += '<tr><td>' + data[i].original_name + '</td><td>' + data[i].uploaded_on + '</td><td>' + data[i].offset + '</td>'
@@ -174,7 +183,7 @@ function delete_handler(e) {
                     var token = $.cookie('csrftoken')
                     $.ajax({
                         type: 'POST',
-                        url: "/copo/delete_figshare_article/",
+                        url: "/api/delete_figshare_article/",
                         headers: {'X-CSRFToken': token},
                         data: {'article_id': id},
                         dataType: 'json',
