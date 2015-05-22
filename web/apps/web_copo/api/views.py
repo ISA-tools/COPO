@@ -19,8 +19,7 @@ def submit_to_figshare(request, article_id):
             data = {'success': True}
             return HttpResponse(jsonpickle.encode(data))
 
-def delete_from_figshare(request):
-    article_id = request.POST['article_id']
+def delete_from_figshare(request, article_id):
 
     if (f.delete_from_figshare(article_id)):
         FigshareCollection().delete_article(request)

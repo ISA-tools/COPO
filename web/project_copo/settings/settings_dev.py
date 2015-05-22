@@ -26,7 +26,7 @@ SESSION_REDIS_PORT = 6379
 
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = '/Users/etuka/Desktop/copo_uploads'
+MEDIA_ROOT = '~/Desktop/copo_uploads'
 # MEDIA_ROOT = '/Users/etuka/COPOIrodsMount'
 
 # SECURITY WARNING: don't run with debug turned on in production!
