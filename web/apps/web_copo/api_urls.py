@@ -6,5 +6,6 @@ import apps.web_copo.api.views as api_views
 
 
 urlpatterns = patterns('',
-    url(r'^submit_to_figshare/(?P<collection_id>[a-z0-9]+)', api_views.submit_to_figshare, name='submit_figshare_collection'),
+    url(r'^submit_to_figshare/(?P<article_id>[a-z0-9]+)', api_views.submit_to_figshare, name='submit_figshare_collection'),
+    url(r'^delete_figshare_article/$', api_views.delete_from_figshare, name='delete_article'),
 )

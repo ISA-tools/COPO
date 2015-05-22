@@ -3,7 +3,8 @@ import re
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 import pysam
-from apps.web_copo.mongo.ena_objects import *
+
+from apps.web_copo.mongo.ena_da import *
 
 
 def get_sample_html_from_details_id(details_id):

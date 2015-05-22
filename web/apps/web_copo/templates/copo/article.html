@@ -75,17 +75,21 @@
 				<th>Date Uploaded</th>
 				<th>Size</th>
 				<th>Delete</th>
+				<th>Submit</th>
 			</tr>
 			</thead>
 			<tbody>
 
 			{% for article in articles %}
 				<tr>
-                    <td>{{ article.original_name }}</td>
-                    <td>{{ article.uploaded_on }}</td>
-                    <td>{{ article.offset }}</td>
-				    <td class="delete_cell" data-article-id="{{ article|mongo_id }}">
+					<td>{{ article.original_name }}</td>
+					<td>{{ article.uploaded_on }}</td>
+					<td>{{ article.offset }}</td>
+					<td class="delete_cell text-center" data-article-id="{{ article|mongo_id }}">
 						<span class="glyphicon glyphicon-remove-sign"></span>
+					</td>
+				    <td class="submit_cell text-center" data-article-id="{{ article|mongo_id }}">
+						<span class="glyphicon glyphicon-upload"></span>
 					</td>
 				</tr>
 			{% endfor %}
@@ -120,27 +124,51 @@
 				<div class="row">
 					<div class="col-lg-2 col-md-2"></div>
 					<div class="col-lg-8 col-md-8">
-						<form enctype="multipart/form-data" id="fileupload" action="{% url 'copo:save_article' %}" method="POST" style="margin-right:40px">
+						<form enctype="multipart/form-data" id="fileupload" action="{% url 'copo:save_article' %}"
+							  method="POST" style="margin-right:40px">
 							{% csrf_token %}
 
-                    <span id="upload_files_button" class="btn btn-success fileinput-button">
-                        <i class="glyphicon glyphicon-plus"></i>
-                        <span>Select files...</span>
-                        <input type="file" name="file" multiple/>
-						<input type="hidden" value="figshare" name="repo"/>
-                    </span>
+
 							<br/><br/>
+
 							<div id="progress" class="progress">
 								<div class="progress-bar progress-bar-success"></div>
 							</div>
+							<span id="upload_files_button" class="btn btn-success fileinput-button">
+                                <i class="glyphicon glyphicon-plus"></i>
+								<span>Select files...</span>
+                                <input type="file" name="file" multiple/>
+						        <input type="hidden" value="figshare" name="repo"/>
+                            </span>
 
 							<!-- The container for the uploaded files -->
 							<div id="files" class="files h3"></div>
+
+							<div class="form-group">
+								<label for="description">Description</label>
+								<input type="text" class="form-control" id="description" placeholder="Description">
+							</div>
+							<div class="form-group">
+								<label for="article_type">Article Type</label>
+								<select class="form-control" id="article_type" name="article_type">
+									<option>figure</option>
+									<option>media</option>
+									<option>dataset</option>
+									<option>fileset</option>
+									<option>poster</option>
+									<option>paper</option>
+									<option>presentation</option>
+									<option>thesis</option>
+									<option>code</option>
+								</select>
+							</div>
+
 							<div id="tags_input"></div>
 
 							<div class="form-group">
 								<label for="input_text">Enter Tags</label>
-								<input type="text" class="form-control" id="input_text" placeholder="Comma Delimited Keywords">
+								<input type="text" class="form-control" id="input_text"
+									   placeholder="Comma Delimited Keywords">
 							</div>
 
 
@@ -183,7 +211,7 @@
 	<script src="{% static 'copo/js/uploader/jquery.fileupload.js' %}"></script>
 	<script src="{% static 'copo/js/uploader/jquery.fileupload-process.js' %}"></script>
 	<script src="{% static 'copo/js/uploader/jquery.fileupload-ui.js' %}"></script>
-    <script src="{% static 'copo/js/bootstrap-dialog.js' %}"></script>
+	<script src="{% static 'copo/js/bootstrap-dialog.js' %}"></script>
 	<script src="{% static 'copo/js/uploader/bootstrap_panel.js' %}"></script>
 
 	<script src="{% static 'copo/js/article.js' %}"></script>

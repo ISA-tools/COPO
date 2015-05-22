@@ -1,3 +1,5 @@
+from threading import Thread
+
 from django.shortcuts import render, render_to_response
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
@@ -7,23 +9,20 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.template import RequestContext
 import jsonpickle
+
 from threading import Thread
 
 # import error codes
 
-
 from project_copo.settings.error_codes import *
-from apps.web_copo.mongo.copo_base_objects import Profile, Collection_Head
-from apps.web_copo.mongo.ena_objects import *
-
-import apps.web_copo.mongo.figshare_objects as figshare
-
-
-
+from apps.web_copo.mongo.copo_base_da import Profile, Collection_Head
+from apps.web_copo.mongo.ena_da import *
+import apps.web_copo.mongo.figshare_da as figshare
 from apps.web_copo.repos.irods import *
 from apps.web_copo.repos.aspera import *
 from apps.chunked_upload.models import ChunkedUpload
 from apps.web_copo.mongo.mongo_util import *
+
 
 
 # Create your views here.
@@ -154,18 +153,6 @@ def view_collection(request, collection_id):
             articles = figshare.FigshareCollection().get_articles_in_collection(collection_id)
             data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id, 'articles': articles}
             return render(request, 'copo/article.html', data_dict, context_instance=RequestContext(request))
-
-
-@login_required(login_url='/copo/login/')
-def submit_to_figshare(request):
-    # result = figshare.make_article(oauth=get_credentials())
-    # article_id = result['article_id']
-    # add file to article
-    # result = figshare.add_file_to_article(oauth=get_credentials(), article_id=article_id, filename='/Users/fshaw/Downloads/COPO-Architecture.pdf')
-
-    result = 'test output'
-    context = {'input': jsonpickle.encode(result)}
-    return render(request, 'copo/article.html', context)
 
 
 def initiate_repo(request):
