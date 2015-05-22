@@ -233,8 +233,7 @@ class ChunkedUploadCompleteView(ChunkedUploadBaseView):
         """
         Placeholder method to define what to do when upload is complete.
         """
-        status = register_to_irods()
-        print(status)
+        irods_status = register_to_irods()
 
     def is_valid_chunked_upload(self, chunked_upload):
         """

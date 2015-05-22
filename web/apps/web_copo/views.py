@@ -9,12 +9,6 @@ from django.template import RequestContext
 import jsonpickle
 from threading import Thread
 
-
-
-
-
-
-
 # import error codes
 
 
@@ -191,8 +185,8 @@ def initiate_repo(request):
 
             document = {
                 "file": path_to_files,
-                "user_id": str(request.user.id),
-                "started_on": str(datetime.datetime.now()),
+                "user_id": request.user.id,
+                "started_on": datetime.now(),
                 "completed_on": '',
                 "transfer_rate": '',
                 "pct_complete": '',
@@ -206,8 +200,6 @@ def initiate_repo(request):
 
         process = Thread(target=do_aspera_transfer, args=(aspera_transfer_id,))
         process.start()
-
-        # do_aspera_transfer(aspera_transfer_id)
 
     elif request.method == "GET":
         aspera_transfer_id = request.GET["transfer_id"]

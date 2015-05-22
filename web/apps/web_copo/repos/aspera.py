@@ -4,7 +4,7 @@ from project_copo.settings.repo_settings import *
 from project_copo.settings.settings import *
 from apps.web_copo.mongo.mongo_util import *
 import pexpect
-import datetime
+from datetime import datetime
 
 
 def do_aspera_transfer(aspera_transfer_id):
@@ -49,7 +49,7 @@ def do_aspera_transfer(aspera_transfer_id):
                 # '' for running, 'success', 'failed'
                 asperacollections.update({
                     "_id": aspera_transfer_id
-                }, {"$set": {"exit_status": exit_status, "completed_on": str(datetime.datetime.now())}}
+                }, {"$set": {"exit_status": exit_status, "completed_on": datetime.now()}}
                 )
                 print(exit_status)
                 break
