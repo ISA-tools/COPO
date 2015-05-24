@@ -44,57 +44,57 @@
     <![endif]-->
 </head>
 <body>
-
-<div class="container">
-
+<div class="col-sm-12 col-md-12 col-lg-12">
 	<div class="row">
 		<div class="col-sm-12 col-md-12 col-lg-12">
-			<div class="row header">
-				<div class="col-sm-7 col-md-7 col-lg-7">
-					<div id="site_brand">
-						<h2 class="h2">COPO
-							<small>Collaborative Open Plant Omics</small>
-						</h2>
-					</div>
+			<header>
+				<h1><a href="index.html">COPO - Collaborative Open Plant Omics</a></h1>
+				<nav>
+					<ul>
+						<li><a href="index.html"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>Status<span class="badge">3</span></a></li>
+						<li><a href="index.html"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span>Alerts<span class="badge">2</span></a></li>
+						<li><a href="index.html"><span class="glyphicon glyphicon-cog"></span>Settings</a></li>
+						<li>
+							<div class="dropdown">
+								<a id="dropdownMenu1" data-toggle="dropdown"
+								   aria-expanded="true">
 
-				</div>
-				<div class="col-sm-5 col-md-5 col-lg-5">
-					
-					<div id="profile_header">
-						<span class="badge">10</span>
+									{% if user.is_authenticated %}
+										<span class="glyphicon glyphicon-user"></span>
+										{{ user }}
+									{% else %}
+										<span class="glyphicon glyphicon-log-in"></span>
+										Login
+									{% endif %}
 
-						<a href="">
-								<span class="settings_icon">
-									<i class="fa fa-cog fa-lg"></i>
-								</span>
-						</a>
-                        <span class="dropdown">
-                            <a href="" id="dLabel" data-target="#" data-toggle="dropdown" aria-haspopup="true"
-							   role="button" aria-expanded="false">
-								<i class="glyphicon glyphicon-user" data-toggle="tooltip" data-placement="bottom"
-								   title="{{ user }}"></i>
-								<span class="icon_text">{{ user }}</span>
-								<span class="caret"></span>
+								</a>
+								{% if user.is_authenticated %}
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+										<li role="presentation"><a role="menuitem" tabindex="-1" href="/copo/login/">Logout</a>
+										</li>
 
-							</a>
-							{% if user.is_authenticated %}
-								<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-									<li><a href="/copo/login/">logout</a></li>
-								</ul>
-							{% else %}
-								<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-									<li><a href="/copo/login/">login</a></li>
-									<li><a href="">register</a></li>
-								</ul>
-							{% endif %}
-                        </span>
-						<!--<a href="" data-toggle="tooltip" data-placement="bottom" title="{{ user }}">{{ user }}</a>-->
-					</div>
-				</div>
-			</div>
+									</ul>
+								{% else %}
+									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+										<li role="presentation"><a role="menuitem" tabindex="-1" href="/copo/login/">Login</a>
+										</li>
+										<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Register</a>
+										</li>
+
+									</ul>
+								{% endif %}
+
+
+							</div>
+
+						</li>
+
+					</ul>
+				</nav>
+			</header>
+			<!--<a href="" data-toggle="tooltip" data-placement="bottom" title="{{ user }}">{{ user }}</a>-->
 		</div>
 	</div>
-
 	<div class="row">
 		<div class="col-sm-3 col-md-3 col-lg-3">
 			<div id="sidebar">
@@ -152,6 +152,7 @@
 		<div class="col-sm-2 col-md-2 col-lg-2"></div>
 	</div>
 </div>
+
 
 </body>
 </html>
