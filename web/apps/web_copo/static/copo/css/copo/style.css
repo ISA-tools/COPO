@@ -66,15 +66,15 @@ div[class^="col-"], div[class*=" col-"] {
 
 
 .nav-pills > li.active > a {
-    background-color:#163657;
+    background-color:#1B2B32;
 }
 
 .nav-pills>li.active>a:hover {
-    background-color:#163657;
+    background-color:#1B2B32;
 }
 
 .nav-pills > li > a {
-    color:#163657;
+    color:#1B2B32;
 }
 
 /* ICON CSS */

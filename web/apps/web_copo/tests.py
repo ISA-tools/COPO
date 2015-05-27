@@ -10,16 +10,12 @@ def get_collection_ref(collection_name):
 
 # Create your tests here.
 
-class EnaTest(TestCase):
+class BasicTests(TestCase):
     def setUp(self):
         return get_collection_ref("Unit_Test_Collection")
 
-
-    def setUp(self):
-        self.db = get_collection_ref('test')
-
-
     def test_doc_published(self):
+        self.db = self.setUp()
         # Set up a document to save
         doc = dict(text="test",
                       user_id=1)
@@ -29,4 +25,6 @@ class EnaTest(TestCase):
 
     def tearDown(self):
         self.db.drop()
+
+
 

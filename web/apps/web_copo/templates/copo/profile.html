@@ -48,26 +48,30 @@
 {% block work_area %}
 
 	<!-- here is the markup for the top table data pulled in from the study itself -->
+
+	<h2 class="h2">{{ profile_title }}</h2>
+	{{ profile_abstract }}
+	<hr/>
+	<h3>Collections</h3>
 	<table id="browse_table">
-		<h2 class="h2">{{ profile_title }}</h2>
-        {{ profile_abstract }}
-		<hr/>
-		<h3>Collections</h3>
+		<thead>
 		<tr>
 			<th>Name</th>
 			<th>Type</th>
 		</tr>
-
+		</thead>
+		<tbody>
 		{% for c in collections %}
 
 			<tr>
-				<td data-collection_id="{{ c.id }}"><a href="{% url 'copo:view_collection' collection_id=c|mongo_id %}">{{ c.name }}</a></td>
+				<td data-collection_id="{{ c.id }}"><a
+						href="{% url 'copo:view_collection' collection_id=c|mongo_id %}">{{ c.name }}</a></td>
 
 				<td>{{ c.type }}</td>
 			</tr>
 
 		{% endfor %}
-
+		</tbody>
 	</table>
 
 	<!-- subsequently we should loop and have some sort of collapsable table showing the existing work collections -->
@@ -85,26 +89,28 @@
 		</li>
 	</ul>
 
-    <!-- this is a temporary placement of this snippet. Will figure out the correct order of things from FS.-->
-    <br />
-    <p>
-    <form id="frm_initiate_repo" action="{% url 'copo:initiate_repo' %}" method="post">
-        {% csrf_token %}
-        <button type="button" id="frm_initiate_button"  class="btn btn-primary" autocomplete="off">
-            Initiate submission
-        </button>
-    </form>
-    <br/>
-    <div id="repo-feedback-cnt-1" class="progress">
-        <div id="repo-feedback-1" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 5%">
-            <span id="repo-feedback-span-1">45% Complete</span>
-        </div>
-    </div>
-    <div id="repo-alert-cnt-1" class="alert alert-success alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <span id="repo-alert-span-1"><strong>Success!</strong></span>
-    </div>
-    <!-- end of temporary -->
+	<!-- this is a temporary placement of this snippet. Will figure out the correct order of things from FS.-->
+	<br/>
+	<p>
+	<form id="frm_initiate_repo" action="{% url 'copo:initiate_repo' %}" method="post">
+		{% csrf_token %}
+		<button type="button" id="frm_initiate_button" class="btn btn-primary" autocomplete="off">
+			Initiate submission
+		</button>
+	</form>
+	<br/>
+	<div id="repo-feedback-cnt-1" class="progress">
+		<div id="repo-feedback-1" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45"
+			 aria-valuemin="0" aria-valuemax="100" style="width: 5%">
+			<span id="repo-feedback-span-1">45% Complete</span>
+		</div>
+	</div>
+	<div id="repo-alert-cnt-1" class="alert alert-success alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+				aria-hidden="true">&times;</span></button>
+		<span id="repo-alert-span-1"><strong>Success!</strong></span>
+	</div>
+	<!-- end of temporary -->
 
 	<!-- here is the hidden modal which will be populated from js, will look at having a rest call to a python service to
     query the forms xml for the type of data selected by the user -->
@@ -164,6 +170,6 @@
 
 
 {% block js_block %}
-    <script src="{% static 'copo/js/profile.js' %}"></script>
-    <script src="{% static 'copo/js/repojs.js' %}"></script>
+	<script src="{% static 'copo/js/profile.js' %}"></script>
+	<script src="{% static 'copo/js/repojs.js' %}"></script>
 {% endblock %}
