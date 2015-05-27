@@ -183,9 +183,8 @@ function delete_handler(e) {
                     var token = $.cookie('csrftoken')
                     $.ajax({
                         type: 'POST',
-                        url: "/api/delete_figshare_article/",
+                        url: "/api/delete_figshare_article/" + id,
                         headers: {'X-CSRFToken': token},
-                        data: {'article_id': id},
                         dataType: 'json',
                         success: function (data) {
                             table_row.parent().remove()
