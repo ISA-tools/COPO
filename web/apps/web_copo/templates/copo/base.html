@@ -26,7 +26,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
 
 	<!-- Additional stylesheets -->
-    <link rel="stylesheet" href="{% static 'copo/css/copo/smart_table.css' %}">
+	<link rel="stylesheet" href="{% static 'copo/css/copo/smart_table.css' %}">
 
 
 	<script src="{% static 'copo/js/jquery.js' %}"></script>
@@ -52,44 +52,61 @@
 				<h1><a href="index.html">COPO - Collaborative Open Plant Omics</a></h1>
 				<nav>
 					<ul>
-						<li><a href="index.html"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>Status<span class="badge">{{ issues }}</span></a></li>
-						<li><a href="index.html"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span>Alerts<span class="badge"></span></a></li>
+						<li class="dropdown">
+
+							<a href="index.html" id="dropdownMenu" data-toggle="dropdown" aria-expanded="true">
+								<span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
+								Status
+								<span class="badge">{{ num_issues }}</span>
+							</a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+								{% for issue in issue_description_list %}
+									<li class="status" role="presentation">
+										{% autoescape off %}{{ issue }}{% endautoescape %}
+										<p style="margin-right: 10px">
+											<button type="button" class="btn btn-xs pull-right">Dismiss</button>
+											<button type="button" style="margin-right: 5px" class="btn btn-success btn-xs pull-right">Show</button>
+
+										</p>
+									</li>
+								{% endfor %}
+							</ul>
+						</li>
+						<li><a href="index.html"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span>Alerts<span
+								class="badge"></span></a></li>
 						<li><a href="index.html"><span class="glyphicon glyphicon-cog"></span>Settings</a></li>
-						<li>
-							<div class="dropdown">
-								<a id="dropdownMenu1" data-toggle="dropdown"
-								   aria-expanded="true">
+						<li class="dropdown">
+							<a id="dropdownMenu1" data-toggle="dropdown"
+							   aria-expanded="true">
 
-									{% if user.is_authenticated %}
-										<span class="glyphicon glyphicon-user"></span>
-										{{ user }}
-									{% else %}
-										<span class="glyphicon glyphicon-log-in"></span>
-										Login
-									{% endif %}
-
-								</a>
 								{% if user.is_authenticated %}
-									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-										<li role="presentation"><a role="menuitem" tabindex="-1" href="/copo/login/">Logout</a>
-										</li>
-
-									</ul>
+									<span class="glyphicon glyphicon-user"></span>
+									{{ user }}
 								{% else %}
-									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-										<li role="presentation"><a role="menuitem" tabindex="-1" href="/copo/login/">Login</a>
-										</li>
-										<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Register</a>
-										</li>
-
-									</ul>
+									<span class="glyphicon glyphicon-log-in"></span>
+									Login
 								{% endif %}
 
+							</a>
+							{% if user.is_authenticated %}
+								<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+									<li role="presentation"><a role="menuitem" tabindex="-1"
+															   href="/copo/login/">Logout</a>
+									</li>
 
-							</div>
 
+								</ul>
+							{% else %}
+								<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+									<li role="presentation"><a role="menuitem" tabindex="-1"
+															   href="/copo/login/">Login</a>
+									</li>
+									<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Register</a>
+									</li>
+
+								</ul>
+							{% endif %}
 						</li>
-
 					</ul>
 				</nav>
 			</header>

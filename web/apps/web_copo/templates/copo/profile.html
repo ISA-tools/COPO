@@ -64,10 +64,11 @@
 		{% for c in collections %}
 
 			<tr>
-				<td data-collection_id="{{ c.id }}"><a
-						href="{% url 'copo:view_collection' collection_id=c|mongo_id %}">{{ c.name }}</a></td>
-
-				<td>{{ c.type }}</td>
+				<td data-collection_id="{{ c.id }}">
+					<a href="{% url 'copo:view_collection' collection_id=c|mongo_id %}">{{ c.name }}</a></td>
+				<td>
+					{{ c.type }}
+				</td>
 			</tr>
 
 		{% endfor %}

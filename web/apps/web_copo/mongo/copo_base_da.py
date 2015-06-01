@@ -7,6 +7,7 @@ from django_tools.middlewares import ThreadLocal
 
 from apps.web_copo.mongo.resource import *
 from apps.web_copo.mongo.mongo_util import *
+from apps.web_copo.vocab.status_vocab import STATUS_CODES
 
 
 Profiles = get_collection_ref("Profiles")
@@ -89,7 +90,9 @@ class Profile_Status_Info(Resource):
     def get_profiles_status(self):
         # this method examines all the profiles owned by the current user and returns
         # the number of profiles which have been marked as dirty
-
+        issues = {}
+        issue_desc = []
+        issue_id = []
         issues_count = 0
         user_id = ThreadLocal.get_current_user().id
 
@@ -105,7 +108,13 @@ class Profile_Status_Info(Resource):
                 try:
                     if c['is_clean'] == 0:
                         issues_count += 1
+                        context = {}
+                        context["profile_name"] = p['title']
+                        context["link"] = 'www.google.com'
+                        issue_desc.append(STATUS_CODES['PROFILE_NOT_DEPOSITED'].format(**context))
                 except:
                     pass
-
-        return issues_count
+        issues['issue_id_list'] = issue_id
+        issues['num_issues'] = issues_count
+        issues['issue_description_list'] = issue_desc
+        return issues

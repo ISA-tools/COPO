@@ -2,8 +2,7 @@
 body{
 
 	//background-image: url("/static/copo/img/squared_metal.png");
-	background-repeat: repeat;
-	font-size:medium !important
+
 }
 .container{
 	width:100%;
@@ -90,35 +89,11 @@ div[class^="col-"], div[class*=" col-"] {
 .blue_icon>a:hover{
     color:grey;
 }
-
-input,
-button,
-select,
-textarea {
-    font-size: 10px
-}
-
 .panel-heading{
     padding: 8px 15px;
 }
-
-
-.form-control{
-    font-size:12px;
-    height: 24px;
-    padding:0px;
-}
-
-.btn{
-    padding: 4px;
-    font-size:12px;
-    height:25px;
-    width: auto;
-    border-radius: 10px
-}
-
-td, th{
-    padding:5px
+.btn {
+    border-radius: 4px
 }
 
 /* REPOSITORY CONTROLS CSS */
