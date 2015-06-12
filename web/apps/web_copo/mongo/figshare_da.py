@@ -10,7 +10,6 @@ from apps.web_copo.mongo.mongo_util import *
 from apps.chunked_upload.models import generate_upload_id
 from project_copo.settings.settings import *
 
-
 FigshareTokens = get_collection_ref("Figshare_tokens")
 FigshareCollections = get_collection_ref("Figshare_Files")
 Collection_Heads = get_collection_ref("Collection_Heads")
@@ -33,19 +32,19 @@ class FigshareCollection(Resource):
             user = request.user
             fname = f.__str__()
             attrs = {'user':
-                         {
-                             'id': user.id,
-                             'username': user.username,
-                             'firstname': user.first_name,
-                             'lastname': user.last_name,
-                             'email': user.email
-                         },
-                     'original_name': fname,
-                     'uploaded_on': timezone.now(),
-                     'offset': f.size,
-                     'hashed_name': filename,
-                     'path': settings.MEDIA_ROOT,
-                     }
+                {
+                    'id': user.id,
+                    'username': user.username,
+                    'firstname': user.first_name,
+                    'lastname': user.last_name,
+                    'email': user.email
+                },
+                'original_name': fname,
+                'uploaded_on': timezone.now(),
+                'offset': f.size,
+                'hashed_name': filename,
+                'path': settings.MEDIA_ROOT,
+            }
 
             if repo_type == 'figshare':
                 file_id = FigshareCollection().add_figshare(attrs)
@@ -76,6 +75,13 @@ class FigshareCollection(Resource):
         return FigshareCollections.update({'_id': ObjectId(article_id)},
                                           {'$set': {'figshare_accession': figshare_id}})
 
+    def add_figshare_url_to_article(self, figshare_id=0, article_id=0):
+        figshare_url = 'http://figshare.com/preview/_preview/' + str(figshare_id)
+        return FigshareCollections.update({'_id': ObjectId(article_id)},
+                                          {'$set': {'figshare_url': figshare_url}})
+    def get_url(self, article_id):
+        return FigshareCollections.find_one({'_id': ObjectId(article_id)}, {'figshare_url': 1})
+
     # called from jquery upload handler to add new file details
     def add_figshare(self, values):
         return FigshareCollections.insert(values)
@@ -86,16 +92,20 @@ class FigshareCollection(Resource):
 
     # method to check whether the specified collection has changes needed to be uploaded
     def is_clean(self, collection_id):
-        collection_head = self.get_collection_head_from_article(collection_id)
+        collection_head = Collection_Heads.find_one({'_id': ObjectId(collection_id)})
         return collection_head['is_clean']
 
-    # method to mark a collection as clean
-    def mark_as_clean(self, article_id):
-        collection = self.get_collection_head_from_article(article_id)
-        id = collection['_id']
-        Collection_Heads.update({'_id':ObjectId(article_id)},
-            {'$set':{'is_clean': True}})
+    # Collection head stores high level meta about the collection, the details contain the
+    # fine grained detail relating to the individual collection type
+    def get_collection_details_from_collection_head(self, collection_head_id):
+        return Collection_Heads.find_one({'_id': ObjectId(collection_head_id)},
+                                         {'collection_details': 1})
 
+    # method to mark a collection as clean
+    def mark_as_clean(self, collection_id):
+
+        Collection_Heads.update({'_id': ObjectId(collection_id)},
+                                {'$set': {'is_clean': True}})
 
     # method called from article view handler to create table of articles in the specified collection
     def get_articles_in_collection(self, collection_id):
@@ -166,7 +176,6 @@ class FigshareCollection(Resource):
 
         return HttpResponse(jsonpickle.encode(out))
 
-
     # called from front-end to delete article
     def delete_article(self, request):
         id = request.POST['article_id']
@@ -185,7 +194,6 @@ class FigshareCollection(Resource):
         out['success'] = True
         return HttpResponse(jsonpickle.encode(out))
 
-
     def get_article(self, article_id):
         return FigshareCollections.find_one({'_id': ObjectId(article_id)})
 
@@ -193,7 +201,7 @@ class FigshareCollection(Resource):
 class Figshare_token(Resource):
     def token_exists(self):
         user = ThreadLocal.get_current_user()
-        return (FigshareTokens.find({'user_id': user.id}).limit(1).count() > 0 )
+        return (FigshareTokens.find({'user_id': user.id}).limit(1).count() > 0)
 
     def delete_old_token(self):
         user = ThreadLocal.get_current_user()

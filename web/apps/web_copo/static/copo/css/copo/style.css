@@ -108,4 +108,10 @@ div[class^="col-"], div[class*=" col-"] {
 .spacer {
     margin-right: 20px; /* define margin as you see fit */
 }
-/*USER LOGIN*/
+
+.vert-align{
+	float: none;
+    display: inline-block;
+    vertical-align: middle;
+
+}

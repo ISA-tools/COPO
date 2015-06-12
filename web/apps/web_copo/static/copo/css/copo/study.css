@@ -10,3 +10,9 @@
 #bottom_button_group{
     margin: 40px 40px 0 0;
 }
+
+.spinner{
+    background-image: url("/static/copo/img/flower.png");
+    margin:0;
+    padding:0;
+}

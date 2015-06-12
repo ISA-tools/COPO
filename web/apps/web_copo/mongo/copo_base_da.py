@@ -4,6 +4,7 @@ from datetime import datetime
 
 import bson.objectid as o
 from django_tools.middlewares import ThreadLocal
+from django.core.urlresolvers import reverse
 
 from apps.web_copo.mongo.resource import *
 from apps.web_copo.mongo.mongo_util import *
@@ -27,6 +28,13 @@ class Profile(Resource):
         if not docs:
             pass
         return docs
+
+    def get_profile_from_collection_id(self, collection_id):
+        doc = Profiles.find_one({'collections': ObjectId(collection_id)})
+        if doc:
+            return doc
+        else:
+            return None
 
     def PUT(self, request):
         a = request.POST['study_abstract']
@@ -103,14 +111,15 @@ class Profile_Status_Info(Resource):
         for p in prof:
             collections_ids = p['collections']
             # now get the corresponding collection_heads
-            collections_heads = Collections.find({'_id': {'$in': collections_ids}}, {'is_clean': 1, '_id': 0})
+            collections_heads = Collections.find({'_id': {'$in': collections_ids}}, {'is_clean': 1})
             for c in collections_heads:
                 try:
                     if c['is_clean'] == 0:
+                        profile = Profile().get_profile_from_collection_id(c["_id"])
                         issues_count += 1
                         context = {}
                         context["profile_name"] = p['title']
-                        context["link"] = 'www.google.com'
+                        context["link"] = reverse('copo:view_profile', args=[profile["_id"]])
                         issue_desc.append(STATUS_CODES['PROFILE_NOT_DEPOSITED'].format(**context))
                 except:
                     pass

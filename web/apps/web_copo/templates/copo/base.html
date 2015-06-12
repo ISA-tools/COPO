@@ -63,11 +63,7 @@
 								{% for issue in issue_description_list %}
 									<li class="status" role="presentation">
 										{% autoescape off %}{{ issue }}{% endautoescape %}
-										<p style="margin-right: 10px">
-											<button type="button" class="btn btn-xs pull-right">Dismiss</button>
-											<button type="button" style="margin-right: 5px" class="btn btn-success btn-xs pull-right">Show</button>
 
-										</p>
 									</li>
 								{% endfor %}
 							</ul>
