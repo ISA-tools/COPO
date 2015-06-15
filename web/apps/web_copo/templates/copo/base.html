@@ -65,6 +65,10 @@
 										{% autoescape off %}{{ issue }}{% endautoescape %}
 
 									</li>
+								{% empty %}
+									<li class="status" role="presentation">
+										Profile up to date.
+									</li>
 								{% endfor %}
 							</ul>
 						</li>
