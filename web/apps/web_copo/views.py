@@ -1,3 +1,4 @@
+from pprint import pprint
 from threading import Thread
 
 from django.shortcuts import render, render_to_response
@@ -10,7 +11,6 @@ from django.contrib.auth.models import User
 from django.template import RequestContext
 import jsonpickle
 
-from threading import Thread
 
 # import error codes
 
@@ -22,7 +22,7 @@ from apps.web_copo.repos.irods import *
 from apps.web_copo.repos.aspera import *
 from apps.chunked_upload.models import ChunkedUpload
 from apps.web_copo.mongo.mongo_util import *
-
+import apps.web_copo.uiconfigs.utils.data_formats as dfmts
 
 
 # Create your views here.
@@ -119,13 +119,13 @@ def view_profile(request, profile_id):
 
     except:
         pass
-    context = {'profile_id': profile_id, 'profile_title': profile['title'], 'profile_abstract': profile['short_abstract'], 'collections': collections}
+    context = {'profile_id': profile_id, 'profile_title': profile['title'],
+               'profile_abstract': profile['short_abstract'], 'collections': collections}
     return render(request, 'copo/profile.html', context)
 
 
 @login_required(login_url='/copo/login/')
 def new_collection_head(request):
-
     # create the new collection
     collection_id = Collection_Head().PUT(request)
     profile_id = request.session['profile_id']
@@ -135,7 +135,6 @@ def new_collection_head(request):
 
 @login_required(login_url='/copo/login/')
 def view_collection(request, collection_id):
-
     collection = Collection_Head().GET(collection_id)
     # get profile id for breadcrumb
     profile_id = request.session['profile_id']
@@ -143,16 +142,19 @@ def view_collection(request, collection_id):
     request.session['collection_id'] = collection_id
     # check type of collection
     if collection['type'] == 'ENA Submission':
-        if('collection_details' in collection):
+        if ('collection_details' in collection):
             request.session['study_id'] = str(collection['collection_details'])
-            data_dict = {'collection': collection, 'collection_id': collection_id, 'study_id': request.session['study_id'], 'profile_id': profile_id, 'study': EnaCollection().GET(request.session['study_id'])}
+            data_dict = {'collection': collection, 'collection_id': collection_id,
+                         'study_id': request.session['study_id'], 'profile_id': profile_id,
+                         'study': EnaCollection().GET(request.session['study_id'])}
         else:
             data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
         return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
     elif collection['type'] == 'PDF File' or collection['type'] == 'Image':
-            articles = figshare.FigshareCollection().get_articles_in_collection(collection_id)
-            data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id, 'articles': articles}
-            return render(request, 'copo/article.html', data_dict, context_instance=RequestContext(request))
+        articles = figshare.FigshareCollection().get_articles_in_collection(collection_id)
+        data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id,
+                     'articles': articles}
+        return render(request, 'copo/article.html', data_dict, context_instance=RequestContext(request))
 
 
 def initiate_repo(request):
@@ -181,7 +183,7 @@ def initiate_repo(request):
                 "elapsed_time": '',
                 "file_size (bytes)": '',
                 "bytes_lost": ''
-                }
+            }
 
             aspera_transfer_id = asperacollections.insert(document)
             initiate_status = "success"
@@ -213,3 +215,13 @@ def register_to_irods(request):
     return_structure = {'exit_status': status}
     out = jsonpickle.encode(return_structure)
     return HttpResponse(out, content_type='json')
+
+
+def ena_template(request):
+    ena_fields = dfmts.json_to_object("ENA")
+
+    return render_to_response(
+        'copo/ena_template.html',
+        {'ena_fields': ena_fields},
+        context_instance=RequestContext(request)
+    )

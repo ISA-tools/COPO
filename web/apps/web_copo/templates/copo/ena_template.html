@@ -1,0 +1,35 @@
+{% extends 'copo/base.html' %}
+{% load staticfiles %}
+
+{% block js_block %}
+    <script src="{% static 'copo/js/enatemplate.js' %}"></script>
+{% endblock %}
+
+{% block browse_header_block %}{% endblock %}
+
+{% block stylesheet_block %}
+    <link rel="stylesheet" href="{% static 'copo/css/copo/collection.css' %}">
+{% endblock %}
+
+{% block main_block %}
+
+    {% block work_area %}
+        <ul>
+            {% for nas in ena_fields.studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.fields %}
+                {% if nas.control == "text" %}
+                    <div class='form-group'>
+                        <label for='{{ nas.id }}'>{{ nas.label }}</label><br/>
+                        <input type='text' id='{{ nas.id }}' name='{{ nas.id }}' value='{{ nas.default_value }}'>
+                    </div>
+                {% elif nas.control == "select" %}
+                    <div class='form-group'>
+                        <label for='{{ nas.id }}'>{{ nas.label }}</label><br/>
+
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endblock %}
+
+
+{% endblock %}

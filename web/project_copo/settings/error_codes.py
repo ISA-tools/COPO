@@ -1,5 +1,7 @@
 __author__ = 'etuka'
 
+# this file is deprecated, and has been replaced by display_messages.py
+
 LOGIN_ERROR_CODES = {
     'LOGIN_NO_USERNAME_PASSWORD': 'Please supply a valid username and/or password!',
     'LOGIN_LOGIN_PROMPT': 'Please log in below...',
