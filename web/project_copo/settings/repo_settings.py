@@ -1,4 +1,3 @@
-
 # define parameters for repositories
 
 REPOSITORIES = {
@@ -21,5 +20,11 @@ REPOSITORIES = {
             'password': 'RwvmPMC7',  # TODO: probably in mongo?
             'script': 'myptest.py'
         }
+    }
+}
+
+SCHEMAS = {
+    'ENA': {
+        'path_to_json': 'apps/web_copo/schemas/ena/isa_ena_model.json'
     }
 }
