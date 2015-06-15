@@ -25,32 +25,60 @@ def do_aspera_transfer(aspera_transfer_id):
     thread.expect(["assword:", pexpect.EOF])
     thread.sendline(password)
 
-    cpl = thread.compile_pattern_list([pexpect.EOF, '(\d+%)'])
+    cpl = thread.compile_pattern_list([pexpect.EOF, '(.+)'])
 
     while True:
         i = thread.expect_list(cpl, timeout=None)
-        if i == 0:  # EOF! Possible error point if encountered before transfer completion
-            print("the sub process exited")
+        if i == 0:  # EOF! possible error if encountered before transfer completion
+            print("Process termination - check exit status!")
             break
         elif i == 1:
-            trans_pct = thread.match.group(1)
-            trans_pct = trans_pct.decode("utf-8")
-            print("%s completed" % trans_pct)
-            pct_val = trans_pct.rstrip("%")
+            pexp_match = thread.match.group(1)
 
-            asperacollections.update({
-                "_id": aspera_transfer_id
-            }, {"$set": {"pct_complete": pct_val}}
-            )
+            if "ETA" in pexp_match.decode("utf-8"):
+                pct_match = re.search('(\d+%)', pexp_match.decode("utf-8"))
 
-            if int(pct_val) == 100:
-                exit_status = "success"
-                # exit_status represents the transfer/completion status:
-                # '' for running, 'success', 'failed'
-                asperacollections.update({
-                    "_id": aspera_transfer_id
-                }, {"$set": {"exit_status": exit_status, "completed_on": datetime.now()}}
-                )
-                print(exit_status)
-                break
+                if pct_match:
+                    pct_val = pct_match.group(1)
+                    print("completed", pct_val)
+                    asperacollections.update({
+                        "_id": aspera_transfer_id
+                    }, {"$set": {"pct_complete": pct_val.rstrip("%")}}
+                    )
+
+            if "LOG FASP Transfer Stop" in pexp_match.decode("utf-8"):
+                exit_status = ""
+                transfer_rate = ""
+                elapsed_time = ""
+                bytes_lost = ""
+                file_size = ""
+                tokens = pexp_match.decode("utf-8").split(" ")
+                for token in tokens:
+                    token_of_interest = token.split("=")
+                    if token_of_interest[0] == "status":
+                        exit_status = token_of_interest[1]
+                        # print("Exit status: %s" % exit_status)
+                    elif token_of_interest[0] == "rate":
+                        transfer_rate = token_of_interest[1]
+                        # print("Average transfer rate : %s" % transfer_rate)
+                    elif token_of_interest[0] == "elapsed":
+                        elapsed_time = token_of_interest[1]
+                        # print("Elapsed time : %s" % elapsed_time)
+                    elif token_of_interest[0] == "loss":
+                        bytes_lost = token_of_interest[1]
+                        # print("Bytes lost : %s" % bytes_lost)
+                    elif token_of_interest[0] == "size":
+                        file_size = token_of_interest[1]
+                        # print("File size (bytes): %s" % file_size)
+
+                    asperacollections.update({
+                        "_id": aspera_transfer_id
+                    }, {"$set": {"exit_status": exit_status,
+                                 "completed_on": datetime.now(),
+                                 "transfer_rate": transfer_rate,
+                                 "elapsed_time": elapsed_time,
+                                 "bytes_lost": bytes_lost,
+                                 "file_size (bytes)": file_size}}
+                    )
+
     thread.close()

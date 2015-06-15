@@ -177,7 +177,10 @@ def initiate_repo(request):
                 "completed_on": '',
                 "transfer_rate": '',
                 "pct_complete": '',
-                "exit_status": ''
+                "exit_status": '',
+                "elapsed_time": '',
+                "file_size (bytes)": '',
+                "bytes_lost": ''
                 }
 
             aspera_transfer_id = asperacollections.insert(document)
