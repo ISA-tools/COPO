@@ -1,8 +1,9 @@
 __author__ = 'etuka'
 
-from project_copo.settings.repo_settings import *
 import pexpect
 import re
+
+from project_copo.settings.services import *
 
 
 def register_to_irods():

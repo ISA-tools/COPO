@@ -167,21 +167,22 @@ header > nav > ul > li > ul > li {
 }
 
 .status {
-    padding: 5px;
-    background: #fdfdfd url("/static/copo/img/noise-diagonal.png");
-    height: 80px;
-    width: 300px;
+    padding: 5px 5px 0 5px;
+    height: 50px;
+    width: 250px;
+    line-height: normal;
 }
 
 .dropdown-menu > li > a {
+    margin:0;
+    padding: 0 10px 0 10px;
     display: inline;
     color: #269abc;
-    padding: 0;
-    margin: 0;
+
 }
 
-.status:nth-child(odd) {
-    background: white;
+.status:nth-child(even) {
+    background: #fafafa;
 }
 
 .status:hover{

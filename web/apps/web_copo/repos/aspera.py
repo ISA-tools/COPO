@@ -1,10 +1,12 @@
 __author__ = 'etuka'
 
-from project_copo.settings.repo_settings import *
+from datetime import datetime
+
+import pexpect
+
+from project_copo.settings.services import *
 from project_copo.settings.settings import *
 from apps.web_copo.mongo.mongo_util import *
-import pexpect
-from datetime import datetime
 
 
 def do_aspera_transfer(aspera_transfer_id):

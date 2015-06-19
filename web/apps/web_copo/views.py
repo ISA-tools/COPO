@@ -1,15 +1,13 @@
-from pprint import pprint
 from threading import Thread
 
 from django.shortcuts import render, render_to_response
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.template import RequestContext
-import jsonpickle
 
 
 # import error codes
@@ -21,8 +19,9 @@ import apps.web_copo.mongo.figshare_da as figshare
 from apps.web_copo.repos.irods import *
 from apps.web_copo.repos.aspera import *
 from apps.chunked_upload.models import ChunkedUpload
-from apps.web_copo.mongo.mongo_util import *
 import apps.web_copo.uiconfigs.utils.data_formats as dfmts
+from apps.web_copo.api.views import *
+
 
 
 # Create your views here.
@@ -34,7 +33,7 @@ def index(request):
     profiles = Profile().GET_ALL()
     context = {'user': request.user, 'profiles': profiles}
     # c = Collection.objects.filter(user = username)
-
+    request.META['test'] = 'test'
     return render(request, 'copo/index.html', context)
 
 
@@ -69,12 +68,29 @@ def copo_login(request):
                     # successfully logged in!
                     if not next_loc:
                         next_loc = "/copo"
+                        request.META['testingtesting'] = "HERE IS SOME TEST DATA"
                     return HttpResponseRedirect(next_loc)
                 else:
                     login_err_message = LOGIN_ERROR_CODES["LOGIN_INACTIVE_ACCOUNT"]
             else:
                 login_err_message = LOGIN_ERROR_CODES["LOGIN_INCORRECT_USERNAME_PASSWORD"]
-
+    else:
+        # check if we had a code parameter in the GET, if so
+        s = request.GET.get('next', '')
+        try:
+            index = s.index('=')
+        except:
+            return render_to_response(
+                'copo/login.html',
+                {'login_err_message': login_err_message, 'username': username, 'next': next_loc},
+                context_instance=RequestContext(request)
+            )
+        orcid_code = s[index + 1:]
+        if orcid_code != '':
+            handle_orcid_authorise(orcid_code)
+        if not next_loc:
+            next_loc = "/copo"
+        return HttpResponseRedirect(reverse('copo:index'))
     return render_to_response(
         'copo/login.html',
         {'login_err_message': login_err_message, 'username': username, 'next': next_loc},

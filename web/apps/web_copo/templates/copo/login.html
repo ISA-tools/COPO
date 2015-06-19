@@ -1,7 +1,7 @@
 {% extends 'copo/base.html' %}
 {% load staticfiles %}
 {% block js_block %}
-<script src="{% static 'copo/js/copo.login_view.js' %}"></script>
+    <script src="{% static 'copo/js/copo.login_view.js' %}"></script>
 {% endblock %}
 
 {% block browse_header_block %}{% endblock %}
@@ -12,23 +12,56 @@
 
 {% block main_block %}
 
-{% block work_area %}
-{{ login_err_message }}
-    <div class="generic-form">
-        <form action="/copo/login/" method="post">
-            {% csrf_token %}
-            {% if next %}
-            <input type="hidden" name="next" value="{{ next }}" />
-            {% endif %}
-            <input type="text" id="frm_login_username" name="frm_login_username" value="{{ username}}" placeholder="Name"/>
+    {% block work_area %}
 
-            <input type="password" id="frm_login_password" name="frm_login_password" placeholder="Password"/>
-            <button class="submit" id="frm_login_submit">Submit</button>
-        </form>
-        <span style="float: right; margin-top:10px"><a href="/copo/register/">Register</a></span>
-    </div>
 
-{% endblock %}
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+
+                <p class="lead">
+                    {{ login_err_message }}
+                </p>
+
+                <form action="/copo/login/" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {% if next %}
+                            <input type="hidden" name="next" value="{{ next }}" class="form-control"/>
+                        {% endif %}
+                        <input type="text" id="frm_login_username" name="frm_login_username" value="{{ username }}"
+                               placeholder="Name" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="frm_login_password" name="frm_login_password" placeholder="Password"
+                               class="form-control"/>
+                    </div>
+
+                    <button class="submit btn btn-primary pull-right" id="frm_login_submit">Submit</button>
+
+                </form>
+
+                <div><a href="/copo/register/">Register</a></div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+
+                <h1 class="lead" style="padding: 20px 0 20px 0">
+                    Or...
+                </h1>
+
+                <button class="btn btn-default" id="btn_orcid"><img src="{% static 'copo/img/orcid_logo.png' %}" style="height:60px"/>
+                    <span class="lead">Sign in with your ORCID id</span></button>
+
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4"></div>
+        </div>
+
+    {% endblock %}
 
 
 {% endblock %}
