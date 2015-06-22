@@ -224,10 +224,10 @@ def ena_template(request):
     ena_d = dfmts.json_to_dict(lkup.SCHEMAS[schema]['PATHS_AND_URIS']['UI_TEMPLATE_json'])
 
     ena_d = ena_d["studies"]["study"]["assays"]["assaysTable"]["genomeSeq"]
-    ena_d["nucleicAcidSequencing"]["fields"][0]["label"] = "Waoooo!"
+    # ena_d["nucleicAcidSequencing"]["fields"][0]["label"] = "Waoooo!"
 
-    for elem in ena_d["nucleicAcidSequencing"]["fields"]:
-        print(elem["label"])
+    # for elem in ena_d["nucleicAcidSequencing"]["fields"]:
+    #     print(elem["label"])
 
     ena_o = dfmts.json_to_object(ena_d)
 

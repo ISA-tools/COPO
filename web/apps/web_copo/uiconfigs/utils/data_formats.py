@@ -56,6 +56,7 @@ def generate_ui_template():
 
     # generate and write json to file
     ui_template_json = lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['UI_TEMPLATE_json']
+
     json.dump(out_dict, open(ui_template_json, 'w'))
 
     return out_dict
