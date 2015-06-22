@@ -2,8 +2,7 @@
 body{
 
 	//background-image: url("/static/copo/img/squared_metal.png");
-	background-repeat: repeat;
-	font-size:medium !important
+
 }
 .container{
 	width:100%;
@@ -14,17 +13,13 @@ div[class^="col-"], div[class*=" col-"] {
 .row{
 	//border: 1px solid black;
 }
-.header{
-	/*background-color:#FFF4CF;*/
-    background-color:#EEEEEE;
-    border-bottom: 1px solid #999999;
-	opacity:0.7;
-}
+
 
 /*HEADER CSS*/
+
 .h2{
 	font-family: 'Ubuntu', sans-serif;
-	margin-bottom:20px;
+
 	color:#163657;
 }
 .h2 small{
@@ -36,30 +31,14 @@ div[class^="col-"], div[class*=" col-"] {
 
 }
 
-
-
-/* STRUCTURE CSS */
-#site_brand{
-	margin-bottom:20px;
-	margin-left:20px;
-}
-#profile_header{
-	float:right;
-	margin-top:25px;
-
-}
-#profile_header a{
-    margin-right:30px;
-	color:#163657;
-}
 #sidebar{
 	margin-left:30px;
 	width:150px;
 }
-.sidebar_text{
-}
+
 #sidebar ul{
-	margin-top:30px;
+
+	margin-top:60px;
 
 }
 #sidebar li{
@@ -69,7 +48,7 @@ div[class^="col-"], div[class*=" col-"] {
 	margin-left:10px;
 }
 #browse_header{
-	margin-top:30px;
+	margin-top:60px;
 }
 #browse_header_left{
 	margin-top:30px;
@@ -86,15 +65,15 @@ div[class^="col-"], div[class*=" col-"] {
 
 
 .nav-pills > li.active > a {
-    background-color:#163657;
+    background-color:#1B2B32;
 }
 
 .nav-pills>li.active>a:hover {
-    background-color:#163657;
+    background-color:#1B2B32;
 }
 
 .nav-pills > li > a {
-    color:#163657;
+    color:#1B2B32;
 }
 
 /* ICON CSS */
@@ -108,37 +87,13 @@ div[class^="col-"], div[class*=" col-"] {
     color:#163657;
 }
 .blue_icon>a:hover{
-    color:white;
+    color:grey;
 }
-
-input,
-button,
-select,
-textarea {
-    font-size: 10px
-}
-
 .panel-heading{
     padding: 8px 15px;
 }
-
-
-.form-control{
-    font-size:12px;
-    height: 24px;
-    padding:0px;
-}
-
-.btn{
-    padding: 4px;
-    font-size:12px;
-    height:25px;
-    width: auto;
-    border-radius: 10px
-}
-
-td, th{
-    padding:5px
+.btn {
+    border-radius: 4px
 }
 
 /* REPOSITORY CONTROLS CSS */
@@ -153,4 +108,10 @@ td, th{
 .spacer {
     margin-right: 20px; /* define margin as you see fit */
 }
-/*USER LOGIN*/
+
+.vert-align{
+	float: none;
+    display: inline-block;
+    vertical-align: middle;
+
+}

@@ -11,7 +11,6 @@ import shutil
 
 from apps.web_copo.mongo.figshare_da import *
 
-
 client = requests.session()
 json_header = {'content-type': 'application/json'}
 client_key = 'id6JBVVeItadGDmjRUDljg'
@@ -48,6 +47,7 @@ def submit_to_figshare(article_id):
         figshare_article = make_article(name=collection['name'], description=article['description'], type=article['article_type'], oauth=token_object)
         figshare_article_id = figshare_article['article_id']
         FigshareCollection().add_figshare_accession_to_article(figshare_id=figshare_article_id, article_id=article_id)
+        FigshareCollection().add_figshare_url_to_article(figshare_id=figshare_article_id, article_id=article_id)
         add_file_to_article(oauth=token_object, article_id=figshare_article_id, filename=new_name)
         for tag in article['tags']:
             add_tags_to_article(oauth=token_object, article_id=figshare_article_id, tag=tag)

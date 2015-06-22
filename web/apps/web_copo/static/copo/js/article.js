@@ -6,12 +6,11 @@
 $(document).ready(function () {
     'use strict';
     var token = $.cookie('csrftoken')
-    $('#btn_submit_to_figshare').on('click', submit_to_figshare)
+    $('#files_table td').on('click', view_in_figshare)
     $('#btn_save_article').on('click', save_article)
     $('.delete_cell').on('click', delete_handler)
-    $('.submit_cell').on('click', submit_to_figshare)
-    $('#input_text').on("keypress", save_tags)
 
+    $('#input_text').on("keypress", save_tags)
 
 
     // Change this to the location of your server-side upload handler:
@@ -60,39 +59,6 @@ function save_tags(e) {
     }
 }
 
-function submit_to_figshare(e) {
-
-    e.preventDefault()
-
-    // ajax call checks if figshare creds are valid
-    $.ajax({
-        type: "GET",
-        url: "/rest/check_figshare_credentials",
-        dataType: "json"
-    }).done(function (data) {
-        // if creds invalid, prompt user
-        if (data.exists == false) {
-            url = data.url
-            window.open(url, "_blank", "toolbar=no, scrollbars=yes, resizable=no, top=500, left=20, width=800, height=600");
-        }
-        // if creds valid call submit_to_figshare backend handler
-        else {
-            var article_id = $(e.target).closest('td').attr('data-article-id')
-            $.ajax({
-                type: "GET",
-                url: "/api/submit_to_figshare/" + article_id,
-                dataType: "json"
-            }).done(function (data) {
-                if (data.success == true) {
-                    BootstrapDialog.show({
-                        title: 'Success',
-                        message: 'Figshare Object Deposited'
-                    });
-                }
-            })
-        }
-    })
-}
 
 function save_article(e) {
     'use strict'
@@ -198,6 +164,22 @@ function delete_handler(e) {
             }
         ]
     });
+
+
+}
+
+function view_in_figshare(e) {
+    e.preventDefault()
+    var article_id = $(e.target).closest('tr').attr('data-article-id')
+    // ajax call checks if figshare creds are valid
+    $.ajax({
+        type: "GET",
+        url: "/api/get_figshare_url/" + article_id,
+        dataType: "json"
+    }).done(function (data) {
+        url = data.figshare_url
+        window.open(url, "_blank", "toolbar=no, scrollbars=yes, resizable=no, top=500, left=20, width=1024, height=768");
+    })
 }
 
 

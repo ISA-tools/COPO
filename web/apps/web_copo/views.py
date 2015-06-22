@@ -231,7 +231,6 @@ def ena_template(request):
 
     ena_o = dfmts.json_to_object(ena_d)
 
-
     return render_to_response(
         'copo/ena_template.html',
         {'ena_o': ena_o},

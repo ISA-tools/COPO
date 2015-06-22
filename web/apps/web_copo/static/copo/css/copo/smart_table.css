@@ -1,102 +1,118 @@
 strong {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 em {
-	font-style: italic;
+    font-style: italic;
 }
 
 table {
-	background: #f5f5f5;
-	border-collapse: separate;
-	box-shadow: inset 0 1px 0 #fff;
-	font-size: 12px;
-	line-height: 24px;
-	margin: 30px auto;
-	text-align: left;
-	width: 800px;
+    background: #f5f5f5;
+    border-collapse: separate;
+    box-shadow: inset 0 1px 0 #fff;
+    font-size: 12px;
+    line-height: 24px;
+    margin: 30px auto;
+    text-align: left;
+    width: 100%;
+    box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.1), 0 0 3px rgba(0, 0, 0, 0.8);
+    border:none;
 }
 
 th {
-	background: url(http://jackrugile.com/images/misc/noise-diagonal.png), linear-gradient(#777, #444);
-	border-left: 1px solid #555;
-	border-right: 1px solid #777;
-	border-top: 1px solid #555;
-	border-bottom: 1px solid #333;
-	box-shadow: inset 0 1px 0 #999;
+    color: #ddd;
+    background: #243942;
+    border-bottom: 1px solid #191919;
+    background-image: -webkit-linear-gradient(top, #243942, #22373f 50%, #1d2e35 50%, #1b2b32);
+    background-image: -moz-linear-gradient(top, #243942, #22373f 50%, #1d2e35 50%, #1b2b32);
+    background-image: -o-linear-gradient(top, #243942, #22373f 50%, #1d2e35 50%, #1b2b32);
+    background-image: linear-gradient(to bottom, #243942, #22373f 50%, #1d2e35 50%, #1b2b32);
+    -webkit-box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.1), 0 0 3px rgba(0, 0, 0, 0.8);
+    border:none;
+    /*
+	background: linear-gradient(#777, #444);
+
+
 	color: #fff;
-  font-weight: bold;
-	padding: 10px 15px;
-	position: relative;
-	text-shadow: 0 1px 0 #000;
+	*/
+
+    /*border-left: 1px solid #555;
+	border-right: 1px solid #777;
+	border-top: 1px solid #243942;
+	border-bottom: 1px solid #22373f;*/
+    font-weight: bold;
+    padding: 10px 15px;
+    position: relative;
+
 }
 
 th:after {
-	background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.08));
-	content: '';
-	display: block;
-	height: 25%;
-	left: 0;
-	margin: 1px 0 0 0;
-	position: absolute;
-	top: 25%;
-	width: 100%;
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, .08));
+    content: '';
+    display: block;
+    height: 25%;
+    left: 0;
+    margin: 1px 0 0 0;
+    position: absolute;
+    top: 25%;
+    width: 100%;
 }
 
 th:first-child {
-	border-left: 1px solid #777;
-	box-shadow: inset 1px 1px 0 #999;
+    /*border-left: 1px solid #777;
+    box-shadow: inset 1px 1px 0 #999;*/
 }
 
 th:last-child {
-	box-shadow: inset -1px 1px 0 #999;
+    /*box-shadow: inset -1px 1px 0 #999;*/
 }
 
 td {
-	border-right: 1px solid #fff;
-	border-left: 1px solid #e8e8e8;
-	border-top: 1px solid #fff;
-	border-bottom: 1px solid #e8e8e8;
-	padding: 10px 15px;
-	position: relative;
-	transition: all 100ms;
+    /*border-right: 1px solid #fff;
+    border-left: 1px solid #e8e8e8;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #e8e8e8;*/
+    padding: 10px 15px;
+    position: relative;
+    transition: all 100ms;
+    border:none;
 }
 
 td:first-child {
-	box-shadow: inset 1px 0 0 #fff;
+    /*box-shadow: inset 1px 0 0 #fff;*/
 }
 
 td:last-child {
-	border-right: 1px solid #e8e8e8;
-	box-shadow: inset -1px 0 0 #fff;
+    /*border-right: 1px solid #e8e8e8;
+    box-shadow: inset -1px 0 0 #fff;*/
 }
 
 tr {
-	background: url(http://jackrugile.com/images/misc/noise-diagonal.png);
+    background: url("/static/copo/img/noise-diagonal.png");
 }
 
 tr:nth-child(odd) td {
-	background: #f1f1f1 url(http://jackrugile.com/images/misc/noise-diagonal.png);
+    background: #f1f1f1 url("/static/copo/img/noise-diagonal.png");
 }
 
 tr:last-of-type td {
-	box-shadow: inset 0 -1px 0 #fff;
+    box-shadow: inset 0 -1px 0 #fff;
 }
 
 tr:last-of-type td:first-child {
-	box-shadow: inset 1px -1px 0 #fff;
+    box-shadow: inset 1px -1px 0 #fff;
 }
 
 tr:last-of-type td:last-child {
-	box-shadow: inset -1px -1px 0 #fff;
+    box-shadow: inset -1px -1px 0 #fff;
 }
 
 tbody:hover td {
-	color: grey;
+    color: grey;
 
 }
 
 tbody:hover tr:hover td {
-	color: black;
-	text-shadow: 0 1px 0 #fff;
+    color: black;
+    text-shadow: 0 1px 0 #fff;
 }

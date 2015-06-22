@@ -75,22 +75,19 @@
 				<th>Date Uploaded</th>
 				<th>Size</th>
 				<th>Delete</th>
-				<th>Submit</th>
 			</tr>
 			</thead>
 			<tbody>
 
 			{% for article in articles %}
-				<tr>
+				<tr data-article-id="{{ article|mongo_id }}">
 					<td>{{ article.original_name }}</td>
 					<td>{{ article.uploaded_on }}</td>
 					<td>{{ article.offset }}</td>
-					<td class="delete_cell text-center" data-article-id="{{ article|mongo_id }}">
+					<td class="delete_cell text-center">
 						<span class="glyphicon glyphicon-remove-sign"></span>
 					</td>
-				    <td class="submit_cell text-center" data-article-id="{{ article|mongo_id }}">
-						<span class="glyphicon glyphicon-upload"></span>
-					</td>
+
 				</tr>
 			{% endfor %}
 

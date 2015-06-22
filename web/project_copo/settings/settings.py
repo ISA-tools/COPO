@@ -98,6 +98,7 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                'django.core.context_processors.csrf',
                                'django.core.context_processors.request',
                                'django.core.context_processors.static',
+                               "apps.web_copo.context_processors.get_status"
 )
 
 
