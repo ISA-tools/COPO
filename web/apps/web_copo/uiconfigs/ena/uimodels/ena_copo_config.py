@@ -280,7 +280,8 @@ ELEMENTS = {
             'ref': 'Parameter Value[library layout]'
         },
         'studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.sequencingInstrument': {
-            'ref': 'Parameter Value[sequencing instrument]'
+            'ref': 'Parameter Value[sequencing instrument]',
+            'label': 'Sequencing Instrument'
         },
         'studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.qualityScorer': {
             'ref': 'Parameter Value[quality scorer]'

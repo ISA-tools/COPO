@@ -10,3 +10,5 @@ atlassian-ide-plugin.xml
 .idea/
 dump.rdb
 *.out
+web/apps/web_copo/uiconfigs/ena/uimodels/ena_copo_template.json
+web/project_copo/settings/settings_dev.py

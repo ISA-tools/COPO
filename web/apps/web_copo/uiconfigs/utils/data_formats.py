@@ -17,21 +17,20 @@ from project_copo.settings.display_messages import SCHEMAS_MESSAGES as SM
 
 
 # converts from json to dictionary
-def json_to_dict(schema):
-    path_to_json = lkup.SCHEMAS[schema]['PATHS_AND_URIS']['UI_TEMPLATE_json']
-
+def json_to_dict(path_to_json):
     with open(path_to_json, encoding='utf-8') as data_file:
         data = json.loads(data_file.read())
 
     return data
 
 
-# converts from json to object
-def json_to_object(schema):
-    path_to_json = lkup.SCHEMAS[schema]['PATHS_AND_URIS']['UI_TEMPLATE_json']
-
-    with open(path_to_json, encoding='utf-8') as data_file:
-        data = json.loads(data_file.read(), object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
+# converts from json or dictionary to object
+def json_to_object(path_or_data):
+    if isinstance(path_or_data, dict):
+        data = json.loads(json.dumps(path_or_data), object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
+    else:  # just assume it is path to the json
+        with open(path_or_data, encoding='utf-8') as data_file:
+            data = json.loads(data_file.read(), object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
 
     return data
 
@@ -98,7 +97,8 @@ def do_mapping_ena(arm):
                                     if f.get("data-type") == "List":
                                         try:
                                             ls = f.findall(".//{%s}list-values" % ns)
-                                            new_dict[key].update({k: ls[0].text})
+                                            options_split = ls[0].text.split(",")
+                                            new_dict[key].update({k: options_split})
                                         except IndexError:
                                             pass
                                 else:

@@ -15,7 +15,7 @@
 
     {% block work_area %}
         <ul>
-            {% for nas in ena_fields.studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.fields %}
+            {% for nas in ena_o.nucleicAcidSequencing.fields %}
                 {% if nas.control == "text" %}
                     <div class='form-group'>
                         <label for='{{ nas.id }}'>{{ nas.label }}</label><br/>
@@ -24,7 +24,11 @@
                 {% elif nas.control == "select" %}
                     <div class='form-group'>
                         <label for='{{ nas.id }}'>{{ nas.label }}</label><br/>
-
+                            <select id='{{ nas.id }}' name='{{ nas.id }}'>
+                                {% for opval in nas.option_values %}
+                                    <option>{{ opval }}</option>
+                                {% endfor %}
+                            </select>
                     </div>
                 {% endif %}
             {% endfor %}

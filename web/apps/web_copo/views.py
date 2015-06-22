@@ -23,6 +23,7 @@ from apps.web_copo.repos.aspera import *
 from apps.chunked_upload.models import ChunkedUpload
 from apps.web_copo.mongo.mongo_util import *
 import apps.web_copo.uiconfigs.utils.data_formats as dfmts
+import apps.web_copo.uiconfigs.utils.lookup as lkup
 
 
 # Create your views here.
@@ -218,10 +219,21 @@ def register_to_irods(request):
 
 
 def ena_template(request):
-    ena_fields = dfmts.json_to_object("ENA")
+    schema = "ENA"
+    ena_o = dfmts.json_to_object(lkup.SCHEMAS[schema]['PATHS_AND_URIS']['UI_TEMPLATE_json'])
+    ena_d = dfmts.json_to_dict(lkup.SCHEMAS[schema]['PATHS_AND_URIS']['UI_TEMPLATE_json'])
+
+    ena_d = ena_d["studies"]["study"]["assays"]["assaysTable"]["genomeSeq"]
+    ena_d["nucleicAcidSequencing"]["fields"][0]["label"] = "Waoooo!"
+
+    for elem in ena_d["nucleicAcidSequencing"]["fields"]:
+        print(elem["label"])
+
+    ena_o = dfmts.json_to_object(ena_d)
+
 
     return render_to_response(
         'copo/ena_template.html',
-        {'ena_fields': ena_fields},
+        {'ena_o': ena_o},
         context_instance=RequestContext(request)
     )
