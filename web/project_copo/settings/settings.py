@@ -1,19 +1,20 @@
 import os
 # For further info see https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
-#get settings for environment
+# get settings for environment
 from project_copo.settings.settings_hostnames import *
 # determine which system is running and import appropriate settings file
 
-ENVIRONMENT_TYPE="DEV"
-#ENVIRONMENT_TYPE="PROD"
+ENVIRONMENT_TYPE = "DEV"
+# ENVIRONMENT_TYPE="PROD"
 
-if ENVIRONMENT_TYPE=="DEV":
+if ENVIRONMENT_TYPE == "DEV":
     from project_copo.settings.settings_dev import *
-elif ENVIRONMENT_TYPE=="PROD":
+elif ENVIRONMENT_TYPE == "PROD":
     from project_copo.settings.settings_prod import *
 else:
-    raise Exception("Cannot determine execution mode for host '%s'. Please check DEVELOPMENT_HOST and PRODUCTION_HOST in settings_local.py." % node())
+    raise Exception(
+        "Cannot determine execution mode for host '%s'. Please check DEVELOPMENT_HOST and PRODUCTION_HOST in settings_local.py." % node())
 
 
 
@@ -23,17 +24,15 @@ SECRET_KEY = '!q)6na7q*xu#24k-2jlt0hf-*dqw2vvgf4!t*_+a@(v=_6w*$t'
 # now import other settings
 from project_copo.settings.settings_chunked_upload import *
 
-LOGIN_URL = '/copo/login/'
+LOGIN_URL = '/accounts/login/'
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
-
-
 
 ALLOWED_HOSTS = []
 
 # Application definition
 
 INSTALLED_APPS = (
+    'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,8 +42,18 @@ INSTALLED_APPS = (
     'apps.web_copo',
     'rest_framework',
     'apps.chunked_upload',
-
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.orcid',
+    'allauth.socialaccount.providers.google',
+    #'apps.allauth.socialaccount.providers.twitter',
 )
+
+SOCIALACCOUNT_PROVIDERS = \
+    { 'google':
+        { 'SCOPE': ['profile', 'email'],
+          'AUTH_PARAMS': { 'access_type': 'online' } }}
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -56,10 +65,16 @@ MIDDLEWARE_CLASSES = (
     'django_tools.middlewares.ThreadLocal.ThreadLocalMiddleware',
 )
 
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
 ROOT_URLCONF = 'project_copo.urls'
 
 WSGI_APPLICATION = 'project_copo.wsgi.application'
-
 
 REST_FRAMEWORK = {
     # Use Django's standard `web.contrib.auth` permissions,
@@ -85,8 +100,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
-
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates/copo'), os.path.join(BASE_DIR, 'templates/account')]
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                "django.core.context_processors.debug",
@@ -98,13 +112,14 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                'django.core.context_processors.csrf',
                                'django.core.context_processors.request',
                                'django.core.context_processors.static',
-                               "apps.web_copo.context_processors.get_status"
-)
-
+                               # processor for base page status template tags
+                               "apps.web_copo.context_processors.get_status",
+                               # `allauth` specific context processors
+                               'allauth.account.context_processors.account',
+                               'allauth.socialaccount.context_processors.socialaccount',
+                               )
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
     'PAGINATE_BY': 10
 }
-
-

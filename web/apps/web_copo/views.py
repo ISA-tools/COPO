@@ -27,7 +27,7 @@ from apps.web_copo.api.views import *
 # Create your views here.
 
 
-@login_required(login_url='/copo/login/')
+@login_required
 def index(request):
     username = User(username=request.user)
     profiles = Profile().GET_ALL()
@@ -37,7 +37,7 @@ def index(request):
     return render(request, 'copo/index.html', context)
 
 
-@login_required(login_url='/copo/login/')
+@login_required
 def new_profile(request):
     if request.method == 'POST':
         Profile().PUT(request)
@@ -81,7 +81,7 @@ def copo_login(request):
             index = s.index('=')
         except:
             return render_to_response(
-                'copo/login.html',
+                'copo/templates/account/login.html',
                 {'login_err_message': login_err_message, 'username': username, 'next': next_loc},
                 context_instance=RequestContext(request)
             )
@@ -92,7 +92,7 @@ def copo_login(request):
             next_loc = "/copo"
         return HttpResponseRedirect(reverse('copo:index'))
     return render_to_response(
-        'copo/login.html',
+        'copo/templates/account/login.html',
         {'login_err_message': login_err_message, 'username': username, 'next': next_loc},
         context_instance=RequestContext(request)
     )
@@ -100,7 +100,7 @@ def copo_login(request):
 
 def copo_logout(request):
     logout(request)
-    return render(request, 'copo/login.html')
+    return render_to_response(request, 'copo/templates/account/login.html')
 
 
 def copo_register(request):
@@ -120,10 +120,10 @@ def copo_register(request):
         user.first_name = firstname
         user.save()
 
-        return render(request, 'copo/login.html')
+        return render(request, 'copo/templates/account/login.html')
 
 
-@login_required(login_url='/copo/login/')
+@login_required
 def view_profile(request, profile_id):
     # profile = mongo.connection.Profile.one({"_id":to_mongo_id(profile_id)})
     profile = Profile().GET(profile_id)
@@ -140,7 +140,7 @@ def view_profile(request, profile_id):
     return render(request, 'copo/profile.html', context)
 
 
-@login_required(login_url='/copo/login/')
+@login_required
 def new_collection_head(request):
     # create the new collection
     collection_id = Collection_Head().PUT(request)
@@ -149,7 +149,7 @@ def new_collection_head(request):
     return HttpResponseRedirect(reverse('copo:view_profile', kwargs={'profile_id': profile_id}))
 
 
-@login_required(login_url='/copo/login/')
+@login_required
 def view_collection(request, collection_id):
     collection = Collection_Head().GET(collection_id)
     # get profile id for breadcrumb

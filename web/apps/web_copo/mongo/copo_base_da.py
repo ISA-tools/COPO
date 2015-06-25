@@ -109,7 +109,10 @@ class Profile_Status_Info(Resource):
 
         # iterate profiles and find collections which are dirty
         for p in prof:
-            collections_ids = p['collections']
+            try:
+                collections_ids = p['collections']
+            except:
+                pass
             # now get the corresponding collection_heads
             collections_heads = Collections.find({'_id': {'$in': collections_ids}}, {'is_clean': 1})
             for c in collections_heads:
