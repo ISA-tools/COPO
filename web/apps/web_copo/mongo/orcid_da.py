@@ -14,5 +14,9 @@ class Orcid:
         user_id = user.id
         social_account = SocialAccount.objects.get(user_id=user_id)
         profile_data = social_account.extra_data
-        print(profile_data)
-        print(user_id)
+
+        orcid_dict = {'user': user_id, 'orcid_profile': profile_data}
+
+        ORCID.update({'user': user_id},
+                     orcid_dict,
+                     True)
