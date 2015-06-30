@@ -16,14 +16,10 @@ urlpatterns = patterns('apps.web_copo.views',
                        url(r'^new_collection/', 'new_collection_head', name='new_collection'),
                        url(r'^collection/(?P<collection_id>\d+)/view', 'view_collection', name='view_collection'),
                        url(r'^initiate_repo/$', 'initiate_repo', name='initiate_repo'),
-
-
+                       url(r'^view_orcid_profile/$', 'view_orcid_profile', name='view_orcid_profile'),
                        url(r'^save_article/$', FigshareCollection().save_article, name='save_article'),
-
 
                        url(r'^register_to_irods/$', 'register_to_irods', name='register_to_irods'),
                        url(r'^ena_template/$', 'ena_template', name='ena_template'),
 
-
-)
-
+                       )

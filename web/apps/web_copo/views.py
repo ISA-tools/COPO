@@ -21,6 +21,7 @@ from apps.web_copo.repos.aspera import *
 from apps.chunked_upload.models import ChunkedUpload
 import apps.web_copo.uiconfigs.utils.data_formats as dfmts
 from apps.web_copo.api.views import *
+from apps.web_copo.mongo.orcid_da import Orcid
 
 
 
@@ -171,6 +172,17 @@ def view_collection(request, collection_id):
         data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id,
                      'articles': articles}
         return render(request, 'copo/article.html', data_dict, context_instance=RequestContext(request))
+
+
+@login_required
+def view_orcid_profile(request):
+    user = ThreadLocal.get_current_user()
+    op = Orcid().get_orcid_profile(user)
+    data_dict = {'op': op}
+    return render(request, 'copo/orcid_profile.html', data_dict, context_instance=RequestContext(request))
+
+
+
 
 
 def initiate_repo(request):

@@ -1,0 +1,78 @@
+{% extends 'copo/base.html' %}
+
+{% load staticfiles %}
+{% load web_tags %}
+
+{% block stylesheet_block %}
+<link rel="stylesheet" href="{% static 'copo/css/copo/browse_style.css' %}" xmlns="http://www.w3.org/1999/html">
+
+{% endblock %}
+
+
+{% block title_block %} Index {% endblock %}
+
+{% block tagline_block %}
+
+
+{% endblock %}
+
+
+{% block breadcrumb_block %}
+<ol class="breadcrumb">
+    <li class="active"><a href="{% url 'copo:index' %}">Home</a></li>
+
+</ol>
+{% endblock %}
+
+{% block browse_header_block %}
+
+<div id="browse_header">
+        <span class="blue_icon">
+           <a><i class="fa fa-plus-circle" data-toggle="modal" data-target="#newStudyModal"></i></a>
+        </span>
+        <span class="blue_icon">
+            <a><i class="fa fa-pencil-square-o"></i></a>
+        </span>
+        <span class="blue_icon">
+            <a><i class="fa fa-trash-o"></i></a>
+        </span>
+
+    <div class="input-group input-group-sm">
+            <span class="input-group-addon">
+                <i class="fa fa-search"></i>
+            </span>
+        <input type="search" class="form-control" placeholder="Search">
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block content %}
+
+    <h2>ORCID Fields</h2>
+    {{ op.op.orcid_profile.orcid_identifier.uri }}
+
+
+    <h2>Publications:</h2>
+    {% for pub in op.op.orcid_profile.orcid_activities.orcid_works.orcid_work %}
+        <p>{{ pub }}</p>
+
+    {% endfor %}
+
+    <h2>Affiliations:</h2>
+    {% for place in op.op.orcid_profile.orcid_activities.affiliations.affiliation %}
+        <p>{{ place }}</p>
+    {% endfor %}
+
+    <h2>Funding</h2>
+    {% for fund in op.op.orcid_profile.orcid_activities.funding_list.funding %}
+        <p>{{ fund }}</p>
+    {% endfor %}
+
+{% endblock %}
+
+
+{% block js_block %}
+    <script src="{% static 'copo/js/index.js' %}"></script>
+{% endblock %}
