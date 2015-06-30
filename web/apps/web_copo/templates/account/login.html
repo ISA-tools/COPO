@@ -2,7 +2,7 @@
 
 {% load i18n %}
 {% load account %}
-
+{% load staticfiles %}
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 
@@ -10,46 +10,69 @@
 
 {% block tagline_block %} Please login {% endblock %}
 
-{% block work_area %}
+{% block content %}
 
-    <div class="col-lg-3 col-md-3 col-sm-3"></div>
+    <div class="row">
 
-    <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="login_box">
 
 
-{% if socialaccount.providers %}
-<p>{% blocktrans with site.name as site_name %}Please sign in with one
-of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+            <p class="lead">
+                Please sign in
+            </p>
 
-<div class="socialaccount_ballot">
+            <form class="login" method="POST" action="{% url 'account_login' %}" class="generic-form">
+                {% csrf_token %}
 
-  <ul class="socialaccount_providers">
-    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-  </ul>
 
-  <div class="login-or">{% trans 'or' %}</div>
+                {{ form.login }}
 
-</div>
+                {{ form.password }}
 
-{% include "socialaccount/snippets/login_extra.html" %}
+                {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                {% endif %}
+                <button class="btn btn-primary" style="width:100%; margin-bottom:5px"
+                        type="submit">{% trans "Sign In" %}</button>
+            </form>
+            {% blocktrans with site.name as site_name %}
+                <a class="pull-right" href="{{ signup_url }}">sign up</a>
 
-{% else %}
-<p>{% blocktrans %}If you have not created an account yet, then please
-<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-{% endif %}
+            {% endblocktrans %}
+            <a class="button secondaryAction"
+               href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
 
-<form class="login" method="POST" action="{% url 'account_login' %}" class="generic-form">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-  <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
-</form>
+            <div class="lead" style="margin-top:20px">{% trans 'or' %}</div>
 
+            <a href="/accounts/orcid/login" class="btn btn-default" style="width:100%; margin-bottom:5px">
+
+                <img src="{% static 'copo/img/orcid_logo.png' %}" style="height:50px">
+                <span class="lead">Sign in with ORCID</span>
+
+            </a>
+
+            <a href="/accounts/google/login" class="btn btn-default" style="width:100%; margin-bottom:5px">
+
+                <img src="{% static 'copo/img/google_logo.png' %}" style="height:50px;">
+                <span class="lead">Sign in with Google</span>
+
+            </a>
+
+        </div>
     </div>
 
-    <div class="col-lg-3 col-md-3 col-sm-3"></div>
+    </div>
+{% endblock %}
+
+{% block js_block %}
+
+    <script>
+
+        $(document).ready(function () {
+            $('input').addClass('form-control').wrap("<div class='form-group'>");
+            //$('label').addClass('form-control')
+        })
+
+    </script>
+
 {% endblock %}

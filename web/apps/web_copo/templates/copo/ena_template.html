@@ -13,7 +13,7 @@
 
 {% block main_block %}
 
-    {% block work_area %}
+    {% block content %}
         <ul>
             {% for nas in ena_fields.studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.fields %}
                 {% if nas.control == "text" %}

@@ -1,97 +1,109 @@
 
-body{
+body {
 
-	//background-image: url("/static/copo/img/squared_metal.png");
+/ / background-image : url("/static/copo/img/squared_metal.png");
 
 }
-.container{
-	width:100%;
+
+.container {
+    width: 100%;
 }
+
 div[class^="col-"], div[class*=" col-"] {
-    //border: 1px solid black;
-}
-.row{
-	//border: 1px solid black;
+/ / border : 1 px solid black;
 }
 
+.row {
+/ / border : 1 px solid black;
+}
 
 /*HEADER CSS*/
 
-.h2{
-	font-family: 'Ubuntu', sans-serif;
+.h2 {
+    font-family: 'Ubuntu', sans-serif;
 
-	color:#163657;
-}
-.h2 small{
-	color:#163657
-}
-.h3{
-	color:#122845;
-	font-family: 'Ubuntu', sans-serif;
-
+    color: #163657;
 }
 
-#sidebar{
-	margin-left:30px;
-	width:150px;
+.h2 small {
+    color: #163657
 }
 
-#sidebar ul{
+.h3 {
+    color: #122845;
+    font-family: 'Ubuntu', sans-serif;
 
-	margin-top:60px;
-
-}
-#sidebar li{
-	margin-bottom:10px;
-}
-#sidebar ul li .icon_text{
-	margin-left:10px;
-}
-#browse_header{
-	margin-top:60px;
-}
-#browse_header_left{
-	margin-top:30px;
-	float:left;
-}
-#search_bar{
-	float:left;
 }
 
-.work_area{
-    margin-top:30px;
-    margin-right:50px;
+#sidebar {
+    margin-left: 30px;
+    width: 150px;
 }
 
+#sidebar ul {
+
+    margin-top: 60px;
+
+}
+
+#sidebar li {
+    margin-bottom: 10px;
+}
+
+#sidebar ul li .icon_text {
+    margin-left: 10px;
+}
+
+#browse_header {
+    margin-top: 60px;
+}
+
+#browse_header_left {
+    margin-top: 30px;
+    float: left;
+}
+
+#search_bar {
+    float: left;
+}
+
+.work_area {
+    margin-top: 30px;
+    margin-right: 50px;
+}
 
 .nav-pills > li.active > a {
-    background-color:#1B2B32;
+    background-color: #1B2B32;
 }
 
-.nav-pills>li.active>a:hover {
-    background-color:#1B2B32;
+.nav-pills > li.active > a:hover {
+    background-color: #1B2B32;
 }
 
 .nav-pills > li > a {
-    color:#1B2B32;
+    color: #1B2B32;
 }
 
 /* ICON CSS */
-.blue_icon{
-	float:left;
-	color:#163657;
-	margin-right:20px;
-	margin-top:5px;
+.blue_icon {
+    float: left;
+    color: #163657;
+    margin-right: 20px;
+    margin-top: 5px;
 }
-.blue_icon>a{
-    color:#163657;
+
+.blue_icon > a {
+    color: #163657;
 }
-.blue_icon>a:hover{
-    color:grey;
+
+.blue_icon > a:hover {
+    color: grey;
 }
-.panel-heading{
+
+.panel-heading {
     padding: 8px 15px;
 }
+
 .btn {
     border-radius: 4px
 }
@@ -109,9 +121,17 @@ div[class^="col-"], div[class*=" col-"] {
     margin-right: 20px; /* define margin as you see fit */
 }
 
-.vert-align{
-	float: none;
+.vert-align {
+    float: none;
     display: inline-block;
     vertical-align: middle;
 
+}
+
+.login_box {
+    margin: 0 auto;
+    background-color: white;
+    padding: 10px;
+    box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.1), 0 0 3px rgba(0, 0, 0, 0.8);
+    width: 300px;
 }

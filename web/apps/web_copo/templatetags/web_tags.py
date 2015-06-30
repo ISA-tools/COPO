@@ -1,6 +1,6 @@
 __author__ = 'fshaw'
 from django import template
-import jsonpickle
+
 register = template.Library()
 
 @register.filter("mongo_id")
@@ -10,3 +10,7 @@ def mongo_id(value):
         return str(value['_id']['$oid'])
     except:
         return str(value['_id'])
+
+@register.filter(name='addcss')
+def addcss(field, css):
+   return field.as_widget(attrs={"class":css})
