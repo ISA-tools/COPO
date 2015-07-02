@@ -179,6 +179,7 @@ def view_orcid_profile(request):
     user = ThreadLocal.get_current_user()
     op = Orcid().get_orcid_profile(user)
     data_dict = {'op': op}
+    #data_dict = jsonpickle.encode(data_dict)
     return render(request, 'copo/orcid_profile.html', data_dict, context_instance=RequestContext(request))
 
 

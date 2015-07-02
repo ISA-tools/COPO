@@ -17,6 +17,7 @@ Collections = get_collection_ref("Collection_Heads")
 
 class Profile(Resource):
     def GET(self, id):
+        s = 'abc'
 
         doc = Profiles.find_one({"_id": o.ObjectId(id)})
         if not doc:

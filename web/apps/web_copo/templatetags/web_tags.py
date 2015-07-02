@@ -11,6 +11,5 @@ def mongo_id(value):
     except:
         return str(value['_id'])
 
-@register.filter(name='addcss')
-def addcss(field, css):
-   return field.as_widget(attrs={"class":css})
+
+
