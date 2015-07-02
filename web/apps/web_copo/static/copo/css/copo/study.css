@@ -16,3 +16,13 @@
     margin:0;
     padding:0;
 }
+
+.study_type_remove i {
+    color:darkred;
+    font-size: 0.8em;
+}
+
+#study_type_add i,
+#study_type_add span {
+    font-size: 0.8em;
+}

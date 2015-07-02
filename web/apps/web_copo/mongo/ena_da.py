@@ -18,6 +18,13 @@ class EnaCollection(Resource):
             pass
         return doc
 
+    def add_study_types(self, ena_collection_id, study_type_list):
+        for idx, val in enumerate(study_type_list):
+            a = {'name': val,
+                 'ref': idx,
+                 'meta': {}}
+            EnaCollections.update({"_id": o.ObjectId(ena_collection_id)},
+                                  {"$push": {"copoInternal.studyTypes": a}})
 
     def add_study(self, values, attributes):
         spec_attr = []
@@ -37,7 +44,6 @@ class EnaCollection(Resource):
             "Study_Attributes": spec_attr,
         }
         return EnaCollections.insert(spec)
-
 
     def update_study(self, ena_study_id, values, attributes):
         spec_attr = []
@@ -62,7 +68,6 @@ class EnaCollection(Resource):
             },
             spec
         )
-
 
     def add_sample_to_study(self, sample, attributes, study_id):
         #create new sample and add to study

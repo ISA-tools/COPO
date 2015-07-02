@@ -1,1 +1,1210 @@
-{"comment": "It is advised not to directly edit this file. Changes made could be potentially reversed. Use the config file to override any attribute, adding the desired attribute to be overridden as a key.", "investigation": {"investigationContacts": {"fields": [{"label": "Investigation Person Email", "control": "textarea", "hidden": "false", "required": "false", "id": "investigation.investigationContacts.investigationPersonEmail", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "investigation.investigationContacts.investigationPersonRolesTermSourceREF", "default_value": "", "help_tip": ""}, {"label": "Investigation Person Address", "control": "textarea", "hidden": "false", "required": "false", "id": "investigation.investigationContacts.investigationPersonAddress", "default_value": "", "help_tip": ""}, {"label": "Investigation Person Mid Initials", "control": "text", "hidden": "false", "required": "true", "id": "investigation.investigationContacts.investigationPersonMidInitials", "default_value": "", "help_tip": ""}, {"label": "Investigation Person Phone", "control": "text", "hidden": "false", "required": "false", "id": "investigation.investigationContacts.investigationPersonPhone", "default_value": "", "help_tip": ""}, {"label": "Investigation Person Affiliation", "control": "text", "hidden": "false", "required": "false", "id": "investigation.investigationContacts.investigationPersonAffiliation", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "investigation.investigationContacts.investigationPersonRolesTermAccessionNumber", "default_value": "", "help_tip": ""}, {"label": "Investigation Person First Name", "control": "text", "hidden": "false", "required": "true", "id": "investigation.investigationContacts.investigationPersonFirstName", "default_value": "", "help_tip": ""}, {"label": "Investigation Person Roles", "control": "Ontology term", "hidden": "false", "required": "false", "id": "investigation.investigationContacts.investigationPersonRoles", "default_value": "", "help_tip": ""}, {"label": "Investigation Person Fax", "control": "text", "hidden": "false", "required": "false", "id": "investigation.investigationContacts.investigationPersonFax", "default_value": "", "help_tip": ""}, {"label": "Last Name", "control": "text", "hidden": "false", "required": "true", "id": "investigation.investigationContacts.investigationPersonLastName", "default_value": "", "help_tip": ""}]}, "fields": [{"label": "Investigation Identifier", "control": "text", "hidden": "false", "required": "true", "id": "investigation.investigationIdentifier", "default_value": "", "help_tip": ""}, {"label": "Comment[Created with configuration]", "control": "text", "hidden": "true", "required": "false", "id": "investigation.commentCreatedWithConfiguration", "default_value": "", "help_tip": ""}, {"label": "Investigation Public Release Date", "control": "Date", "hidden": "false", "required": "false", "id": "investigation.investigationPublicReleaseDate", "default_value": "", "help_tip": ""}, {"label": "Investigation Submission Date", "control": "Date", "hidden": "false", "required": "false", "id": "investigation.investigationSubmissionDate", "default_value": "", "help_tip": ""}, {"label": "Investigation Description", "control": "textarea", "hidden": "false", "required": "true", "id": "investigation.investigationDescription", "default_value": "", "help_tip": ""}, {"label": "Comment[Last Opened With Configuration]", "control": "text", "hidden": "true", "required": "false", "id": "investigation.commentLastOpenedWithConfiguration", "default_value": "", "help_tip": ""}, {"label": "Investigation Title", "control": "text", "hidden": "false", "required": "true", "id": "investigation.investigationTitle", "default_value": "", "help_tip": ""}], "investigationPublications": {"fields": [{"label": "Investigation Publication Title", "control": "textarea", "hidden": "false", "required": "true", "id": "investigation.investigationPublications.investigationPublicationTitle", "default_value": "", "help_tip": ""}, {"label": "Investigation Publication Author List", "control": "textarea", "hidden": "false", "required": "true", "id": "investigation.investigationPublications.investigationPublicationAuthorList", "default_value": "", "help_tip": ""}, {"label": "Investigation Publication Status", "control": "Ontology term", "hidden": "false", "required": "true", "id": "investigation.investigationPublications.investigationPublicationStatus", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "investigation.investigationPublications.investigationPublicationStatusTermSourceREF", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "investigation.investigationPublications.investigationPublicationStatusTermAccessionNumber", "default_value": "", "help_tip": ""}, {"label": "Investigation Publication DOI", "control": "text", "hidden": "false", "required": "true", "id": "investigation.investigationPublications.investigationPublicationDOI", "default_value": "", "help_tip": ""}, {"label": "Investigation PubMed ID", "control": "text", "hidden": "false", "required": "true", "id": "investigation.investigationPublications.investigationPubMedID", "default_value": "", "help_tip": ""}]}}, "studies": {"fields": [], "study": {"assays": {"fields": [{"label": "Study Assay Technology Platform", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.assays.studyAssayTechnologyPlatform", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.assays.studyAssayTechnologyTypeTermAccessionNumber", "default_value": "", "help_tip": ""}, {"label": "Study Assay Measurement Type", "control": "select", "hidden": "false", "option_values": "", "required": "false", "id": "studies.study.assays.studyAssayMeasurementType", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.assays.studyAssayMeasurementTypeTermAccessionNumber", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.assays.studyAssayTechnologyTypeTermSourceREF", "default_value": "", "help_tip": ""}, {"label": "Study Assay File Name", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.assays.studyAssayFileName", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.assays.studyAssayMeasurementTypeTermSourceREF", "default_value": "", "help_tip": ""}, {"label": "Study Assay Technology Type", "control": "select", "hidden": "false", "option_values": "", "required": "false", "id": "studies.study.assays.studyAssayTechnologyType", "default_value": "", "help_tip": ""}], "assaysTable": {"fields": [], "genomeSeq": {"libraryConstruction": {"fields": [{"label": "Parameter Value[library strategy]", "control": "select", "hidden": "false", "option_values": ["AMPLICON", "CLONE", "WGS", "OTHER"], "required": "false", "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.libraryStrategy", "default_value": "", "help_tip": ""}, {"label": "Parameter Value[library selection]", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.librarySelection", "default_value": "", "help_tip": ""}, {"label": "Parameter Value[library source]", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.librarySource", "default_value": "", "help_tip": ""}, {"label": "Parameter Value[library layout]", "control": "select", "hidden": "false", "option_values": ["SINGLE", "PAIRED"], "required": "false", "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.libraryLayout", "default_value": "", "help_tip": ""}]}, "fields": [{"label": "Sample Name", "control": "text", "hidden": "false", "required": "true", "id": "studies.study.assays.assaysTable.genomeSeq.sampleName", "default_value": "", "help_tip": ""}], "sequenceAssembly": {"fields": [{"label": "Derived Data File", "control": "file", "hidden": "false", "required": "false", "id": "studies.study.assays.assaysTable.genomeSeq.sequenceAssembly.derivedDataFile", "default_value": "", "help_tip": ""}, {"label": "Normalization Name", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.assays.assaysTable.genomeSeq.sequenceAssembly.normalizationName", "default_value": "", "help_tip": ""}, {"label": "Data Transformation Name", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.assays.assaysTable.genomeSeq.sequenceAssembly.dataTransformationName", "default_value": "", "help_tip": ""}]}, "nucleicAcidSequencing": {"fields": [{"label": "Parameter Value[quality scorer]", "control": "Ontology term", "hidden": "false", "required": "false", "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.qualityScorer", "default_value": "", "help_tip": ""}, {"label": "Parameter Value[base caller]", "control": "Ontology term", "hidden": "false", "required": "false", "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.baseCaller", "default_value": "", "help_tip": ""}, {"label": "Raw Data File", "control": "file", "hidden": "false", "required": "false", "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.rawDataFile", "default_value": "", "help_tip": ""}, {"label": "Sequencing Instrument", "control": "select", "hidden": "false", "option_values": ["454 GS", "454 GS 20", "454 GS FLX", "454 GS FLX Plus", "454 GS FLX Titanium", "454 GS Junior", "AB SOLiD System", "AB SOLiD System 2.0", "AB SOLiD System 3.0", "AB SOLiD 4 System", "AB SOLiD 4hq System", "AB SOLiD PI System", "AB SOLiD 5500", "AB SOLiD 5500xl", "AB 5500 Genetic Analyzer", "AB 5500xl Genetic analyzer", "Illumina Genome Analyzer", "Illumina Genome Analyzer II", "Illumina Genome Analyzer IIx", "Illumina HiSeq 1000", "Illumina HiSeq 2000", "Illumina HiSeq 2500", "Illumina HiScanSQ", "Illumina MiSeq", "Ion Torrent PGM", "Ion Torrent Proton", "Sanger sequencing instrument", "unspecified"], "required": "false", "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.sequencingInstrument", "default_value": "", "help_tip": ""}, {"label": "Assay Name", "control": "text", "hidden": "false", "required": "true", "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.assayName", "default_value": "", "help_tip": ""}, {"label": "Comment[Export]", "control": "select", "hidden": "false", "option_values": ["yes", "no"], "required": "false", "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.export", "default_value": "", "help_tip": ""}]}, "nucleicAcidExtraction": {"fields": [{"label": "Extract Name", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidExtraction.extractName", "default_value": "", "help_tip": ""}]}}, "metagenomeSeq": {"libraryConstruction": {"fields": [{"label": "Parameter Value[library strategy]", "control": "select", "hidden": "false", "option_values": ["AMPLICON", "OTHER"], "required": "false", "id": "studies.study.assays.assaysTable.metagenomeSeq.libraryConstruction.libraryStrategy", "default_value": "", "help_tip": ""}, {"label": "Parameter Value[library selection]", "control": "select", "hidden": "false", "option_values": ["PCR", "RANDOM-PCR", "Restriction Digest", "size fractionation", "other", "unspecified"], "required": "false", "id": "studies.study.assays.assaysTable.metagenomeSeq.libraryConstruction.librarySelection", "default_value": "", "help_tip": ""}, {"label": "Parameter Value[mid]", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.assays.assaysTable.metagenomeSeq.libraryConstruction.mid", "default_value": "", "help_tip": ""}, {"label": "Parameter Value[library layout]", "control": "select", "hidden": "false", "option_values": ["SINGLE", "PAIRED"], "required": "false", "id": "studies.study.assays.assaysTable.metagenomeSeq.libraryConstruction.libraryLayout", "default_value": "", "help_tip": ""}]}, "fields": [{"label": "Sample Name", "control": "text", "hidden": "false", "required": "true", "id": "studies.study.assays.assaysTable.metagenomeSeq.sampleName", "default_value": "", "help_tip": ""}], "sequenceAssembly": {"fields": [{"label": "Normalization Name", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.assays.assaysTable.metagenomeSeq.sequenceAssembly.normalizationName", "default_value": "", "help_tip": ""}, {"label": "Data Transformation Name", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.assays.assaysTable.metagenomeSeq.sequenceAssembly.dataTransformationName", "default_value": "", "help_tip": ""}, {"label": "Derived Data File", "control": "file", "hidden": "false", "required": "false", "id": "studies.study.assays.assaysTable.metagenomeSeq.sequenceAssembly.derivedDataFile", "default_value": "", "help_tip": ""}]}, "nucleicAcidSequencing": {"fields": [{"label": "Assay Name", "control": "text", "hidden": "false", "required": "true", "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.assayName", "default_value": "", "help_tip": ""}, {"label": "Parameter Value[base caller]", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.baseCaller", "default_value": "", "help_tip": ""}, {"label": "Raw Data File", "control": "file", "hidden": "false", "required": "true", "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.rawDataFile", "default_value": "", "help_tip": ""}, {"label": "Parameter Value[sequencing instrument]", "control": "select", "hidden": "false", "option_values": ["454 GS", "454 GS 20", "454 GS FLX", "454 GS FLX Plus", "454 GS FLX Titanium", "454 GS Junior", "AB SOLiD System", "AB SOLiD System 2.0", "AB SOLiD System 3.0", "AB SOLiD 4 System", "AB SOLiD 4hq System", "AB SOLiD PI System", "AB SOLiD 5500", "AB SOLiD 5500xl", "AB 5500 Genetic Analyzer", "AB 5500xl Genetic analyzer", "Illumina Genome Analyzer", "Illumina Genome Analyzer II", "Illumina Genome Analyzer IIx", "Illumina HiSeq 1000", "Illumina HiSeq 2000", "Illumina HiSeq 2500", "Illumina HiScanSQ", "Illumina MiSeq", "Ion Torrent PGM", "Ion Torrent Proton", "Sanger sequencing instrument", "unspecified"], "required": "false", "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.sequencingInstrument", "default_value": "", "help_tip": ""}, {"label": "Parameter Value[quality scorer]", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.qualityScorer", "default_value": "", "help_tip": ""}, {"label": "Comment[Export]", "control": "select", "hidden": "false", "option_values": ["yes", "no"], "required": "false", "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.export", "default_value": "", "help_tip": ""}]}, "nucleicAcidExtraction": {"fields": [{"label": "Extract Name", "control": "text", "hidden": "false", "required": "true", "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidExtraction.extractName", "default_value": "", "help_tip": ""}]}}}}, "studyContacts": {"fields": [{"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.studyContacts.studyPersonRolesTermSourceREF", "default_value": "", "help_tip": ""}, {"label": "Study Person Roles", "control": "Ontology term", "hidden": "false", "required": "false", "id": "studies.study.studyContacts.studyPersonRoles", "default_value": "", "help_tip": ""}, {"label": "Study Person Phone", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.studyContacts.studyPersonPhone", "default_value": "", "help_tip": ""}, {"label": "Study Person Mid Initials", "control": "text", "hidden": "false", "required": "true", "id": "studies.study.studyContacts.studyPersonMidInitials", "default_value": "", "help_tip": ""}, {"label": "Study Person Affiliation", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.studyContacts.studyPersonAffiliation", "default_value": "", "help_tip": ""}, {"label": "Study Person First Name", "control": "text", "hidden": "false", "required": "true", "id": "studies.study.studyContacts.studyPersonFirstName", "default_value": "", "help_tip": ""}, {"label": "Study Person Email", "control": "textarea", "hidden": "false", "required": "false", "id": "studies.study.studyContacts.studyPersonEmail", "default_value": "", "help_tip": ""}, {"label": "Study Person Last Name", "control": "text", "hidden": "false", "required": "true", "id": "studies.study.studyContacts.studyPersonLastName", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.studyContacts.studyPersonRolesTermAccessionNumber", "default_value": "", "help_tip": ""}, {"label": "Study Person Fax", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.studyContacts.studyPersonFax", "default_value": "", "help_tip": ""}, {"label": "Study Person Address", "control": "textarea", "hidden": "false", "required": "false", "id": "studies.study.studyContacts.studyPersonAddress", "default_value": "", "help_tip": ""}]}, "studyDesignDescriptors": {"fields": [{"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.studyDesignDescriptors.studyDesignTypeTermAccessionNumber", "default_value": "", "help_tip": ""}, {"label": "Study Design Type", "control": "Ontology term", "hidden": "false", "required": "false", "id": "studies.study.studyDesignDescriptors.studyDesignType", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.studyDesignDescriptors.studyDesignTypeTermSourceREF", "default_value": "", "help_tip": ""}]}, "studyProtocols": {"fields": [{"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.studyProtocols.studyProtocolParametersNameTermSourceREF", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.studyProtocols.studyProtocolComponentsTypeTermSourceREF", "default_value": "", "help_tip": ""}, {"label": "Study Protocol Type", "control": "Ontology term", "hidden": "false", "required": "false", "id": "studies.study.studyProtocols.studyProtocolType", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.studyProtocols.studyProtocolTypeTermSourceREF", "default_value": "", "help_tip": ""}, {"label": "Study Protocol Version", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.studyProtocols.studyProtocolVersion", "default_value": "", "help_tip": ""}, {"label": "Study Protocol Components Type", "control": "Ontology term", "hidden": "false", "required": "false", "id": "studies.study.studyProtocols.studyProtocolComponentsType", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.studyProtocols.studyProtocolParametersNameTermAccessionNumber", "default_value": "", "help_tip": ""}, {"label": "Study Protocol Parameters Name", "control": "Ontology term", "hidden": "false", "required": "false", "id": "studies.study.studyProtocols.studyProtocolParametersName", "default_value": "", "help_tip": ""}, {"label": "Study Protocol Name", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.studyProtocols.studyProtocolName", "default_value": "", "help_tip": ""}, {"label": "Study Protocol URI", "control": "textarea", "hidden": "false", "required": "false", "id": "studies.study.studyProtocols.studyProtocolURI", "default_value": "", "help_tip": ""}, {"label": "Study Protocol Components Name", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.studyProtocols.studyProtocolComponentsName", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.studyProtocols.studyProtocolComponentsTypeTermAccessionNumber", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.studyProtocols.studyProtocolTypeTermAccessionNumber", "default_value": "", "help_tip": ""}, {"label": "Study Protocol Description", "control": "textarea", "hidden": "false", "required": "false", "id": "studies.study.studyProtocols.studyProtocolDescription", "default_value": "", "help_tip": ""}]}, "studySamples": {"fields": [{"label": "Characteristics[organism]", "control": "Ontology term", "hidden": "false", "required": "false", "id": "studies.study.studySamples.organism", "default_value": "", "help_tip": ""}, {"label": "Source Name", "control": "text", "hidden": "false", "required": "true", "id": "studies.study.studySamples.sourceName", "default_value": "", "help_tip": ""}], "sampleCollection": {"fields": [{"label": "Sample Name", "control": "text", "hidden": "false", "required": "true", "id": "studies.study.studySamples.sampleCollection.sampleName", "default_value": "", "help_tip": ""}]}}, "fields": [{"label": "Study Title", "control": "text", "hidden": "false", "required": "true", "id": "studies.study.studyTitle", "default_value": "", "help_tip": ""}, {"label": "Study Submission Date", "control": "Date", "hidden": "false", "required": "false", "id": "studies.study.studySubmissionDate", "default_value": "", "help_tip": ""}, {"label": "Comment[Study Grant Number]", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.commentStudyGrantNumber", "default_value": "", "help_tip": ""}, {"label": "Study Identifier", "control": "text", "hidden": "false", "required": "true", "id": "studies.study.studyIdentifier", "default_value": "", "help_tip": ""}, {"label": "Study File Name", "control": "text", "hidden": "true", "required": "false", "id": "studies.study.studyFileName", "default_value": "", "help_tip": ""}, {"label": "Study Public Release Date", "control": "Date", "hidden": "false", "required": "false", "id": "studies.study.studyPublicReleaseDate", "default_value": "", "help_tip": ""}, {"label": "Study Description", "control": "textarea", "hidden": "false", "required": "true", "id": "studies.study.studyDescription", "default_value": "", "help_tip": ""}, {"label": "Comment[Study Funding Agency]", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.commentStudyFundingAgency", "default_value": "", "help_tip": ""}], "studyPublications": {"fields": [{"label": "Study Publication Author List", "control": "textarea", "hidden": "false", "required": "true", "id": "studies.study.studyPublications.investigationPublicationAuthorList", "default_value": "", "help_tip": ""}, {"label": "Study Publication DOI", "control": "text", "hidden": "false", "required": "true", "id": "studies.study.studyPublications.investigationPublicationDOI", "default_value": "", "help_tip": ""}, {"label": "Study Publication Title", "control": "textarea", "hidden": "false", "required": "true", "id": "studies.study.studyPublications.investigationPublicationTitle", "default_value": "", "help_tip": ""}, {"label": "Study Publication Status", "control": "Ontology term", "hidden": "false", "required": "true", "id": "studies.study.studyPublications.investigationPublicationStatus", "default_value": "", "help_tip": ""}, {"label": "Study PubMed ID", "control": "text", "hidden": "false", "required": "true", "id": "studies.study.studyPublications.studyPubMedID", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.studyPublications.investigationPublicationStatusTermAccessionNumber", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.studyPublications.investigationPublicationStatusTermSourceREF", "default_value": "", "help_tip": ""}]}, "studyFactors": {"fields": [{"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.studyFactors.studyFactorTypeTermAccessionNumber", "default_value": "", "help_tip": ""}, {"label": "", "control": "", "hidden": "", "required": "", "id": "studies.study.studyFactors.studyFactorTypeTermSourceREF", "default_value": "", "help_tip": ""}, {"label": "Study Factor Name", "control": "text", "hidden": "false", "required": "false", "id": "studies.study.studyFactors.studyFactorName", "default_value": "", "help_tip": ""}, {"label": "Study Factor Type", "control": "Ontology term", "hidden": "false", "required": "false", "id": "studies.study.studyFactors.studyFactorType", "default_value": "", "help_tip": ""}]}}}}
+{
+  "investigation": {
+    "fields": [
+      {
+        "required": "false",
+        "control": "text",
+        "id": "investigation.commentCreatedWithConfiguration",
+        "hidden": "true",
+        "help_tip": "",
+        "default_value": "",
+        "label": "Comment[Created with configuration]"
+      },
+      {
+        "required": "false",
+        "control": "Date",
+        "id": "investigation.investigationPublicReleaseDate",
+        "hidden": "false",
+        "help_tip": "",
+        "default_value": "",
+        "label": "Investigation Public Release Date"
+      },
+      {
+        "required": "false",
+        "control": "text",
+        "id": "investigation.commentLastOpenedWithConfiguration",
+        "hidden": "true",
+        "help_tip": "",
+        "default_value": "",
+        "label": "Comment[Last Opened With Configuration]"
+      },
+      {
+        "required": "false",
+        "control": "Date",
+        "id": "investigation.investigationSubmissionDate",
+        "hidden": "false",
+        "help_tip": "",
+        "default_value": "",
+        "label": "Investigation Submission Date"
+      },
+      {
+        "required": "true",
+        "control": "text",
+        "id": "investigation.investigationIdentifier",
+        "hidden": "false",
+        "help_tip": "",
+        "default_value": "",
+        "label": "Investigation Identifier"
+      },
+      {
+        "required": "true",
+        "control": "textarea",
+        "id": "investigation.investigationDescription",
+        "hidden": "false",
+        "help_tip": "",
+        "default_value": "",
+        "label": "Investigation Description"
+      },
+      {
+        "required": "true",
+        "control": "text",
+        "id": "investigation.investigationTitle",
+        "hidden": "false",
+        "help_tip": "",
+        "default_value": "",
+        "label": "Investigation Title"
+      }
+    ],
+    "investigationContacts": {
+      "fields": [
+        {
+          "required": "true",
+          "control": "text",
+          "id": "investigation.investigationContacts.investigationPersonFirstName",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Investigation Person First Name"
+        },
+        {
+          "required": "false",
+          "control": "text",
+          "id": "investigation.investigationContacts.investigationPersonPhone",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Investigation Person Phone"
+        },
+        {
+          "required": "",
+          "control": "",
+          "id": "investigation.investigationContacts.investigationPersonRolesTermAccessionNumber",
+          "hidden": "",
+          "help_tip": "",
+          "default_value": "",
+          "label": ""
+        },
+        {
+          "required": "false",
+          "control": "textarea",
+          "id": "investigation.investigationContacts.investigationPersonAddress",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Investigation Person Address"
+        },
+        {
+          "required": "false",
+          "control": "textarea",
+          "id": "investigation.investigationContacts.investigationPersonEmail",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Investigation Person Email"
+        },
+        {
+          "required": "true",
+          "control": "text",
+          "id": "investigation.investigationContacts.investigationPersonMidInitials",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Investigation Person Mid Initials"
+        },
+        {
+          "required": "false",
+          "control": "text",
+          "id": "investigation.investigationContacts.investigationPersonFax",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Investigation Person Fax"
+        },
+        {
+          "required": "false",
+          "control": "Ontology term",
+          "id": "investigation.investigationContacts.investigationPersonRoles",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Investigation Person Roles"
+        },
+        {
+          "required": "true",
+          "control": "text",
+          "id": "investigation.investigationContacts.investigationPersonLastName",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Last Name"
+        },
+        {
+          "required": "false",
+          "control": "text",
+          "id": "investigation.investigationContacts.investigationPersonAffiliation",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Investigation Person Affiliation"
+        },
+        {
+          "required": "",
+          "control": "",
+          "id": "investigation.investigationContacts.investigationPersonRolesTermSourceREF",
+          "hidden": "",
+          "help_tip": "",
+          "default_value": "",
+          "label": ""
+        }
+      ]
+    },
+    "investigationPublications": {
+      "fields": [
+        {
+          "required": "",
+          "control": "",
+          "id": "investigation.investigationPublications.investigationPublicationStatusTermSourceREF",
+          "hidden": "",
+          "help_tip": "",
+          "default_value": "",
+          "label": ""
+        },
+        {
+          "required": "true",
+          "control": "Ontology term",
+          "id": "investigation.investigationPublications.investigationPublicationStatus",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Investigation Publication Status"
+        },
+        {
+          "required": "true",
+          "control": "text",
+          "id": "investigation.investigationPublications.investigationPubMedID",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Investigation PubMed ID"
+        },
+        {
+          "required": "true",
+          "control": "textarea",
+          "id": "investigation.investigationPublications.investigationPublicationTitle",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Investigation Publication Title"
+        },
+        {
+          "required": "",
+          "control": "",
+          "id": "investigation.investigationPublications.investigationPublicationStatusTermAccessionNumber",
+          "hidden": "",
+          "help_tip": "",
+          "default_value": "",
+          "label": ""
+        },
+        {
+          "required": "true",
+          "control": "text",
+          "id": "investigation.investigationPublications.investigationPublicationDOI",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Investigation Publication DOI"
+        },
+        {
+          "required": "true",
+          "control": "textarea",
+          "id": "investigation.investigationPublications.investigationPublicationAuthorList",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Investigation Publication Author List"
+        }
+      ]
+    }
+  },
+  "studies": {
+    "fields": [],
+    "study": {
+      "studyPublications": {
+        "fields": [
+          {
+            "required": "true",
+            "control": "Ontology term",
+            "id": "studies.study.studyPublications.investigationPublicationStatus",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Publication Status"
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.studyPublications.investigationPublicationStatusTermSourceREF",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.studyPublications.investigationPublicationStatusTermAccessionNumber",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          },
+          {
+            "required": "true",
+            "control": "textarea",
+            "id": "studies.study.studyPublications.investigationPublicationAuthorList",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Publication Author List"
+          },
+          {
+            "required": "true",
+            "control": "textarea",
+            "id": "studies.study.studyPublications.investigationPublicationTitle",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Publication Title"
+          },
+          {
+            "required": "true",
+            "control": "text",
+            "id": "studies.study.studyPublications.investigationPublicationDOI",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Publication DOI"
+          },
+          {
+            "required": "true",
+            "control": "text",
+            "id": "studies.study.studyPublications.studyPubMedID",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study PubMed ID"
+          }
+        ]
+      },
+      "fields": [
+        {
+          "required": "true",
+          "control": "text",
+          "id": "studies.study.studyIdentifier",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Study Identifier"
+        },
+        {
+          "required": "false",
+          "control": "text",
+          "id": "studies.study.studyFileName",
+          "hidden": "true",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Study File Name"
+        },
+        {
+          "required": "false",
+          "control": "Date",
+          "id": "studies.study.studySubmissionDate",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Study Submission Date"
+        },
+        {
+          "required": "true",
+          "control": "text",
+          "id": "studies.study.studyTitle",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Study Title"
+        },
+        {
+          "required": "false",
+          "control": "text",
+          "id": "studies.study.commentStudyFundingAgency",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Comment[Study Funding Agency]"
+        },
+        {
+          "required": "false",
+          "control": "Date",
+          "id": "studies.study.studyPublicReleaseDate",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Study Public Release Date"
+        },
+        {
+          "required": "false",
+          "control": "text",
+          "id": "studies.study.commentStudyGrantNumber",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Comment[Study Grant Number]"
+        },
+        {
+          "required": "true",
+          "control": "textarea",
+          "id": "studies.study.studyDescription",
+          "hidden": "false",
+          "help_tip": "",
+          "default_value": "",
+          "label": "Study Description"
+        }
+      ],
+      "studyContacts": {
+        "fields": [
+          {
+            "required": "false",
+            "control": "textarea",
+            "id": "studies.study.studyContacts.studyPersonEmail",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Person Email"
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.studyContacts.studyPersonRolesTermSourceREF",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          },
+          {
+            "required": "false",
+            "control": "textarea",
+            "id": "studies.study.studyContacts.studyPersonAddress",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Person Address"
+          },
+          {
+            "required": "false",
+            "control": "text",
+            "id": "studies.study.studyContacts.studyPersonPhone",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Person Phone"
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.studyContacts.studyPersonRolesTermAccessionNumber",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          },
+          {
+            "required": "false",
+            "control": "text",
+            "id": "studies.study.studyContacts.studyPersonAffiliation",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Person Affiliation"
+          },
+          {
+            "required": "true",
+            "control": "text",
+            "id": "studies.study.studyContacts.studyPersonFirstName",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Person First Name"
+          },
+          {
+            "required": "true",
+            "control": "text",
+            "id": "studies.study.studyContacts.studyPersonLastName",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Person Last Name"
+          },
+          {
+            "required": "false",
+            "control": "Ontology term",
+            "id": "studies.study.studyContacts.studyPersonRoles",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Person Roles"
+          },
+          {
+            "required": "false",
+            "control": "text",
+            "id": "studies.study.studyContacts.studyPersonFax",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Person Fax"
+          },
+          {
+            "required": "true",
+            "control": "text",
+            "id": "studies.study.studyContacts.studyPersonMidInitials",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Person Mid Initials"
+          }
+        ]
+      },
+      "assays": {
+        "assaysTable": {
+          "genomeSeq": {
+            "libraryConstruction": {
+              "fields": [
+                {
+                  "required": "false",
+                  "control": "text",
+                  "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.librarySelection",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Parameter Value[library selection]"
+                },
+                {
+                  "required": "false",
+                  "control": "select",
+                  "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.libraryStrategy",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Parameter Value[library strategy]",
+                  "option_values": [
+                    "AMPLICON",
+                    "CLONE",
+                    "WGS",
+                    "OTHER"
+                  ]
+                },
+                {
+                  "required": "false",
+                  "control": "select",
+                  "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.libraryLayout",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Parameter Value[library layout]",
+                  "option_values": [
+                    "SINGLE",
+                    "PAIRED"
+                  ]
+                },
+                {
+                  "required": "false",
+                  "control": "text",
+                  "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.librarySource",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Parameter Value[library source]"
+                }
+              ]
+            },
+            "fields": [
+              {
+                "required": "true",
+                "control": "text",
+                "id": "studies.study.assays.assaysTable.genomeSeq.sampleName",
+                "hidden": "false",
+                "help_tip": "",
+                "default_value": "",
+                "label": "Sample Name"
+              }
+            ],
+            "sequenceAssembly": {
+              "fields": [
+                {
+                  "required": "false",
+                  "control": "file",
+                  "id": "studies.study.assays.assaysTable.genomeSeq.sequenceAssembly.derivedDataFile",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Derived Data File"
+                },
+                {
+                  "required": "false",
+                  "control": "text",
+                  "id": "studies.study.assays.assaysTable.genomeSeq.sequenceAssembly.dataTransformationName",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Data Transformation Name"
+                },
+                {
+                  "required": "false",
+                  "control": "text",
+                  "id": "studies.study.assays.assaysTable.genomeSeq.sequenceAssembly.normalizationName",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Normalization Name"
+                }
+              ]
+            },
+            "nucleicAcidSequencing": {
+              "fields": [
+                {
+                  "required": "false",
+                  "control": "file",
+                  "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.rawDataFile",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Raw Data File"
+                },
+                {
+                  "required": "false",
+                  "control": "Ontology term",
+                  "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.baseCaller",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Parameter Value[base caller]"
+                },
+                {
+                  "required": "false",
+                  "control": "Ontology term",
+                  "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.qualityScorer",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Parameter Value[quality scorer]"
+                },
+                {
+                  "required": "false",
+                  "control": "select",
+                  "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.sequencingInstrument",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Sequencing Instrument",
+                  "option_values": [
+                    "454 GS",
+                    "454 GS 20",
+                    "454 GS FLX",
+                    "454 GS FLX Plus",
+                    "454 GS FLX Titanium",
+                    "454 GS Junior",
+                    "AB SOLiD System",
+                    "AB SOLiD System 2.0",
+                    "AB SOLiD System 3.0",
+                    "AB SOLiD 4 System",
+                    "AB SOLiD 4hq System",
+                    "AB SOLiD PI System",
+                    "AB SOLiD 5500",
+                    "AB SOLiD 5500xl",
+                    "AB 5500 Genetic Analyzer",
+                    "AB 5500xl Genetic analyzer",
+                    "Illumina Genome Analyzer",
+                    "Illumina Genome Analyzer II",
+                    "Illumina Genome Analyzer IIx",
+                    "Illumina HiSeq 1000",
+                    "Illumina HiSeq 2000",
+                    "Illumina HiSeq 2500",
+                    "Illumina HiScanSQ",
+                    "Illumina MiSeq",
+                    "Ion Torrent PGM",
+                    "Ion Torrent Proton",
+                    "Sanger sequencing instrument",
+                    "unspecified"
+                  ]
+                },
+                {
+                  "required": "false",
+                  "control": "select",
+                  "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.export",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Comment[Export]",
+                  "option_values": [
+                    "yes",
+                    "no"
+                  ]
+                },
+                {
+                  "required": "true",
+                  "control": "text",
+                  "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.assayName",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Assay Name"
+                }
+              ]
+            },
+            "nucleicAcidExtraction": {
+              "fields": [
+                {
+                  "required": "false",
+                  "control": "text",
+                  "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidExtraction.extractName",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Extract Name"
+                }
+              ]
+            }
+          },
+          "fields": [],
+          "metagenomeSeq": {
+            "libraryConstruction": {
+              "fields": [
+                {
+                  "required": "false",
+                  "control": "select",
+                  "id": "studies.study.assays.assaysTable.metagenomeSeq.libraryConstruction.libraryLayout",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Parameter Value[library layout]",
+                  "option_values": [
+                    "SINGLE",
+                    "PAIRED"
+                  ]
+                },
+                {
+                  "required": "false",
+                  "control": "text",
+                  "id": "studies.study.assays.assaysTable.metagenomeSeq.libraryConstruction.mid",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Parameter Value[mid]"
+                },
+                {
+                  "required": "false",
+                  "control": "select",
+                  "id": "studies.study.assays.assaysTable.metagenomeSeq.libraryConstruction.librarySelection",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Parameter Value[library selection]",
+                  "option_values": [
+                    "PCR",
+                    "RANDOM-PCR",
+                    "Restriction Digest",
+                    "size fractionation",
+                    "other",
+                    "unspecified"
+                  ]
+                },
+                {
+                  "required": "false",
+                  "control": "select",
+                  "id": "studies.study.assays.assaysTable.metagenomeSeq.libraryConstruction.libraryStrategy",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Parameter Value[library strategy]",
+                  "option_values": [
+                    "AMPLICON",
+                    "OTHER"
+                  ]
+                }
+              ]
+            },
+            "fields": [
+              {
+                "required": "true",
+                "control": "text",
+                "id": "studies.study.assays.assaysTable.metagenomeSeq.sampleName",
+                "hidden": "false",
+                "help_tip": "",
+                "default_value": "",
+                "label": "Sample Name"
+              }
+            ],
+            "sequenceAssembly": {
+              "fields": [
+                {
+                  "required": "false",
+                  "control": "text",
+                  "id": "studies.study.assays.assaysTable.metagenomeSeq.sequenceAssembly.normalizationName",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Normalization Name"
+                },
+                {
+                  "required": "false",
+                  "control": "text",
+                  "id": "studies.study.assays.assaysTable.metagenomeSeq.sequenceAssembly.dataTransformationName",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Data Transformation Name"
+                },
+                {
+                  "required": "false",
+                  "control": "file",
+                  "id": "studies.study.assays.assaysTable.metagenomeSeq.sequenceAssembly.derivedDataFile",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Derived Data File"
+                }
+              ]
+            },
+            "nucleicAcidSequencing": {
+              "fields": [
+                {
+                  "required": "false",
+                  "control": "text",
+                  "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.baseCaller",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Parameter Value[base caller]"
+                },
+                {
+                  "required": "false",
+                  "control": "select",
+                  "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.sequencingInstrument",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Parameter Value[sequencing instrument]",
+                  "option_values": [
+                    "454 GS",
+                    "454 GS 20",
+                    "454 GS FLX",
+                    "454 GS FLX Plus",
+                    "454 GS FLX Titanium",
+                    "454 GS Junior",
+                    "AB SOLiD System",
+                    "AB SOLiD System 2.0",
+                    "AB SOLiD System 3.0",
+                    "AB SOLiD 4 System",
+                    "AB SOLiD 4hq System",
+                    "AB SOLiD PI System",
+                    "AB SOLiD 5500",
+                    "AB SOLiD 5500xl",
+                    "AB 5500 Genetic Analyzer",
+                    "AB 5500xl Genetic analyzer",
+                    "Illumina Genome Analyzer",
+                    "Illumina Genome Analyzer II",
+                    "Illumina Genome Analyzer IIx",
+                    "Illumina HiSeq 1000",
+                    "Illumina HiSeq 2000",
+                    "Illumina HiSeq 2500",
+                    "Illumina HiScanSQ",
+                    "Illumina MiSeq",
+                    "Ion Torrent PGM",
+                    "Ion Torrent Proton",
+                    "Sanger sequencing instrument",
+                    "unspecified"
+                  ]
+                },
+                {
+                  "required": "true",
+                  "control": "file",
+                  "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.rawDataFile",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Raw Data File"
+                },
+                {
+                  "required": "false",
+                  "control": "text",
+                  "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.qualityScorer",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Parameter Value[quality scorer]"
+                },
+                {
+                  "required": "false",
+                  "control": "select",
+                  "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.export",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Comment[Export]",
+                  "option_values": [
+                    "yes",
+                    "no"
+                  ]
+                },
+                {
+                  "required": "true",
+                  "control": "text",
+                  "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.assayName",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Assay Name"
+                }
+              ]
+            },
+            "nucleicAcidExtraction": {
+              "fields": [
+                {
+                  "required": "true",
+                  "control": "text",
+                  "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidExtraction.extractName",
+                  "hidden": "false",
+                  "help_tip": "",
+                  "default_value": "",
+                  "label": "Extract Name"
+                }
+              ]
+            }
+          }
+        },
+        "fields": [
+          {
+            "required": "false",
+            "control": "text",
+            "id": "studies.study.assays.studyAssayFileName",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Assay File Name"
+          },
+          {
+            "required": "false",
+            "control": "select",
+            "id": "studies.study.assays.studyAssayTechnologyType",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Assay Technology Type",
+            "option_values": ""
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.assays.studyAssayMeasurementTypeTermSourceREF",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          },
+          {
+            "required": "false",
+            "control": "select",
+            "id": "studies.study.assays.studyAssayMeasurementType",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Assay Measurement Type",
+            "option_values": ""
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.assays.studyAssayTechnologyTypeTermAccessionNumber",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          },
+          {
+            "required": "false",
+            "control": "text",
+            "id": "studies.study.assays.studyAssayTechnologyPlatform",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Assay Technology Platform"
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.assays.studyAssayMeasurementTypeTermAccessionNumber",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.assays.studyAssayTechnologyTypeTermSourceREF",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          }
+        ]
+      },
+      "studySamples": {
+        "fields": [
+          {
+            "required": "true",
+            "control": "text",
+            "id": "studies.study.studySamples.sourceName",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Source Name"
+          },
+          {
+            "required": "false",
+            "control": "Ontology term",
+            "id": "studies.study.studySamples.organism",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Characteristics[organism]"
+          }
+        ],
+        "sampleCollection": {
+          "fields": [
+            {
+              "required": "true",
+              "control": "text",
+              "id": "studies.study.studySamples.sampleCollection.sampleName",
+              "hidden": "false",
+              "help_tip": "",
+              "default_value": "",
+              "label": "Sample Name"
+            }
+          ]
+        }
+      },
+      "studyProtocols": {
+        "fields": [
+          {
+            "required": "false",
+            "control": "text",
+            "id": "studies.study.studyProtocols.studyProtocolComponentsName",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Protocol Components Name"
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.studyProtocols.studyProtocolTypeTermAccessionNumber",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.studyProtocols.studyProtocolComponentsTypeTermSourceREF",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          },
+          {
+            "required": "false",
+            "control": "text",
+            "id": "studies.study.studyProtocols.studyProtocolName",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Protocol Name"
+          },
+          {
+            "required": "false",
+            "control": "textarea",
+            "id": "studies.study.studyProtocols.studyProtocolDescription",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Protocol Description"
+          },
+          {
+            "required": "false",
+            "control": "Ontology term",
+            "id": "studies.study.studyProtocols.studyProtocolComponentsType",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Protocol Components Type"
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.studyProtocols.studyProtocolTypeTermSourceREF",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.studyProtocols.studyProtocolParametersNameTermAccessionNumber",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          },
+          {
+            "required": "false",
+            "control": "Ontology term",
+            "id": "studies.study.studyProtocols.studyProtocolParametersName",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Protocol Parameters Name"
+          },
+          {
+            "required": "false",
+            "control": "textarea",
+            "id": "studies.study.studyProtocols.studyProtocolURI",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Protocol URI"
+          },
+          {
+            "required": "false",
+            "control": "text",
+            "id": "studies.study.studyProtocols.studyProtocolVersion",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Protocol Version"
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.studyProtocols.studyProtocolComponentsTypeTermAccessionNumber",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          },
+          {
+            "required": "false",
+            "control": "Ontology term",
+            "id": "studies.study.studyProtocols.studyProtocolType",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Protocol Type"
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.studyProtocols.studyProtocolParametersNameTermSourceREF",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          }
+        ]
+      },
+      "studyFactors": {
+        "fields": [
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.studyFactors.studyFactorTypeTermAccessionNumber",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.studyFactors.studyFactorTypeTermSourceREF",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          },
+          {
+            "required": "false",
+            "control": "Ontology term",
+            "id": "studies.study.studyFactors.studyFactorType",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Factor Type"
+          },
+          {
+            "required": "false",
+            "control": "text",
+            "id": "studies.study.studyFactors.studyFactorName",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Factor Name"
+          }
+        ]
+      },
+      "studyDesignDescriptors": {
+        "fields": [
+          {
+            "required": "false",
+            "control": "Ontology term",
+            "id": "studies.study.studyDesignDescriptors.studyDesignType",
+            "hidden": "false",
+            "help_tip": "",
+            "default_value": "",
+            "label": "Study Design Type"
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.studyDesignDescriptors.studyDesignTypeTermSourceREF",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          },
+          {
+            "required": "",
+            "control": "",
+            "id": "studies.study.studyDesignDescriptors.studyDesignTypeTermAccessionNumber",
+            "hidden": "",
+            "help_tip": "",
+            "default_value": "",
+            "label": ""
+          }
+        ]
+      }
+    }
+  },
+  "comment": "It is advised not to directly edit this file. Changes made could be potentially reversed. Use the config file to override any attribute, adding the desired attribute to be overridden as a key."
+}

@@ -36,6 +36,10 @@ def json_to_object(path_or_data):
             data = json.loads(data_file.read(), object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
     return data
 
+def get_label(value, list_of_elements, key_name):
+    for dict in list_of_elements:
+        return dict["label"] if dict[key_name] == value else ''
+
 
 def template_verify(path_or_data):
     if not os.path.exists(path_or_data):

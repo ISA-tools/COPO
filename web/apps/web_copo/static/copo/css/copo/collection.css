@@ -68,7 +68,7 @@ a.clickable:hover { text-decoration:none; }
     margin-top:20px
 }
 
-.upload_input{
+.upload_input {
     width:180px !important
 
 }
@@ -85,10 +85,14 @@ form{
     margin-bottom:20px
 }
 
-#exp_data_table{
+#exp_data_table {
     margin-bottom:20px
 }
-#exp_data_table .delete_cell{
+#exp_data_table .delete_cell {
     color:red;
     cursor:pointer;
+}
+
+.collection_type_title {
+    font-size: 0.7em;
 }

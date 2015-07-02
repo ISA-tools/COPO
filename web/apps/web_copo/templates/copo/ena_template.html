@@ -15,7 +15,7 @@
 
     {% block work_area %}
         <ul>
-            {% for nas in ena_o.nucleicAcidSequencing.fields %}
+            {% for nas in ena_o.fields %}
                 {% if nas.control == "text" %}
                     <div class='form-group'>
                         <label for='{{ nas.id }}'>{{ nas.label }}</label><br/>
@@ -34,6 +34,9 @@
             {% endfor %}
         </ul>
     {% endblock %}
+
+    <label for="study_abstract">Abstract</label>
+                        <textarea rows="6"  name="study_abstract" placeholder="Enter Abstract"></textarea>
 
 
 {% endblock %}

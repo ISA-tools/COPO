@@ -2,6 +2,7 @@
 
 {% load staticfiles %}
 {% load web_tags %}
+{% load html_tags %}
 
 {% block stylesheet_block %}
     <link rel="stylesheet" href="{% static 'copo/css/copo/browse_style.css' %}">
@@ -23,6 +24,7 @@
         <link rel="stylesheet" href="{% static 'copo/css/jquery.fileupload-ui-noscript.css' %}">
     </noscript>
     <link rel="stylesheet" href="{% static 'copo/css/copo/collection.css' %}">
+    <link rel="stylesheet" href="{% static 'copo/css/copo/study.css' %}">
 
 {% endblock %}
 
@@ -35,7 +37,8 @@
     <ol class="breadcrumb">
         <li><a href="{% url 'copo:index' %}">Home</a></li>
         <li><a href="{% url 'copo:view_profile' profile_id=profile_id %}">Profile</a></li>
-        <li class="active"><a href="{% url 'copo:view_collection' collection_id=collection_id %}">Collection</a></li>
+        <li class="active"><a title="Collection type::ENA Submission"
+                              href="{% url 'copo:view_collection' collection_id=collection_id %}">Collection</a></li>
     </ol>
 {% endblock %}
 
@@ -93,541 +96,127 @@
 
 {% block work_area %}
 
-
-    <form role="form" class="form-horizontal" id="ena_title_form" action="/copo/new_collection/" method="post">
-        <div class="form-group">
-            <label class="control-label">Collection Name</label>
-            <input type="text" id="collection_name" placeholder="{{ collection.name }}" class="form-control" disabled/>
-        </div>
-        <div class="form-group">
-            <label for="collection_type">Collection Type</label>
-            <select name="collection_type" id="collection_type" class="form-control">
-                <option selected="selected">ENA Submission</option>
-                <option>Custom Submission</option>
-            </select>
-        </div>
-    </form>
+    <h2 class="h2"><span title="Profile name">{{ profile.title }}</span> / <span
+            title="Collection type::ENA Submission">{{ collection.name }}</span></h2>
 
 
     <div class="panel-group" id="accordion">
 
-        <!-- Panel for ENA Study -->
+        <!-- Panel for Study Samples -->
         <div class="panel panel-default" id="panel1">
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-target="#collapseOne" href="#collapseOne">
-                        ENA Study
+                        Samples
                     </a>
                 </h4>
             </div>
             <div id="collapseOne" class="panel-collapse collapse in">
                 <div class="panel-body">
-                    <h2 class="h2">Add Study Details</h2>
+                    <div style="display: inline-block; text-indent: 0.5em;">
+                        <a id="study_sample_add" href="#" title="Add Study Sample"><i
+                                class="glyphicon glyphicon-plus "></i><span>Add Study Sample</span></a>
+                    </div>
                     <hr/>
 
-                    <form id="ena_study_form" class="ena_form_validation_icon form-inline">
-                        {% csrf_token %}
-                        <input type='hidden' id='study_id' value='" + str(study_id) + "'/>
 
-                        <div class='form-group'>
-                            <label for='study_title'>Study Title</label><br/>
-                            <input type='text' id='study_title' name='study_title' value='{{ study.Study_Title }}'>
-                        </div>
-
-                        <div class='form-group'>
-                            <label for='study_type'>Study Type</label><br/>
-                            <select id='study_type' name='study_type'>
-                                <option>Whole Genome Sequencing</option>
-                                <option>Metagenomics</option>
-                                <option>Transcriptome Analysis</option>
-                                <option>Resequencing</option>
-                                <option>Epigenetics</option>
-                                <option>Synthetic Genomics</option>
-                                <option>Forensic or Paleo-genomics</option>
-                                <option>Gene Regulation Study</option>
-                                <option>Cancer Genomics</option>
-                                <option>Population Genomics</option>
-                                <option>RNASeq</option>
-                                <option>Exome Sequencing</option>
-                                <option>Pooled Clone Sequencing</option>
-                                <option>Other</option>
-                            </select>
-                        </div>
-
-                        <div class='form-group'>
-                            <label for='study_abstract'>Study Abstract</label><br/>
-                            <input type='textarea' id='study_abstract' name='study_abstract'
-                                   value='{{ study.Study_Abstract }}'>
-                        </div>
-
-
-                        <div class='form-group'>
-                            <label for='center_name'>Center Name</label><br/>
-                            <input type='text' id='center_name' name='center_name' value='{{ study.Center_Name }}'>
-                        </div>
-
-                        <div class='form-group'>
-                            <label for='center_project_name'>Project Name</label><br/>
-                            <input type='text' id='center_project_name' name='center_project_name'
-                                   value='{{ study.Center_Project_Name }}'>
-                        </div>
-
-                        <div class='form-group'>
-                            <label for='study_description'>Study Description</label><br/>
-                            <input type='text' id='study_description' name='study_description'
-                                   value='{{ study.Study_Description }}'>
-                        </div>
-
-                    </form>
-
-                    <h2 class="h2">Add Study Attributes</h2>
-                    <hr/>
-                    <form id="ena_study_form_attributes" class="form-horizontal" role="form">
-
-                        {% csrf_token %}
-                        {% for attr in study.Study_Attributes %}
-                            <div class="form-group col-sm-10">
-                                <div class="attr_vals">
-                                    <input type="text" class="col-sm-3 attr" name="tag_1" placeholder="tag"
-                                           value="{{ attr.tag }}"/>
-                                    <input type="text" class="col-sm-3 attr" name="tag_1" placeholder="tag"
-                                           value="{{ attr.value }}"/>
-                                    <input type="text" class="col-sm-3 attr" name="tag_1" placeholder="tag"
-                                           value="{{ attr.unit }}"/>
-                                </div>
-                            </div>
-
-                        {% endfor %}
-
-                        <p id="study_button_p" class="col-sm-10">
-                            <br/>
-                            <button type="button" id="study_add_attribute_button" class="btn btn-default btn-s">Add
-                                Another
-                            </button>
-                            <br/><br/><br/>
-                            <button type="button" id="save_study" style="margin-right:-110px"
-                                    class="btn btn-success pull-right">Save Study
-                            </button>
-                        </p>
-
-                    </form>
                 </div>
             </div>
         </div>
 
-
-        <!-- Panel for ENA Sample -->
+        <!-- Panel for Study Types -->
         <div class="panel panel-default" id="panel2">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" data-target="#collapseTwo"
-                       href="#collapseTwo" class="collapsed">
-                        ENA Sample
+                    <a data-toggle="collapse" data-target="#collapseTwo" href="#collapseTwo">
+                        Studies
                     </a>
                 </h4>
             </div>
-            <div id="collapseTwo" class="panel-collapse collapse">
+            <div id="collapseTwo" class="panel-collapse collapse in">
                 <div class="panel-body">
-                    <h2 class="h2">Add Sample Details</h2>
+                    <div style="display: inline-block; text-indent: 0.5em;">
+                        <a data-toggle="modal" data-target="#newStudyTypeModal" href="#" title="Add Study Sample"><i
+                                class="glyphicon glyphicon-plus "></i><span>Add Study Type</span></a>
+                    </div>
                     <hr/>
-                    <table class="table-bordered" id="sample_table">
 
-                        <tr id="sample_table_tr">
-                            <th>Source Name</th>
-                            <th>Sample Name</th>
-                            <th>Anonymised Name</th>
-                            <th>Common Name</th>
+                    <table class="table-bordered" id="study_type_table">
+
+                        <tr>
+                            <th>Study Type</th>
+                            <th>Assigned Samples</th>
+                            <th>&nbsp;</th>
                         </tr>
 
-                        {% for sample in study.samples %}
+                        {% for st in study.copoInternal.studyTypes %}
                             <tr>
                                 <td>
-                                    <a rest_url="{% url 'rest:get_sample_html' sample|mongo_id %}">{{ sample.Source_Name }}</a>
+                                    <a class="study_type_details" id="{{ st.ref }}" href="#"
+                                       title="{{ st.name }}">{{ st.name|lookup_study_type_label }} /{{ st.ref }}</a>
                                 </td>
-                                <td>{{ sample.Sample_Name }}</td>
-                                <td>{{ sample.Individual_Name }}</td>
-                                <td>{{ sample.Description }}</td>
+                                <td></td>
+                                <td> | <a class="study_type_remove" href="#" title="Delete Study Type">
+                                    <i class="glyphicon glyphicon-remove "></i></a></td>
                             </tr>
                         {% endfor %}
 
                     </table>
 
 
-                    <p class="col-sm-10">
-                        <br/>
-                        <button type="button" id="add_sample_button" class="btn btn-default btn-s" data-toggle="modal"
-                                data-target="#newSampleModal">Add Sample
-                        </button>
-                    </p>
-
-
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Panel for ENA Files/Experiments -->
-        <div class="panel panel-default" id="panel3">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-target="#collapseThree"
-                       href="#collapseThree" class="collapsed">
-                        ENA Data
-                    </a>
-                </h4>
-            </div>
-            <div id="collapseThree" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <h2 class="h2">Add Experiment Details</h2>
-                    <hr/>
-                    <table class="table-bordered" id="exp_table">
-
-                        <tr>
-                            <th>Group Name</th>
-                            <th>Platform Type</th>
-                            <th>Group Size</th>
-                            <th>Last Modified</th>
-
-                        </tr>
-
-                    </table>
-
-                    <p class="col-sm-10">
-                        <br/>
-                        <button type="button" id="add_data_button" class="btn btn-default btn-s" data-toggle="modal"
-                                data-target="#newDataModal">Add Data
-                        </button>
-                    </p>
                 </div>
             </div>
         </div>
     </div>
 
 
-    <!-- Sample Modal -->
-    <div class="modal fade" id="newSampleModal" tabindex="-1" role="dialog" aria-labelledby="newSampleModal"
-         aria-hidden="false">
-        <div class="modal-dialog modal-lg">
+    <!-- Modal for adding new study type -->
+    <div class="modal fade" id="newStudyTypeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span
                             aria-hidden="true">&times;</span><span
                             class="sr-only">Close</span></button>
-                    <h4 class="modal-title h2" id="myModalLabel">New Sample</h4>
+                    <h4 class="modal-title" id="myModalLabel">Add Study Type</h4>
                 </div>
-
-                <div class="modal-body" style="padding-bottom:100px">
-
-                    <form id="ena_sample_form" class="ena_form_validation_icon">
-
+                <div class="modal-body">
+                    <form role="form" id="add_new_study_form" action="{% url 'copo:add_to_collection' %}" method="post">
                         {% csrf_token %}
-                        <div class="form-group">
-                            <label for="Source_Name">Title</label>
-                            <input type="text" class="form-control" name="Source_Name" id="Source_Name"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="Taxon_ID">Taxon ID</label>
-                            <input type="text" class="form-control" name="Taxon_ID" id="Taxon_ID"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="Scientific_Name">Scientific Name</label>
-                            <input type="text" class="form-control" name="Scientific_Name" id="Scientific_Name"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="Common_Name">Common Name</label>
-                            <input type="text" class="form-control" name="Common_Name" id="Common_Name"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="Anonymized_Name">Anonymized Name</label>
-                            <input type="text" class="form-control" name="Anonymized_Name" id="Anonymized_Name"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="Individual_Name">Individual Name</label>
-                            <input type="text" class="form-control" name="Individual_Name" id="Individual_Name"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="Description">Description</label>
-                            <input type="text" class="form-control" name="Description" id="Description"/>
-                        </div>
-
-                    </form>
-
-                    <h2 class="h2">Add Sample Attributes</h2>
-                    <hr/>
-
-                    <form id="ena_sample_form_attributes" class="form-horizontal" role="form">
-
-
-                        <!-- pressing the button underneath this div will cause another div to be created and inserted -->
-                        <div class="form-group col-sm-10 attribute_group">
-
-                            <label class="sr-only" for="tag_1">tag</label>
-                            <label class="sr-only" for="value_1">value</label>
-                            <label class="sr-only" for="unit_1">unit</label>
-
-                            <div class="sample_attr_vals">
-                                <input type="text" class="col-sm-3 attr" name="tag_1" placeholder="tag"/>
-                                <input type="text" class="col-sm-3 attr" name="value_1" placeholder="value"/>
-                                <input type="text" class="col-sm-3 attr" name="unit_1" placeholder="unit (optional)"/>
+                        <div id="study_type_wrapper">
+                            <div class="form-group">
+                                <label for="add_study_type">Add New</label><br/>
+                                {% for stud in study_types %}
+                                    <input type="checkbox" name="add_new_study_type" value="{{ stud.value }}">&nbsp;
+                                    {{ stud.label }}<br/>
+                                {% endfor %}
                             </div>
+                            <div>
+                                <button id="btn_add_new_study_type" type="button"
+                                        class="btn btn-primary text-center">Add
+                                </button>
+                            </div>
+                            <hr/>
 
+                            <div class="form-group">
+                                <label for="clone_study_type">Clone Existing</label><br/>
+                                {% for st in study.copoInternal.studyTypes %}
+                                    <input type="checkbox" name="clone_study_type" value="{{ st.ref }}">&nbsp;
+                                    {{ st.name|lookup_study_type_label }} /{{ st.ref }}<br/>
+                                {% endfor %}
+                            </div>
+                            <div>
+                                <button id="btn_clone_study_type" type="button"
+                                        class="btn btn-primary text-center">Clone
+                                </button>
+                            </div>
                         </div>
-                        <p id="sample_button_p" class="col-sm-10">
-                            <br/>
-
-                        </p>
                     </form>
-
-
                 </div>
-
                 <div class="modal-footer">
-                    <p id="p_save_sample">
-                        <button type="button" id="btn:save_sample" class="btn btn-success">Save Sample</button>
-                    </p>
+
                 </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Data Modal -->
-    <div class="modal fade" id="newDataModal" tabindex="-1" role="dialog" aria-labelledby="newSampleModal"
-         aria-hidden="false">
-    <input type="hidden" name="data_modal_id" value=""/>
-    <div class="modal-dialog" style="width:1024px">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                        class="sr-only">Close</span></button>
-                <h4 class="modal-title h2" id="myDataLabel">Add Files</h4>
-            </div>
-
-            <div class="modal-body">
-                <div class="row">
-
-                    <div class="col-sm-3 col-md-3 col-lg-3">
-                        <div id="exp_info">
-                            <form>
-                                <!-- Controls for Info Panel -->
-                                <div class="form-group">
-                                    <label for="copo_exp_name">Experiment Name</label>
-                                    <input type="text" name="copo_name" id="copo_exp_name" placeholder="Name"/>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="select_platform">Platform</label>
-                                    <select class="form-control" name="select_platform" id="select_platform" type="text"
-                                            placeholder="Sample Type">
-                                        <option value="ILLUMINA">Illumina</option>
-                                        <option value="LS454">LS454</option>
-                                        <option value="PACBIO_SMRT">PacBio SMRT</option>
-                                        <option value="ION_TORRENT">Ion Torrent</option>
-                                        <option value="OXFORD_NANOPORE">Oxford Nanopore</option>
-                                        <option value="CAPILLARY">Capillary</option>
-                                        <option value="COMPLETE_GENOMICS">Complete Genomics</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="select_instrument_model">Instrument Model</label>
-                                    <select class="form-control" name="select_instrument_model"
-                                            id="select_instrument_model"/>
-                                </div>
-
-                                <div class="checkbox form-group">
-                                    <label>
-                                        <input type="checkbox" id="multiplex_checkbox"> Multiplexed Reads
-                                    </label>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="select_library_source">Library Source</label>
-                                    <select class="form-control" name="select_library_source" id="select_library_source"
-                                            type="text"
-                                            placeholder="Library Source">
-
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="select_library_selection">Library Selection</label>
-                                    <select class="form-control" name="select_library_selection"
-                                            id="select_library_selection"
-                                            type="text" placeholder="Library Selection">
-
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="select_library_strategy">Library Strategy</label>
-                                    <select class="form-control" name="select_library_strategy"
-                                            id="select_library_strategy"
-                                            type="text" placeholder="Library Strategy">
-
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="input_insert_size">Insert Size</label>
-                                    <input class="form-control" name="input_insert_size" id="input_insert_size"
-                                           type="text"
-                                           placeholder="Insert Size"/>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-9 col-md-9 col-lg-9">
-                        <div class="exp_detail container" id="container">
-
-
-                            <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-12">
-                                    <div class="panel panel-primary">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title">Upload</h3>
-                                        <span class="pull-right clickable"><i
-                                                class="glyphicon glyphicon-minus"></i></span>
-                                            <input type="hidden" name="panel_id" value=""/>
-                                        </div>
-                                        <div class="panel-body" style="display:block">
-                                            <div class="row">
-
-                                                <form class="form-inline" id="ena_ff">
-                                                    <div class="col-lg-4 col-md-4 col-sm-4">
-                                                        {% csrf_token %}
-                                                        <div class="form-group">
-
-                                                            <label for="select_file_type">File Type</label>
-                                                            <select class="form-control upload_input"
-                                                                    name="select_file_type"
-                                                                    id="select_file_type">
-                                                                <option value="" selected></option>
-                                                                <option value="fastq">fastq</option>
-                                                                <option value="bam">bam</option>
-                                                                <option value="sam">sam</option>
-                                                                <option value="cram">cram</option>
-                                                                <option value="PacBio_HDF5">PacBio HDF5</option>
-                                                                <option value="OxfordNanopore_native">Oxford Nanopore
-                                                                </option>
-                                                                <option value="srf">srf</option>
-                                                                <option value="sff">sff</option>
-                                                                <option value="CompleteGenomics_native">Complete
-                                                                    Genomics
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-4 col-md-4 col-sm-4">
-                                                        <div class="form-group">
-                                                            <label for="input_library_name">Library Name</label>
-                                                            <input class="form-control upload_input"
-                                                                   name="input_library_name"
-                                                                   id="input_library_name" type="text"
-                                                                   placeholder="Library Name"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-4 col-md-4 col-sm-4">
-                                                        <div class="form-group">
-                                                            <label for="select_sample_ref">Sample Type</label>
-                                                            <select class="form-control upload_input"
-                                                                    name="select_sample_ref"
-                                                                    id="select_sample_ref" type="text"
-                                                                    placeholder="Sample Type">
-                                                                <option>Test</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12">
-                                                    <div class="file_type_warning"></div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12">
-                                                    <div class="file_status_label"></div>
-                                                    <!--
-                                                    <div id="progress_info_0">
-                                                        <span id="progress_label"></span>
-                                                        <span id="total_label"></span>
-                                                        <span id="bitrate"></span>
-                                                    </div>
-                                                    <br><br>
-
-                                                    <div id="progress" class="progress">
-                                                        <div style="width: 0%;height: 20px;background: green"
-                                                             class="bar"></div>
-                                                        <div class="progress-bar progress-bar-success"></div>
-
-                                                    </div>
-                                                    -->
-
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-9 col-md-9 col-lg-9">
-
-                                                </div>
-                                                <div class="col-sm-3 col-md-3 col-lg-3">
-                                                    <form enctype="multipart/form-data" id="upload_0" method="POST"
-                                                          action="/rest/receive_data_file_chunked/"
-                                                          style="margin-right:40px">
-                                                        {% csrf_token %}
-                                                                <span id="upload_files_button"
-                                                                      class="btn btn-success fileinput-button">
-                                                                    <i class="glyphicon glyphicon-plus"></i>
-                                                                    <span>Select files...</span>
-                                                                    <input type="file" name="file"
-                                                                           onchange="get_chunk_size(event)" multiple/>
-                                                                    <input type="hidden" name="upload_id" value=""/>
-																	<input type="hidden" name="panel_ordering"
-                                                                           value="0"/>
-																	<input type="hidden" name="exp_id" value=""/>
-                                                                </span>
-                                                    </form>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-                        <div class="row">
-                            <!--<div class="col-sm-4 col-md-4 col-lg-04" style="border:1px solid black">here</div>-->
-                            <div class="col-sm-6 col-sm-6 col-sm-6 pull-right" style="margin-right:50px">
-                            <span id="add_upload_group_button"
-                                  class="btn btn-info fileinput-button vertical-center pull-right"
-                                  style="margin-left:20px">
-								<i class="glyphicon glyphicon-plus"></i>
-								<span>Add Experment Group</span>
-							</span>
-							<span id="delete_upload_group_button"
-                                  class="btn btn-danger fileinput-button vertical-center pull-right">
-								<i class="glyphicon glyphicon-minus"></i>
-								<span>Remove Experment Group</span>
-							</span>
-                            </div>
-                        </div>
-                        <div id="existing_files"></div>
-
-                    </div>
-                </div>
-
-            </div>
-
-
-            <div class="modal-footer">
-                <p id="p_save_data">
-                    <button type="button" id="btn_save_data" class="btn btn-success">Save Data</button>
-                </p>
             </div>
         </div>
     </div>
@@ -637,7 +226,8 @@
 
 
 {% block js_block %}
-    <script src="{% static 'copo/js/collection.js' %}"></script>
+    <script src="{% static 'copo/js/collection_ext.js' %}"></script>
+{#    <script src="{% static 'copo/js/collection.js' %}"></script>#}
     <script src="{% static 'copo/js/jquery.form.js' %}"></script>
     <script src="{% static 'copo/js/bootstrapValidator.js' %}"></script>
     <script src="{% static 'copo/js/uploader/vendor/jquery.ui.widget.js' %}"></script>

@@ -16,6 +16,7 @@ urlpatterns = patterns('apps.web_copo.views',
                        url(r'^new_collection/', 'new_collection_head', name='new_collection'),
                        url(r'^collection/(?P<collection_id>\d+)/view', 'view_collection', name='view_collection'),
                        url(r'^initiate_repo/$', 'initiate_repo', name='initiate_repo'),
+                       url(r'^add_to_collection/$', 'add_to_collection', name='add_to_collection'),
 
 
                        url(r'^save_article/$', FigshareCollection().save_article, name='save_article'),

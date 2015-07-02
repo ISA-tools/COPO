@@ -16,6 +16,54 @@ $(document).ready(function () {
 
     })
 
+    //hide delete button for first element in the study type group
+    $("#study_types_lists_div").find('.study_type_select_divs:first').children(":nth-child(2)").hide();
+
+    //handle change event for collection types drop-down
+    toggle_collection_type($("#collection_type option:selected").val());
+
+    $("#collection_type").change(function () {
+        toggle_collection_type($("#collection_type option:selected").val());
+    });
+
+    //handle event for add study type
+    $("#study_type_add").click(function (event) {
+        do_add_study_type();
+    });
+
+    //handle click event for delete study type
+    $("#study_types_lists_div").on('click', 'a.study_type_remove', function (event) {
+        do_remove_study_type(event);
+    });
+
+
+    function do_add_study_type() {
+        var clonableTarget = $("#study_types_lists_div").find('.study_type_select_divs:last').clone();
+
+        // update the id, name of the clone
+        var fc = clonableTarget.children(":first").children(":first");
+        var num_app = fc.attr("id").split("_");
+        fc.attr("id", num_app[0] + "_" + (parseInt(num_app[1]) + 1));
+        fc.attr("name", num_app[0] + "_" + (parseInt(num_app[1]) + 1));
+
+        clonableTarget.children(":nth-child(2)").show();
+        clonableTarget.children(":nth-child(2)").css("display","inline-block");
+        $("#study_types_lists_div").append(clonableTarget);
+    }
+
+    function do_remove_study_type(event) {
+        var par = $($(event.target)).parents(":eq(2)")
+        par.remove();
+    }
+
+    function toggle_collection_type(collection_type) {
+        if (collection_type.toLocaleLowerCase() == "ena submission") {
+            $("#study_type_div").show();
+        } else {
+            $("#study_type_div").hide();
+        }
+    }
+
 
     function submit_to_figshare(e) {
         e.preventDefault()
@@ -58,7 +106,6 @@ $(document).ready(function () {
             }
         })
     }
-
 
 
 })

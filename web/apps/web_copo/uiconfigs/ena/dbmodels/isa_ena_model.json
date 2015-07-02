@@ -172,7 +172,10 @@
                 "studyTitle" : ""
             }
         }
-    ]
+    ],
+    "copoInternal" : {
+      "studyTypes" : []
+    }
 }
 
 

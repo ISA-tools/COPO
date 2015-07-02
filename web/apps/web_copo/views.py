@@ -120,8 +120,16 @@ def view_profile(request, profile_id):
 
     except:
         pass
+
+    # get collection types
+    collection_types = lkup.DROP_DOWNS['COLLECTION_TYPES']
+
+    # get study types
+    study_types = lkup.DROP_DOWNS['STUDY_TYPES']
+
     context = {'profile_id': profile_id, 'profile_title': profile['title'],
-               'profile_abstract': profile['short_abstract'], 'collections': collections}
+               'profile_abstract': profile['short_abstract'], 'collections': collections,
+               'collection_types': collection_types, 'study_types': study_types}
     return render(request, 'copo/profile.html', context)
 
 
@@ -129,6 +137,23 @@ def view_profile(request, profile_id):
 def new_collection_head(request):
     # create the new collection
     collection_id = Collection_Head().PUT(request)
+
+    # add a template for ENA submission
+    coll_type = request.POST['collection_type']
+    if coll_type.lower() == 'ena submission':
+        # create a new db template
+        ena_d = dfmts.json_to_dict(lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['ISA_json'])
+        ena_coll = get_collection_ref("EnaCollections")
+        ena_collection_id = ena_coll.insert(ena_d)
+
+        # add collection details
+        Collection_Head().add_collection_details(collection_id, ena_collection_id)
+
+        # add study types
+        study_type_list = [value for key, value in request.POST.items() if key.startswith("studytypeselect_")]
+        # study_type_list = list(set(study_type_list))
+        EnaCollection().add_study_types(ena_collection_id, study_type_list)
+
     profile_id = request.session['profile_id']
     Profile().add_collection_head(profile_id, collection_id)
     return HttpResponseRedirect(reverse('copo:view_profile', kwargs={'profile_id': profile_id}))
@@ -143,11 +168,26 @@ def view_collection(request, collection_id):
     request.session['collection_id'] = collection_id
     # check type of collection
     if collection['type'] == 'ENA Submission':
-        if ('collection_details' in collection):
+        schema = "ENA"
+        ena_full_json = dfmts.json_to_object(lkup.SCHEMAS[schema]['PATHS_AND_URIS']['UI_TEMPLATE_json'])
+        ena_d = ena_full_json.studies.study
+        ena_sample = ena_full_json.studies.study.studySamples.sampleCollection
+
+        # get study types
+        study_types = lkup.DROP_DOWNS['STUDY_TYPES']
+
+        if 'collection_details' in collection:
             request.session['study_id'] = str(collection['collection_details'])
+            profile = Profile().GET(profile_id)
+            study = EnaCollection().GET(request.session['study_id'])
+
             data_dict = {'collection': collection, 'collection_id': collection_id,
                          'study_id': request.session['study_id'], 'profile_id': profile_id,
-                         'study': EnaCollection().GET(request.session['study_id'])}
+                         'study': study,
+                         'profile': profile,
+                         'ena_d': ena_d,
+                         'study_types': study_types
+                         }
         else:
             data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
         return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
@@ -157,6 +197,17 @@ def view_collection(request, collection_id):
                      'articles': articles}
         return render(request, 'copo/article.html', data_dict, context_instance=RequestContext(request))
 
+
+def add_to_collection(request):
+    profile_id = request.session['profile_id']
+    study_type_list = request.POST['study_types']
+    ena_collection_id = request.POST['collection_id']
+    study_type_list = study_type_list.split(",")
+    EnaCollection().add_study_types(ena_collection_id, study_type_list)
+
+    return_structure = {'exit_status': 'success'}
+    out = jsonpickle.encode(return_structure)
+    return HttpResponse(out, content_type='json')
 
 def initiate_repo(request):
     initiate_status = ""
@@ -223,13 +274,10 @@ def ena_template(request):
     ena_o = dfmts.json_to_object(lkup.SCHEMAS[schema]['PATHS_AND_URIS']['UI_TEMPLATE_json'])
     ena_d = dfmts.json_to_dict(lkup.SCHEMAS[schema]['PATHS_AND_URIS']['UI_TEMPLATE_json'])
 
+    # can also work with traditional python dictionaries, but i prefer the dot notation
     ena_d = ena_d["studies"]["study"]["assays"]["assaysTable"]["genomeSeq"]
-    # ena_d["nucleicAcidSequencing"]["fields"][0]["label"] = "Waoooo!"
 
-    # for elem in ena_d["nucleicAcidSequencing"]["fields"]:
-    #     print(elem["label"])
-
-    ena_o = dfmts.json_to_object(ena_d)
+    ena_o = ena_o.studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing
 
     return render_to_response(
         'copo/ena_template.html',
