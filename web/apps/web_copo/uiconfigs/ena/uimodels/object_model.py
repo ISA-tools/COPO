@@ -1,6 +1,7 @@
 __author__ = 'tonietuk'
 
 # Helps preformat output dictionary
+# Also, use this to inform how to
 OUT_DICT = {
     "investigation": {
         "fields": [],

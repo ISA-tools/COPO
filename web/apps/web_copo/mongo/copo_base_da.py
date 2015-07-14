@@ -79,10 +79,10 @@ class Collection_Head(Resource):
     def GET(self, id):
         return Collection_Heads.find_one({"_id": o.ObjectId(id)})
 
-    def add_collection_details(self, collection_id, details_id):
+    def add_collection_details(self, collection_head_id, details_id):
         Collection_Heads.update(
             {
-                "_id": o.ObjectId(collection_id)
+                "_id": o.ObjectId(collection_head_id)
             },
             {
                 '$set': {"collection_details": details_id}

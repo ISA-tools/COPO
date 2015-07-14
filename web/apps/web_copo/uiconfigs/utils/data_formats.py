@@ -36,6 +36,7 @@ def json_to_object(path_or_data):
             data = json.loads(data_file.read(), object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
     return data
 
+
 def get_label(value, list_of_elements, key_name):
     for dict in list_of_elements:
         return dict["label"] if dict[key_name] == value else ''
@@ -169,3 +170,13 @@ def merge_dicts(*dict_args):
 def namespace(element):
     match = re.search(r'\{(.+)\}', element.tag)
     return match.group(1) if match else ''
+
+
+def lookup_study_type_label(val):
+    # get study types
+    study_types = lkup.DROP_DOWNS['STUDY_TYPES']
+
+    for st in study_types:
+        if st["value"].lower() == val.lower():
+            return st["label"]
+    return ""

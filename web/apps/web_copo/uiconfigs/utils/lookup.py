@@ -168,5 +168,6 @@ HTML_TAGS = {
             "<input type='text' class='pop_date_picker' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'>",
     "hidden": "<input type='hidden' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'>",
     "file": "",
-    "Ontology term": ""
+    "Ontology term": "<label for='{elem_id!s}'>{elem_label!s}</label><br/>"
+            "<input type='text' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'>"
 }

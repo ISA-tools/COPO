@@ -53,51 +53,54 @@
 
     <h2 class="h2">{{ profile_title }}</h2>
     {{ profile_abstract }}
-    <hr/>
-    <h3>Collections</h3>
-    <table id="browse_table">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for c in collections %}
-
-            <tr data-collection_id="{{ c|mongo_id }}">
-                <td>
-                    <a href="{% url 'copo:view_collection' collection_id=c|mongo_id %}">{{ c.name }}</a></td>
-                <td>
-                    {{ c.type }}
-                </td>
-                <td class="text-center">
-				<span class="row">
-				<span class="col-lg-4"></span>
-				<span class="col-lg-5">
-					<ul class="coolHandLuke vert-align">
-                        {% if not c.is_clean %}
-                            <li class="center-block" center-block><span class="red"> </span><a href="#">Submit to
-                                Repo</a></li>
-                        {% else %}
-                            <li><span class="green"> </span><a
-                                    href="{% url 'copo:view_collection' collection_id=c|mongo_id %}">Inspect</a></li>
-                        {% endif %}
-                    </ul>
-				</span>
-					<span class="col-lg-3">
-						<span class="spinner vert-align pull-right">
-						<img src="{% static "copo/img/flower.png" %}"/>
-						</span>
-					</span>
-				</span>
-                </td>
+    {% if collections %}
+        <hr/>
+        <h3>Collections</h3>
+        <table id="browse_table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th></th>
             </tr>
+            </thead>
+            <tbody>
+            {% for c in collections %}
 
-        {% endfor %}
-        </tbody>
-    </table>
+                <tr data-collection_id="{{ c|mongo_id }}">
+                    <td>
+                        <a href="{% url 'copo:view_collection' collection_head_id=c|mongo_id %}">{{ c.name }}</a></td>
+                    <td>
+                        {{ c.type }}
+                    </td>
+                    <td class="text-center">
+                    <span class="row">
+                    <span class="col-lg-4"></span>
+                    <span class="col-lg-5">
+                        <ul class="coolHandLuke vert-align">
+                            {% if not c.is_clean %}
+                                <li class="center-block" center-block><span class="red"> </span><a href="#">Submit to
+                                    Repo</a></li>
+                            {% else %}
+                                <li><span class="green"> </span><a
+                                        href="{% url 'copo:view_collection' collection_head_id=c|mongo_id %}">Inspect</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </span>
+                        <span class="col-lg-3">
+                            <span class="spinner vert-align pull-right">
+                            <img src="{% static "copo/img/flower.png" %}"/>
+                            </span>
+                        </span>
+                    </span>
+                    </td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 
     <!-- subsequently we should loop and have some sort of collapsable table showing the existing work collections -->
 
@@ -151,17 +154,20 @@
                         </div>
 
                         <div id="study_type_div" class="form-group">
-                            <label for="study_type">Study Type
+                            <label for="study_type">Study Types
                                 <div style="display: inline-block; text-indent: 0.5em;">
-                                    <a id="study_type_add" href="#" title="Add Study Type"><i
-                                            class="glyphicon glyphicon-plus "></i><span>(Add Study Type)</span></a>
+                                    <a id="study_type_add" href="#" title="Add Study Type">
+                                        <button type="button" class="btn btn-default btn-xs"><i
+                                                class="glyphicon glyphicon-plus "></i>Add
+                                        </button>
+                                    </a>
                                 </div>
                             </label>
 
                             <div id="study_types_lists_div">
-                                <div class="study_type_select_divs" style="white-space: nowrap; margin-bottom: 0.5em;">
+                                <div id="study_type_select_divs_0" style="white-space: nowrap; margin-bottom: 0.5em;">
                                     <div style="display: inline-block;">
-                                        <select name="studytypeselect_0" id="studytypeselect_0"
+                                        <select name="study_type_select_0" id="study_type_select_0"
                                                 class="form-control">
                                             {% for stud in study_types %}
                                                 <option value="{{ stud.value }}">{{ stud.label }}</option>
@@ -169,14 +175,24 @@
                                         </select>
                                     </div>
                                     <div style="display: inline-block;">
-                                        <a class="study_type_remove" href="#" title="Delete Study Type">
-                                            <i class="glyphicon glyphicon-remove "></i></a>
+                                        <input type="text" name="study_type_reference_0" id="study_type_reference_0"
+                                               class="form_control"
+                                               placeholder="Enter Study Reference"/>
+                                    </div>
+                                    <div style="display: inline-block;">
+                                        <a id="study_type_remove_0" name="study_type_remove_0" class="study_type_remove"
+                                           href="#" title="Delete Study">
+                                            <button type="button" class="btn btn-default btn-xs"><i
+                                                    class="glyphicon glyphicon-remove "></i>Delete
+                                            </button>
+                                        </a>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-default">Submit</button>
+                        <button type="submit" class="btn btn-primary text-center">Submit</button>
 
                     </form>
                 </div>
@@ -191,6 +207,7 @@
 
 
 {% block js_block %}
+    <script src="{% static 'copo/js/collection_functions.js' %}"></script>
     <script src="{% static 'copo/js/profile.js' %}"></script>
     <script src="{% static 'copo/js/repojs.js' %}"></script>
     <script src="{% static 'copo/js/bootstrap-dialog.js' %}"></script>

@@ -24,6 +24,7 @@ from apps.chunked_upload.models import ChunkedUpload
 from apps.web_copo.mongo.mongo_util import *
 import apps.web_copo.uiconfigs.utils.data_formats as dfmts
 import apps.web_copo.uiconfigs.utils.lookup as lkup
+import apps.web_copo.templatetags.html_tags as htags
 
 
 # Create your views here.
@@ -136,78 +137,182 @@ def view_profile(request, profile_id):
 @login_required(login_url='/copo/login/')
 def new_collection_head(request):
     # create the new collection
-    collection_id = Collection_Head().PUT(request)
+    collection_head_id = Collection_Head().PUT(request)
 
     # add a template for ENA submission
     coll_type = request.POST['collection_type']
     if coll_type.lower() == 'ena submission':
         # create a new db template
         ena_d = dfmts.json_to_dict(lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['ISA_json'])
-        ena_coll = get_collection_ref("EnaCollections")
-        ena_collection_id = ena_coll.insert(ena_d)
+        ena_collection_id = get_collection_ref("EnaCollections").insert(ena_d)
 
         # add collection details
-        Collection_Head().add_collection_details(collection_id, ena_collection_id)
+        Collection_Head().add_collection_details(collection_head_id, ena_collection_id)
 
-        # add study types
-        study_type_list = [value for key, value in request.POST.items() if key.startswith("studytypeselect_")]
-        # study_type_list = list(set(study_type_list))
-        EnaCollection().add_study_types(ena_collection_id, study_type_list)
+        # get studies
+        st_list = []
+
+        for k, v in request.POST.items():
+            if k.startswith('study_type_select_'):
+                st_dict = {'study_type': request.POST.get(k, ""),
+                           'study_type_reference': request.POST.get('study_type_reference_' + k[-1:], "")
+                           }
+                st_list.append(st_dict)
+
+        EnaCollection().add_ena_study(ena_collection_id, st_list)
 
     profile_id = request.session['profile_id']
-    Profile().add_collection_head(profile_id, collection_id)
+    Profile().add_collection_head(profile_id, collection_head_id)
     return HttpResponseRedirect(reverse('copo:view_profile', kwargs={'profile_id': profile_id}))
 
 
 @login_required(login_url='/copo/login/')
-def view_collection(request, collection_id):
-    collection = Collection_Head().GET(collection_id)
+def view_collection(request, collection_head_id):
+    collection_head = Collection_Head().GET(collection_head_id)
     # get profile id for breadcrumb
     profile_id = request.session['profile_id']
-    # set collection id in session
-    request.session['collection_id'] = collection_id
-    # check type of collection
-    if collection['type'] == 'ENA Submission':
-        schema = "ENA"
-        ena_full_json = dfmts.json_to_object(lkup.SCHEMAS[schema]['PATHS_AND_URIS']['UI_TEMPLATE_json'])
-        ena_d = ena_full_json.studies.study
-        ena_sample = ena_full_json.studies.study.studySamples.sampleCollection
+    request.session['collection_head_id'] = collection_head_id
+
+    if collection_head['type'].lower() == 'ena submission':
+        ena_full_json = dfmts.json_to_object(lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['UI_TEMPLATE_json'])
+        ena_d = ena_full_json
 
         # get study types
         study_types = lkup.DROP_DOWNS['STUDY_TYPES']
 
-        if 'collection_details' in collection:
-            request.session['study_id'] = str(collection['collection_details'])
+        if 'collection_details' in collection_head:
+            request.session['ena_collection_id'] = str(collection_head['collection_details'])
             profile = Profile().GET(profile_id)
-            study = EnaCollection().GET(request.session['study_id'])
+            ena_collection = EnaCollection().GET(request.session['ena_collection_id'])
 
-            data_dict = {'collection': collection, 'collection_id': collection_id,
-                         'study_id': request.session['study_id'], 'profile_id': profile_id,
-                         'study': study,
+            data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
+                         'ena_collection_id': request.session['ena_collection_id'], 'profile_id': profile_id,
+                         'ena_collection': ena_collection,
                          'profile': profile,
                          'ena_d': ena_d,
                          'study_types': study_types
                          }
         else:
-            data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id}
+            data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
+                         'profile_id': profile_id}
         return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
-    elif collection['type'] == 'PDF File' or collection['type'] == 'Image':
-        articles = figshare.FigshareCollection().get_articles_in_collection(collection_id)
-        data_dict = {'collection': collection, 'collection_id': collection_id, 'profile_id': profile_id,
+    elif collection_head['type'] == 'PDF File' or collection_head['type'] == 'Image':
+        articles = figshare.FigshareCollection().get_articles_in_collection(collection_head_id)
+        data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
+                     'profile_id': profile_id,
                      'articles': articles}
         return render(request, 'copo/article.html', data_dict, context_instance=RequestContext(request))
 
 
-def add_to_collection(request):
+@login_required(login_url='/copo/login/')
+def view_study(request, study_id):
     profile_id = request.session['profile_id']
-    study_type_list = request.POST['study_types']
-    ena_collection_id = request.POST['collection_id']
-    study_type_list = study_type_list.split(",")
-    EnaCollection().add_study_types(ena_collection_id, study_type_list)
+    collection_head_id = request.session['collection_head_id']
+    collection_head = Collection_Head().GET(collection_head_id)
+
+    ena_collection_id = str(collection_head['collection_details'])
+    ena_collection = EnaCollection().GET(ena_collection_id)
+    profile = Profile().GET(profile_id)
+    study = EnaCollection().get_ena_study(study_id, ena_collection_id)
+    #
+    # study = study["copoInternal"]["studyTypes"][0]
+    #
+    # #  get the positional index to add some context to the output study
+    # study_types = ena_collection["copoInternal"]["studyTypes"]
+    # pos_index = ""
+    #
+    # for idx, val in enumerate(study_types):
+    #     if val["ref"] == study["ref"]:
+    #         pos_index = idx
+    #         break
+    #
+    # ena_full_json = dfmts.json_to_object(lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['UI_TEMPLATE_json'])
+    # ena_d = ena_full_json.studies.study
+
+    # data_dict = {'collection_head_id': collection_head_id,
+    #              'profile_id': profile_id,
+    #              'collection_head_id': collection_head_id,  # this will be deprecated
+    #              'study_id': study_id,
+    #              'profile': profile,
+    #              'collection': ena_collection,
+    #              'study': study,
+    #              'pos_index': pos_index,
+    #              'ena_d': ena_d
+    #              }
+    data_dict = {}
+    return render(request, 'copo/ena_study.html', data_dict, context_instance=RequestContext(request))
+
+
+def add_to_collection(request):
+    return_structure = {}
+    # get task to be performed
+    task = request.POST['task']
+
+    collection_head_id = request.POST['collection_head_id']
+    collection = Collection_Head().GET(collection_head_id)
+    ena_collection_id = str(collection['collection_details'])
+
+    if task == "add_new_study":
+        study_fields = request.POST['study_fields']
+        study_fields = ast.literal_eval(study_fields)
+
+        # get studies
+        st_list = []
+
+        for k, v in study_fields.items():
+            if k.startswith('study_type_select_'):
+                if 'study_type_reference_' + k[-1:] in study_fields:  # only add if a study reference has been provided
+                    st_dict = {'study_type': study_fields[k],
+                               'study_type_reference': study_fields['study_type_reference_' + k[-1:]]}
+                    st_list.append(st_dict)
+
+        # get inserted studies id
+        st_ids = []
+        if st_list:
+            st_ids = EnaCollection().add_ena_study(ena_collection_id, st_list)
+
+        # get details of added studies
+        ena_collection = []
+        for st_id in st_ids:
+            ena_study = EnaCollection().get_ena_study(st_id, ena_collection_id)['studies'][0]
+            e_s = {'id': ena_study['id'],
+                   'study_type_reference': ena_study['study_type_reference'],
+                   'study_type': htags.lookup_study_type_label(ena_study['study_type'])}
+            ena_collection.append(e_s)
+
+        return_structure['ena_collection'] = ena_collection
+
+    elif task == "get_tree_study":
+        ena_studies = EnaCollection().get_studies_tree(ena_collection_id)
+        return_structure['ena_studies'] = ena_studies
+
+    elif task == "add_new_study_sample":
+        auto_fields = request.POST['auto_fields']
+        study_type_list = request.POST['study_types']
+        study_type_list = study_type_list.split(",")
+
+        # EnaCollection().add_study_samples(ena_collection_id, study_type_list, auto_fields)
+
+    return_structure['exit_status'] = 'success'
+    out = jsonpickle.encode(return_structure)
+    return HttpResponse(out, content_type='json')
+
+
+def remove_from_collection(request):
+    task = request.GET['task']
+
+    collection_head_id = request.GET['collection_head_id']
+    collection = Collection_Head().GET(collection_head_id)
+    ena_collection_id = str(collection['collection_details'])
+
+    if task == "remove_study_sample":
+        study_samples_id = request.GET['study_samples_id']
+        # EnaCollection().remove_study_sample(ena_collection_id, study_samples_id)
 
     return_structure = {'exit_status': 'success'}
     out = jsonpickle.encode(return_structure)
     return HttpResponse(out, content_type='json')
+
 
 def initiate_repo(request):
     initiate_status = ""
