@@ -113,7 +113,8 @@ class Profile_Status_Info(Resource):
             try:
                 collections_ids = p['collections']
             except:
-                pass
+                issues['num_issues'] = 0
+                return issues
             # now get the corresponding collection_heads
             collections_heads = Collections.find({'_id': {'$in': collections_ids}}, {'is_clean': 1})
             for c in collections_heads:

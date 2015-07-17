@@ -1,11 +1,6 @@
 __author__ = 'felix.shaw@tgac.ac.uk - 14/05/15'
 
-import pycurl
-from urllib.parse import urlencode
-
 import requests
-import jsonpickle
-from io import BytesIO
 
 from apps.web_copo.mongo.figshare_da import *
 import apps.web_copo.repos.figshare as f
@@ -58,45 +53,3 @@ def check_orcid_credentials(request):
     out = {'exists': False, 'authorise_url': REPOSITORIES['ORCID']['urls']['authorise_url']}
     return HttpResponse(jsonpickle.encode(out))
 
-
-def handle_orcid_authorise(code):
-    c = pycurl.Curl()
-    buffer = BytesIO()
-
-    url = REPOSITORIES['ORCID']['urls']['ouath/token'] + 'client_id=' + REPOSITORIES['ORCID']['client_id'] + '&client_secret=' + REPOSITORIES['ORCID']['client_secret'] + '&' \
-          'grant_type=authorization_code&code=' + code + '&redirect_uri=' + REPOSITORIES['ORCID']['urls']['redirect']
-
-
-    c.setopt(c.URL, url)
-    c.setopt(c.WRITEDATA, buffer)
-
-    #c.setopt(c.POST, 1)
-    postdata = {'key':'value'}
-    postdata = urlencode(postdata)
-    c.setopt(c.POSTFIELDS, postdata)
-    c.perform()
-
-
-    body = buffer.getvalue()
-    response = jsonpickle.decode(body)
-
-    access_token = response['access_token']
-    orcid_id = response['orcid']
-
-    '''
-    access_token = 'cd8288f1-4e53-44b3-95ef-abcf9a4742be'
-    orcid_id = '0000-0001-7572-1265'
-    '''
-
-    c = pycurl.Curl()
-    url = 'http://pub.sandbox.orcid.org/v1.2/' + orcid_id + '/orcid-profile/'
-    print(url)
-    c.setopt(c.URL, url)
-    c.setopt(c.HTTPHEADER, ['Accept: application/orcid+json'])
-    buffer = BytesIO()
-    c.setopt(c.WRITEDATA, buffer)
-    c.perform()
-    c.close()
-
-    out = buffer.getvalue()
-    print(out.decode('iso-8859-1'))

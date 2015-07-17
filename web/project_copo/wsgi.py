@@ -7,8 +7,23 @@ For more information on this file, see
 https://docs.djangoproject.com/en/1.7/howto/deployment/wsgi/
 """
 
+import sys
+
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project_copo.settings")
+
+
+
+
+#sys.path.append('/var/www/copo_www/COPO/web/project_copo/settings/')
+sys.path.append('/var/www/copo_www/COPO/web')
+sys.path.append('/var/www/copo_www/COPO/web/apps')
+#sys.path.append('/var/www/copo_www/COPO/web/apps/allauth')
+
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings.settings")
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
+
+#import django.core.handlers.wsgi
+#application = django.core.handlers.wsgi.WSGIHandler()

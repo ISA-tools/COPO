@@ -9,7 +9,6 @@ from ..account.views import (CloseableSignupMixin,
                              RedirectAuthenticatedUserMixin)
 from ..account.adapter import get_adapter as get_account_adapter
 from ..utils import get_form_class, get_current_site
-
 from .adapter import get_adapter
 from .models import SocialLogin
 from .forms import DisconnectForm, SignupForm

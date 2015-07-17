@@ -25,9 +25,6 @@ from apps.web_copo.mongo.orcid_da import Orcid
 
 
 
-# Create your views here.
-
-
 @login_required
 def index(request):
     username = User(username=request.user)
