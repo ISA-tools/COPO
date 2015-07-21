@@ -7,7 +7,7 @@ except ImportError:
 
 from allauth.socialaccount import providers
 
-from . import app_settings
+import allauth.app_settings as app_settings
 
 urlpatterns = patterns('', url('^', include('allauth.account.urls')))
 

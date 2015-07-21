@@ -11,16 +11,12 @@ import sys
 
 import os
 
+home = os.path.dirname(os.path.realpath(__file__ ))
 
+sys.path.append(home)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'apps')))
 
-
-#sys.path.append('/var/www/copo_www/COPO/web/project_copo/settings/')
-sys.path.append('/var/www/copo_www/COPO/web')
-sys.path.append('/var/www/copo_www/COPO/web/apps')
-#sys.path.append('/var/www/copo_www/COPO/web/apps/allauth')
-
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", ".settings.settings")
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

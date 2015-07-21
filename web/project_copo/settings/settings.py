@@ -9,6 +9,7 @@ LOGIN_URL = '/accounts/login/'
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+
 ALLOWED_HOSTS = ['http://v0514.nbi.ac.uk']
 
 # Application definition
@@ -50,7 +51,7 @@ AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
     # `allauth` specific authentication methods, such as login by e-mail
-    'apps.allauth.account.auth_backends.AuthenticationBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 ROOT_URLCONF = 'urls'
@@ -108,19 +109,19 @@ REST_FRAMEWORK = {
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
 
 # get settings for environment
-from settings.settings_hostnames import *
+from .settings_hostnames import *
 # determine which system is running and import appropriate settings file
 
 ENVIRONMENT_TYPE = "DEV"
 # ENVIRONMENT_TYPE="PROD"
 
 if ENVIRONMENT_TYPE == "DEV":
-    from settings.settings_dev import *
+    from .settings_dev import *
 elif ENVIRONMENT_TYPE == "PROD":
-    from settings.settings_prod import *
+    from .settings_prod import *
 else:
     raise Exception(
         "Cannot determine execution mode for host '%s'. Please check DEVELOPMENT_HOST and PRODUCTION_HOST in settings_local.py." % node())
 # now import other settings
 
-from settings.settings_chunked_upload import *
+from .settings_chunked_upload import *
