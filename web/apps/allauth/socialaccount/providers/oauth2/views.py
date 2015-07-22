@@ -6,6 +6,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.utils import timezone
+from django_tools.middlewares import ThreadLocal
 
 from allauth.utils import build_absolute_uri
 from allauth.account import app_settings
@@ -17,9 +18,7 @@ from allauth.socialaccount.helpers import complete_social_login
 from allauth.socialaccount.models import SocialToken, SocialLogin
 from allauth.utils import get_request_param
 from ..base import AuthAction, AuthError
-from apps.web_copo.mongo.orcid_da import *
-
-from django_tools.middlewares import ThreadLocal
+from web_copo.mongo.orcid_da import *
 
 
 class OAuth2Adapter(object):

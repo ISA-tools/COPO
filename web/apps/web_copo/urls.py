@@ -1,9 +1,9 @@
 from django.conf.urls import patterns, url
 
-import apps.web_copo.views as views
-from apps.web_copo.mongo.figshare_da import *
+import web_copo.views as views
+from web_copo.mongo.figshare_da import *
 
-urlpatterns = patterns('apps.web_copo.views',
+urlpatterns = patterns('web_copo.views',
                        url(r'^$', 'index', name='index'),
                        url(r'^login/', views.copo_login, name='login'),
                        url(r'^logout/', 'copo_logout', name='logout'),

@@ -2,9 +2,9 @@ __author__ = 'felix.shaw@tgac.ac.uk - 14/05/15'
 
 import requests
 
-from apps.web_copo.mongo.figshare_da import *
-import apps.web_copo.repos.figshare as f
-from project_copo.settings.services import *
+from web_copo.mongo.figshare_da import *
+import web_copo.repos.figshare as f
+from settings.services import *
 
 
 def submit_to_figshare(request, article_id):

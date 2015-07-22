@@ -5,7 +5,7 @@ import platform
 import os
 
 home = os.path.dirname(os.path.realpath(__file__ ))
-print(home)
+
 
 
 if __name__ == "__main__":

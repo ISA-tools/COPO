@@ -1,12 +1,12 @@
 from django.conf.urls import patterns, url
 
-import apps.web_copo.rest.EnaRest as rest
-import apps.web_copo.repos.figshare as figshare
-import apps.web_copo.mongo.figshare_da as figshare_da
-from apps.chunked_upload.views import *
+import web_copo.rest.EnaRest as rest
+import web_copo.repos.figshare as figshare
+import web_copo.mongo.figshare_da as figshare_da
+from chunked_upload.views import *
 
 
-urlpatterns = patterns('apps.web_copo.rest.EnaRest',
+urlpatterns = patterns('web_copo.rest.EnaRest',
                        url(r'^ena_sample_form/', rest.get_ena_sample_controls, name='get_ena_sample_controls'),
                        url(r'^ena_new_study/', rest.save_ena_study, name='save_ena_study'),
                        url(r'^ena_new_sample/', rest.save_ena_sample_callback, name='save_ena_sample'),

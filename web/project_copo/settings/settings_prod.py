@@ -5,10 +5,10 @@ __author__ = 'fshaw'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'web.db.backends.mysql',
-        'NAME': 'copo_development',
-        'USER': 'root',
-        'PASSWORD': 'Apple123',
+        'ENGINE': 'mysql.connector.django',
+        'NAME': 'test',
+        'USER': 'fshaw',
+        'PASSWORD': '',
         'Host': '127.0.0.1',
         'Port': '',
         'init_command' :'SET storage_engine=MyISAM',

@@ -21,15 +21,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.web_copo',
+    'web_copo',
     'rest_framework',
-    'apps.chunked_upload',
-    'apps.allauth',
-    'apps.allauth.account',
-    'apps.allauth.socialaccount',
-    'apps.allauth.socialaccount.providers.orcid',
-    'apps.allauth.socialaccount.providers.google',
-    #'apps.allauth.socialaccount.providers.twitter',
+    'chunked_upload',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.orcid',
+    'allauth.socialaccount.providers.google',
 )
 
 SOCIALACCOUNT_PROVIDERS = \
@@ -95,10 +94,10 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                'django.core.context_processors.request',
                                'django.core.context_processors.static',
                                # processor for base page status template tags
-                               "apps.web_copo.context_processors.get_status",
+                               "web_copo.context_processors.get_status",
                                # `allauth` specific context processors
-                               'apps.allauth.account.context_processors.account',
-                               'apps.allauth.socialaccount.context_processors.socialaccount',
+                               'allauth.account.context_processors.account',
+                               'allauth.socialaccount.context_processors.socialaccount',
                                )
 
 REST_FRAMEWORK = {
@@ -112,12 +111,11 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
 from .settings_hostnames import *
 # determine which system is running and import appropriate settings file
 
-ENVIRONMENT_TYPE = "DEV"
-# ENVIRONMENT_TYPE="PROD"
 
-if ENVIRONMENT_TYPE == "DEV":
+import platform
+if platform.system() == "Darwin":
     from .settings_dev import *
-elif ENVIRONMENT_TYPE == "PROD":
+elif platform.system() == "Linux":
     from .settings_prod import *
 else:
     raise Exception(

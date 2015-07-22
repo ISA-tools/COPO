@@ -6,9 +6,9 @@ import bson.objectid as o
 from django_tools.middlewares import ThreadLocal
 from django.core.urlresolvers import reverse
 
-from apps.web_copo.mongo.resource import *
-from apps.web_copo.mongo.mongo_util import *
-from apps.web_copo.vocab.status_vocab import STATUS_CODES
+from web_copo.mongo.resource import *
+from web_copo.mongo.mongo_util import *
+from web_copo.vocab.status_vocab import STATUS_CODES
 
 
 Profiles = get_collection_ref("Profiles")
