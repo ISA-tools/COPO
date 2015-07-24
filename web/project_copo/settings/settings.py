@@ -1,6 +1,7 @@
 import os
 
 
+
 # For further info see https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'xyzabc123'
@@ -108,18 +109,18 @@ REST_FRAMEWORK = {
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
 
 # get settings for environment
-from .settings_hostnames import *
+from settings_hostnames import *
 # determine which system is running and import appropriate settings file
 
 
 import platform
 if platform.system() == "Darwin":
-    from .settings_dev import *
+    from settings_dev import *
 elif platform.system() == "Linux":
-    from .settings_prod import *
+    from settings_prod import *
 else:
     raise Exception(
         "Cannot determine execution mode for host '%s'. Please check DEVELOPMENT_HOST and PRODUCTION_HOST in settings_local.py." % node())
 # now import other settings
 
-from .settings_chunked_upload import *
+from settings_chunked_upload import *

@@ -2,6 +2,7 @@ from django.test import TestCase
 import pymongo
 
 from settings.settings import *
+from copo_id import get_uid
 
 
 def get_collection_ref(collection_name):
@@ -25,6 +26,19 @@ class BasicTests(TestCase):
 
     def tearDown(self):
         self.db.drop()
+
+
+class IdTest(TestCase):
+    def setUp(self):
+        pass
+
+    def test_ids(self):
+        id = get_uid()
+        self.assertRegexpMatches(id, '[A-Z0-9]+', 'valid id not produced')
+
+    def tearDown(self):
+        pass
+
 
 
 

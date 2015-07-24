@@ -6,9 +6,11 @@ import bson.objectid as o
 from django_tools.middlewares import ThreadLocal
 from django.core.urlresolvers import reverse
 
+from copo_id import get_uid
 from web_copo.mongo.resource import *
 from web_copo.mongo.mongo_util import *
 from web_copo.vocab.status_vocab import STATUS_CODES
+
 
 
 Profiles = get_collection_ref("Profiles")
@@ -42,7 +44,11 @@ class Profile(Resource):
         sa = a[:147]
         sa += '...'
 
+        # make unique copo id
+        uid = get_uid()
+
         spec = {
+            "copo_id": uid,
             "title": request.POST['study_title'],
             "abstract": a,
             "short_abstract": sa,
