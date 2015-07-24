@@ -1,36 +1,18 @@
 import os
+
+
 # For further info see https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
-
-# get settings for environment
-from project_copo.settings.settings_hostnames import *
-# determine which system is running and import appropriate settings file
-
-ENVIRONMENT_TYPE = "DEV"
-# ENVIRONMENT_TYPE="PROD"
-
-if ENVIRONMENT_TYPE == "DEV":
-    from project_copo.settings.settings_dev import *
-elif ENVIRONMENT_TYPE == "PROD":
-    from project_copo.settings.settings_prod import *
-else:
-    raise Exception(
-        "Cannot determine execution mode for host '%s'. Please check DEVELOPMENT_HOST and PRODUCTION_HOST in settings_local.py." % node())
-
-
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '!q)6na7q*xu#24k-2jlt0hf-*dqw2vvgf4!t*_+a@(v=_6w*$t'
-
-# now import other settings
-from project_copo.settings.settings_chunked_upload import *
+SECRET_KEY = 'xyzabc123'
 
 LOGIN_URL = '/accounts/login/'
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['http://v0514.nbi.ac.uk']
 
 # Application definition
-
 INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
@@ -39,15 +21,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.web_copo',
+    'web_copo',
     'rest_framework',
-    'apps.chunked_upload',
+    'chunked_upload',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.orcid',
     'allauth.socialaccount.providers.google',
-    #'apps.allauth.socialaccount.providers.twitter',
 )
 
 SOCIALACCOUNT_PROVIDERS = \
@@ -72,9 +53,9 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-ROOT_URLCONF = 'project_copo.urls'
+ROOT_URLCONF = 'urls'
 
-WSGI_APPLICATION = 'project_copo.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 REST_FRAMEWORK = {
     # Use Django's standard `web.contrib.auth` permissions,
@@ -113,7 +94,7 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
                                'django.core.context_processors.request',
                                'django.core.context_processors.static',
                                # processor for base page status template tags
-                               "apps.web_copo.context_processors.get_status",
+                               "web_copo.context_processors.get_status",
                                # `allauth` specific context processors
                                'allauth.account.context_processors.account',
                                'allauth.socialaccount.context_processors.socialaccount',
@@ -125,3 +106,20 @@ REST_FRAMEWORK = {
 }
 
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
+
+# get settings for environment
+from .settings_hostnames import *
+# determine which system is running and import appropriate settings file
+
+
+import platform
+if platform.system() == "Darwin":
+    from .settings_dev import *
+elif platform.system() == "Linux":
+    from .settings_prod import *
+else:
+    raise Exception(
+        "Cannot determine execution mode for host '%s'. Please check DEVELOPMENT_HOST and PRODUCTION_HOST in settings_local.py." % node())
+# now import other settings
+
+from .settings_chunked_upload import *

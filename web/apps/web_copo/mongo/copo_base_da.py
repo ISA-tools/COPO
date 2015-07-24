@@ -6,9 +6,9 @@ import bson.objectid as o
 from django_tools.middlewares import ThreadLocal
 from django.core.urlresolvers import reverse
 
-from apps.web_copo.mongo.resource import *
-from apps.web_copo.mongo.mongo_util import *
-from apps.web_copo.vocab.status_vocab import STATUS_CODES
+from web_copo.mongo.resource import *
+from web_copo.mongo.mongo_util import *
+from web_copo.vocab.status_vocab import STATUS_CODES
 
 
 Profiles = get_collection_ref("Profiles")
@@ -113,7 +113,8 @@ class Profile_Status_Info(Resource):
             try:
                 collections_ids = p['collections']
             except:
-                pass
+                issues['num_issues'] = 0
+                return issues
             # now get the corresponding collection_heads
             collections_heads = Collections.find({'_id': {'$in': collections_ids}}, {'is_clean': 1})
             for c in collections_heads:

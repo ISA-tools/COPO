@@ -5,10 +5,10 @@ from django.http import HttpResponse
 from django.utils import timezone
 import jsonpickle
 
-from apps.web_copo.mongo.resource import *
-from apps.web_copo.mongo.mongo_util import *
-from apps.chunked_upload.models import generate_upload_id
-from project_copo.settings.settings import *
+from web_copo.mongo.resource import *
+from web_copo.mongo.mongo_util import *
+from chunked_upload.models import generate_upload_id
+from settings.settings import *
 
 FigshareTokens = get_collection_ref("Figshare_tokens")
 FigshareCollections = get_collection_ref("Figshare_Files")

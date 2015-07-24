@@ -1,19 +1,17 @@
-import re
-
 from django.views.generic import View
 from django.shortcuts import get_object_or_404
 from django.core.files.base import ContentFile
 from django.utils import timezone
+import jsonpickle
 
 from .settings_old import MAX_BYTES
 from .models import ChunkedUpload
 from .response import Response
 from .constants import http_status, COMPLETE, FAILED
 from .exceptions import ChunkedUploadError
-import jsonpickle
+from web_copo.repos.irods import *
 
-from apps.web_copo.repos.irods import *
-    
+
 class ChunkedUploadBaseView(View):
     """
     Base view for the rest of chunked upload views.

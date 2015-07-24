@@ -1,19 +1,19 @@
-from pprint import pprint
-
 __author__ = 'etuka'
 
-import re
 import json
-import jsonpickle
-from collections import namedtuple
 import xml.etree.ElementTree as ET
 from urllib.request import urlopen
+
+import re
+import jsonpickle
+from collections import namedtuple
 from django.http import HttpResponse
 
-import apps.web_copo.uiconfigs.utils.lookup as lkup
-import apps.web_copo.uiconfigs.ena.uimodels.ena_copo_config as ecc
-import apps.web_copo.uiconfigs.ena.uimodels.object_model as om
-from project_copo.settings.display_messages import SCHEMAS_MESSAGES as SM
+import web_copo.uiconfigs.utils.lookup as lkup
+import web_copo.uiconfigs.ena.uimodels.ena_copo_config as ecc
+import web_copo.uiconfigs.ena.uimodels.object_model as om
+from settings.display_messages import SCHEMAS_MESSAGES as SM
+
 
 
 # converts from json to dictionary

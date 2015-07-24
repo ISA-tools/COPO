@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from os import path
 import shutil
 
-from apps.web_copo.mongo.figshare_da import *
+from web_copo.mongo.figshare_da import *
 
 client = requests.session()
 json_header = {'content-type': 'application/json'}

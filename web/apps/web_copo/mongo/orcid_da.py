@@ -3,8 +3,8 @@ __author__ = 'felix.shaw@tgac.ac.uk - 24/06/15'
 import json
 
 from allauth.socialaccount.models import SocialAccount
-from apps.web_copo.mongo.resource import *
-from apps.web_copo.mongo.mongo_util import *
+from web_copo.mongo.resource import *
+from web_copo.mongo.mongo_util import *
 
 ORCID = get_collection_ref("OcidCollections")
 

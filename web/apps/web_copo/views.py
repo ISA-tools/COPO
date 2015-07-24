@@ -12,20 +12,17 @@ from django.template import RequestContext
 
 # import error codes
 
-from project_copo.settings.error_codes import *
-from apps.web_copo.mongo.copo_base_da import Profile, Collection_Head
-from apps.web_copo.mongo.ena_da import *
-import apps.web_copo.mongo.figshare_da as figshare
-from apps.web_copo.repos.irods import *
-from apps.web_copo.repos.aspera import *
-from apps.chunked_upload.models import ChunkedUpload
-import apps.web_copo.uiconfigs.utils.data_formats as dfmts
-from apps.web_copo.api.views import *
-from apps.web_copo.mongo.orcid_da import Orcid
+from settings.error_codes import *
+from web_copo.mongo.copo_base_da import Profile, Collection_Head
+from web_copo.mongo.ena_da import *
+import web_copo.mongo.figshare_da as figshare
+from web_copo.repos.irods import *
+from web_copo.repos.aspera import *
+from chunked_upload.models import ChunkedUpload
+import web_copo.uiconfigs.utils.data_formats as dfmts
+from web_copo.api.views import *
+from web_copo.mongo.orcid_da import Orcid
 
-
-
-# Create your views here.
 
 
 @login_required

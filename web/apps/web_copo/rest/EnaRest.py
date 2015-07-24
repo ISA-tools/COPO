@@ -9,13 +9,13 @@ import jsonpickle
 from django.core.files.base import ContentFile
 from bson.json_util import dumps
 
-from apps.chunked_upload.models import ChunkedUpload
-import apps.web_copo.xml_tools.EnaParsers as parsers
-import apps.web_copo.utils.EnaUtils as u
-from apps.web_copo.mongo.ena_da import *
-from apps.web_copo.mongo.copo_base_da import *
-from apps.web_copo.mongo.mongo_util import *
-from apps.web_copo.repos.irods import *
+from chunked_upload.models import ChunkedUpload
+import web_copo.xml_tools.EnaParsers as parsers
+import web_copo.utils.EnaUtils as u
+from web_copo.mongo.ena_da import *
+from web_copo.mongo.copo_base_da import *
+from web_copo.mongo.mongo_util import *
+from web_copo.repos.irods import *
 
 
 class JSONResponse(HttpResponse):

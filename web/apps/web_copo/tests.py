@@ -1,7 +1,7 @@
 from django.test import TestCase
 import pymongo
 
-from project_copo.settings.settings import *
+from settings.settings import *
 
 
 def get_collection_ref(collection_name):

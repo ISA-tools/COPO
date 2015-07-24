@@ -4,8 +4,8 @@ from datetime import date
 
 import bson.objectid as o
 
-from apps.web_copo.mongo.resource import *
-from apps.web_copo.mongo.mongo_util import *
+from web_copo.mongo.resource import *
+from web_copo.mongo.mongo_util import *
 
 
 EnaCollections = get_collection_ref("EnaCollections")
