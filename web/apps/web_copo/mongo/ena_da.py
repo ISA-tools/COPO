@@ -5,6 +5,8 @@ __author__ = 'felix.shaw@tgac.ac.uk - 18/03/15'
 from datetime import date
 
 import bson.objectid as o
+import string
+import random
 import uuid
 import ast
 
@@ -24,91 +26,64 @@ class EnaCollection(Resource):
         return doc
 
     def add_ena_study(self, ena_collection_id, study_type_list):
-        ena_d = dfmts.json_to_dict(lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['ISA_json']);
+        # first study in list is left blank (flat set to delete though)
+        # for the purpose of cloning subsequent ones
+        doc = EnaCollections.find_one({"_id": o.ObjectId(ena_collection_id)})['studies'][0]
 
-        # let's store the generated study id...
-        st_ids = []
+        if doc:
+            for st in study_type_list:
+                study_dict = doc
+                study_dict["studyCOPOMetadata"]["id"] = uuid.uuid4().hex
+                study_dict["studyCOPOMetadata"]["studyType"] = st['study_type']
+                study_dict["studyCOPOMetadata"]["studyReference"] = st['study_type_reference']
+                # study is deleted by default, undelete it...
+                study_dict["studyCOPOMetadata"]["deleted"] = "0"
 
-        doc = EnaCollections.find_one({"_id": o.ObjectId(ena_collection_id)},
-                                      {"studies": {"$elemMatch": {"id": {"$exists": False}}}})
-        if doc and 'studies' in doc:  # adding studies for the first time, basically because placeholder study exists
-            st_id = uuid.uuid4().hex
-            EnaCollections.update({"_id": o.ObjectId(ena_collection_id)},
-                                  {"$set": {"studies.0.id": st_id,
-                                            "studies.0.study_type": study_type_list[0]['study_type'],
-                                            "studies.0.study_type_reference": study_type_list[0][
-                                                'study_type_reference']}})
-            st_ids.append(st_id)
-            del study_type_list[0]
+                EnaCollections.update({"_id": o.ObjectId(ena_collection_id)},
+                                      {"$push": {"studies": study_dict}})
 
-        for x in range(0, len(study_type_list)):
-            st_id = uuid.uuid4().hex
-            study_dict = ena_d['studies'][0]
-            study_dict['id'] = st_id
-            study_dict['study_type'] = study_type_list[x]['study_type']
-            study_dict['study_type_reference'] = study_type_list[x]['study_type_reference']
+    def add_ena_study_clone(self, ena_collection_id, cloned_studies):
+        # first study in list is left blank (flat set to delete though)
+        # for the purpose of cloning subsequent ones
+        doc = EnaCollections.find_one({"_id": o.ObjectId(ena_collection_id)})['studies'][0]
 
-            EnaCollections.update({"_id": o.ObjectId(ena_collection_id)},
-                                  {"$push": {"studies": study_dict}})
-            st_ids.append(st_id)
-        return st_ids
+        if doc:
+            for cst in cloned_studies:
+                study_dict = doc
 
-    def get_studies_tree(self, ena_collection_id):
-        studies = self.GET(ena_collection_id)['studies']
-        ena_studies = []
+                # get the clonable target study
+                clonable_study = self.get_ena_study(cst['study_id'], ena_collection_id)
 
-        for study in studies:
-            a = {
-                "id": study['id'] + "_study",
-                "text": study['study_type_reference'] + " /" + dfmts.lookup_study_type_label(
-                    study['study_type']) + " /" + "0",  # will change this to reflect the number of samples
-                "state": "closed",
-                "children": [
-                    {
-                        "id": study['id'] + "_publications",
-                        "text": "Publications",  # this will eventually take their value from label in UI config
-                        "state": "closed",
-                        "children": []
-                    },
-                    {
-                        "id": study['id'] + "_contacts",
-                        "text": "Contacts",
-                        "state": "closed",
-                        "children": []
-                    },
-                    {
-                        "id": study['id'] + "_samples",
-                        "text": "Samples",
-                        "state": "closed",
-                        "children": []
-                    },
-                    {
-                        "id": study['id'] + "_studyDescription",
-                        "text": "Study Description"
-                    }
-                ]
-            }
+                study_dict["studyCOPOMetadata"]["id"] = uuid.uuid4().hex
+                # study is deleted by default, undelete it...
+                study_dict["studyCOPOMetadata"]["deleted"] = "0"
 
-            ena_studies.append(a)
+                rnd_name = ''.join(random.choice(string.ascii_uppercase) for i in range(4))
+                study_dict["studyCOPOMetadata"]["studyReference"] = "New Study Reference_"+rnd_name
 
-        return ena_studies
+                if cst['study_type'] == 'true':
+                    study_dict["studyCOPOMetadata"]["studyType"] = clonable_study["studyCOPOMetadata"]["studyType"]
 
-    def get_ena_study(self, study_id, ena_collection_id):
-        doc = EnaCollections.find_one({"_id": o.ObjectId(ena_collection_id),
-                                       "studies.id": study_id},
-                                      {"studies.id.$": 1})
-        if not doc:
-            doc = {}
-        return doc
+                new_samples = []
+                if cst['samples']:
+                    samples_ids = cst['samples'].split(",")
+                    for s_id in samples_ids:
+                        cloned_sample = [sd for sd in clonable_study["studyCOPOMetadata"]["samples"] if sd["id"] == s_id]
+                        new_samples.append(cloned_sample[0])
 
-    def add_study_samples(self, ena_collection_id, study_type_list, auto_fields):
-        schema = "ENA"
-        ena_full_json = dfmts.json_to_object(lkup.SCHEMAS[schema]['PATHS_AND_URIS']['UI_TEMPLATE_json'])
+                if new_samples:
+                    study_dict["studyCOPOMetadata"]['samples'] = new_samples
+
+                EnaCollections.update({"_id": o.ObjectId(ena_collection_id)},
+                                      {"$push": {"studies": study_dict}})
+
+    def add_ena_sample(self, ena_collection_id, study_type_list, auto_fields):
+        ena_full_json = dfmts.json_to_object(lkup.SCHEMAS['ENA']['PATHS_AND_URIS']['UI_TEMPLATE_json'])
         ena_d = ena_full_json.studies.study.studySamples.fields
         auto_fields = ast.literal_eval(auto_fields)
 
-        sample_ref = uuid.uuid4().hex
-        a = {'ref': sample_ref}
+        sample_id = uuid.uuid4().hex
+        a = {'id': sample_id}
 
         for f in ena_d:
             key_split = f.id.split(".")
@@ -125,21 +100,129 @@ class EnaCollection(Resource):
                 a[key_split[len(key_split) - 1]] = auto_fields[f.id]
 
         EnaCollections.update({"_id": o.ObjectId(ena_collection_id)},
-                              {"$push": {"copoInternal.sampleTypes": a}})
+                              {"$push": {"collectionMetadata.samples": a}})
 
-        # now do the study<->sample assignment
-        for val in study_type_list:
-            a = {'sampleType_ref': sample_ref,
-                 'studyType_ref': val,
-                 'id': uuid.uuid4().hex,
+        # assign sample to studies
+        for study_id in study_type_list:
+            a = {'id': sample_id,
                  'deleted': '0'
                  }
-            EnaCollections.update({"_id": o.ObjectId(ena_collection_id)},
-                                  {"$push": {"copoInternal.studySamples": a}})
+            EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.id": study_id},
+                                  {'$push': {"studies.$.samples": a}})
+
+        return sample_id
+
+    def edit_ena_sample(self, ena_collection_id, sample_id, study_type_list, auto_fields):
+        ena_full_json = dfmts.json_to_object(lkup.SCHEMAS['ENA']['PATHS_AND_URIS']['UI_TEMPLATE_json'])
+        ena_d = ena_full_json.studies.study.studySamples.fields
+        auto_fields = ast.literal_eval(auto_fields)
+
+        for f in ena_d:
+            key_split = f.id.split(".")
+            if f.id in auto_fields.keys():
+                EnaCollections.update(
+                    {"_id": o.ObjectId(ena_collection_id), "collectionMetadata.samples.id": sample_id},
+                    {'$set': {"collectionMetadata.samples.$." + key_split[len(key_split) - 1]: auto_fields[f.id]}})
+
+        ena_d = ena_full_json.studies.study.studySamples.sampleCollection.fields
+
+        for f in ena_d:
+            key_split = f.id.split(".")
+            if f.id in auto_fields.keys():
+                EnaCollections.update(
+                    {"_id": o.ObjectId(ena_collection_id), "collectionMetadata.samples.id": sample_id},
+                    {'$set': {"collectionMetadata.samples.$." + key_split[len(key_split) - 1]: auto_fields[f.id]}})
+
+        # update studies: add to study if sample not already in selected, delete sample from study if not selected
+        studies = EnaCollection().GET(ena_collection_id)["studies"]
+        for st in studies:
+            if st["id"] in study_type_list:
+                if not ("samples" in st.keys() and any(d.get('id', None) == sample_id for d in st["samples"])):
+                    # assign sample to study
+                    a = {'id': sample_id,
+                         'deleted': '0'
+                         }
+                    EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.id": st["id"]},
+                                          {'$push': {"studies.$.samples": a}})
+                else:
+                    # already exists, but probably deleted, switch delete flag
+                    pos = [i for i, x in enumerate(st["samples"]) if x == {'id': sample_id, 'deleted': '1'}]
+                    if len(pos) > 0:
+                        EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.id": st["id"]}, {
+                            '$set': {"studies.$.samples." + str(pos[0]) + ".deleted": "0"}})
+            else:
+                # delete sample from study if present
+                if "samples" in st.keys() and any(d.get('id', None) == sample_id for d in st["samples"]):
+                    pos = [i for i, x in enumerate(st["samples"]) if x == {'id': sample_id, 'deleted': '0'}]
+                    if len(pos) > 0:
+                        EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.id": st["id"]}, {
+                            '$set': {"studies.$.samples." + str(pos[0]) + ".deleted": "1"}})
+
+    def get_ena_sample(self, ena_collection_id, sample_id):
+        doc = EnaCollections.find_one({"_id": o.ObjectId(ena_collection_id),
+                                       "collectionCOPOMetadata.samples.id": sample_id},
+                                      {"collectionCOPOMetadata.samples.$": 1})
+
+        return doc['collectionMetadata']['samples'][0] if doc else ''
+
+    def get_study_samples(self, ena_collection_id, study_id):
+        doc = EnaCollections.aggregate([{"$match": {"_id": o.ObjectId(ena_collection_id)}},
+                                       {"$unwind": "$studies"},
+                                       {"$match": {"studies.studyCOPOMetadata.id": study_id}},
+                                       {"$unwind": "$studies.studyCOPOMetadata.samples"},
+                                       {"$match": {"studies.studyCOPOMetadata.samples.deleted": "0"}},
+                                       {"$group": {"_id": "$_id",
+                                                   "samples": {"$push": "$studies.studyCOPOMetadata.samples"}}}])
+
+        samples = []
+        if doc["result"]:
+            samples = doc["result"][0]["samples"]
+        return samples
 
     def remove_study_sample(self, ena_collection_id, study_samples_id):
         EnaCollections.update({"_id": ObjectId(ena_collection_id), "copoInternal.studySamples._id": study_samples_id},
                               {'$set': {"copoInternal.studySamples.$.deleted": "1"}})
+
+    def get_ena_study(self, study_id, ena_collection_id):
+        doc = EnaCollections.find_one({"_id": o.ObjectId(ena_collection_id),
+                                       "studies.studyCOPOMetadata.id": study_id},
+                                      {"studies.studyCOPOMetadata.id.$": 1})
+
+        study = {}
+        if doc:
+            study = doc['studies'][0]
+        return study
+
+    def get_ena_studies(self, ena_collection_id):
+        doc = EnaCollections.aggregate([{"$match": {"_id": o.ObjectId(ena_collection_id)}}, {"$unwind": "$studies"},
+                                        {"$match": {"studies.studyCOPOMetadata.deleted": "0"}},
+                                        {"$group": {"_id": "$_id", "studies": {"$push": "$studies"}}}])
+
+        studies = []
+        if doc["result"]:
+            studies = doc["result"][0]["studies"]
+        return studies
+
+    def update_study_type(self, ena_collection_id, study_id, elem_dict):
+        doc = EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.id": study_id}, {
+            '$set': {"studies.$.study_type": elem_dict["study_type"],
+                     "studies.$.study_type_reference": elem_dict["study_type_reference"]}})
+        return doc
+
+    def update_study_details(self, ena_collection_id, study_id, auto_fields):
+        ena_full_json = dfmts.json_to_object(lkup.SCHEMAS['ENA']['PATHS_AND_URIS']['UI_TEMPLATE_json'])
+        ena_d = ena_full_json.studies.study.fields
+        auto_fields = ast.literal_eval(auto_fields)
+
+        auto_dict = {}
+
+        for f in ena_d:
+            key_split = f.id.split(".")
+            if f.id in auto_fields.keys():
+                auto_dict["studies.$.study." + key_split[len(key_split) - 1]] = auto_fields[f.id]
+
+        EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.id": study_id}, {
+            '$set': auto_dict})
 
     def add_study(self, values, attributes):
         spec_attr = []

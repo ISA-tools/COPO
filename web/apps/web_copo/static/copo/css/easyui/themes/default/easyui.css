@@ -2647,13 +2647,14 @@
 }
 .tooltip {
   position: absolute;
+  font-size: 12px;
   display: none;
   z-index: 9900000;
   outline: none;
   opacity: 1;
   filter: alpha(opacity=100);
   padding: 5px;
-  border-width: 1px;
+  border-width: 2px;
   border-style: solid;
   border-radius: 5px;
   -moz-border-radius: 5px 5px 5px 5px;
@@ -2661,7 +2662,7 @@
   border-radius: 5px 5px 5px 5px;
 }
 .tooltip-content {
-  font-size: 12px;
+  font-size: 14px;
 }
 .tooltip-arrow-outer,
 .tooltip-arrow {
@@ -2717,9 +2718,9 @@
   margin: -12px 0 0 -6px;
 }
 .tooltip {
-  background-color: #ffffff;
-  border-color: #95B8E7;
-  color: #000000;
+  background-color: #163657;
+  border-color:#163657;
+  color: #ffffff;
 }
 .tooltip-right .tooltip-arrow-outer {
   border-right-color: #95B8E7;

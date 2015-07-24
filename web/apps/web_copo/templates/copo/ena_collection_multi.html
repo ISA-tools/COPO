@@ -50,8 +50,6 @@
         <!-- hidden attributes required to make the page remember where it is and what its dealing with -->
         <input type="hidden" id="collection_head_id" name="collection_head_id" value="{{ collection_head_id }}">
 
-        <input type="hidden" id="sample_id" value=""/>
-
         <input type="hidden" id="ena_collection_id" value="{{ ena_collection_id }}"/>
 
         <input type="hidden" id="attr_counter" value="1"/>
@@ -68,9 +66,12 @@
         <input type="hidden" id="hashing_image" value="{% static 'copo/img/pacman.gif' %}"/>
 
         {% csrf_token %}
-
         <input type="hidden" id="upload_counter" value="1"/>
 
+        <input type="hidden" id="current_sample_id" value=""/>
+        <input type="hidden" id="current_sample_task" value=""/>
+        <input type="hidden" id="sample_data_count" value="{{ sample_data.data|length }}"/>
+        <input type="hidden" id="study_data_count" value="{{ study_data|length }}"/>
 
     </div>
 
@@ -115,43 +116,33 @@
             <div id="collapseOne" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <div style="display: inline-block; text-indent: 0.5em;">
-                        <a data-toggle="modal" data-target="#newStudySampleModal" id="study_sample_add" href="#">
-                            <button type="button" class="btn btn-default btn-xs"><i
-                                    class="glyphicon glyphicon-plus "></i>Add Sample
+                        <a class="type_add" data-toggle="modal" data-target="#newStudySampleModal" href="#">
+                            <button type="button" id="btn_study_type_quick_update" class="btn btn-primary btn-xs">Add
+                                Sample
                             </button>
                         </a>
                     </div>
-
-                    {% if ena_collection.copoInternal.sampleTypes %}
+                    <div id="samples_table_div">
                         <hr/>
-                        <table class="table-bordered">
+                        <table class="table-bordered" id="samples_table">
                             <tr>
-                                {% for sf in ena_d.studySamples.fields %}
-                                    <th>{{ sf.id|generate_ena_labels }}</th>
+                                {% for sh in sample_data.headers|slice:"1:" %}
+                                    <th>{{ sh }}</th>
                                 {% endfor %}
-                                {% for sf in ena_d.studySamples.sampleCollection.fields %}
-                                    <th>{{ sf.id|generate_ena_labels }}</th>
-                                {% endfor %}
-                                <th>&nbsp;</th>
                             </tr>
-
-                            {% for st in study.copoInternal.sampleTypes %}
-                                <tr id="{{ st.ref }}">
-                                    {% for sf in ena_d.studySamples.fields %}
-                                        <td>{{ st.ref|add_strings:ena_collection_id|get_sample_type_value:sf.id }}</td>
+                            {% for sdata in sample_data.data %}
+                                <tr>
+                                    {% for sd in sdata|slice:"1:" %}
+                                        {% if forloop.first %}
+                                            <td><a id="samplerow{{ sd.0 }}" class="sample_edit" href="#" title = "Edit Sample" >{{ sd }}</a></td>
+                                        {% else %}
+                                            <td>{{ sd }}</td>
+                                        {% endif %}
                                     {% endfor %}
-                                    {% for sf in ena_d.studySamples.sampleCollection.fields %}
-                                        <td>{{ st.ref|add_strings:ena_collection_id|get_sample_type_value:sf.id }}</td>
-                                    {% endfor %}
-
-                                    <td><a class="sample_type_view" href="#" title="Edit Sample">
-                                        <i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;
-                                        <a class="type_remove" href="#" title="Delete Sample">
-                                            <i class="glyphicon glyphicon-remove "></i></a></td>
                                 </tr>
                             {% endfor %}
                         </table>
-                    {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -169,45 +160,41 @@
                 <div class="panel-body">
                     <div style="display: inline-block; text-indent: 0.5em;">
                         <a data-toggle="modal" data-target="#newStudyTypeModal" href="#">
-                            <button type="button" class="btn btn-default btn-xs"><i
-                                    class="glyphicon glyphicon-plus "></i>Add Study
+                            <button type="button" id="btn_study_type_quick_update" class="btn btn-primary btn-xs">Add
+                                Study
                             </button>
                         </a>
                     </div>
 
-                    {% if ena_collection.studies %}
+                    <div id="studies_table_div">
                         <hr/>
-
-                        <table class="table-bordered">
+                        <table class="table-bordered" id="study_table">
                             <tr>
                                 <th>Study Reference</th>
                                 <th>Study Type</th>
                                 <th># Samples</th>
                                 <th>&nbsp;</th>
                             </tr>
-                            {% for st in ena_collection.studies %}
-
-                                {% if st.id %}
-                                    <tr class="study_table_row" id="row_{{ st.id }}">
-                                        <td>
-                                            <a href="{% url 'copo:view_study' study_id=st.id %}">{{ st.study_type_reference }}</a>
-                                        </td>
-                                        <td>{{ st.study_type|lookup_study_type_label }}</td>
-                                        <td></td>
-                                        <td><a id="stview_{{ st.id }}" class="study_type_view" href="#"
-                                               title="Quick View Study">
-                                            <i class="glyphicon glyphicon-eye-open "></i></a>&nbsp;&nbsp;
-                                            <a id="stupdate_{{ st.id }}" class="study_type_edit" href="#"
-                                               title="Update Study Details">
-                                                <i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;
-                                            <a id="stdelete_{{ st.id }}" class="type_remove" href="#"
-                                               title="Delete Study">
-                                                <i class="glyphicon glyphicon-remove "></i></a></td>
-                                    </tr>
-                                {% endif %}
+                            {% for sd in study_data %}
+                                <tr class="study_table_row" id="study_row_{{ sd.id }}">
+                                    <td>
+                                        <a href="{% url 'copo:view_study' study_id=sd.id %}">{{ sd.studyReference }}</a>
+                                    </td>
+                                    <td>{{ sd.studyType }}</td>
+                                    <td>{{ sd.samplescount }}</td>
+                                    <td><a id="stview_{{ sd.id }}" class="study_type_view" href="#"
+                                           title="Quick View Study">
+                                        <i class="glyphicon glyphicon-eye-open "></i></a>&nbsp;&nbsp;
+                                        <a id="stupdate_{{ sd.id }}" class="study_type_edit" href="#"
+                                           title="Update Study Details">
+                                            <i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;
+                                        <a id="stdelete_{{ sd.id }}" class="type_remove" href="#"
+                                           title="Delete Study">
+                                            <i class="glyphicon glyphicon-remove "></i></a></td>
+                                </tr>
                             {% endfor %}
                         </table>
-                    {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -215,7 +202,8 @@
 
 
     <!-- Modal for adding new study type -->
-    <div class="modal fade" id="newStudyTypeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    <div class="modal fade copo-modal2 " id="newStudyTypeModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -223,7 +211,13 @@
                     <button type="button" class="close" data-dismiss="modal"><span
                             aria-hidden="true">&times;</span><span
                             class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Add Study Type</h4>
+                    <div style="display: inline-block;"><h4 class="modal-title" id="myModalLabel">Add Study Type</h4>
+                    </div>
+                    <div style="display: inline-block;"><span class="blue_icon"><a id="study_type_add_info" href="#"
+                                                                                   class="easyui-tooltip"
+                                                                                   title="{{ "study_type_add_info"|lookup_info }}"><i
+                            class="glyphicon glyphicon-info-sign"></i></a></span></div>
+
                 </div>
                 <div class="modal-body">
                     <form role="form" id="add_new_study_form_2" action="{% url 'copo:add_to_collection' %}"
@@ -255,7 +249,7 @@
                                     </div>
                                     <div style="display: inline-block;">
                                         <input type="text" name="study_type_reference_0" id="study_type_reference_0"
-                                               class="form_control"
+                                               class="form_control input-copo"
                                                placeholder="Enter Study Reference"/>
                                     </div>
                                     <div style="display: inline-block;">
@@ -270,13 +264,23 @@
                             </div>
                         </div>
                         <hr/>
-                        <div class="form-group">
-                            <label for="clone_study_type">Clone Existing</label><br/>
-                            <ul id="study_type_tree" class="easyui-tree"
-                                checkbox="true"
-                                animate="true">
-                            </ul>
+
+                        <label for="study_type_tree">Clone Existing</label><br/>
+
+                        <div class="study-tree-container">
+                            <div class="study-tree-first">
+                                <ul id="study_type_tree" class="easyui-tree"
+                                    checkbox="true"
+                                    animate="true"
+                                    lines="true">
+                                </ul>
+                            </div>
+                            <div class="study-tree-second" hidden="hidden"><label>Helpful tips/Info</label><br/>
+                                <pre id="info_panel_display" hidden="hidden"></pre>
+                            </div>
+                            <div class="study-tree-clear"></div>
                         </div>
+
                         <hr/>
                         <div>
                             <button id="submit_study_type_btn" type="button" class="btn btn-primary text-center">
@@ -301,20 +305,27 @@
                     <button type="button" class="close" data-dismiss="modal">
                         <span aria-hidden="true">&times;</span><span
                             class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="mySampleModalLabel">Add Study Sample</h4>
+
+                    <div style="display: inline-block;"><h4 class="modal-title" id="mySampleModalLabel">Add Study
+                        Sample</h4>
+                    </div>
+                    <div style="display: inline-block;"><span class="blue_icon"><a id="sample_add_info" href="#"
+                                                                                   class="easyui-tooltip"
+                                                                                   title="{{ "sample_add_info"|lookup_info }}"><i
+                            class="glyphicon glyphicon-info-sign"></i></a></span></div>
                 </div>
                 <div class="modal-body">
                     <form role="form" id="add_new_study_sample_form" action="{% url 'copo:add_to_collection' %}"
                           method="post">
                         {% csrf_token %}
                         <div>
-                            {% for sf in ena_d.studySamples.fields %}
+                            {% for sf in ena_d.studies.study.studySamples.fields %}
                                 <div class='form-group'>
-                                    {{ sf.id }}
+                                    {{ sf.id|generate_ena_tags }}
                                 </div>
                             {% endfor %}
 
-                            {% for sf in ena_d.studySamples.sampleCollection.fields %}
+                            {% for sf in ena_d.studies.study.studySamples.sampleCollection.fields %}
                                 <div class='form-group'>
                                     {{ sf.id|generate_ena_tags }}
                                 </div>
@@ -324,12 +335,12 @@
 
                             <div class="form-group">
                                 <label for="assigned_study_type">Assign to...</label><br/>
-                                {% for st in study.copoInternal.studyTypes %}
-                                    <input type="checkbox" name="assigned_study_type" value="{{ st.ref }}">&nbsp;
-                                    {{ st.name|lookup_study_type_label }} /{{ forloop.counter0 }}<br/>
-                                {% endfor %}
+                                <ul id="study_type_sample_tree" class="easyui-tree"
+                                    checkbox="true"
+                                    animate="true">
+                                </ul>
                             </div>
-
+                            <hr/>
                             <div>
                                 <button id="btn_add_new_study_sample" type="button"
                                         class="btn btn-primary text-center">Submit

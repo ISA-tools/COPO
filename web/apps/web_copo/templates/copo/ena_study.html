@@ -36,10 +36,11 @@
 {% block breadcrumb_block %}
     <ol class="breadcrumb">
         <li><a href="{% url 'copo:index' %}">Home</a></li>
-        <li><a title="{{ profile.title  }}" href="{% url 'copo:view_profile' profile_id=profile_id %}">Profile</a></li>
-        <li class="active"><a title="ENA Submission: {{ collection_head.name }}"
-                              href="{% url 'copo:view_collection' collection_head_id=collection_head_id %}">Collection</a></li>
-{#        <li><a href="{% url 'copo:view_study' study_id=study_id %}">Study</a></li>#}
+        <li><a title="{{ profile.title }}" href="{% url 'copo:view_profile' profile_id=profile_id %}">Profile</a></li>
+        <li class="active"><a title=""
+                              href="{% url 'copo:view_collection' collection_head_id=collection_head_id %}">Collection</a>
+        </li>
+        {#        <li><a href="{% url 'copo:view_study' study_id=study_id %}">Study</a></li>#}
     </ol>
 {% endblock %}
 
@@ -49,7 +50,15 @@
 
         <!-- hidden attributes required to make the page remember where it is and what its dealing with -->
 
-        <input type="hidden" id="study_id" value="{{ study_id }}"/>
+        <input type="hidden" id="study_id" value="{{ study.id }}"/>
+
+        <input type="hidden" id="collection_head_id" name="collection_head_id" value="{{ collection_head_id }}">
+
+        <input type="hidden" id="ena_collection_id" value="{{ ena_collection_id }}"/>
+
+        <input type="hidden" id="study_type" value="{{ study.study_type }}"/>
+
+        <input type="hidden" id="study_with_data" value="{{ study }}"/>
 
         <input type="hidden" id="attr_counter" value="1"/>
 
@@ -94,7 +103,40 @@
 
 {% block work_area %}
 
-    <h2 class="h2"><span>{{ study.name|lookup_study_type_label }} /{{ pos_index }}</span></h2>
+    <div style="display: inline-block;"><h2 class="h2"><span
+            id="study_reference_type_span">{{ study.study_type_reference }}</span> (<span
+            id="study_type_span">{{ study.study_type|lookup_study_type_label }}</span>)
+    </h2></div>
+    <div style="display: inline-block;"><a id="study_reference_qupdate" href="#"
+                                           title="Quick Update Study Type/Reference">
+        <i class="fa fa-pencil-square-o"></i></a></div>
+
+    <div class="grey-bg" id="show_quick_ref_update" style="display: none;">
+        {#        <button type="button" class="close" data-hide="alert">&times;</button>#}
+        <form role="form" id="study_type_qupdate_form" action="{% url 'copo:add_to_study' %}"
+              method="post">
+            {% csrf_token %}
+            <div style="white-space: nowrap; margin-bottom: 0.5em;">
+                <div style="display: inline-block;">
+                    <input type="text" name="study_reference_quick_update" id="study_reference_quick_update"
+                           class="form_control input-copo"
+                           value="{{ study.study_type_reference }}"/>
+                </div>
+                <div style="display: inline-block;">
+                    <select name="study_type_quick_update" id="study_type_quick_update"
+                            class="form-control">
+                        {{ study.study_type|study_type_drop_down }}
+                    </select>
+                </div>
+                <div style="display: inline-block;">
+                    <span id="study_type_qupdate_img" hidden="hidden"><img src="/static/copo/img/ajax_loader1.gif"
+                                                                           alt="Processing"></span>
+                    <button type="button" id="btn_study_type_quick_update" class="btn btn-primary btn-xs">Update
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
 
     <div class="panel-group" id="accordion">
 
@@ -109,62 +151,44 @@
             </div>
             <div id="collapse0" class="panel-collapse collapse in">
                 <div class="panel-body">
-                    {% for sf in ena_d.fields %}
-                        <div class='form-group'>
-                            {{ sf.id|generate_ena_tags }}
+                    <form role="form" id="study_details_update_form" action="{% url 'copo:add_to_study' %}"
+                          method="post">
+                        {% csrf_token %}
+                        {% for sf in ena_d.fields %}
+                            <div class='form-group'>
+                                {{ sf.id|generate_ena_tags }}
+                            </div>
+                        {% endfor %}
+                        <hr/>
+                        <div>
+                            <span id="study_details_update_img" hidden="hidden"><img
+                                    src="/static/copo/img/ajax_loader1.gif"
+                                    alt="Processing"></span>
+                            <button id="btn_update_study_details" type="button"
+                                    class="btn btn-primary text-center">Submit
+                            </button>
                         </div>
-                    {% endfor %}
+                    </form>
                 </div>
             </div>
         </div>
 
-        <!-- Panel for Study Contacts -->
+        <!-- Panel for Study Samples -->
         <div class="panel panel-default" id="panel1">
             <div class="panel-heading">
                 <h4 class="panel-title">
                     <a data-toggle="collapse" data-target="#collapseOne" href="#collapseOne">
-                        Study Contacts
+                        Study Samples
                     </a>
                 </h4>
             </div>
             <div id="collapseOne" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <div style="display: inline-block; text-indent: 0.5em;">
-                        <a data-toggle="modal" data-target="#newStudySampleModal" id="study_sample_add" href="#"><i
-                                class="glyphicon glyphicon-plus "></i><span>Add Study Contacts</span></a>
+                        <button type="button" id="btn_study_type_quick_update" class="btn btn-primary btn-xs">Add Sample
+                        </button>
                     </div>
                     <hr/>
-
-                    {% if study.studyContacts %}
-
-                        <table class="table-bordered">
-                            <tr>
-                                {% for sf in ena_d.studySamples.fields %}
-                                    <th>{{ sf.id|generate_ena_labels }}</th>
-                                {% endfor %}
-                                {% for sf in ena_d.studySamples.sampleCollection.fields %}
-                                    <th>{{ sf.id|generate_ena_labels }}</th>
-                                {% endfor %}
-                                <th>&nbsp;</th>
-                            </tr>
-
-                            {% for st in study.copoInternal.sampleTypes %}
-                                <tr id="{{ st.ref }}">
-                                    {% for sf in ena_d.studySamples.fields %}
-                                        <td>{{ st.ref|add_strings:study_id|get_sample_type_value:sf.id }}</td>
-                                    {% endfor %}
-                                    {% for sf in ena_d.studySamples.sampleCollection.fields %}
-                                        <td>{{ st.ref|add_strings:study_id|get_sample_type_value:sf.id }}</td>
-                                    {% endfor %}
-
-                                    <td><a class="sample_type_view" href="#" title="Edit Sample">
-                                    <i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;
-                                    <a class="type_remove" href="#" title="Delete Sample">
-                                        <i class="glyphicon glyphicon-remove "></i></a></td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                    {% endif %}
                 </div>
             </div>
         </div>
@@ -185,35 +209,6 @@
                                 class="glyphicon glyphicon-plus "></i><span>Add Study Publication</span></a>
                     </div>
                     <hr/>
-
-                    {% if study.studyContacts %}
-                        <table class="table-bordered">
-
-                            <tr>
-                                <th>Study Type</th>
-                                <th>Study Samples</th>
-                                <th>&nbsp;</th>
-                            </tr>
-
-                            {% for st in study.copoInternal.studyTypes %}
-                                <tr id="{{ st.ref }}">
-                                    <td>
-                                        <a class="study_type_details" href="{% url 'copo:view_study' study_id=st.ref %}">{{ st.name|lookup_study_type_label }}
-                                            /{{ forloop.counter0 }}</a>
-                                    </td>
-                                    <td>{{ st.ref|get_study_samples:collection_id }}</td>
-                                    <td><a class="study_type_view" href="#" title="Quick View Study">
-                                        <i class="glyphicon glyphicon-eye-open "></i></a>&nbsp;&nbsp;
-                                        <a class="study_type_edit" href="#" title="Update Study Details">
-                                        <i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;
-                                        <a class="type_remove" href="#" title="Delete Study">
-                                            <i class="glyphicon glyphicon-remove "></i></a></td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                    {% endif %}
-
-
                 </div>
             </div>
         </div>
@@ -329,7 +324,7 @@
 
 
 {% block js_block %}
-    <script src="{% static 'copo/js/collection_ext.js' %}"></script>
+    <script src="{% static 'copo/js/study.js' %}"></script>
     <script src="{% static 'copo/js/jquery.form.js' %}"></script>
     <script src="{% static 'copo/js/bootstrapValidator.js' %}"></script>
     <script src="{% static 'copo/js/uploader/vendor/jquery.ui.widget.js' %}"></script>

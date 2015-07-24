@@ -160,14 +160,21 @@ DROP_DOWNS = {
 
 HTML_TAGS = {
     "text": "<label for='{elem_id!s}'>{elem_label!s}</label><br/>"
-            "<input type='text' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'>",
+            "<input class='input-copo' type='text' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'>",
     "textarea": "<label for='{elem_id!s}'>{elem_label!s}</label><br/>"
                 "<textarea rows='6' cols='40' id='{elem_id!s}'  name='{elem_id!s}'>{elem_value!s}</textarea>",
-    "select":  "<select id='{elem_id!s}' name='{elem_id!s}'> {option_values!s} </select>",
+    "select": "<select id='{elem_id!s}' name='{elem_id!s}'> {option_values!s} </select>",
     "date": "<label for='{elem_id!s}'>{elem_label!s}</label><br/>"
-            "<input type='text' class='pop_date_picker' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'>",
+            "<input type='text' class='pop_date_picker input-copo' id='{elem_id!s}' name='{elem_id!s}' "
+            "value='{elem_value!s}'>",
     "hidden": "<input type='hidden' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'>",
     "file": "",
-    "Ontology term": "<label for='{elem_id!s}'>{elem_label!s}</label><br/>"
-            "<input type='text' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'>"
+    "ontology term": "<label for='{elem_id!s}'>{elem_label!s}</label><br/>"
+                     "<input class='input-copo' type='text' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'>"
+}
+
+# for displaying information/guidance mostly via tooltips
+UI_INFO = {
+    'study_type_add_info': "Use form to add new studies and/or clone existing ones",
+    'sample_add_info': "Use form to add/edit study sample and assign to studies"
 }

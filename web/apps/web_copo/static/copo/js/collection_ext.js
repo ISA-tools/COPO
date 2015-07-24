@@ -1,85 +1,158 @@
 $(document).ready(function () {
 
-    //generate a tree view for cloning studies
-    get_tree_data();
+    //do some housekeeping, encapsulates all dangling event declarations
+    do_housekeeping();
 
 
-    $('[data-toggle="tooltip"]').tooltip();
+    function do_housekeeping() {
+        //generate a tree view for cloning studies
+        refresh_study_tree_data();
 
-    //handle event for date picker
-    $('.pop_date_picker').datepick({
-        dateFormat: 'D, M d, yyyy',
-        altField: '#isoDate', altFormat: 'yyyy-mm-dd',
-        showOnFocus: false,
-        showTrigger: '<button type="button" class="trigger">...</button>'
-
-    });
-
-    //handle event for the submit button of add study type
-    $("#submit_study_type_btn").click(function (event) {
-        do_submit_study_type();
-    });
-
-    //hide delete button for first element in the study type group
-    $("#study_type_remove_0").hide();
-
-    //handle event for add new study type
-    $('#btn_add_new_study_type').on('click', function () {
-        do_add_new_study_type();
-    });
-
-    //handle event for add study type
-    $("#study_type_add").click(function (event) {
-        do_add_study_type();
-    });
-
-    //handle click event for delete study type
-    $("#study_types_lists_div").on('click', 'a.study_type_remove', function (event) {
-        do_remove_study_type(event);
-    });
+        //...and for assigning sample to studies
+        refresh_study_sample_tree_data();
 
 
-    //handle event for add new sample type
-    $('#btn_add_new_study_sample').on('click', function () {
-        do_add_new_study_sample();
-    });
+        $('[data-toggle="tooltip"]').tooltip();
 
-    //handle remove study sample
-    $('.type_remove').on('click', function () {
-        var the_action = this.id.split("/")[0];
-        if (the_action == "remove_study_sample") {
-            do_remove_study_sample(this.id);
+        //handle event for date picker
+        $('.pop_date_picker').datepick({
+            dateFormat: 'D, M d, yyyy',
+            altField: '#isoDate', altFormat: 'yyyy-mm-dd',
+            showOnFocus: false,
+            showTrigger: '<button type="button" class="trigger">...</button>'
+
+        });
+
+
+        //hide delete button for first element in the study type group
+        $("#study_type_remove_0").hide();
+
+        //hide or show tables depending on presence of records to display
+        if(parseInt($("#sample_data_count").val()) == 0) {
+            $("#samples_table_div").hide();
         }
-    });
 
-    function do_clone_study_types() {
-        var checkedNodes = $('#study_type_tree').tree('getChecked');
-        for (var i = 0; i < checkedNodes.length; i++) {
-            console.log(checkedNodes[i].id);
+        if(parseInt($("#study_data_count").val()) == 0) {
+            $("#studies_table_div").hide();
         }
-    }
+
+        //handle event for add new study type
+        $('#submit_study_type_btn').on('click', function () {
+            do_submit_study_type();
+        });
+
+        //handle event for add study type
+        $("#study_type_add").click(function (event) {
+            do_add_study_type();
+        });
+
+        //handle click event for delete study type
+        $("#study_types_lists_div").on('click', 'a.study_type_remove', function (event) {
+            do_remove_study_type(event);
+        });
 
 
-    function do_remove_study_sample(arg) {
-        var study_samples_id = arg.split("/")[1];
-        var collection_head_id = $("#collection_id").val();
+        //handle event for add new sample type
+        $('#btn_add_new_study_sample').on('click', function () {
+            do_add_new_study_sample();
+        });
 
-        $.ajax({
-            url: '/copo/remove_from_collection/',
-            type: "GET",
-            data: {
-                'task': 'remove_study_sample',
-                'collection_head_id': collection_head_id,
-                'study_samples_id': study_samples_id
-            },
-            success: function (data) {
-                location.reload();
-            },
-            error: function () {
-                alert("Couldn't remove sample!");
+        //handle edit sample
+        $("#sample_table_div").on('click', 'a.sample_edit', function (event) {
+            do_edit_sample(event);
+        });
+
+        $('.modal').on('hidden.bs.modal', function () {
+            $(this).find('form')[0].reset();
+
+            if (this.id == "newStudyTypeModal") {
+                do_disengage_study_modal();
+            } else if (this.id == "newStudySampleModal") {
+                do_disengage_sample_modal();
+            }
+
+        });
+
+        //study tree events
+        $('#study_type_tree').tree({
+            onClick: function (node) {
+                var targetId = node.id;
+                var splitIndex = targetId.lastIndexOf("_");
+                var indexPart = targetId.substr(splitIndex + 1);
+                if (indexPart == "leaf") {
+                    var myObj = node.attributes.txt;
+                    $('#info_panel_display').parent().show();
+                    $('#info_panel_display').show();
+                    $('#info_panel_display').html(JSON.stringify(myObj, undefined, 2));
+                }
             }
         });
     }
+
+    function do_edit_sample(event) {
+        var sample_id = $($(event.target)).attr("id");
+
+        //get actual sample id
+        sample_id = sample_id.split("_")[1];
+
+        var collection_head_id = $("#collection_head_id").val();
+
+        formURL = $("#add_new_study_sample_form").attr("action");
+        csrftoken = $.cookie('csrftoken');
+
+        $.ajax({
+            url: formURL,
+            type: "POST",
+            headers: {'X-CSRFToken': csrftoken},
+            data: {
+                'task': 'get_study_sample',
+                'collection_head_id': collection_head_id,
+                'sample_id': sample_id
+            },
+            success: function (data) {
+                display_sample_edit(data);
+            },
+            error: function () {
+                alert("Couldn't retrieve sample!");
+            }
+        });
+    }
+
+    function display_sample_edit(data) {
+        //todo: this mostly works for 'texty' kind of inputs. Will need to handle other types
+        //todo: one way of doing that would be to check the tagName of the input, and deciding thence
+
+        var sample = data.sample_data;
+        var $inputs = $('#add_new_study_sample_form :input');
+
+        $inputs.each(function () {
+            var fieldId = this.id;
+            var splitIndex = fieldId.lastIndexOf(".");
+            var fieldTarget = fieldId.substr(splitIndex + 1);
+            $(this).val(sample[fieldTarget]);
+        });
+
+        //hold the id of this sample for eventual persisting
+        $('#current_sample_id').val(sample["id"]);
+
+        //set the task too
+        $('#current_sample_task').val("edit");
+
+        //update tree view to show only unassigned studies
+        $('#study_type_sample_tree').tree({
+            data: data.ena_studies
+        });
+        $('#study_type_sample_tree').tree('expandAll');
+
+        $('#newStudySampleModal').modal('show');
+
+    }
+
+    function do_get_tree_checked(tree_id) {
+        var checkedNodes = $("#" + tree_id).tree('getChecked');
+        return checkedNodes;
+    }
+
 
     function do_submit_study_type() {
         var $inputs = $('#add_new_study_form_2 :input');
@@ -90,15 +163,87 @@ $(document).ready(function () {
             var searchStr2 = "study_type_reference_";
 
             if (this.name.indexOf(searchStr1) > -1 || this.name.indexOf(searchStr2) > -1) {
-                if(($(this).val()).trim() != "") {
+                if (($(this).val()).trim() != "") {
                     form_values[this.name] = $(this).val();
                 }
             }
         });
 
         var study_fields = JSON.stringify(form_values);
-
         var collection_head_id = $("#collection_head_id").val();
+
+        // handle cloned studies
+        var selectedNodes = do_get_tree_checked("study_type_tree");
+
+        //get unique studies
+        var allStudyIds = [];
+        var allStudyFragments = [];
+        var splitIndex;
+        var studyId;
+
+
+        for (var i = 0; i < selectedNodes.length; i++) {
+            splitIndex = selectedNodes[i].id.indexOf("_");
+            studyId = selectedNodes[i].id.substr(0, splitIndex);
+            allStudyIds[i] = studyId;
+            allStudyFragments[i] = selectedNodes[i].id;
+        }
+
+        var uniqueStudyIds = allStudyIds.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+
+        //retrieve study fragments
+        var clonedStudies = [];
+        for (var i = 0; i < uniqueStudyIds.length; i++) {
+            var curId = uniqueStudyIds[i];
+
+
+            var study_fragments = {"study_id": curId};
+
+            //get study_type
+            study_fragments["study_type"] = "false";
+            if($.inArray(curId +"_study_type_leaf", allStudyFragments) > -1) {
+                study_fragments["study_type"] = "true";
+            }
+
+            var samples = [];
+            var contacts = [];
+            var publications = [];
+
+            for (var j = 0; j < allStudyFragments.length; j++) {
+                var curNode = allStudyFragments[j];
+                var studyIdPart = curNode.substring(0, curNode.indexOf('_'));
+
+                if(curId != studyIdPart) {
+                    continue;
+                }
+
+                //samples
+                if(curNode.substr(curNode.length - 12) == "_sample_leaf") {
+                    samples[samples.length] = curNode.split("_")[1];
+                }
+
+                //contacts
+                if(curNode.substr(curNode.length - 13) == "_contact_leaf") {
+                    contacts[contacts.length] = curNode.split("_")[1];
+                }
+
+                //publications
+                if(curNode.substr(curNode.length - 17) == "_publication_leaf") {
+                    publications[publications.length] = curNode.split("_")[1];
+                }
+
+
+            }
+
+            study_fragments["samples"] = samples.join();
+            study_fragments["contacts"] = contacts.join();
+            study_fragments["publications"] = publications.join();
+
+            clonedStudies[i] = study_fragments;
+
+        }
+
+        var cloned_studies = JSON.stringify(clonedStudies);
 
 
         formURL = $("#add_new_study_form_2").attr("action");
@@ -111,7 +256,8 @@ $(document).ready(function () {
             data: {
                 'task': 'add_new_study',
                 'collection_head_id': collection_head_id,
-                'study_fields': study_fields
+                'study_fields': study_fields,
+                'cloned_studies': cloned_studies
             },
             success: function (data) {
                 display_new_study(data);
@@ -121,15 +267,22 @@ $(document).ready(function () {
             }
         });
 
-        //do_clone_study_types();
+    }
 
+    function display_new_sample(data) {
+        $('#newStudySampleModal').modal('hide');
+        $("#sample_table_div").html(data.sample_table);
+        display_new_study(data);
     }
 
     function display_new_study(data) {
-        //clone an existing study as template for creating new ones
+        //clone an existing study as template for minting new ones
 
-        var studies = data.ena_collection;
+        var studies = data.study_data;
+
+        var clonedTR = [];
         for (var i = 0; i < studies.length; i++) {
+
             var clonableTarget = $(".study_table_row:last").clone();
 
             //update row id
@@ -143,13 +296,15 @@ $(document).ready(function () {
             var theRefTag = targetChild.children(":nth-child(1)");
             var splitLink = theRefTag.attr("href").split("/");
             theRefTag.attr("href", "/" + splitLink[1] + "/" + splitLink[2] + "/" + studies[i].id + "/" + splitLink[4]);
-            theRefTag.html(studies[i].study_type_reference);
+            theRefTag.html(studies[i].studyReference);
 
             //update the study_type column
             targetChild = clonableTarget.children(":nth-child(2)");
-            targetChild.html(studies[i].study_type);
+            targetChild.html(studies[i].studyType);
 
-            //update the # samples column...maybe later
+            //update the # samples column
+            targetChild = clonableTarget.children(":nth-child(3)");
+            targetChild.html(studies[i].samplescount);
 
             //update the actions column
             targetChild = clonableTarget.children(":nth-child(4)");
@@ -158,18 +313,35 @@ $(document).ready(function () {
             update_id_name_byref(targetChild.children(":nth-child(2)"), studies[i].id); //...for update study
             update_id_name_byref(targetChild.children(":nth-child(3)"), studies[i].id); //...for delete study
 
-
-            $('.study_table_row:last').after(clonableTarget);
+            clonedTR[i] = clonableTarget;
 
         }
 
+        $("#study_table").find("tr:gt(0)").remove();
+
+        for (var i = 0; i < clonedTR.length; i++) {
+            $('#study_table').append(clonedTR[i]);
+        }
+
         //refresh tree data
-        get_tree_data();
+        refresh_study_tree_data();
+
+        //also refresh tree in sample modal
+        refresh_study_sample_tree_data();
 
         $('#newStudyTypeModal').modal('hide');
-        $('.modal').on('hidden.bs.modal', function () {
-            $(this).find('form')[0].reset();
-        });
+
+        do_disengage_study_modal();
+
+    }
+
+    function do_disengage_sample_modal() {
+        $('#current_sample_id').val("");
+        $('#current_sample_task').val("");
+        refresh_study_sample_tree_data();
+    }
+
+    function do_disengage_study_modal() {
 
         //remove all redundant fields
         $('.study_type_remove').each(function () {
@@ -186,8 +358,8 @@ $(document).ready(function () {
 
     }
 
-    function do_add_new_study_sample() { //need to attach bootstrap validator to form
-        //using this to manage auto-generated fields
+    function do_add_new_study_sample() { //todo: attached bootstrap validator
+        //manage auto-generated fields
         var $inputs = $('#add_new_study_sample_form :input');
 
         var form_values = {};
@@ -197,16 +369,24 @@ $(document).ready(function () {
 
         var auto_fields = JSON.stringify(form_values);
 
-
-        //manage checkboxes
-        var $candidates = $('input[name=assigned_study_type]:checked');
+        var selectedStudies = do_get_tree_checked("study_type_sample_tree");
         var study_types = [];
-        $candidates.each(function () {
-            study_types[study_types.length] = $(this).val();
-        });
+
+        for (var i = 0; i < selectedStudies.length; i++) {
+            study_types[i] = selectedStudies[i].id;
+        }
 
         study_types = study_types.join(",");
+
+
         var collection_head_id = $("#collection_head_id").val();
+
+        var task = "add_new_study_sample";
+        var sample_id = ""
+        if ($("#current_sample_task").val() == "edit") {
+            task = "edit_study_sample";
+            sample_id = $("#current_sample_id").val();
+        }
 
 
         formURL = $("#add_new_study_sample_form").attr("action");
@@ -217,57 +397,22 @@ $(document).ready(function () {
             type: "POST",
             headers: {'X-CSRFToken': csrftoken},
             data: {
-                'task': 'add_new_study_sample',
+                'task': task,
                 'collection_head_id': collection_head_id,
                 'study_types': study_types,
-                'auto_fields': auto_fields
+                'auto_fields': auto_fields,
+                'sample_id': sample_id
             },
             success: function (data) {
-                location.reload();
+                display_new_sample(data);
             },
             error: function () {
-                alert("Couldn't add samples!");
+                alert("Couldn't add sample!");
             }
         });
     }
 
-
-    function do_add_new_study_type() {
-        var $candidates = $('input[name=add_new_study_type]:checked');
-
-        if ($candidates.length > 0) {
-            var study_types = [];
-            $candidates.each(function () {
-                study_types[study_types.length] = $(this).val();
-            });
-
-            study_types = study_types.join(",");
-            var collection_head_id = $("#collection_id").val();
-
-            formURL = $("#add_new_study_form").attr("action");
-            csrftoken = $.cookie('csrftoken');
-
-            $.ajax({
-                url: formURL,
-                type: "POST",
-                headers: {'X-CSRFToken': csrftoken},
-                data: {
-                    'task': 'add_new_study_types',
-                    'collection_head_id': collection_head_id,
-                    'study_types': study_types
-                },
-                success: function (data) {
-                    location.reload();
-                },
-                error: function () {
-                    alert("Couldn't add study types!");
-                }
-            });
-
-        }
-    }
-
-    function get_tree_data() {
+    function refresh_study_tree_data() {
         var collection_head_id = $("#collection_head_id").val();
 
         formURL = $("#add_new_study_form_2").attr("action");
@@ -292,5 +437,33 @@ $(document).ready(function () {
         });
 
     }
+
+    function refresh_study_sample_tree_data() {
+        var collection_head_id = $("#collection_head_id").val();
+
+        formURL = $("#add_new_study_sample_form").attr("action");
+        csrftoken = $.cookie('csrftoken');
+
+        $.ajax({
+            url: formURL,
+            type: "POST",
+            headers: {'X-CSRFToken': csrftoken},
+            data: {
+                'task': 'get_tree_study_sample',
+                'collection_head_id': collection_head_id
+            },
+            success: function (data) {
+                $('#study_type_sample_tree').tree({
+                    data: data.ena_studies
+                });
+                $('#study_type_sample_tree').tree('expandAll');
+            },
+            error: function () {
+                alert("Couldn't retrieve studies data!");
+            }
+        });
+
+    }
+
 
 })

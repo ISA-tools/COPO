@@ -170,10 +170,22 @@
         ],
         "studySubmissionDate": "",
         "studyTitle": ""
+      },
+      "studyCOPOMetadata": {
+        "id": "",
+        "studyType": "",
+        "studyReference":"",
+        "deleted":"1",
+        "samples": [
+          {
+            "id": "",
+            "deleted": "1"
+          }
+        ]
       }
     }
   ],
-  "collectionMetadata": {
+  "collectionCOPOMetadata": {
     "samples": []
   }
 }

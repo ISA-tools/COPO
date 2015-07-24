@@ -184,13 +184,17 @@ def view_collection(request, collection_head_id):
             request.session['ena_collection_id'] = str(collection_head['collection_details'])
             profile = Profile().GET(profile_id)
             ena_collection = EnaCollection().GET(request.session['ena_collection_id'])
+            sample_data = htags.get_sample_data(request.session['ena_collection_id'])
+            study_data = htags.get_studies_data(request.session['ena_collection_id'])
 
             data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
                          'ena_collection_id': request.session['ena_collection_id'], 'profile_id': profile_id,
                          'ena_collection': ena_collection,
                          'profile': profile,
                          'ena_d': ena_d,
-                         'study_types': study_types
+                         'study_types': study_types,
+                         'sample_data': sample_data,
+                         'study_data': study_data
                          }
         else:
             data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
@@ -211,36 +215,56 @@ def view_study(request, study_id):
     collection_head = Collection_Head().GET(collection_head_id)
 
     ena_collection_id = str(collection_head['collection_details'])
-    ena_collection = EnaCollection().GET(ena_collection_id)
     profile = Profile().GET(profile_id)
     study = EnaCollection().get_ena_study(study_id, ena_collection_id)
-    #
-    # study = study["copoInternal"]["studyTypes"][0]
-    #
-    # #  get the positional index to add some context to the output study
-    # study_types = ena_collection["copoInternal"]["studyTypes"]
-    # pos_index = ""
-    #
-    # for idx, val in enumerate(study_types):
-    #     if val["ref"] == study["ref"]:
-    #         pos_index = idx
-    #         break
-    #
-    # ena_full_json = dfmts.json_to_object(lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['UI_TEMPLATE_json'])
-    # ena_d = ena_full_json.studies.study
 
-    # data_dict = {'collection_head_id': collection_head_id,
-    #              'profile_id': profile_id,
-    #              'collection_head_id': collection_head_id,  # this will be deprecated
-    #              'study_id': study_id,
-    #              'profile': profile,
-    #              'collection': ena_collection,
-    #              'study': study,
-    #              'pos_index': pos_index,
-    #              'ena_d': ena_d
-    #              }
-    data_dict = {}
+    ena_full_json = dfmts.json_to_object(lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['UI_TEMPLATE_json'])
+    ena_d = ena_full_json.studies.study
+
+    # get study types
+    study_types = lkup.DROP_DOWNS['STUDY_TYPES']
+
+    data_dict = {'collection_head_id': collection_head_id,
+                 'profile_id': profile_id,
+                 'study_id': study_id,
+                 'profile': profile,
+                 'ena_collection_id': ena_collection_id,
+                 'study': study,
+                 'study_types': study_types,
+                 'ena_d': ena_d
+                 }
     return render(request, 'copo/ena_study.html', data_dict, context_instance=RequestContext(request))
+
+
+def add_to_study(request):
+    return_structure = {}
+    # get task to be performed
+    task = request.POST['task']
+
+    ena_collection_id = request.POST['ena_collection_id']
+    study_id = request.POST['study_id']
+
+    if task == "update_study_type":
+        study_type = request.POST['study_type']
+        study_type_reference = request.POST['study_type_reference']
+        elem_dict = {"study_type": study_type, "study_type_reference": study_type_reference}
+
+        EnaCollection().update_study_type(ena_collection_id, study_id, elem_dict)
+        study = EnaCollection().get_ena_study(study_id, ena_collection_id)
+        return_structure['study_type_data'] = {"study_type": study["study_type"],
+                                               "study_type_label": htags.lookup_study_type_label(study["study_type"]),
+                                               "study_type_reference": study["study_type_reference"]}
+    if task == "update_study_details":
+        auto_fields = request.POST['auto_fields']
+        EnaCollection().update_study_details(ena_collection_id, study_id, auto_fields)
+        return_structure['study_data'] = EnaCollection().get_ena_study(study_id, ena_collection_id)["study"]
+
+    if task == "get_study_data":
+        return_structure['study_data'] = EnaCollection().get_ena_study(study_id, ena_collection_id)["study"]
+
+    return_structure['exit_status'] = 'success'
+    out = jsonpickle.encode(return_structure)
+    return HttpResponse(out, content_type='json')
 
 
 def add_to_collection(request):
@@ -255,6 +279,8 @@ def add_to_collection(request):
     if task == "add_new_study":
         study_fields = request.POST['study_fields']
         study_fields = ast.literal_eval(study_fields)
+        cloned_studies = request.POST['cloned_studies']
+        cloned_studies = ast.literal_eval(cloned_studies)
 
         # get studies
         st_list = []
@@ -266,32 +292,38 @@ def add_to_collection(request):
                                'study_type_reference': study_fields['study_type_reference_' + k[-1:]]}
                     st_list.append(st_dict)
 
-        # get inserted studies id
-        st_ids = []
         if st_list:
-            st_ids = EnaCollection().add_ena_study(ena_collection_id, st_list)
+            EnaCollection().add_ena_study(ena_collection_id, st_list)
 
-        # get details of added studies
-        ena_collection = []
-        for st_id in st_ids:
-            ena_study = EnaCollection().get_ena_study(st_id, ena_collection_id)['studies'][0]
-            e_s = {'id': ena_study['id'],
-                   'study_type_reference': ena_study['study_type_reference'],
-                   'study_type': htags.lookup_study_type_label(ena_study['study_type'])}
-            ena_collection.append(e_s)
+        if cloned_studies:
+            EnaCollection().add_ena_study_clone(ena_collection_id, cloned_studies)
 
-        return_structure['ena_collection'] = ena_collection
+        return_structure['study_data'] = htags.get_studies_data(ena_collection_id)
 
     elif task == "get_tree_study":
-        ena_studies = EnaCollection().get_studies_tree(ena_collection_id)
-        return_structure['ena_studies'] = ena_studies
+        return_structure['ena_studies'] = htags.get_studies_tree(ena_collection_id)
 
-    elif task == "add_new_study_sample":
+    elif task == "get_tree_study_sample":
+        return_structure['ena_studies'] = htags.get_study_sample_tree(ena_collection_id)
+
+    elif task == "get_study_sample":
+        return_structure['sample_data'] = EnaCollection().get_ena_sample(ena_collection_id, request.POST['sample_id'])
+        return_structure['ena_studies'] = htags.get_study_sample_tree_restrict(ena_collection_id,
+                                                                               request.POST['sample_id'])
+
+    elif task == "add_new_study_sample" or task == "edit_study_sample":
         auto_fields = request.POST['auto_fields']
         study_type_list = request.POST['study_types']
         study_type_list = study_type_list.split(",")
 
-        # EnaCollection().add_study_samples(ena_collection_id, study_type_list, auto_fields)
+        if task == "edit_study_sample":
+            sample_id = request.POST['sample_id']
+            EnaCollection().edit_ena_sample(ena_collection_id, sample_id, study_type_list, auto_fields)
+        else:
+            EnaCollection().add_ena_sample(ena_collection_id, study_type_list, auto_fields)
+
+        return_structure['sample_table'] = htags.generate_sample_table2(ena_collection_id)
+        return_structure['study_data'] = htags.get_study_data(ena_collection_id)
 
     return_structure['exit_status'] = 'success'
     out = jsonpickle.encode(return_structure)

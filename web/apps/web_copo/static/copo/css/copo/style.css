@@ -115,3 +115,11 @@ div[class^="col-"], div[class*=" col-"] {
     vertical-align: middle;
 
 }
+
+.copo-modal2 > .modal-dialog {
+    width:800px !important;
+}
+
+.input-copo{
+    height: 30px !important;
+}
