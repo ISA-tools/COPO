@@ -100,15 +100,15 @@ class EnaCollection(Resource):
                 a[key_split[len(key_split) - 1]] = auto_fields[f.id]
 
         EnaCollections.update({"_id": o.ObjectId(ena_collection_id)},
-                              {"$push": {"collectionMetadata.samples": a}})
+                              {"$push": {"collectionCOPOMetadata.samples": a}})
 
         # assign sample to studies
         for study_id in study_type_list:
             a = {'id': sample_id,
                  'deleted': '0'
                  }
-            EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.id": study_id},
-                                  {'$push': {"studies.$.samples": a}})
+            EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
+                                  {'$push': {"studies.$.studyCOPOMetadata.samples": a}})
 
         return sample_id
 
@@ -121,8 +121,8 @@ class EnaCollection(Resource):
             key_split = f.id.split(".")
             if f.id in auto_fields.keys():
                 EnaCollections.update(
-                    {"_id": o.ObjectId(ena_collection_id), "collectionMetadata.samples.id": sample_id},
-                    {'$set': {"collectionMetadata.samples.$." + key_split[len(key_split) - 1]: auto_fields[f.id]}})
+                    {"_id": o.ObjectId(ena_collection_id), "collectionCOPOMetadata.samples.id": sample_id},
+                    {'$set': {"collectionCOPOMetadata.samples.$." + key_split[len(key_split) - 1]: auto_fields[f.id]}})
 
         ena_d = ena_full_json.studies.study.studySamples.sampleCollection.fields
 
@@ -130,8 +130,8 @@ class EnaCollection(Resource):
             key_split = f.id.split(".")
             if f.id in auto_fields.keys():
                 EnaCollections.update(
-                    {"_id": o.ObjectId(ena_collection_id), "collectionMetadata.samples.id": sample_id},
-                    {'$set': {"collectionMetadata.samples.$." + key_split[len(key_split) - 1]: auto_fields[f.id]}})
+                    {"_id": o.ObjectId(ena_collection_id), "collectionCOPOMetadata.samples.id": sample_id},
+                    {'$set': {"collectionCOPOMetadata.samples.$." + key_split[len(key_split) - 1]: auto_fields[f.id]}})
 
         # update studies: add to study if sample not already in selected, delete sample from study if not selected
         studies = EnaCollection().GET(ena_collection_id)["studies"]
@@ -163,7 +163,7 @@ class EnaCollection(Resource):
                                        "collectionCOPOMetadata.samples.id": sample_id},
                                       {"collectionCOPOMetadata.samples.$": 1})
 
-        return doc['collectionMetadata']['samples'][0] if doc else ''
+        return doc['collectionCOPOMetadata']['samples'][0] if doc else ''
 
     def get_study_samples(self, ena_collection_id, study_id):
         doc = EnaCollections.aggregate([{"$match": {"_id": o.ObjectId(ena_collection_id)}},

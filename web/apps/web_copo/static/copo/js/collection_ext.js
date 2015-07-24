@@ -53,7 +53,7 @@ $(document).ready(function () {
 
 
         //handle event for add new sample type
-        $('#btn_add_new_study_sample').on('click', function () {
+        $('#btn_add_new_sample').on('click', function () {
             do_add_new_study_sample();
         });
 

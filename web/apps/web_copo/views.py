@@ -184,7 +184,7 @@ def view_collection(request, collection_head_id):
             request.session['ena_collection_id'] = str(collection_head['collection_details'])
             profile = Profile().GET(profile_id)
             ena_collection = EnaCollection().GET(request.session['ena_collection_id'])
-            sample_data = htags.get_sample_data(request.session['ena_collection_id'])
+            sample_data = htags.get_samples_data(request.session['ena_collection_id'])
             study_data = htags.get_studies_data(request.session['ena_collection_id'])
 
             data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
@@ -322,8 +322,8 @@ def add_to_collection(request):
         else:
             EnaCollection().add_ena_sample(ena_collection_id, study_type_list, auto_fields)
 
-        return_structure['sample_table'] = htags.generate_sample_table2(ena_collection_id)
-        return_structure['study_data'] = htags.get_study_data(ena_collection_id)
+        return_structure['sample_data'] = htags.get_samples_data(ena_collection_id)
+        return_structure['study_data'] = htags.get_studies_data(ena_collection_id)
 
     return_structure['exit_status'] = 'success'
     out = jsonpickle.encode(return_structure)

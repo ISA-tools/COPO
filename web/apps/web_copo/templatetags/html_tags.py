@@ -46,7 +46,7 @@ def generate_sample_html(ena_collection_id):
     html_tag = ""
     ena_collection = EnaCollection().GET(ena_collection_id)
     samples = ena_collection["collectionCOPOMetadata"]["samples"]
-    sample_data = get_sample_data(ena_collection_id)
+    sample_data = get_samples_data(ena_collection_id)
 
     if samples:
         html_tag += "<hr/>"
@@ -107,7 +107,7 @@ def get_field_order(prop):
     return ordered_fields
 
 
-def get_sample_data(ena_collection_id):
+def get_samples_data(ena_collection_id):
     ena_collection = EnaCollection().GET(ena_collection_id)
     samples = ena_collection["collectionCOPOMetadata"]["samples"]
 
@@ -259,7 +259,7 @@ def get_study_sample_tree(ena_collection_id):
     for study in studies:
         study_id = study["studyCOPOMetadata"]["id"]
         a = {
-            "id": study_id + "_study",
+            "id": study_id,
             "text": study["studyCOPOMetadata"]['studyReference'] + " (" + dfmts.lookup_study_type_label(
                 study["studyCOPOMetadata"]['studyType']) + ")",
             "state": "open"
