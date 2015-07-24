@@ -89,6 +89,7 @@ $(document).ready( function(){
         get_experimental_samples(dom)
     });
 
+
     //check value of initial panel id
     var panel_id = $('input[name=panel_id]').val();
     if(panel_id == ""){
