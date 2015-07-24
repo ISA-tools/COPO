@@ -39,3 +39,9 @@ SCHEMAS = {
         'path_to_json': 'apps/web_copo/schemas/ena/isa_ena_model.json'
     }
 }
+
+WEB_SERVICES = {
+    'COPO': {
+        'get_id': 'http://v0514.nbi.ac.uk:1025/id/'
+    }
+}
