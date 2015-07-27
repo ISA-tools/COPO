@@ -1,18 +1,82 @@
-.add_data_button{
-    margin-top:30px;
-}
-.add_many_button{
-    margin-top:10px;
-    margin-bottom:5px;
-    margin-left:5px;
+.add_data_button {
+    margin-top: 30px;
 }
 
-#bottom_button_group{
+.add_many_button {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
+#bottom_button_group {
     margin: 40px 40px 0 0;
 }
 
-.spinner{
+.spinner {
     background-image: url("/static/copo/img/flower.png");
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
+}
+
+.type_remove i,
+.study_type_remove i {
+    color: darkred;
+    font-size: 0.8em;
+}
+
+.type_add i,
+#study_type_add i {
+    color: darkgreen;
+    font-size: 1.0em;
+}
+
+table, td {
+    color: darkgrey;
+}
+
+.grey-bg{
+    background-color: #f5f5f5 !important;
+    border-color: #dddddd !important;
+}
+
+.two-column-study-container {
+    width: inherit;
+    margin: auto;
+}
+.study-column-one {
+    width: 60%;
+    float: left;
+}
+.study-column-two {
+    width: 40%;
+    float: left;
+    overflow: scroll;
+}
+.study-column-clear {
+    clear: both;
+}
+
+.study-tree-info-data {
+    border: 1px solid transparent;
+    border-radius: 4px;
+    margin-bottom: 2px;
+    padding: 15px;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    color: #31708f;
+}
+
+.study-tree-info-display-div {
+    margin-bottom: 3px;
+    font-size: small;
+}
+
+.study-tree-info-data-selected {
+    border: 1px solid transparent;
+    border-radius: 4px;
+    margin-bottom: 2px;
+    padding: 15px;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
 }

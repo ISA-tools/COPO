@@ -4,7 +4,6 @@
 
 $(document).ready(function () {
 
-
     $('.spinner').hide()
     $('.coolHandLuke li').on('click', function (e) {
         if ($(e.target).prev().hasClass('red')) {
@@ -15,6 +14,26 @@ $(document).ready(function () {
         }
 
     })
+
+    //hide delete button for first element in the study type group
+    $("#study_type_remove_0").hide();
+
+    //handle change event for collection types drop-down
+    toggle_collection_type($("#collection_type option:selected").val());
+
+    $("#collection_type").change(function () {
+        toggle_collection_type($("#collection_type option:selected").val());
+    });
+
+    //handle event for add study type
+    $("#study_type_add").click(function (event) {
+        do_add_study_type();
+    });
+
+    //handle click event for delete study type
+    $("#study_types_lists_div").on('click', 'a.study_type_remove', function (event) {
+        do_remove_study_type(event);
+    });
 
 
     function submit_to_figshare(e) {
@@ -58,7 +77,6 @@ $(document).ready(function () {
             }
         })
     }
-
 
 
 })

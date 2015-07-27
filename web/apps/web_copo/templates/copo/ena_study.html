@@ -1,0 +1,342 @@
+{% extends 'copo/base.html' %}
+
+{% load staticfiles %}
+{% load web_tags %}
+{% load html_tags %}
+
+{% block stylesheet_block %}
+    <link rel="stylesheet" href="{% static 'copo/css/copo/browse_style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'copo/css/bootstrap/bootstrapValidator.css' %}">
+
+    <!-- Generic page styles -->
+    <link rel="stylesheet" href="{% static 'copo/css/copo/style.css' %}">
+    <!-- blueimp Gallery styles -->
+    <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+    <link rel="stylesheet" href="{% static 'copo/css/uploader/jquery.fileupload.css' %}">
+    <link rel="stylesheet" href="{% static 'copo/css/uploader/jquery.fileupload-ui.css' %}">
+    <!-- CSS adjustments for browsers with JavaScript disabled -->
+    <noscript>
+        <link rel="stylesheet" href="{% static 'copo/css/uploader/jquery.fileupload-noscript.css' %}">
+    </noscript>
+    <noscript>
+        <link rel="stylesheet" href="{% static 'copo/css/jquery.fileupload-ui-noscript.css' %}">
+    </noscript>
+    <link rel="stylesheet" href="{% static 'copo/css/copo/collection.css' %}">
+    <link rel="stylesheet" href="{% static 'copo/css/copo/study.css' %}">
+
+{% endblock %}
+
+
+{% block title %} ENA Study {% endblock %}
+
+{% block tagline_block %}{% endblock %}
+
+{% block breadcrumb_block %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'copo:index' %}">Home</a></li>
+        <li><a title="{{ profile.title }}" href="{% url 'copo:view_profile' profile_id=profile_id %}">Profile</a></li>
+        <li class="active"><a title=""
+                              href="{% url 'copo:view_collection' collection_head_id=collection_head_id %}">Collection</a>
+        </li>
+        {#        <li><a href="{% url 'copo:view_study' study_id=study_id %}">Study</a></li>#}
+    </ol>
+{% endblock %}
+
+{% block browse_header_block %}
+
+    <div hidden id="hidden_attrs">
+
+        <!-- hidden attributes required to make the page remember where it is and what its dealing with -->
+
+        <input type="hidden" id="study_id" value="{{ study.id }}"/>
+
+        <input type="hidden" id="collection_head_id" name="collection_head_id" value="{{ collection_head_id }}">
+
+        <input type="hidden" id="ena_collection_id" value="{{ ena_collection_id }}"/>
+
+        <input type="hidden" id="study_type" value="{{ study.study_type }}"/>
+
+        <input type="hidden" id="study_with_data" value="{{ study }}"/>
+
+        <input type="hidden" id="attr_counter" value="1"/>
+
+        <input type="hidden" id="sample_attr_counter" value="1"/>
+
+        <input type="hidden" id="file_id" value=""/>
+
+        <!-- this hidden field is to keep track of the number of upload info divs currently displaying-->
+        <input type="hidden" id="upload_info_count" value="0"/>
+
+        <input type="hidden" id="zipping_image" value="{% static 'copo/img/pacman.gif' %}"/>
+
+        <input type="hidden" id="hashing_image" value="{% static 'copo/img/pacman.gif' %}"/>
+
+        {% csrf_token %}
+
+        <input type="hidden" id="upload_counter" value="1"/>
+
+
+    </div>
+
+    <div id="browse_header">
+        <span class="blue_icon">
+           <a><i class="fa fa-plus-circle" data-toggle="modal" data-target="#newStudyModal"></i></a>
+        </span>
+        <span class="blue_icon">
+            <a><i class="fa fa-pencil-square-o"></i></a>
+        </span>
+        <span class="blue_icon">
+            <a><i class="fa fa-trash-o"></i></a>
+        </span>
+
+        <div class="input-group input-group-sm">
+            <span class="input-group-addon">
+                <i class="fa fa-search"></i>
+            </span>
+            <input type="search" class="form-control" placeholder="Search">
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block work_area %}
+
+    <div style="display: inline-block;"><h2 class="h2"><span
+            id="study_reference_type_span">{{ study.study_type_reference }}</span> (<span
+            id="study_type_span">{{ study.study_type|lookup_study_type_label }}</span>)
+    </h2></div>
+    <div style="display: inline-block;"><a id="study_reference_qupdate" href="#"
+                                           title="Quick Update Study Type/Reference">
+        <i class="fa fa-pencil-square-o"></i></a></div>
+
+    <div class="grey-bg" id="show_quick_ref_update" style="display: none;">
+        {#        <button type="button" class="close" data-hide="alert">&times;</button>#}
+        <form role="form" id="study_type_qupdate_form" action="{% url 'copo:add_to_study' %}"
+              method="post">
+            {% csrf_token %}
+            <div style="white-space: nowrap; margin-bottom: 0.5em;">
+                <div style="display: inline-block;">
+                    <input type="text" name="study_reference_quick_update" id="study_reference_quick_update"
+                           class="form_control input-copo"
+                           value="{{ study.study_type_reference }}"/>
+                </div>
+                <div style="display: inline-block;">
+                    <select name="study_type_quick_update" id="study_type_quick_update"
+                            class="form-control">
+                        {{ study.study_type|study_type_drop_down }}
+                    </select>
+                </div>
+                <div style="display: inline-block;">
+                    <span id="study_type_qupdate_img" hidden="hidden"><img src="/static/copo/img/ajax_loader1.gif"
+                                                                           alt="Processing"></span>
+                    <button type="button" id="btn_study_type_quick_update" class="btn btn-primary btn-xs">Update
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="panel-group" id="accordion">
+
+        <!-- Panel for Study Details -->
+        <div class="panel panel-default" id="panel0">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-target="#collapse0" href="#collapse0">
+                        Study Details
+                    </a>
+                </h4>
+            </div>
+            <div id="collapse0" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <form role="form" id="study_details_update_form" action="{% url 'copo:add_to_study' %}"
+                          method="post">
+                        {% csrf_token %}
+                        {% for sf in ena_d.fields %}
+                            <div class='form-group'>
+                                {{ sf.id|generate_ena_tags }}
+                            </div>
+                        {% endfor %}
+                        <hr/>
+                        <div>
+                            <span id="study_details_update_img" hidden="hidden"><img
+                                    src="/static/copo/img/ajax_loader1.gif"
+                                    alt="Processing"></span>
+                            <button id="btn_update_study_details" type="button"
+                                    class="btn btn-primary text-center">Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel for Study Samples -->
+        <div class="panel panel-default" id="panel1">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-target="#collapseOne" href="#collapseOne">
+                        Study Samples
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div style="display: inline-block; text-indent: 0.5em;">
+                        <button type="button" id="btn_study_type_quick_update" class="btn btn-primary btn-xs">Add Sample
+                        </button>
+                    </div>
+                    <hr/>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel for Study Publications -->
+        <div class="panel panel-default" id="panel2">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-target="#collapseTwo" href="#collapseTwo">
+                        Study Publications
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div style="display: inline-block; text-indent: 0.5em;">
+                        <a data-toggle="modal" data-target="#newStudyTypeModal" href="#"><i
+                                class="glyphicon glyphicon-plus "></i><span>Add Study Publication</span></a>
+                    </div>
+                    <hr/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal for adding new study type -->
+    <div class="modal fade" id="newStudyTypeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Add Study Type</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="add_new_study_form" action="{% url 'copo:add_to_collection' %}" method="post">
+                        {% csrf_token %}
+                        <div>
+                            <div class="form-group">
+                                <label for="add_study_type">Add New</label><br/>
+                                {% for stud in study_types %}
+                                    <input type="checkbox" name="add_new_study_type" value="{{ stud.value }}">&nbsp;
+                                    {{ stud.label }}<br/>
+                                {% endfor %}
+                            </div>
+                            <div>
+                                <button id="btn_add_new_study_type" type="button"
+                                        class="btn btn-primary text-center">Add
+                                </button>
+                            </div>
+                            <hr/>
+
+                            <div class="form-group">
+                                <label for="clone_study_type">Clone Existing</label><br/>
+                                {% for st in study.copoInternal.studyTypes %}
+                                    <input type="checkbox" name="clone_study_type" value="{{ st.ref }}">&nbsp;
+                                    {{ st.name|lookup_study_type_label }} /{{ forloop.counter0 }}<br/>
+                                {% endfor %}
+                            </div>
+                            <div>
+                                <button id="btn_clone_study_type" type="button"
+                                        class="btn btn-primary text-center">Clone
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for adding new study sample -->
+    <div class="modal fade" id="newStudySampleModal" tabindex="-1" role="dialog" aria-labelledby="mySampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="mySampleModalLabel">Add Study Sample</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="add_new_study_sample_form" action="{% url 'copo:add_to_collection' %}"
+                          method="post">
+                        {% csrf_token %}
+                        <div>
+                            {% for sf in ena_d.studySamples.fields %}
+                                <div class='form-group'>
+                                    {{ sf.id|generate_ena_tags }}
+                                </div>
+                            {% endfor %}
+
+                            {% for sf in ena_d.studySamples.sampleCollection.fields %}
+                                <div class='form-group'>
+                                    {{ sf.id|generate_ena_tags }}
+                                </div>
+                            {% endfor %}
+
+                            <hr/>
+
+                            <div class="form-group">
+                                <label for="assigned_study_type">Assign to...</label><br/>
+                                {% for st in study.copoInternal.studyTypes %}
+                                    <input type="checkbox" name="assigned_study_type" value="{{ st.ref }}">&nbsp;
+                                    {{ st.name|lookup_study_type_label }} /{{ forloop.counter0 }}<br/>
+                                {% endfor %}
+                            </div>
+
+                            <div>
+                                <button id="btn_add_new_study_sample" type="button"
+                                        class="btn btn-primary text-center">Add Sample
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block js_block %}
+    <script src="{% static 'copo/js/study.js' %}"></script>
+    <script src="{% static 'copo/js/jquery.form.js' %}"></script>
+    <script src="{% static 'copo/js/bootstrapValidator.js' %}"></script>
+    <script src="{% static 'copo/js/uploader/vendor/jquery.ui.widget.js' %}"></script>
+    <script src="{% static 'copo/js/uploader/jquery.iframe-transport.js' %}"></script>
+    <script src="{% static 'copo/js/uploader/jquery.fileupload.js' %}"></script>
+    <script src="{% static 'copo/js/uploader/vendor/jquery.ui.widget.js' %}"></script>
+    <script src="{% static 'copo/js/uploader/jquery.iframe-transport.js' %}"></script>
+    <script src="{% static 'copo/js/uploader/jquery.fileupload.js' %}"></script>
+    <script src="{% static 'copo/js/uploader/jquery.fileupload-process.js' %}"></script>
+    <script src="{% static 'copo/js/uploader/jquery.fileupload-ui.js' %}"></script>
+    <script src="{% static 'copo/js/uploader/upload_wrapper.js' %}"></script>
+    <script src="{% static 'copo/js/uploader/bootstrap_panel.js' %}"></script>
+    <script src="{% static 'copo/js/uploader/upload_util.js' %}"></script>
+
+{% endblock %}

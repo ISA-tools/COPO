@@ -1,3 +1,5 @@
+import uuid
+
 __author__ = 'fshaw'
 import gzip
 
@@ -429,5 +431,3 @@ def delete_file(request):
     EnaCollection().remove_file_from_experiment(file_id)
     ch.delete()
     return HttpResponse(request.POST.get('file_id'), content_type='text/plain')
-
-

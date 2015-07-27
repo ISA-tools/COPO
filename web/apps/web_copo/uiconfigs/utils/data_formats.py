@@ -1,12 +1,13 @@
+from pprint import pprint
+
 __author__ = 'etuka'
 
-import json
-import xml.etree.ElementTree as ET
-from urllib.request import urlopen
-
 import re
+import json
 import jsonpickle
 from collections import namedtuple
+import xml.etree.ElementTree as ET
+from urllib.request import urlopen
 from django.http import HttpResponse
 
 import web_copo.uiconfigs.utils.lookup as lkup
@@ -17,27 +18,37 @@ from settings.display_messages import SCHEMAS_MESSAGES as SM
 
 
 # converts from json to dictionary
-def json_to_dict(schema):
-    path_to_json = lkup.SCHEMAS[schema]['PATHS_AND_URIS']['UI_TEMPLATE_json']
-
+def json_to_dict(path_to_json):
+    template_verify(path_to_json)
     with open(path_to_json, encoding='utf-8') as data_file:
         data = json.loads(data_file.read())
 
     return data
 
 
-# converts from json to object
-def json_to_object(schema):
-    path_to_json = lkup.SCHEMAS[schema]['PATHS_AND_URIS']['UI_TEMPLATE_json']
-
-    with open(path_to_json, encoding='utf-8') as data_file:
-        data = json.loads(data_file.read(), object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
-
+# converts from json or dictionary to object
+def json_to_object(path_or_data):
+    if isinstance(path_or_data, dict):
+        data = json.loads(json.dumps(path_or_data), object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
+    else:  # assume it is a path to the json file
+        template_verify(path_or_data)
+        with open(path_or_data, encoding='utf-8') as data_file:
+            data = json.loads(data_file.read(), object_hook=lambda d: namedtuple('X', d.keys())(*d.values()))
     return data
 
 
+def get_label(value, list_of_elements, key_name):
+    for dict in list_of_elements:
+        return dict["label"] if dict[key_name] == value else ''
+
+
+def template_verify(path_or_data):
+    if not os.path.exists(path_or_data):
+        generate_ui_template()
+
+
 # generates template for UI rendering
-def refactor_ui_template_ena(request):
+def generate_ui_template():
     out_dict = om.OUT_DICT
     out_dict.update({'comment': SM["TEMPLATE_CREATION_WARNING"]})
 
@@ -50,7 +61,15 @@ def refactor_ui_template_ena(request):
 
     # generate and write json to file
     ui_template_json = lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['UI_TEMPLATE_json']
+
     json.dump(out_dict, open(ui_template_json, 'w'))
+
+    return out_dict
+
+
+def refactor_ui_template_ena(request):
+    out_dict = generate_ui_template()
+
     data = {'data': out_dict}
     return HttpResponse(jsonpickle.encode(data))
 
@@ -98,7 +117,8 @@ def do_mapping_ena(arm):
                                     if f.get("data-type") == "List":
                                         try:
                                             ls = f.findall(".//{%s}list-values" % ns)
-                                            new_dict[key].update({k: ls[0].text})
+                                            options_split = ls[0].text.split(",")
+                                            new_dict[key].update({k: options_split})
                                         except IndexError:
                                             pass
                                 else:
@@ -150,3 +170,13 @@ def merge_dicts(*dict_args):
 def namespace(element):
     match = re.search(r'\{(.+)\}', element.tag)
     return match.group(1) if match else ''
+
+
+def lookup_study_type_label(val):
+    # get study types
+    study_types = lkup.DROP_DOWNS['STUDY_TYPES']
+
+    for st in study_types:
+        if st["value"].lower() == val.lower():
+            return st["label"]
+    return ""
