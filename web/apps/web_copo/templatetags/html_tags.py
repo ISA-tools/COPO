@@ -2,12 +2,10 @@ __author__ = 'tonietuk'
 
 from django.utils.safestring import mark_safe
 from django import template
-import ast
 
-from apps.web_copo.mongo.copo_base_da import Collection_Head
-import apps.web_copo.uiconfigs.utils.data_formats as dfmts
-from apps.web_copo.mongo.ena_da import EnaCollection
-import apps.web_copo.uiconfigs.utils.lookup as lkup
+import web_copo.uiconfigs.utils.data_formats as dfmts
+from web_copo.mongo.ena_da import EnaCollection
+import web_copo.uiconfigs.utils.lookup as lkup
 
 register = template.Library()
 

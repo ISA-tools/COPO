@@ -109,18 +109,20 @@ REST_FRAMEWORK = {
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
 
 # get settings for environment
-from settings_hostnames import *
-# determine which system is running and import appropriate settings file
 
 
 import platform
 if platform.system() == "Darwin":
     from settings_dev import *
+    from settings_chunked_upload import *
 elif platform.system() == "Linux":
-    from settings_prod import *
+    from settings.settings_prod import *
+    from settings.settings_chunked_upload import *
 else:
     raise Exception(
         "Cannot determine execution mode for host '%s'. Please check DEVELOPMENT_HOST and PRODUCTION_HOST in settings_local.py." % node())
-# now import other settings
 
-from settings_chunked_upload import *
+
+#reference project home
+PROJ_HOME = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__ )), os.pardir, os.pardir, os.pardir))
+

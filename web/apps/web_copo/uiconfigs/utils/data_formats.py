@@ -1,20 +1,18 @@
-from pprint import pprint
-
 __author__ = 'etuka'
-
-import re
 import json
-import jsonpickle
-from collections import namedtuple
 import xml.etree.ElementTree as ET
 from urllib.request import urlopen
+
+import os
+import re
+import jsonpickle
+from collections import namedtuple
 from django.http import HttpResponse
 
 import web_copo.uiconfigs.utils.lookup as lkup
 import web_copo.uiconfigs.ena.uimodels.ena_copo_config as ecc
 import web_copo.uiconfigs.ena.uimodels.object_model as om
 from settings.display_messages import SCHEMAS_MESSAGES as SM
-
 
 
 # converts from json to dictionary
@@ -62,7 +60,7 @@ def generate_ui_template():
     # generate and write json to file
     ui_template_json = lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['UI_TEMPLATE_json']
 
-    json.dump(out_dict, open(ui_template_json, 'w'))
+    json.dump(out_dict, open(ui_template_json, 'w+'))
 
     return out_dict
 
