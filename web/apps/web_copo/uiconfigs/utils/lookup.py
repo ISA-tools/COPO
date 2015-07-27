@@ -1,10 +1,12 @@
 # define parameters for schemas
 
+from settings.settings import PROJ_HOME
+
 SCHEMAS = {
     'ENA': {
         'PATHS_AND_URIS': {
-            'ISA_json': 'apps/web_copo/uiconfigs/ena/dbmodels/isa_ena_model.json',
-            'UI_TEMPLATE_json': 'apps/web_copo/uiconfigs/ena/uimodels/ena_copo_template.json',
+            'ISA_json': PROJ_HOME + '/web/apps/web_copo/uiconfigs/ena/dbmodels/isa_ena_model.json',
+            'UI_TEMPLATE_json': PROJ_HOME + '/web/apps/web_copo/uiconfigs/ena/uimodels/ena_copo_template.json',
             'INVESTIGATION_FILE': 'https://raw.githubusercontent.com/ISA-tools/Configuration-Files/master'
                                   '/isaconfig-default_v2014-01-16/investigation.xml',
             'STUDY_SAMPLE_FILE': 'https://raw.githubusercontent.com/ISA-tools/Configuration-Files/master'
