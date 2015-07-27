@@ -286,8 +286,8 @@ $(document).ready(function () {
         $('#newStudySampleModal').modal('hide');
 
         //refresh the sample table
-        var samples = data.sample_data;
-
+        console.log(data.sample_data);
+        $('#sample_table_div').html(data.sample_data);
 
         //also refresh the study table
         display_new_study(data);
@@ -399,7 +399,6 @@ $(document).ready(function () {
 
         var collection_head_id = $("#collection_head_id").val();
 
-        var task = "add_new_study_sample";
         var sample_id = ""
         if ($("#current_sample_task").val() == "edit") {
             task = "edit_study_sample";
@@ -410,12 +409,13 @@ $(document).ready(function () {
         formURL = $("#add_new_study_sample_form").attr("action");
         csrftoken = $.cookie('csrftoken');
 
+
         $.ajax({
             url: formURL,
             type: "POST",
             headers: {'X-CSRFToken': csrftoken},
             data: {
-                'task': task,
+                'task': "add_new_study_sample",
                 'collection_head_id': collection_head_id,
                 'study_types': study_types,
                 'auto_fields': auto_fields,

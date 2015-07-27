@@ -322,7 +322,7 @@ def add_to_collection(request):
         else:
             EnaCollection().add_ena_sample(ena_collection_id, study_type_list, auto_fields)
 
-        return_structure['sample_data'] = htags.get_samples_data(ena_collection_id)
+        return_structure['sample_data'] = htags.generate_sample_table2(ena_collection_id)
         return_structure['study_data'] = htags.get_studies_data(ena_collection_id)
 
     return_structure['exit_status'] = 'success'

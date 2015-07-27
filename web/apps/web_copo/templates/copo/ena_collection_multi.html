@@ -122,28 +122,7 @@
                             </button>
                         </a>
                     </div>
-                    <div id="samples_table_div">
-                        <hr/>
-                        <table class="table-bordered" id="samples_table">
-                            <tr>
-                                {% for sh in sample_data.headers|slice:"1:" %}
-                                    <th>{{ sh }}</th>
-                                {% endfor %}
-                            </tr>
-                            {% for sdata in sample_data.data %}
-                                <tr>
-                                    {% for sd in sdata|slice:"1:" %}
-                                        {% if forloop.first %}
-                                            <td><a id="samplerow_{{ sdata.0 }}" class="sample_edit" href="#"
-                                                   title="Edit Sample">{{ sd }}</a></td>
-                                        {% else %}
-                                            <td>{{ sd }}</td>
-                                        {% endif %}
-                                    {% endfor %}
-                                </tr>
-                            {% endfor %}
-                        </table>
-                    </div>
+                    <div id="sample_table_div">{{ ena_collection_id|generate_sample_table }} </div>
                 </div>
             </div>
         </div>
