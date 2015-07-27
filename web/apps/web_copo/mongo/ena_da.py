@@ -36,7 +36,7 @@ class EnaCollection(Resource):
                 study_dict["studyCOPOMetadata"]["id"] = uuid.uuid4().hex
                 study_dict["studyCOPOMetadata"]["studyType"] = st['study_type']
                 study_dict["studyCOPOMetadata"]["studyReference"] = st['study_type_reference']
-                # study is deleted by default, undelete it...
+                # ...since the model study is deleted by default
                 study_dict["studyCOPOMetadata"]["deleted"] = "0"
 
                 EnaCollections.update({"_id": o.ObjectId(ena_collection_id)},

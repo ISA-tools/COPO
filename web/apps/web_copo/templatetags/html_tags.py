@@ -156,48 +156,45 @@ def get_studies_tree(ena_collection_id):
     for study in studies:
         study_id = study["studyCOPOMetadata"]["id"]
         study_samples = get_study_samples_tree(ena_collection_id, study_id)
+        composite_attributes = [study_samples]
+        study_attributes = get_study_attributes_tree(study, composite_attributes)
         a = {
             "id": study_id + "_study",
             "text": study["studyCOPOMetadata"]['studyReference'] + " (" + dfmts.lookup_study_type_label(
                 study["studyCOPOMetadata"]['studyType']) + ")",
             "state": "closed",
+            "attributes": {"txt": study_attributes},
             "children": [
                 {
                     "id": study_id + "_study_type_leaf",
                     "text": "Study Type",
                     "state": "open",
-                    "attributes": {
-                        "txt": {"Study Type": lookup_study_type_label(study["studyCOPOMetadata"]['studyType'])}}
+                    "attributes": {"txt": study_attributes}
                 },
                 {
                     "id": study_id + "_studyTitle_leaf",
                     "text": generate_ena_labels("studies.study.studyTitle"),
                     "state": "open",
-                    "attributes": {
-                        "txt": {generate_ena_labels("studies.study.studyTitle"): study['study']['studyTitle']}}
+                    "attributes": {"txt": study_attributes}
                 },
                 {
                     "id": study_id + "_commentStudyFundingAgency_leaf",
                     "text": generate_ena_labels("studies.study.commentStudyFundingAgency"),
                     "state": "open",
-                    "attributes": {"txt": {
-                        generate_ena_labels("studies.study.commentStudyFundingAgency"): study['study'][
-                            'commentStudyFundingAgency']}}
+                    "attributes": {"txt": study_attributes}
                 },
                 {
                     "id": study_id + "_studyDescription_leaf",
                     "text": generate_ena_labels("studies.study.studyDescription"),
                     "state": "open",
-                    "attributes": {
-                        "txt": {
-                            generate_ena_labels("studies.study.studyDescription"): study['study']['studyDescription']}}
+                    "attributes": {"txt": study_attributes}
                 },
                 {
                     "id": study_id + "_samples_leaf",
                     "text": "Samples",
                     "state": "closed",
                     "children": study_samples["sample_children"],
-                    "attributes": {"txt": study_samples["sample_attributes"]}
+                    "attributes": {"txt": study_attributes}
                 },
                 {
                     "id": study_id + "_publications",
@@ -219,6 +216,52 @@ def get_studies_tree(ena_collection_id):
     return tree_data
 
 
+def format_tree_node(node):
+    display_string = ""
+    for nd in node:
+        display_data = "<div class='study-tree-info-display-div'>";
+        for k, v in nd.items():
+            display_data += "<div><span>" + k + "</span>: " + v + "</div>";
+        display_data += "</div>";
+        display_string += display_data
+    return display_string
+
+
+def get_study_attributes_tree(study, composite_attributes):
+    display_string = ""
+    class_name = "study-tree-info-data"  # change or add css classes here
+    study_id = study["studyCOPOMetadata"]["id"]
+
+    # type
+    id_name = study_id+"_study_type_leaf_div"
+    display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node(
+        [{"Study Type": lookup_study_type_label(study["studyCOPOMetadata"]['studyType'])}]) + "</div>"
+
+    # title
+    id_name = study_id+"_studyTitle_leaf_div"
+    display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node(
+        [{generate_ena_labels("studies.study.studyTitle"): study['study']['studyTitle']}]) + "</div>"
+
+    # funding agency
+    id_name = study_id+"_commentStudyFundingAgency_leaf_div"
+    display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node([{
+        generate_ena_labels("studies.study.commentStudyFundingAgency"): study['study'][
+            'commentStudyFundingAgency']}]) + "</div>"
+
+    # description
+    id_name = study_id+"_studyDescription_leaf_div"
+    display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node([{
+        generate_ena_labels("studies.study.studyDescription"): study['study'][
+            'studyDescription']}]) + "</div>"
+
+    # samples
+    id_name = study_id+"_samples_leaf_div"
+    display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals())+"<label>Samples</label><br/>" + format_tree_node(
+        composite_attributes[0]["sample_attributes"]) + "</div>"
+
+    return display_string
+
+
 def get_study_samples_tree(ena_collection_id, study_id):
     fields_property = get_field_order("studySamples")
     sample_children = []
@@ -238,7 +281,7 @@ def get_study_samples_tree(ena_collection_id, study_id):
                 txt[f_o["label"]] = sample_details[f_o["db_name"]]
 
             sample["text"] = idx
-            sample["attributes"] = {"txt": txt}
+            sample["attributes"] = {"txt": ""}
 
             sample_attributes.append(txt)
             sample_children.append(sample)
@@ -295,8 +338,7 @@ def get_study_sample_tree_restrict(ena_collection_id, sample_id):
 
         if any(d['id'] == sample_id for d in samples):
             a["checked"] = True
-            ena_studies.append(a)
-            continue
+        ena_studies.append(a)
 
     parent_node["children"] = ena_studies
     return [parent_node]

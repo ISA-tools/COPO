@@ -134,7 +134,8 @@
                                 <tr>
                                     {% for sd in sdata|slice:"1:" %}
                                         {% if forloop.first %}
-                                            <td><a id="samplerow{{ sd.0 }}" class="sample_edit" href="#" title = "Edit Sample" >{{ sd }}</a></td>
+                                            <td><a id="samplerow_{{ sdata.0 }}" class="sample_edit" href="#"
+                                                   title="Edit Sample">{{ sd }}</a></td>
                                         {% else %}
                                             <td>{{ sd }}</td>
                                         {% endif %}
@@ -267,18 +268,18 @@
 
                         <label for="study_type_tree">Clone Existing</label><br/>
 
-                        <div class="study-tree-container">
-                            <div class="study-tree-first">
+                        <div class="two-column-study-container">
+                            <div class="study-column-one">
                                 <ul id="study_type_tree" class="easyui-tree"
                                     checkbox="true"
                                     animate="true"
                                     lines="true">
                                 </ul>
                             </div>
-                            <div class="study-tree-second" hidden="hidden"><label>Helpful tips/Info</label><br/>
-                                <pre id="info_panel_display" hidden="hidden"></pre>
+                            <div class="study-column-two" hidden="hidden">
+                                <div id="info_panel_display"></div>
                             </div>
-                            <div class="study-tree-clear"></div>
+                            <div class="study-column-clear"></div>
                         </div>
 
                         <hr/>

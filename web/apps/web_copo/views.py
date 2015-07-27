@@ -142,7 +142,7 @@ def new_collection_head(request):
     # add a template for ENA submission
     coll_type = request.POST['collection_type']
     if coll_type.lower() == 'ena submission':
-        # create a new db template
+        # create a blank collection based on template
         ena_d = dfmts.json_to_dict(lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['ISA_json'])
         ena_collection_id = get_collection_ref("EnaCollections").insert(ena_d)
 

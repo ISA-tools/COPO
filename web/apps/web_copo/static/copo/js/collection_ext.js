@@ -28,11 +28,11 @@ $(document).ready(function () {
         $("#study_type_remove_0").hide();
 
         //hide or show tables depending on presence of records to display
-        if(parseInt($("#sample_data_count").val()) == 0) {
+        if (parseInt($("#sample_data_count").val()) == 0) {
             $("#samples_table_div").hide();
         }
 
-        if(parseInt($("#study_data_count").val()) == 0) {
+        if (parseInt($("#study_data_count").val()) == 0) {
             $("#studies_table_div").hide();
         }
 
@@ -58,7 +58,7 @@ $(document).ready(function () {
         });
 
         //handle edit sample
-        $("#sample_table_div").on('click', 'a.sample_edit', function (event) {
+        $("#samples_table").on('click', 'a.sample_edit', function (event) {
             do_edit_sample(event);
         });
 
@@ -76,17 +76,29 @@ $(document).ready(function () {
         //study tree events
         $('#study_type_tree').tree({
             onClick: function (node) {
-                var targetId = node.id;
-                var splitIndex = targetId.lastIndexOf("_");
-                var indexPart = targetId.substr(splitIndex + 1);
-                if (indexPart == "leaf") {
-                    var myObj = node.attributes.txt;
-                    $('#info_panel_display').parent().show();
-                    $('#info_panel_display').show();
-                    $('#info_panel_display').html(JSON.stringify(myObj, undefined, 2));
-                }
+                display_tree_info(node);
+            },
+            onCheck: function (node) {
+                display_tree_info(node);
             }
         });
+    }
+
+    function display_tree_info(node) {
+        var targetId = node.id;
+        var splitIndex = targetId.lastIndexOf("_");
+        var indexPart = targetId.substr(splitIndex + 1);
+
+        if (indexPart == "leaf" || indexPart == "study") {
+            $('#info_panel_display').parent().show();
+            $('#info_panel_display').html(node.attributes.txt);
+
+            if(indexPart == "leaf") {
+                var elem = node.id+"_div"
+                $("#"+elem).attr('class', 'study-tree-info-data-selected');
+            }
+        }
+
     }
 
     function do_edit_sample(event) {
@@ -175,12 +187,10 @@ $(document).ready(function () {
         // handle cloned studies
         var selectedNodes = do_get_tree_checked("study_type_tree");
 
-        //get unique studies
         var allStudyIds = [];
         var allStudyFragments = [];
         var splitIndex;
         var studyId;
-
 
         for (var i = 0; i < selectedNodes.length; i++) {
             splitIndex = selectedNodes[i].id.indexOf("_");
@@ -189,7 +199,10 @@ $(document).ready(function () {
             allStudyFragments[i] = selectedNodes[i].id;
         }
 
-        var uniqueStudyIds = allStudyIds.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+        //get unique studies
+        var uniqueStudyIds = allStudyIds.filter(function (item, i, ar) {
+            return ar.indexOf(item) === i;
+        });
 
         //retrieve study fragments
         var clonedStudies = [];
@@ -201,7 +214,7 @@ $(document).ready(function () {
 
             //get study_type
             study_fragments["study_type"] = "false";
-            if($.inArray(curId +"_study_type_leaf", allStudyFragments) > -1) {
+            if ($.inArray(curId + "_study_type_leaf", allStudyFragments) > -1) {
                 study_fragments["study_type"] = "true";
             }
 
@@ -213,22 +226,22 @@ $(document).ready(function () {
                 var curNode = allStudyFragments[j];
                 var studyIdPart = curNode.substring(0, curNode.indexOf('_'));
 
-                if(curId != studyIdPart) {
+                if (curId != studyIdPart) {
                     continue;
                 }
 
                 //samples
-                if(curNode.substr(curNode.length - 12) == "_sample_leaf") {
+                if (curNode.substr(curNode.length - 12) == "_sample_leaf") {
                     samples[samples.length] = curNode.split("_")[1];
                 }
 
                 //contacts
-                if(curNode.substr(curNode.length - 13) == "_contact_leaf") {
+                if (curNode.substr(curNode.length - 13) == "_contact_leaf") {
                     contacts[contacts.length] = curNode.split("_")[1];
                 }
 
                 //publications
-                if(curNode.substr(curNode.length - 17) == "_publication_leaf") {
+                if (curNode.substr(curNode.length - 17) == "_publication_leaf") {
                     publications[publications.length] = curNode.split("_")[1];
                 }
 
@@ -271,7 +284,12 @@ $(document).ready(function () {
 
     function display_new_sample(data) {
         $('#newStudySampleModal').modal('hide');
-        $("#sample_table_div").html(data.sample_table);
+
+        //refresh the sample table
+        var samples = data.sample_data;
+
+
+        //also refresh the study table
         display_new_study(data);
     }
 

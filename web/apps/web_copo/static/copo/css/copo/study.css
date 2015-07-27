@@ -39,18 +39,44 @@ table, td {
     border-color: #dddddd !important;
 }
 
-.study-tree-container {
+.two-column-study-container {
     width: inherit;
     margin: auto;
 }
-.study-tree-first {
+.study-column-one {
     width: 60%;
     float: left;
 }
-.study-tree-second {
+.study-column-two {
     width: 40%;
     float: left;
+    overflow: scroll;
 }
-.study-tree-clear {
+.study-column-clear {
     clear: both;
+}
+
+.study-tree-info-data {
+    border: 1px solid transparent;
+    border-radius: 4px;
+    margin-bottom: 2px;
+    padding: 15px;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    color: #31708f;
+}
+
+.study-tree-info-display-div {
+    margin-bottom: 3px;
+    font-size: small;
+}
+
+.study-tree-info-data-selected {
+    border: 1px solid transparent;
+    border-radius: 4px;
+    margin-bottom: 2px;
+    padding: 15px;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
 }
