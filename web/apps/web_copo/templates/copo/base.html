@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}COPO - Collaborative Open Plant Omics{% endblock %}</title>
-    
 
 
     {% block stylesheet_block %}{% endblock %}
@@ -24,11 +23,11 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Google Fonts -->
-<link href='http://fonts.googleapis.com/css?family=Quattrocento+Sans' rel='stylesheet'
+    <link href='http://fonts.googleapis.com/css?family=Quattrocento+Sans' rel='stylesheet'
           type='text/css'>
     <!-- Additional stylesheets -->
     <link rel="stylesheet" href="{% static 'copo/css/copo/smart_table.css' %}">
-    
+
     <script src="{% static 'copo/js/jquery.js' %}"></script>
     <script src="{% static 'copo/js/jquery.cookie.js' %}"></script>
     <script src="{% static 'copo/js/serialize_form_json.js' %}"></script>
@@ -36,12 +35,11 @@
     <!-- Additional javascripts -->
     {% block js_block %}{% endblock %}
 
-	<script src="{% static 'copo/js/jquery.js' %}"></script>
-	<script src="{% static 'copo/js/jquery.cookie.js' %}"></script>
-	<script src="{% static 'copo/js/serialize_form_json.js' %}"></script>
-	<script src="{% static 'copo/js/bootstrap.js' %}"></script>
-	<!-- Additional javascripts -->
-	{% block js_block %}{% endblock %}
+    <script src="{% static 'copo/js/jquery.js' %}"></script>
+    <script src="{% static 'copo/js/jquery.cookie.js' %}"></script>
+    <script src="{% static 'copo/js/serialize_form_json.js' %}"></script>
+    <script src="{% static 'copo/js/bootstrap.js' %}"></script>
+
 
     <!-- Date picker components -->
     <link rel="stylesheet" href="{% static 'copo/css/datepicker/jquery.datepick.css' %}">
@@ -52,10 +50,6 @@
     <link rel="stylesheet" href="{% static 'copo/css/easyui/themes/default/easyui.css' %}">
     <link rel="stylesheet" href="{% static 'copo/css/easyui/themes/icon.css' %}">
     <script src="{% static 'copo/js/easyui/jquery.easyui.min.js' %}"></script>
-
-
-    <!-- Additional javascripts -->
-    {% block js_block %}{% endblock %}
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -137,6 +131,7 @@
             <!--<a href="" data-toggle="tooltip" data-placement="bottom" title="{{ user }}">{{ user }}</a>-->
         </div>
     </div>
+
     <div class="row">
         <div class="col-sm-3 col-md-3 col-lg-3">
             <div id="sidebar">
@@ -170,48 +165,7 @@
         </div>
         <div class="col-sm-9 col-md-9 col-lg-9">
 
-								</ul>
-							{% endif %}
-						</li>
-					</ul>
-				</nav>
-			</header>
-			<!--<a href="" data-toggle="tooltip" data-placement="bottom" title="{{ user }}">{{ user }}</a>-->
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-3 col-md-3 col-lg-3">
-			<div id="sidebar">
-				<ul class="nav nav-pills nav-stacked sidebar_text">
-					<li class="active">
-						<a>
-							<i class="fa fa-list fa"></i>
-							<span class="icon_text">Profiles</span>
-						</a>
-					</li>
-					<li>
-						<a>
-							<i class="fa fa-area-chart"></i>
-							<span class="icon_text">Accessions</span>
-						</a>
-					</li>
-					<li>
-						<a>
-							<i class="fa fa-file-o"></i>
-							<span class="icon_text">Publications</span>
-						</a>
-					</li>
-					<li>
-						<a>
-							<i class="fa fa-link"></i>
-							<span class="icon_text">References</span>
-						</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<div class="col-sm-9 col-md-9 col-lg-9">
-
+            <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     <div id="browse_header">
                         {% block breadcrumb_block %}{% endblock %}
@@ -221,15 +175,15 @@
                 <div class="col-sm-4 col-md-4 col-lg-4">
                     {% block browse_header_block %} default search {% endblock %}
                 </div>
-
             </div>
 
-            <div class="row work_area">
+            <div class="row">
+                <div class="row work_area">
 
-                {% block content %} <h2 class="h2">DEFAULT CONTENT AREA</h2> {% endblock %}
+                    {% block content %} <h2 class="h2">DEFAULT CONTENT AREA</h2> {% endblock %}
 
+                </div>
             </div>
-
         </div>
         <div class="col-sm-2 col-md-2 col-lg-2"></div>
     </div>
