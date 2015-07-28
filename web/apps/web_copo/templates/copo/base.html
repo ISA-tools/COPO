@@ -35,11 +35,6 @@
     <!-- Additional javascripts -->
     {% block js_block %}{% endblock %}
 
-    <script src="{% static 'copo/js/jquery.js' %}"></script>
-    <script src="{% static 'copo/js/jquery.cookie.js' %}"></script>
-    <script src="{% static 'copo/js/serialize_form_json.js' %}"></script>
-    <script src="{% static 'copo/js/bootstrap.js' %}"></script>
-
 
     <!-- Date picker components -->
     <link rel="stylesheet" href="{% static 'copo/css/datepicker/jquery.datepick.css' %}">
@@ -64,7 +59,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <header>
-                <h1><a href="index.html"><span class="bolder">COPO</span> - Collaborative Open Plant Omics</a></h1>
+                <h1><a href="{% url 'copo:index' %}"><span class="bolder">COPO</span> - Collaborative Open Plant Omics</a></h1>
                 <nav>
                     <ul>
                         <li class="dropdown">

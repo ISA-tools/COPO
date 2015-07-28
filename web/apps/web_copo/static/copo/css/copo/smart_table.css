@@ -88,11 +88,11 @@ td:last-child {
 }
 
 tr {
-    background: url("/static/copo/img/noise-diagonal.png");
+    //background: url("/static/copo/img/noise-diagonal.png");
 }
 
 tr:nth-child(odd) td {
-    background: #f1f1f1 url("/static/copo/img/noise-diagonal.png");
+    //background: #f1f1f1 url("/static/copo/img/noise-diagonal.png");
 }
 
 tr:last-of-type td {

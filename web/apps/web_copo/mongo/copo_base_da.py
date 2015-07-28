@@ -5,6 +5,7 @@ from datetime import datetime
 import bson.objectid as o
 from django_tools.middlewares import ThreadLocal
 from django.core.urlresolvers import reverse
+from requests.exceptions import ConnectionError
 
 from copo_id import get_uid
 from web_copo.mongo.resource import *
@@ -26,6 +27,13 @@ class Profile(Resource):
             pass
         return doc
 
+    def GET_FOR_USER(self):
+        user = ThreadLocal.get_current_user().id
+        docs = Profiles.find({'user_id':user})
+        if not docs:
+            pass
+        return docs
+
     def GET_ALL(self):
         docs = Profiles.find()
         if not docs:
@@ -45,7 +53,10 @@ class Profile(Resource):
         sa += '...'
 
         # make unique copo id
-        uid = get_uid()
+        try:
+            uid = get_uid()
+        except ConnectionError:
+            return False
 
         spec = {
             "copo_id": uid,

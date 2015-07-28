@@ -2,13 +2,12 @@ from threading import Thread
 
 from django.shortcuts import render, render_to_response
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.template import RequestContext
-import jsonpickle
 
 
 # import error codes
@@ -27,11 +26,10 @@ import web_copo.uiconfigs.utils.lookup as lkup
 import web_copo.templatetags.html_tags as htags
 
 
-
 @login_required
 def index(request):
     username = User(username=request.user)
-    profiles = Profile().GET_ALL()
+    profiles = Profile().GET_FOR_USER()
     context = {'user': request.user, 'profiles': profiles}
     # c = Collection.objects.filter(user = username)
     request.META['test'] = 'test'
@@ -39,9 +37,19 @@ def index(request):
 
 
 @login_required
+def goto_error(request, message="Something went wrong, but we're not sure what!"):
+    context = {'message': message}
+    return render(request, 'copo/error_page.html', context)
+
+
+@login_required
 def new_profile(request):
     if request.method == 'POST':
-        Profile().PUT(request)
+        if Profile().PUT(request) == False:
+            return render(request,
+                'copo/error_page.html',
+                {'message': 'Error creating COPO ID for Profile - Are you on the network?'},
+            )
         return HttpResponseRedirect(reverse('copo:index'))
 
 
@@ -227,11 +235,8 @@ def view_orcid_profile(request):
     user = ThreadLocal.get_current_user()
     op = Orcid().get_orcid_profile(user)
     data_dict = {'op': op}
-    #data_dict = jsonpickle.encode(data_dict)
+    # data_dict = jsonpickle.encode(data_dict)
     return render(request, 'copo/orcid_profile.html', data_dict, context_instance=RequestContext(request))
-
-
-
 
 
 @login_required

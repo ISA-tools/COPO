@@ -22,7 +22,7 @@ urlpatterns = patterns('web_copo.views',
                        url(r'^remove_from_collection/$', 'remove_from_collection', name='remove_from_collection'),
                        url(r'^study/(?P<study_id>.*)/view', 'view_study', name='view_study'),
                        url(r'^study/(?P<study_id>\d+)/view', 'view_study', name='view_study'),
-
+                       url(r'^error/', views.goto_error, name='error_page'),
                        url(r'^save_article/$', FigshareCollection().save_article, name='save_article'),
 
                        url(r'^register_to_irods/$', 'register_to_irods', name='register_to_irods'),
