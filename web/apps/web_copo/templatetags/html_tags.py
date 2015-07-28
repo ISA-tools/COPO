@@ -48,7 +48,7 @@ def generate_sample_html(ena_collection_id):
 
     if samples:
         html_tag += "<hr/>"
-        html_tag += "<table class='table-bordered'>"
+        html_tag += "<table class='table-bordered' id='samples_table'>"
 
         html_tag += "<tr>"
         for sh in sample_data["headers"][1:]:
@@ -59,7 +59,7 @@ def generate_sample_html(ena_collection_id):
             html_tag += "<tr>"
             for idx, sd in enumerate(sdata[1:]):
                 if idx == 0:
-                    html_tag += " <td><a id='sampleupdate_" + sdata[0] + "' class='sample_edit' href='#'"
+                    html_tag += " <td><a id='samplerow_" + sdata[0] + "' class='sample_edit' href='#'"
                     html_tag += " title = 'Edit Sample' >" + sd + "</a></td>"
                 else:
                     html_tag += "<td>" + sd + "</td>"
@@ -326,7 +326,7 @@ def get_study_sample_tree_restrict(ena_collection_id, sample_id):
         study_id = study["studyCOPOMetadata"]["id"]
 
         a = {
-            "id": study_id + "_study",
+            "id": study_id,
             "text": study["studyCOPOMetadata"]['studyReference'] + " (" + dfmts.lookup_study_type_label(
                 study["studyCOPOMetadata"]['studyType']) + ")",
             "state": "open"
