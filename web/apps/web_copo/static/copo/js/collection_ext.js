@@ -92,9 +92,16 @@ $(document).ready(function () {
 
         if (indexPart == "leaf" || indexPart == "study") {
             $('#info_panel_display').parent().show();
-            $('#info_panel_display').html(node.attributes.txt);
 
-            if(indexPart == "leaf") {
+            var display_txt = node.attributes.txt;
+            if(display_txt == "") {
+                var rootNode = $('#study_type_tree').tree('find', targetId.substring(0, targetId.indexOf('_'))+ "_study");
+                display_txt = rootNode.attributes.txt;
+            }
+
+            $('#info_panel_display').html(display_txt);
+
+            if(indexPart == "leaf") { // change the class to make highlighted
                 var elem = node.id+"_div"
                 $("#"+elem).attr('class', 'study-tree-info-data-selected');
             }

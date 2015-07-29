@@ -137,10 +137,10 @@ class EnaCollection(Resource):
         studies = EnaCollection().get_ena_studies(ena_collection_id)
         for st in studies:
             study_id = st["studyCOPOMetadata"]["id"]
+
+            a = {'id': sample_id, 'deleted': '1'}
             if study_id in study_type_list:
                 a = {'id': sample_id, 'deleted': '0'}
-            else:
-                a = {'id': sample_id, 'deleted': '1'}
 
             self.hard_delete_sample_from_study(sample_id, study_id, ena_collection_id)
             self.add_sample_to_ena_study(study_id, ena_collection_id, a)
