@@ -9,8 +9,15 @@ $(document).ready(function () {
     $('#files_table td').on('click', view_in_figshare)
     $('#btn_save_article').on('click', save_article)
     $('.delete_cell').on('click', delete_handler)
+    $('#show_file_modal_button').on('click', modal_setup_handler)
 
     $('#input_text').on("keypress", save_tags)
+
+
+    function modal_setup_handler(){
+        $('#fileupload')[0].reset()
+        $('#files').empty()
+    }
 
 
     // Change this to the location of your server-side upload handler:
@@ -24,8 +31,8 @@ $(document).ready(function () {
             });
 
             $('#files').append(text)
-            $('#progress').hide()
-            $('#upload_files_button').hide()
+
+            //$('#upload_files_button').hide()
         },
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -35,6 +42,7 @@ $(document).ready(function () {
             );
         },
         add: function (e, data) {
+            $('#progress .progress-bar').css('width', '0%')
             data.submit();
         }
 

@@ -161,7 +161,7 @@ class FigshareCollection(Resource):
                      {"article_type": article_type, "description": description}}
             )
         # now push list of files to the collection
-        collection_id = request.session['collection_id']
+        collection_id = request.session['collection_head_id']
         for f in input_files:
             Collection_Heads.update(
                 {'_id': ObjectId(collection_id)},

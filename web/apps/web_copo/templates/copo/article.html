@@ -33,9 +33,12 @@
 
 {% block breadcrumb_block %}
 	<ol class="breadcrumb">
-		<li class="active"><a href="{% url 'copo:index' %}">Home</a></li>
 
-	</ol>
+        <li><a href="{% url 'copo:index' %}">Home</a></li>
+        <li class="active"><a href="{% url 'copo:view_profile' profile_id=profile_id %}">Profile</a></li>
+        <li class="active"><a href="{% url 'copo:view_collection' collection_head_id=collection_head_id %}">Article</a></li>
+    </ol>
+
 {% endblock %}
 
 {% block browse_header_block %}
@@ -131,7 +134,7 @@
 							<div id="progress" class="progress">
 								<div class="progress-bar progress-bar-success"></div>
 							</div>
-							<span id="upload_files_button" class="btn btn-success fileinput-button">
+							<span id="upload_files_button" class="btn btn-success fileinput-button" style="margin-bottom: 40px">
                                 <i class="glyphicon glyphicon-plus"></i>
 								<span>Select files...</span>
                                 <input type="file" name="file" multiple/>
