@@ -58,11 +58,12 @@ $(document).ready(function () {
         });
 
         //handle edit sample
-        $("#samples_table").on('click', 'a.sample_edit', function (event) {
+        $("#sample_table_div").on('click', 'a.sample_edit', function (event) {
             do_edit_sample(event);
         });
 
         $('.modal').on('hidden.bs.modal', function () {
+            $('.modal-backdrop').remove();
             $(this).find('form')[0].reset();
 
             if (this.id == "newStudyTypeModal") {
@@ -91,9 +92,16 @@ $(document).ready(function () {
 
         if (indexPart == "leaf" || indexPart == "study") {
             $('#info_panel_display').parent().show();
-            $('#info_panel_display').html(node.attributes.txt);
 
-            if(indexPart == "leaf") {
+            var display_txt = node.attributes.txt;
+            if(display_txt == "") {
+                var rootNode = $('#study_type_tree').tree('find', targetId.substring(0, targetId.indexOf('_'))+ "_study");
+                display_txt = rootNode.attributes.txt;
+            }
+
+            $('#info_panel_display').html(display_txt);
+
+            if(indexPart == "leaf") { // change the class to make highlighted
                 var elem = node.id+"_div"
                 $("#"+elem).attr('class', 'study-tree-info-data-selected');
             }
@@ -286,7 +294,6 @@ $(document).ready(function () {
         $('#newStudySampleModal').modal('hide');
 
         //refresh the sample table
-        console.log(data.sample_data);
         $('#sample_table_div').html(data.sample_data);
 
         //also refresh the study table
@@ -400,6 +407,7 @@ $(document).ready(function () {
         var collection_head_id = $("#collection_head_id").val();
 
         var sample_id = ""
+        var task = "add_new_study_sample"
         if ($("#current_sample_task").val() == "edit") {
             task = "edit_study_sample";
             sample_id = $("#current_sample_id").val();
@@ -415,7 +423,7 @@ $(document).ready(function () {
             type: "POST",
             headers: {'X-CSRFToken': csrftoken},
             data: {
-                'task': "add_new_study_sample",
+                'task': task,
                 'collection_head_id': collection_head_id,
                 'study_types': study_types,
                 'auto_fields': auto_fields,
