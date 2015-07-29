@@ -148,3 +148,9 @@ h1{
 .input-copo{
     height: 30px !important;
 }
+
+.breadcrumb{
+    margin:0 !important;
+    background-color: whitesmoke;
+
+}
