@@ -5,14 +5,13 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.template import RequestContext
 
 
 # import error codes
 
-from settings.error_codes import *
 from web_copo.mongo.copo_base_da import Profile, Collection_Head
 from web_copo.mongo.ena_da import *
 import web_copo.mongo.figshare_da as figshare
@@ -52,7 +51,7 @@ def new_profile(request):
             )
         return HttpResponseRedirect(reverse('copo:index'))
 
-
+'''
 def copo_login(request):
     # pdb.set_trace()
     if request.user.is_authenticated():
@@ -104,7 +103,7 @@ def copo_login(request):
         {'login_err_message': login_err_message, 'username': username, 'next': next_loc},
         context_instance=RequestContext(request)
     )
-
+'''
 
 def copo_logout(request):
     logout(request)

@@ -5,7 +5,7 @@ from web_copo.mongo.figshare_da import *
 
 urlpatterns = patterns('web_copo.views',
                        url(r'^$', 'index', name='index'),
-                       url(r'^login/', views.copo_login, name='login'),
+
                        url(r'^logout/', 'copo_logout', name='logout'),
                        url(r'^register/', 'copo_register', name='register'),
                        url(r'^new_profile/', 'new_profile', name='new_bundle'),
