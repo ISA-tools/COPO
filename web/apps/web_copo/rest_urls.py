@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, url
 
 import web_copo.rest.EnaRest as rest
+import web_copo.api.views as api
 import web_copo.repos.figshare as figshare
-import web_copo.mongo.figshare_da as figshare_da
 from chunked_upload.views import *
 
 
@@ -28,5 +28,5 @@ urlpatterns = patterns('web_copo.rest.EnaRest',
                        url(r'^delete_file/', rest.delete_file, name='delete_file'),
                        url(r'^check_figshare_credentials/', figshare.check_figshare_credentials, name='check_figshare_credentials'),
                        url(r'^set_figshare_credentials/', figshare.set_figshare_credentials, name='set_figshare_credentials'),
-                       url(r'^small_file_upload/', figshare_da.FigshareCollection.receive_data_file, name='receive_data_file'),
+                       url(r'^small_file_upload/', api.upload_to_figshare_profile, name='receive_data_file'),
 )

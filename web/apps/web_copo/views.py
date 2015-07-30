@@ -23,6 +23,7 @@ from web_copo.api.views import *
 from web_copo.mongo.orcid_da import Orcid
 import web_copo.uiconfigs.utils.lookup as lkup
 import web_copo.templatetags.html_tags as htags
+from web_copo.mongo.figshare_da import FigshareCollection
 
 
 @login_required
@@ -375,6 +376,15 @@ def remove_from_collection(request):
     out = jsonpickle.encode(return_structure)
     return HttpResponse(out, content_type='json')
 
+def save_figshare_collection(request):
+    # make new entries for collection
+    input_files = request.POST.getlist('files[]')
+    tags = request.POST.getlist('tags[]')
+    article_type = request.POST.get("article_type")
+    description = request.POST.get("description")
+    collection_head_id = request.session['collection_head_id']
+    a = FigshareCollection().save_article(input_files, tags, article_type, description, collection_head_id)
+    return HttpResponse(jsonpickle.encode(a))
 
 def initiate_repo(request):
     initiate_status = ""

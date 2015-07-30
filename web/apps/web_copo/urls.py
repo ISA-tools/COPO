@@ -1,7 +1,6 @@
 from django.conf.urls import patterns, url
 
 import web_copo.views as views
-from web_copo.mongo.figshare_da import *
 
 urlpatterns = patterns('web_copo.views',
                        url(r'^$', 'index', name='index'),
@@ -23,8 +22,7 @@ urlpatterns = patterns('web_copo.views',
                        url(r'^study/(?P<study_id>.*)/view', 'view_study', name='view_study'),
                        url(r'^study/(?P<study_id>\d+)/view', 'view_study', name='view_study'),
                        url(r'^error/', views.goto_error, name='error_page'),
-                       url(r'^save_article/$', FigshareCollection().save_article, name='save_article'),
-
+                       url(r'^save_article/$', views.save_figshare_collection, name='save_article'),
                        url(r'^register_to_irods/$', 'register_to_irods', name='register_to_irods'),
                        url(r'^ena_template/$', 'ena_template', name='ena_template'),
 

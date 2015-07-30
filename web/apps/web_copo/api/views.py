@@ -5,7 +5,15 @@ import requests
 from web_copo.mongo.figshare_da import *
 import web_copo.repos.figshare as f
 from settings.services import *
+import web_copo.mongo.figshare_da as fs
 
+def upload_to_figshare_profile(request):
+    if request.method == 'POST':
+        user = request.user
+        file = request.FILES['file']
+        repo_type = request.POST['repo']
+        out = fs.FigshareCollection.receive_data_file(file, repo_type, user)
+        return HttpResponse(out, content_type='json')
 
 def submit_to_figshare(request, article_id):
     # check status of figshare collection
@@ -32,7 +40,8 @@ def view_in_figshare(request, article_id):
 
 def delete_from_figshare(request, article_id):
     if (f.delete_from_figshare(article_id)):
-        FigshareCollection().delete_article(request)
+        collection_id = request.session["collection_head_id"]
+        FigshareCollection().delete_article(article_id, collection_id)
 
         data = {'success': True}
     else:

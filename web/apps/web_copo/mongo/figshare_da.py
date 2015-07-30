@@ -16,56 +16,61 @@ Collection_Heads = get_collection_ref("Collection_Heads")
 
 
 class FigshareCollection(Resource):
-    def receive_data_file(request):
+    def receive_data_file(f, repo_type, user):
         # need to make a chunked upload record to store details of the file
-        if request.method == 'POST':
-            f = request.FILES['file']
-            repo_type = request.POST['repo']
-            # for t in request.POST['tags']:
-            # tags.append(t)
-            filename = generate_upload_id() + '.part'
-            destination = open(os.path.join(settings.MEDIA_ROOT, filename), 'wb+')
-            for chunk in f.chunks():
-                destination.write(chunk)
-            destination.close()
 
-            user = request.user
-            fname = f.__str__()
-            attrs = {'user':
-                {
-                    'id': user.id,
-                    'username': user.username,
-                    'firstname': user.first_name,
-                    'lastname': user.last_name,
-                    'email': user.email
-                },
-                'original_name': fname,
-                'uploaded_on': timezone.now(),
-                'offset': f.size,
-                'hashed_name': filename,
-                'path': settings.MEDIA_ROOT,
-            }
+        # for t in request.POST['tags']:
+        # tags.append(t)
 
-            if repo_type == 'figshare':
-                file_id = FigshareCollection().add_figshare(attrs)
+        if user == None:
+            # TODO - check for what to do in case of valid user not supplied
+            pass
+
+        filename = generate_upload_id() + '.part'
+        destination = open(os.path.join(settings.MEDIA_ROOT, filename), 'wb+')
+        for chunk in f.chunks():
+            destination.write(chunk)
+        destination.close()
 
 
-            # create output structure to pass back to jquery-upload
-            files = []
-            file = {}
-            file['name'] = f._name
 
-            file['size'] = f.size / (1000 * 1000.0)
-            file['id'] = str(file_id)
-            file['url'] = ''
-            file['thumbnailUrl'] = ''
-            file['deleteUrl'] = ''
-            file['deleteType'] = 'DELETE'
-            files.append(file)
 
-            out = jsonpickle.encode(files)
+        fname = f.__str__()
+        attrs = {'user':
+            {
+                'id': user.id,
+                'username': user.username,
+                'firstname': user.first_name,
+                'lastname': user.last_name,
+                'email': user.email
+            },
+            'original_name': fname,
+            'uploaded_on': timezone.now(),
+            'offset': f.size,
+            'hashed_name': filename,
+            'path': settings.MEDIA_ROOT,
+        }
 
-        return HttpResponse(out, content_type='json')
+        if repo_type == 'figshare':
+            file_id = FigshareCollection().add_figshare(attrs)
+
+
+        # create output structure to pass back to jquery-upload
+        files = []
+        file = {}
+        file['name'] = f._name
+
+        file['size'] = f.size / (1000 * 1000.0)
+        file['id'] = str(file_id)
+        file['url'] = ''
+        file['thumbnailUrl'] = ''
+        file['deleteUrl'] = ''
+        file['deleteType'] = 'DELETE'
+        files.append(file)
+
+        out = jsonpickle.encode(files)
+
+        return out
 
     # method to get the containing collection head for a given article id
     def get_collection_head_from_article(self, collection_id):
@@ -134,12 +139,8 @@ class FigshareCollection(Resource):
         return list(articles)
 
     # method called insert article ids int collection head
-    def save_article(self, request):
-        # make new entries for collection
-        input_files = request.POST.getlist('files[]')
-        tags = request.POST.getlist('tags[]')
-        article_type = request.POST.get("article_type")
-        description = request.POST.get("description")
+    def save_article(self, input_files, tags, article_type, description, collection_head_id):
+
         # add tags to existing files
         out = []
         for f in input_files:
@@ -160,11 +161,11 @@ class FigshareCollection(Resource):
                 {"$set":
                      {"article_type": article_type, "description": description}}
             )
+
         # now push list of files to the collection
-        collection_id = request.session['collection_head_id']
         for f in input_files:
             Collection_Heads.update(
-                {'_id': ObjectId(collection_id)},
+                {'_id': ObjectId(collection_head_id)},
                 {
                     '$push':
                         {"collection_details": ObjectId(f)},
@@ -174,15 +175,16 @@ class FigshareCollection(Resource):
 
             )
 
-        return HttpResponse(jsonpickle.encode(out))
+        return out
+
 
     # called from front-end to delete article
-    def delete_article(self, request):
-        id = request.POST['article_id']
+    def delete_article(self, id, collection_id):
+
         # delete Figshare collection entry
         obj = ObjectId(id)
         # pull id from collection head
-        collection_id = request.session["collection_id"]
+
         Collection_Heads.update(
             {'_id': ObjectId(collection_id)},
             {'$pull':
