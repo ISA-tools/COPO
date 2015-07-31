@@ -45,7 +45,11 @@ def goto_error(request, message="Something went wrong, but we're not sure what!"
 @login_required
 def new_profile(request):
     if request.method == 'POST':
-        if Profile().PUT(request) == False:
+
+        a = request.POST['study_abstract']
+        title = request.POST['study_title']
+        uid = request.user.id
+        if Profile().PUT(a, title, uid) == False:
             return render(request,
                 'copo/error_page.html',
                 {'message': 'Error creating COPO ID for Profile - Are you on the network?'},
@@ -159,7 +163,9 @@ def view_profile(request, profile_id):
 @login_required
 def new_collection_head(request):
     # create the new collection
-    collection_head_id = Collection_Head().PUT(request)
+    c_type = request.POST['collection_type']
+    c_name = request.POST['collection_name']
+    collection_head_id = Collection_Head().PUT(c_type, c_name)
 
     # add a template for ENA submission
     coll_type = request.POST['collection_type']
