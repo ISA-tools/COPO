@@ -8,22 +8,18 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.template import RequestContext
-
-
-# import error codes
-
-from web_copo.mongo.copo_base_da import Profile, Collection_Head
-from web_copo.mongo.ena_da import *
-import web_copo.mongo.figshare_da as figshare
+import jsonpickle
+from django.http import HttpResponse
+from dal import Profile, Collection_Head, FigshareCollection, get_collection_ref, EnaCollection, Orcid, ObjectId
+import ast
+import dal.figshare_da as figshare
 from web_copo.repos.irods import *
 from web_copo.repos.aspera import *
 from chunked_upload.models import ChunkedUpload
 import web_copo.uiconfigs.utils.data_formats as dfmts
-from web_copo.api.views import *
-from web_copo.mongo.orcid_da import Orcid
 import web_copo.uiconfigs.utils.lookup as lkup
 import web_copo.templatetags.html_tags as htags
-from web_copo.mongo.figshare_da import FigshareCollection
+from django_tools.middlewares import ThreadLocal
 
 
 @login_required
@@ -137,7 +133,6 @@ def copo_register(request):
 
 @login_required
 def view_profile(request, profile_id):
-    # profile = mongo.connection.Profile.one({"_id":to_mongo_id(profile_id)})
     profile = Profile().GET(profile_id)
     request.session['profile_id'] = profile_id
     collections = []

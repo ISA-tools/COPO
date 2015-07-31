@@ -17,6 +17,7 @@ if __name__ == "__main__":
 
     sys.path.append(os.path.join(web_home, 'apps'))
     sys.path.append(os.path.join(proj_home, 'api'))
+    sys.path.append(os.path.join(proj_home, 'dal'))
     sys.path.append(proj_home)
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
     from django.core.management import execute_from_command_line

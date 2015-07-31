@@ -11,6 +11,7 @@ import sys
 
 import os
 
+sys.path.append('/var/www/copo_www/COPO/dal')
 sys.path.append('/var/www/copo_www/COPO/api')
 sys.path.append('/var/www/copo_www/COPO/web/project_copo')
 sys.path.append('/var/www/copo_www/COPO/web/apps')

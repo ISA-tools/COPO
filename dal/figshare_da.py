@@ -4,9 +4,9 @@ from django_tools.middlewares import ThreadLocal
 from django.http import HttpResponse
 from django.utils import timezone
 import jsonpickle
-
-from web_copo.mongo.resource import *
-from web_copo.mongo.mongo_util import *
+from dal import Resource
+from dal import get_collection_ref
+from dal import ObjectId
 from chunked_upload.models import generate_upload_id
 from settings.settings import *
 

@@ -8,11 +8,11 @@ from django.core.urlresolvers import reverse
 from requests.exceptions import ConnectionError
 
 from copo_id import get_uid
-from web_copo.mongo.resource import *
-from web_copo.mongo.mongo_util import *
 from web_copo.vocab.status_vocab import STATUS_CODES
 
-
+from .mongo_util import get_collection_ref
+from .resource import Resource
+from bson.objectid import ObjectId
 
 Profiles = get_collection_ref("Profiles")
 Collections = get_collection_ref("Collection_Heads")

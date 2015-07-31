@@ -6,7 +6,6 @@ import pexpect
 
 from settings.services import *
 from settings.settings import *
-from web_copo.mongo.mongo_util import *
 
 
 def do_aspera_transfer(aspera_transfer_id):

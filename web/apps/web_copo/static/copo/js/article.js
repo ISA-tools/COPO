@@ -107,7 +107,7 @@ function save_article(e) {
         return false
     }
 
-    // call backend method to save metadata and filepath to mongo
+    // call backend method to save metadata and filepath to dal
     $.ajax({
         headers: {'X-CSRFToken': token},
         type: "POST",

@@ -9,8 +9,6 @@ from django.core.urlresolvers import reverse
 from os import path
 import shutil
 
-from web_copo.mongo.figshare_da import *
-
 client = requests.session()
 json_header = {'content-type': 'application/json'}
 client_key = 'id6JBVVeItadGDmjRUDljg'
@@ -122,7 +120,7 @@ def check_figshare_credentials(request):
 
 
 def set_figshare_credentials(request):
-    # call backend method to get and save access token to mongo
+    # call backend method to get and save access token to dal
     get_access_token(request)
     return HttpResponse('<script>window.top.close();</script>')
 

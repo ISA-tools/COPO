@@ -1,5 +1,5 @@
 __author__ = 'felix.shaw@tgac.ac.uk - 27/05/15'
-from web_copo.mongo.copo_base_da import Profile_Status_Info as psi
+from dal import Profile_Status_Info as psi
 
 def get_status(request):
 
