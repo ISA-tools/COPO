@@ -34,7 +34,7 @@ table, td {
     color: darkgrey;
 }
 
-.grey-bg{
+.grey-bg {
     background-color: #f5f5f5 !important;
     border-color: #dddddd !important;
 }
@@ -43,39 +43,86 @@ table, td {
     width: inherit;
     margin: auto;
 }
+
 .study-column-one {
     width: 60%;
     float: left;
 }
+
 .study-column-two {
     width: 40%;
     float: left;
-    overflow: scroll;
 }
+
 .study-column-clear {
     clear: both;
 }
 
 .study-tree-info-data {
-    border: 1px solid transparent;
-    border-radius: 4px;
-    margin-bottom: 2px;
-    padding: 15px;
-    background-color: #d9edf7;
+    /*background-color: #d9edf7;*/
     border-color: #bce8f1;
     color: #31708f;
-}
-
-.study-tree-info-display-div {
-    margin-bottom: 3px;
-    font-size: small;
-}
-
-.study-tree-info-data-selected {
-    border: 1px solid transparent;
-    border-radius: 4px;
-    margin-bottom: 2px;
+    border: 1px solid #ddd;
+    display: block;
+    margin-bottom: -1px;
     padding: 15px;
-    background-color: #ffe48d;
-    border-color: #ffe48d;
+    position: relative;
 }
+
+.study-tree-data-list {
+    background-color: #ddd;
+    border-color: #bce8f1;
+    color: #000;
+    border: 1px solid #ddd;
+    display: block;
+    margin-bottom: -1px;
+    padding: 5px 15px;
+    position: relative;
+}
+
+.study_tree_state_indicator {
+    float: left;
+    font-size: 12px;
+    height: 100%;
+    line-height: 20px;
+    width: inherit;
+    padding: 5px 15px;
+    vertical-align: middle;
+}
+
+.study-select-status{
+    background-color: #449d44;
+    border: 1px solid #ddd;
+    border-right: 0px none;
+    height: 50px;
+    width: 10px;
+    float: left;
+    margin-bottom: -1px;
+}
+
+.study-node-data{
+    margin-left: 10px;
+    height: 50px;
+    background-color: #fff;
+    overflow-y: scroll;
+    color: #31708f;
+    border: 1px solid #ddd;
+    border-left: 0px none;
+    padding: 15px;
+    position: relative;
+    margin-bottom: -1px;
+}
+
+.study-tree-info-data-selected{
+    margin-left: 10px;
+    height: 50px;
+    background-color: #ffe48d;
+    overflow-y: scroll;
+    color: #333;
+    border: 1px solid transparent;
+    border-left: 0px none;
+    padding: 15px;
+    position: relative;
+    margin-bottom: -1px;
+}
+

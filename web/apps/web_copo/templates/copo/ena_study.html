@@ -104,8 +104,8 @@
 {% block content %}
 
     <div style="display: inline-block;"><h2 class="h2"><span
-            id="study_reference_type_span">{{ study.study_type_reference }}</span> (<span
-            id="study_type_span">{{ study.study_type|lookup_study_type_label }}</span>)
+            id="study_reference_type_span">{{ study.studyCOPOMetadata.studyReference }}</span> (<span
+            id="study_type_span">{{ study.studyCOPOMetadata.studyType|lookup_study_type_label }}</span>)
     </h2></div>
     <div style="display: inline-block;"><a id="study_reference_qupdate" href="#"
                                            title="Quick Update Study Type/Reference">
@@ -120,12 +120,12 @@
                 <div style="display: inline-block;">
                     <input type="text" name="study_reference_quick_update" id="study_reference_quick_update"
                            class="form_control input-copo"
-                           value="{{ study.study_type_reference }}"/>
+                           value="{{ study.studyCOPOMetadata.studyReference }}"/>
                 </div>
                 <div style="display: inline-block;">
                     <select name="study_type_quick_update" id="study_type_quick_update"
                             class="form-control">
-                        {{ study.study_type|study_type_drop_down }}
+                        {{ study.studyCOPOMetadata.studyType|study_type_drop_down }}
                     </select>
                 </div>
                 <div style="display: inline-block;">

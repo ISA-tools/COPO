@@ -216,17 +216,16 @@ def get_studies_tree(ena_collection_id):
 
 def format_tree_node(node):
     display_string = ""
-    if type(node) is dict:
-        display_string += "<div class='study-tree-info-display-div'>"
+    if isinstance(node, dict):
         for k, v in node.items():
             display_string += "<div>{k!s}: {v!s}</div>".format(**locals())
-        display_string += "</div>"
 
-    elif type(node) is list:
+    elif isinstance(node, list):
+        class_name = "study-tree-info-data"
         for nd in node:
             child_id = nd["id"] + "_div"
             child_data = nd["attributes"]["data"]
-            display_data = "<div id='{child_id!s}' class='study-tree-info-display-div'>".format(**locals())
+            display_data = "<div id='{child_id!s}' class='{class_name!s}'>".format(**locals())
             for k, v in child_data.items():
                 display_data += "<div>{k!s}: {v!s}</div>".format(**locals())
             display_data += "</div>"
@@ -235,40 +234,46 @@ def format_tree_node(node):
 
 
 def get_study_attributes_tree(study, composite_attributes):
-    display_string = "<div class='list-group'>"
-    #  class_name = "study-tree-info-data"  # change or add css classes here
-    class_name = "list-group-item  list-group-item-info"
+    # class_name = "study-tree-info-data"
+    class_name = "study-node-data"
+    status_class_name = "study-select-status"
+    list_class_name = "study-tree-data-list"
     study_id = study["studyCOPOMetadata"]["id"]
+
+    # begin display
+    display_string = "<div class='list-group'>"
 
     # study type
     id_name = study_id + "_study_type_leaf_div"
+    display_string += "<div class='{status_class_name!s}'></div>".format(**locals())
     display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node(
         {"Study Type": lookup_study_type_label(study["studyCOPOMetadata"]['studyType'])}) + "</div>"
 
     # study title
     id_name = study_id + "_studyTitle_leaf_div"
+    display_string += "<div class='{status_class_name!s}'></div>".format(**locals())
     display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node(
         {generate_ena_labels("studies.study.studyTitle"): study['study']['studyTitle']}) + "</div>"
 
     # study funding agency
     id_name = study_id + "_commentStudyFundingAgency_leaf_div"
+    display_string += "<div class='{status_class_name!s}'></div>".format(**locals())
     display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node({
         generate_ena_labels("studies.study.commentStudyFundingAgency"): study['study'][
             'commentStudyFundingAgency']}) + "</div>"
 
     # study description
     id_name = study_id + "_studyDescription_leaf_div"
+    display_string += "<div class='{status_class_name!s}'></div>".format(**locals())
     display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node({
         generate_ena_labels("studies.study.studyDescription"): study['study'][
             'studyDescription']}) + "</div>"
 
-    # study samples
-    id_name = study_id + "_samples_leaf_div"
-    display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(
-        **locals()) + "<label>Samples</label><br/>" + format_tree_node(
-        composite_attributes[0]) + "</div>"
+    # study samples break
+    display_string += "<div class='{list_class_name!s}'><label>Samples</label></div>".format(**locals())
+    display_string += format_tree_node(composite_attributes[0])
 
-    display_string += "<div>"
+    display_string += "</div>"
     return display_string
 
 
@@ -295,6 +300,7 @@ def get_study_samples_children(ena_collection_id, study_id):
             sample_children.append(sample)
 
     return sample_children
+
 
 def get_study_sample_tree(ena_collection_id):
     studies = EnaCollection().get_ena_studies(ena_collection_id)

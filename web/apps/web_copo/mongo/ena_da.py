@@ -9,7 +9,7 @@ import uuid
 import ast
 
 from web_copo.mongo.resource import *
-from web_copo.mongo.mongo_util import *
+import web_copo.mongo.mongo_util as mutil
 from web_copo.mongo.resource import *
 from web_copo.mongo.mongo_util import *
 import web_copo.uiconfigs.utils.data_formats as dfmts
@@ -159,12 +159,9 @@ class EnaCollection(Resource):
                                         {"$unwind": "$studies.studyCOPOMetadata.samples"},
                                         {"$match": {"studies.studyCOPOMetadata.samples.deleted": "0"}},
                                         {"$group": {"_id": "$_id",
-                                                    "samples": {"$push": "$studies.studyCOPOMetadata.samples"}}}])
+                                                    "data": {"$push": "$studies.studyCOPOMetadata.samples"}}}])
 
-        samples = []
-        if doc["result"]:
-            samples = doc["result"][0]["samples"]
-        return samples
+        return mutil.verify_doc_type(doc)
 
     def add_sample_to_ena_study(self, study_id, ena_collection_id, sample):
         EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
@@ -192,12 +189,10 @@ class EnaCollection(Resource):
     def get_ena_studies(self, ena_collection_id):
         doc = EnaCollections.aggregate([{"$match": {"_id": o.ObjectId(ena_collection_id)}}, {"$unwind": "$studies"},
                                         {"$match": {"studies.studyCOPOMetadata.deleted": "0"}},
-                                        {"$group": {"_id": "$_id", "studies": {"$push": "$studies"}}}])
+                                        {"$group": {"_id": "$_id", "data": {"$push": "$studies"}}}])  # using 'data'
+        # as a projection variable (in the $group part) to allow the management of the returned type in verify_doc_type
 
-        studies = []
-        if doc["result"]:
-            studies = doc["result"][0]["studies"]
-        return studies
+        return mutil.verify_doc_type(doc)
 
     def update_study_type(self, ena_collection_id, study_id, elem_dict):
         doc = EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.id": study_id}, {
