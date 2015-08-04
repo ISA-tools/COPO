@@ -2,9 +2,9 @@
 
 from __future__ import absolute_import
 
-from allauth.socialaccount.tests import create_oauth2_tests
+from allauth.socialaccount.tests_bak import create_oauth2_tests
 from allauth.socialaccount.providers import registry
-from allauth.tests import MockedResponse
+from allauth.tests_bak import MockedResponse
 
 from .provider import OdnoklassnikiProvider
 

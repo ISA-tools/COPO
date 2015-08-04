@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from allauth.socialaccount.tests import create_oauth_tests
-from allauth.tests import MockedResponse
+from allauth.socialaccount.tests_bak import create_oauth_tests
+from allauth.tests_bak import MockedResponse
 from allauth.socialaccount.providers import registry
 
 from .provider import TumblrProvider

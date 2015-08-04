@@ -11,6 +11,7 @@ from requests.exceptions import ConnectionError
 from copo_id import get_uid
 from web_copo.vocab.status_vocab import STATUS_CODES
 from mongo_util import get_collection_ref
+
 print(sys.path)
 from base_resource import Resource
 from bson.objectid import ObjectId
@@ -71,7 +72,7 @@ class Profile(Resource):
             "date_modified": datetime.now(),
             "user_id": user_id
         }
-        Profiles.insert(spec)
+        return Profiles.insert(spec)
 
     def add_collection_head(self, profile_id, collection_id):
         Profiles.update(

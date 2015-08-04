@@ -1,6 +1,5 @@
 from __future__ import absolute_import
 import json
-
 from datetime import timedelta
 
 from django.utils.timezone import now
@@ -16,9 +15,7 @@ from django.contrib.auth.models import AnonymousUser
 from allauth.account.forms import BaseSignupForm
 from allauth.account.models import EmailAddress, EmailConfirmation
 from allauth.utils import get_user_model, get_current_site
-
 from . import app_settings
-
 from .auth_backends import AuthenticationBackend
 from .adapter import get_adapter
 
