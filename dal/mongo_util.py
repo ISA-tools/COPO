@@ -2,11 +2,11 @@ __author__ = 'felixshaw'
 import pymongo
 from bson import ObjectId
 
-from settings import settings
+from settings import master_settings
 
 
 def get_collection_ref(collection_name):
-    return pymongo.MongoClient(settings.MONGO_HOST, settings.MONGO_PORT)[settings.MONGO_DB][collection_name]
+    return pymongo.MongoClient(master_settings.MONGO_HOST, master_settings.MONGO_PORT)[master_settings.MONGO_DB][collection_name]
 
 def to_mongo_id(id):
     return ObjectId(id)

@@ -4,8 +4,7 @@ from datetime import datetime
 
 import pexpect
 
-from settings.services import *
-from settings.settings import *
+from services import *
 
 
 def do_aspera_transfer(aspera_transfer_id):

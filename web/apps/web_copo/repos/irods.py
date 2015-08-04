@@ -3,7 +3,7 @@ __author__ = 'etuka'
 import pexpect
 import re
 
-from settings.services import *
+from services import *
 
 
 def register_to_irods():

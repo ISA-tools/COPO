@@ -1,6 +1,7 @@
 __author__ = 'felixshaw'
 
 from datetime import datetime
+import sys
 
 import bson.objectid as o
 from django_tools.middlewares import ThreadLocal
@@ -9,9 +10,9 @@ from requests.exceptions import ConnectionError
 
 from copo_id import get_uid
 from web_copo.vocab.status_vocab import STATUS_CODES
-
-from .mongo_util import get_collection_ref
-from .resource import Resource
+from mongo_util import get_collection_ref
+print(sys.path)
+from base_resource import Resource
 from bson.objectid import ObjectId
 
 Profiles = get_collection_ref("Profiles")

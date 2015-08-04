@@ -2,11 +2,13 @@ __author__ = 'felix.shaw@tgac.ac.uk - 14/05/15'
 
 import requests
 from django.http import HttpResponse
+import jsonpickle
+
 import web_copo.repos.figshare as f
-from settings.services import *
+from services import *
 import dal.figshare_da as fs
 from dal import FigshareCollection
-import jsonpickle
+
 
 def upload_to_figshare_profile(request):
     if request.method == 'POST':

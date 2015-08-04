@@ -3,7 +3,7 @@ __author__ = 'felix.shaw@tgac.ac.uk - 24/06/15'
 import json
 
 from allauth.socialaccount.models import SocialAccount
-from dal.resource import Resource
+from dal.base_resource import Resource
 from dal.mongo_util import get_collection_ref
 
 ORCID = get_collection_ref("OcidCollections")

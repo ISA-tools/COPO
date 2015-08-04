@@ -2,7 +2,7 @@ __author__ = 'felix.shaw@tgac.ac.uk - 24/07/15'
 
 import requests
 
-from settings.services import WEB_SERVICES
+from services import WEB_SERVICES
 
 
 def get_uid():

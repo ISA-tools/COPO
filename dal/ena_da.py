@@ -4,13 +4,13 @@ from datetime import date
 import string
 import uuid
 import ast
-from mongo_util import get_collection_ref
-from resource import Resource
 
 import random
 import pymongo
-from dal import ObjectId
 
+from mongo_util import get_collection_ref
+from base_resource import Resource
+from dal import ObjectId
 import web_copo.uiconfigs.utils.data_formats as dfmts
 import web_copo.uiconfigs.utils.lookup as lkup
 

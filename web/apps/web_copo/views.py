@@ -1,4 +1,6 @@
 from threading import Thread
+import logging
+import sys
 
 from django.shortcuts import render, render_to_response
 from django.shortcuts import get_object_or_404
@@ -10,9 +12,13 @@ from django.contrib.auth.models import User
 from django.template import RequestContext
 import jsonpickle
 from django.http import HttpResponse
+log = logging.getLogger(__name__)
+log.debug(sys.path)
+
+
 from dal import Profile, Collection_Head, FigshareCollection, get_collection_ref, EnaCollection, Orcid, ObjectId
 import ast
-import dal.figshare_da as figshare
+
 from web_copo.repos.irods import *
 from web_copo.repos.aspera import *
 from chunked_upload.models import ChunkedUpload
@@ -224,7 +230,7 @@ def view_collection(request, collection_head_id):
                          'profile_id': profile_id}
         return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
     elif collection_head['type'] == 'PDF File' or collection_head['type'] == 'Image':
-        articles = figshare.FigshareCollection().get_articles_in_collection(collection_head_id)
+        articles = FigshareCollection().get_articles_in_collection(collection_head_id)
         data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
                      'profile_id': profile_id,
                      'articles': articles}
