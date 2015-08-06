@@ -7,7 +7,7 @@ import jsonpickle
 import web_copo.repos.figshare as f
 import dal.figshare_da as fs
 from dal.figshare_da import FigshareCollection
-from settings.services import *
+from services import *
 from dal.copo_base_da import DataSchemas
 from web_copo.uiconfigs.utils.data_formats import DataFormats
 

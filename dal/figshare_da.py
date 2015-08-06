@@ -6,7 +6,7 @@ from django.utils import timezone
 import jsonpickle
 import os
 
-import settings.master_settings as settings
+import master_settings as settings
 from dal import Resource
 from dal import get_collection_ref
 from dal import ObjectId
