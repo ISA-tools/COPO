@@ -137,7 +137,7 @@ class GoogleTests(create_oauth2_tests(registry.by_id(GoogleProvider.id))):
                                 'account/email/email_confirmation_signup_subject.txt')
 
     def test_email_verified_stashed(self):
-        # http://slacy.com/blog/2012/01/how-to-set-session-variables-in-django-unit-tests/
+        # http://slacy.com/blog/2012/01/how-to-set-session-variables-in-django-unit-copo_tests/
         engine = import_module(settings.SESSION_ENGINE)
         store = engine.SessionStore()
         store.save()

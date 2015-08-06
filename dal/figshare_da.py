@@ -4,15 +4,17 @@ from django_tools.middlewares import ThreadLocal
 from django.http import HttpResponse
 from django.utils import timezone
 import jsonpickle
+import os
 
+import settings.master_settings as settings
 from dal import Resource
 from dal import get_collection_ref
 from dal import ObjectId
 from chunked_upload.models import generate_upload_id
 
-FigshareTokens = get_collection_ref("Figshare_tokens")
-FigshareCollections = get_collection_ref("Figshare_Files")
-Collection_Heads = get_collection_ref("Collection_Heads")
+FigshareTokens = get_collection_ref("FigshareTokens")
+FigshareCollections = get_collection_ref("FigshareCollections")
+Collection_Heads = get_collection_ref("CollectionHeads")
 
 
 class FigshareCollection(Resource):
