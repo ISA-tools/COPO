@@ -110,8 +110,7 @@ REST_FRAMEWORK = {
 
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
 
-# get settings for environment
-
+from settings_logging import *
 
 import platform
 if platform.system() == "Darwin":

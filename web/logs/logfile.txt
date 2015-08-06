@@ -1,0 +1,230 @@
+[04/Aug/2015 15:19:32] ERROR [django.request:231] Internal Server Error: /accounts/email/
+Traceback (most recent call last):
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/managers.py", line 15, in add_email
+    email_address = self.get(user=user, email__iexact=email)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/manager.py", line 92, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/query.py", line 357, in get
+    self.model._meta.object_name)
+allauth.account.models.DoesNotExist: EmailAddress matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/sites/models.py", line 52, in get_current
+    current_site = SITE_CACHE[sid]
+KeyError: 2
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 311, in dispatch
+    return super(EmailView, self).dispatch(request, *args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 87, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 334, in post
+    res = super(EmailView, self).post(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 78, in post
+    response = self.form_valid(form)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 319, in form_valid
+    email_address = form.save(self.request)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/forms.py", line 357, in save
+    confirm=True)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/managers.py", line 20, in add_email
+    signup=signup)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/models.py", line 61, in send_confirmation
+    confirmation.send(request, signup=signup)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/models.py", line 121, in send
+    else Site.objects.get_current()
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/sites/models.py", line 54, in get_current
+    current_site = self.get(pk=sid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/manager.py", line 92, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/query.py", line 357, in get
+    self.model._meta.object_name)
+django.contrib.sites.models.DoesNotExist: Site matching query does not exist.
+[04/Aug/2015 15:19:33] ERROR [django.request:231] Internal Server Error: /accounts/email/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/sites/models.py", line 52, in get_current
+    current_site = SITE_CACHE[sid]
+KeyError: 2
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 311, in dispatch
+    return super(EmailView, self).dispatch(request, *args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 87, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 337, in post
+    res = self._action_send(request)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 360, in _action_send
+    email_address.send_confirmation(request)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/models.py", line 61, in send_confirmation
+    confirmation.send(request, signup=signup)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/models.py", line 121, in send
+    else Site.objects.get_current()
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/sites/models.py", line 54, in get_current
+    current_site = self.get(pk=sid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/manager.py", line 92, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/query.py", line 357, in get
+    self.model._meta.object_name)
+django.contrib.sites.models.DoesNotExist: Site matching query does not exist.
+[04/Aug/2015 15:19:34] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[04/Aug/2015 15:19:34] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[04/Aug/2015 15:21:08] DEBUG [web_copo.views:16] ['--pattern=tests_copo_*.py', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Applications/PyCharm.app/Contents/helpers/pycharm']
+[04/Aug/2015 15:21:09] ERROR [django.request:231] Internal Server Error: /accounts/email/
+Traceback (most recent call last):
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/managers.py", line 15, in add_email
+    email_address = self.get(user=user, email__iexact=email)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/manager.py", line 92, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/query.py", line 357, in get
+    self.model._meta.object_name)
+allauth.account.models.DoesNotExist: EmailAddress matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/sites/models.py", line 52, in get_current
+    current_site = SITE_CACHE[sid]
+KeyError: 2
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 311, in dispatch
+    return super(EmailView, self).dispatch(request, *args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 87, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 334, in post
+    res = super(EmailView, self).post(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 78, in post
+    response = self.form_valid(form)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 319, in form_valid
+    email_address = form.save(self.request)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/forms.py", line 357, in save
+    confirm=True)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/managers.py", line 20, in add_email
+    signup=signup)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/models.py", line 61, in send_confirmation
+    confirmation.send(request, signup=signup)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/models.py", line 121, in send
+    else Site.objects.get_current()
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/sites/models.py", line 54, in get_current
+    current_site = self.get(pk=sid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/manager.py", line 92, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/query.py", line 357, in get
+    self.model._meta.object_name)
+django.contrib.sites.models.DoesNotExist: Site matching query does not exist.
+[04/Aug/2015 15:21:09] ERROR [django.request:231] Internal Server Error: /accounts/email/
+Traceback (most recent call last):
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/managers.py", line 15, in add_email
+    email_address = self.get(user=user, email__iexact=email)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/manager.py", line 92, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/query.py", line 357, in get
+    self.model._meta.object_name)
+allauth.account.models.DoesNotExist: EmailAddress matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/sites/models.py", line 52, in get_current
+    current_site = SITE_CACHE[sid]
+KeyError: 2
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 311, in dispatch
+    return super(EmailView, self).dispatch(request, *args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 87, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 334, in post
+    res = super(EmailView, self).post(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 78, in post
+    response = self.form_valid(form)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 319, in form_valid
+    email_address = form.save(self.request)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/forms.py", line 357, in save
+    confirm=True)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/managers.py", line 20, in add_email
+    signup=signup)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/models.py", line 61, in send_confirmation
+    confirmation.send(request, signup=signup)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/models.py", line 121, in send
+    else Site.objects.get_current()
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/sites/models.py", line 54, in get_current
+    current_site = self.get(pk=sid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/manager.py", line 92, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/query.py", line 357, in get
+    self.model._meta.object_name)
+django.contrib.sites.models.DoesNotExist: Site matching query does not exist.
+[04/Aug/2015 15:21:10] ERROR [django.request:231] Internal Server Error: /accounts/email/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/sites/models.py", line 52, in get_current
+    current_site = SITE_CACHE[sid]
+KeyError: 2
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 311, in dispatch
+    return super(EmailView, self).dispatch(request, *args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 87, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 337, in post
+    res = self._action_send(request)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/views.py", line 360, in _action_send
+    email_address.send_confirmation(request)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/models.py", line 61, in send_confirmation
+    confirmation.send(request, signup=signup)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/models.py", line 121, in send
+    else Site.objects.get_current()
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/sites/models.py", line 54, in get_current
+    current_site = self.get(pk=sid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/manager.py", line 92, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/db/models/query.py", line 357, in get
+    self.model._meta.object_name)
+django.contrib.sites.models.DoesNotExist: Site matching query does not exist.
+[04/Aug/2015 15:21:10] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[04/Aug/2015 15:21:11] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[04/Aug/2015 15:23:50] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[04/Aug/2015 15:23:50] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[04/Aug/2015 15:31:29] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[04/Aug/2015 15:31:29] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None

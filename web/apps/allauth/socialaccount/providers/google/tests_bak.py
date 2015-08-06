@@ -14,12 +14,12 @@ try:
 except ImportError:
     from django.utils.importlib import import_module
 
-from allauth.socialaccount.tests import create_oauth2_tests
+from allauth.socialaccount.tests_bak import create_oauth2_tests
 from allauth.account import app_settings as account_settings
 from allauth.account.models import EmailConfirmation, EmailAddress
 from allauth.socialaccount.models import SocialAccount, SocialToken
 from allauth.socialaccount.providers import registry
-from allauth.tests import MockedResponse
+from allauth.tests_bak import MockedResponse
 from allauth.account.signals import user_signed_up
 from allauth.account.adapter import get_adapter
 

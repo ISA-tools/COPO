@@ -9,7 +9,7 @@
     <title>{% block title %}COPO - Collaborative Open Plant Omics{% endblock %}</title>
 
 
-    {% block stylesheet_block %}{% endblock %}
+
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{% static 'copo/css/bootstrap/bootstrap.css' %}">
@@ -26,7 +26,7 @@
     <link href='http://fonts.googleapis.com/css?family=Quattrocento+Sans' rel='stylesheet' type='text/css'>
     <!-- Additional stylesheets -->
     <link rel="stylesheet" href="{% static 'copo/css/copo/smart_table.css' %}">
-
+    {% block stylesheet_block %}{% endblock %}
 
 
     <script src="{% static 'copo/js/jquery.js' %}"></script>

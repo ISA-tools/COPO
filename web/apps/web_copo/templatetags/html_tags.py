@@ -5,7 +5,7 @@ from django.utils.safestring import mark_safe
 
 
 import web_copo.uiconfigs.utils.data_utils as d_utils
-from web_copo.mongo.ena_da import EnaCollection
+from dal.ena_da import EnaCollection
 import web_copo.uiconfigs.utils.lookup as lkup
 
 register = template.Library()

@@ -14,9 +14,6 @@ from bson.json_util import dumps
 from chunked_upload.models import ChunkedUpload
 import web_copo.xml_tools.EnaParsers as parsers
 import web_copo.utils.EnaUtils as u
-from web_copo.mongo.ena_da import *
-from web_copo.mongo.copo_base_da import *
-from web_copo.mongo.mongo_util import *
 from web_copo.repos.irods import *
 
 

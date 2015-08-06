@@ -1,28 +1,35 @@
 from threading import Thread
+import logging
+import sys
+import ast
 
 from django.shortcuts import render, render_to_response
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.template import RequestContext
+from error_codes import DB_ERROR_CODES, UI_ERROR_CODES
+from settings_dev import MEDIA_ROOT
+
+log = logging.getLogger(__name__)
+log.debug(sys.path)
 
 
-# import error codes
+from dal.copo_base_da import Profile, Collection_Head, ObjectId
+from dal.mongo_util import get_collection_ref
+from dal.ena_da import EnaCollection
+from dal.orcid_da import Orcid
 
-from settings.error_codes import *
-from web_copo.mongo.copo_base_da import Profile, Collection_Head
-from web_copo.mongo.ena_da import *
-import web_copo.mongo.figshare_da as figshare
 from web_copo.repos.irods import *
 from web_copo.repos.aspera import *
 from chunked_upload.models import ChunkedUpload
 from web_copo.api.views import *
-from web_copo.mongo.orcid_da import Orcid
 import web_copo.uiconfigs.utils.lookup as lkup
 import web_copo.templatetags.html_tags as htags
+from django_tools.middlewares import ThreadLocal
 import web_copo.uiconfigs.utils.data_utils as d_utils
 
 
@@ -45,14 +52,18 @@ def goto_error(request, message="Something went wrong, but we're not sure what!"
 @login_required
 def new_profile(request):
     if request.method == 'POST':
-        if Profile().PUT(request) == False:
+
+        a = request.POST['study_abstract']
+        title = request.POST['study_title']
+        uid = request.user.id
+        if Profile().PUT(a, title, uid) == False:
             return render(request,
                           'copo/error_page.html',
                           {'message': 'Error creating COPO ID for Profile - Are you on the network?'},
                           )
         return HttpResponseRedirect(reverse('copo:index'))
 
-
+'''
 def copo_login(request):
     # pdb.set_trace()
     if request.user.is_authenticated():
@@ -104,7 +115,7 @@ def copo_login(request):
         {'login_err_message': login_err_message, 'username': username, 'next': next_loc},
         context_instance=RequestContext(request)
     )
-
+'''
 
 def copo_logout(request):
     logout(request)
@@ -133,8 +144,6 @@ def copo_register(request):
 
 @login_required
 def view_profile(request, profile_id):
-    # profile = mongo.connection.Profile.one({"_id":to_mongo_id(profile_id)})
-
     profile = Profile().GET(profile_id)
     request.session['profile_id'] = profile_id
     collections = []
@@ -157,7 +166,9 @@ def view_profile(request, profile_id):
 @login_required
 def new_collection_head(request):
     # create the new collection
-    collection_head_id = Collection_Head().PUT(request)
+    c_type = request.POST['collection_type']
+    c_name = request.POST['collection_name']
+    collection_head_id = Collection_Head().PUT(c_type, c_name)
 
     # add a template for ENA submission
     coll_type = request.POST['collection_type']
@@ -236,7 +247,7 @@ def view_collection(request, collection_head_id):
                          'profile_id': profile_id}
         return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
     elif collection_head['type'] == 'PDF File' or collection_head['type'] == 'Image':
-        articles = figshare.FigshareCollection().get_articles_in_collection(collection_head_id)
+        articles = FigshareCollection().get_articles_in_collection(collection_head_id)
         data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
                      'profile_id': profile_id,
                      'articles': articles}
@@ -392,6 +403,15 @@ def remove_from_collection(request):
     out = jsonpickle.encode(return_structure)
     return HttpResponse(out, content_type='json')
 
+def save_figshare_collection(request):
+    # make new entries for collection
+    input_files = request.POST.getlist('files[]')
+    tags = request.POST.getlist('tags[]')
+    article_type = request.POST.get("article_type")
+    description = request.POST.get("description")
+    collection_head_id = request.session['collection_head_id']
+    a = FigshareCollection().save_article(input_files, tags, article_type, description, collection_head_id)
+    return HttpResponse(jsonpickle.encode(a))
 
 def initiate_repo(request):
     initiate_status = ""
@@ -406,7 +426,7 @@ def initiate_repo(request):
 
         try:
             file_object = get_object_or_404(ChunkedUpload, pk=files)
-            path_to_files = os.path.join(settings.MEDIA_ROOT, file_object.file.name)
+            path_to_files = os.path.join(MEDIA_ROOT, file_object.file.name)
 
             document = {
                 "file": path_to_files,

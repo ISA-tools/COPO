@@ -26,7 +26,7 @@ def check_context_processors():
     if not ctx_present:
         excmsg = ("socialaccount context processor "
                   "not found in {}. "
-                  "See settings.py instructions here: "
+                  "See master_settings.py instructions here: "
                   "http://django-allauth.readthedocs.org/en/latest/installation.html")
         raise ImproperlyConfigured(excmsg.format(setting))
 

@@ -1,6 +1,6 @@
 # define parameters for schemas
 
-from settings.settings import PROJ_HOME
+from master_settings import PROJ_HOME
 
 SCHEMAS = {
     'ENA': {

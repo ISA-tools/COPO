@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import requests
 from datetime import datetime, date
 
+import requests
 import django
 from django.test import TestCase
 from django.db import models

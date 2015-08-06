@@ -1,10 +1,7 @@
 __author__ = 'felix.shaw@tgac.ac.uk - 18/03/15'
 
 from datetime import date
-
-import bson.objectid as o
 import string
-import random
 import uuid
 import ast
 
@@ -12,6 +9,13 @@ import web_copo.mongo.mongo_util as mutil
 from web_copo.mongo.resource import *
 from web_copo.mongo.mongo_util import *
 import web_copo.uiconfigs.utils.data_utils as d_utils
+import random
+import pymongo
+
+from mongo_util import get_collection_ref
+from base_resource import Resource
+from dal import ObjectId
+import web_copo.uiconfigs.utils.data_formats as dfmts
 import web_copo.uiconfigs.utils.lookup as lkup
 
 EnaCollections = get_collection_ref("EnaCollections")
@@ -19,7 +23,7 @@ EnaCollections = get_collection_ref("EnaCollections")
 
 class EnaCollection(Resource):
     def GET(self, id):
-        doc = EnaCollections.find_one({"_id": o.ObjectId(id)})
+        doc = EnaCollections.find_one({"_id": ObjectId(id)})
         if not doc:
             pass
         return doc
@@ -27,7 +31,7 @@ class EnaCollection(Resource):
     def add_ena_study(self, ena_collection_id, study_type_list):
         # first study in list is left blank (flat set to delete though)
         # for the purpose of cloning subsequent ones
-        doc = EnaCollections.find_one({"_id": o.ObjectId(ena_collection_id)})['studies'][0]
+        doc = EnaCollections.find_one({"_id": ObjectId(ena_collection_id)})['studies'][0]
 
         if doc:
             for st in study_type_list:
@@ -38,14 +42,14 @@ class EnaCollection(Resource):
                 # ...since the model study is deleted by default
                 study_dict["studyCOPOMetadata"]["deleted"] = "0"
 
-                EnaCollections.update({"_id": o.ObjectId(ena_collection_id)},
+                EnaCollections.update({"_id": ObjectId(ena_collection_id)},
                                       {"$push": {"studies": study_dict}})
 
     # add a new study by cloning an existing one
     def add_ena_study_clone(self, ena_collection_id, cloned_studies):
         # first study in list is left blank (flat set to delete though)
         # for the purpose of cloning subsequent ones
-        doc = EnaCollections.find_one({"_id": o.ObjectId(ena_collection_id)})['studies'][0]
+        doc = EnaCollections.find_one({"_id": ObjectId(ena_collection_id)})['studies'][0]
 
         if doc:
             for cst in cloned_studies:
@@ -75,7 +79,7 @@ class EnaCollection(Resource):
                 if new_samples:
                     study_dict["studyCOPOMetadata"]['samples'] = new_samples
 
-                EnaCollections.update({"_id": o.ObjectId(ena_collection_id)},
+                EnaCollections.update({"_id": ObjectId(ena_collection_id)},
                                       {"$push": {"studies": study_dict}})
 
     def add_ena_sample(self, ena_collection_id, study_type_list, auto_fields):
@@ -99,7 +103,7 @@ class EnaCollection(Resource):
             if f.id in auto_fields.keys():
                 a[key_split[len(key_split) - 1]] = auto_fields[f.id]
 
-        EnaCollections.update({"_id": o.ObjectId(ena_collection_id)},
+        EnaCollections.update({"_id": ObjectId(ena_collection_id)},
                               {"$push": {"collectionCOPOMetadata.samples": a}})
 
         # assign sample to studies
@@ -117,7 +121,7 @@ class EnaCollection(Resource):
             key_split = f.id.split(".")
             if f.id in auto_fields.keys():
                 EnaCollections.update(
-                    {"_id": o.ObjectId(ena_collection_id), "collectionCOPOMetadata.samples.id": sample_id},
+                    {"_id": ObjectId(ena_collection_id), "collectionCOPOMetadata.samples.id": sample_id},
                     {'$set': {"collectionCOPOMetadata.samples.$." + key_split[len(key_split) - 1]: auto_fields[f.id]}})
 
         ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.sampleCollection.fields
@@ -126,7 +130,7 @@ class EnaCollection(Resource):
             key_split = f.id.split(".")
             if f.id in auto_fields.keys():
                 EnaCollections.update(
-                    {"_id": o.ObjectId(ena_collection_id), "collectionCOPOMetadata.samples.id": sample_id},
+                    {"_id": ObjectId(ena_collection_id), "collectionCOPOMetadata.samples.id": sample_id},
                     {'$set': {"collectionCOPOMetadata.samples.$." + key_split[len(key_split) - 1]: auto_fields[f.id]}})
 
         # update studies: add sample to study if study in the selected list,
@@ -143,14 +147,14 @@ class EnaCollection(Resource):
             self.add_sample_to_ena_study(study_id, ena_collection_id, a)
 
     def get_ena_sample(self, ena_collection_id, sample_id):
-        doc = EnaCollections.find_one({"_id": o.ObjectId(ena_collection_id),
+        doc = EnaCollections.find_one({"_id": ObjectId(ena_collection_id),
                                        "collectionCOPOMetadata.samples.id": sample_id},
                                       {"collectionCOPOMetadata.samples.$": 1})
 
         return doc['collectionCOPOMetadata']['samples'][0] if doc else ''
 
     def get_study_samples(self, ena_collection_id, study_id):
-        doc = EnaCollections.aggregate([{"$match": {"_id": o.ObjectId(ena_collection_id)}},
+        doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
                                         {"$unwind": "$studies"},
                                         {"$match": {"studies.studyCOPOMetadata.id": study_id}},
                                         {"$unwind": "$studies.studyCOPOMetadata.samples"},
@@ -160,13 +164,14 @@ class EnaCollection(Resource):
 
         return mutil.verify_doc_type(doc)
 
+
     def add_sample_to_ena_study(self, study_id, ena_collection_id, sample):
-        EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
+        EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
                               {'$push': {"studies.$.studyCOPOMetadata.samples": sample}})
 
     # this allows the total removal of the specified sample record from a study
     def hard_delete_sample_from_study(self, sample_id, study_id, ena_collection_id):
-        EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
+        EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
                               {'$pull': {"studies.$.studyCOPOMetadata.samples": {'id': sample_id}}})
 
     # this sets the deleted flag true
@@ -174,7 +179,7 @@ class EnaCollection(Resource):
         pass
 
     def get_ena_study(self, study_id, ena_collection_id):
-        doc = EnaCollections.find_one({"_id": o.ObjectId(ena_collection_id),
+        doc = EnaCollections.find_one({"_id": ObjectId(ena_collection_id),
                                        "studies.studyCOPOMetadata.id": study_id},
                                       {"studies.studyCOPOMetadata.id.$": 1})
 
@@ -184,17 +189,19 @@ class EnaCollection(Resource):
         return study
 
     def get_ena_studies(self, ena_collection_id):
-        doc = EnaCollections.aggregate([{"$match": {"_id": o.ObjectId(ena_collection_id)}}, {"$unwind": "$studies"},
+        doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}}, {"$unwind": "$studies"},
                                         {"$match": {"studies.studyCOPOMetadata.deleted": "0"}},
                                         {"$group": {"_id": "$_id", "data": {"$push": "$studies"}}}])  # using 'data'
         # as a projection variable (in the $group part) to allow the management of the returned type in verify_doc_type
 
         return mutil.verify_doc_type(doc)
 
+
+
     def update_study_type(self, ena_collection_id, study_id, elem_dict):
-        doc = EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id}, {
-            '$set': {"studies.$.studyCOPOMetadata.studyType": elem_dict["study_type"],
-                     "studies.$.studyCOPOMetadata.studyReference": elem_dict["study_type_reference"]}})
+        doc = EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.id": study_id}, {
+            '$set': {"studies.$.study_type": elem_dict["study_type"],
+                     "studies.$.study_type_reference": elem_dict["study_type_reference"]}})
         return doc
 
     def update_study_details(self, ena_collection_id, study_id, auto_fields):
@@ -208,7 +215,7 @@ class EnaCollection(Resource):
             if f.id in auto_fields.keys():
                 auto_dict["studies.$.study." + key_split[len(key_split) - 1]] = auto_fields[f.id]
 
-        EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id}, {
+        EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.id": study_id}, {
             '$set': auto_dict})
 
     def add_study(self, values, attributes):
@@ -249,7 +256,7 @@ class EnaCollection(Resource):
         }
         return EnaCollections.update(
             {
-                "_id": o.ObjectId(ena_study_id)
+                "_id": ObjectId(ena_study_id)
             },
             spec
         )
@@ -260,14 +267,14 @@ class EnaCollection(Resource):
         spec_attr = []
         for att_group in attributes:
             tmp = {
-                "id": o.ObjectId(),
+                "id": ObjectId(),
                 "tag": att_group[0],
                 "value": att_group[1],
                 "unit": att_group[2],
             }
             spec_attr.append(tmp)
         spec = {
-            "_id": o.ObjectId(),
+            "_id": ObjectId(),
             "Source_Name": sample['Source_Name'],
             "Characteristics": spec_attr,
             "Term_Source_REF": "TODO:ONTOTLOGY_ID",
@@ -284,7 +291,7 @@ class EnaCollection(Resource):
         }
 
         EnaCollections.update(
-            {"_id": o.ObjectId(study_id)},
+            {"_id": ObjectId(study_id)},
             {'$push':
                  {"samples": spec}
              }
@@ -313,7 +320,7 @@ class EnaCollection(Resource):
         )
 
     def get_sample(self, sample_id):
-        doc = EnaCollections.find_one({"samples._id": o.ObjectId(sample_id)}, {"samples.$": 1})
+        doc = EnaCollections.find_one({"samples._id": ObjectId(sample_id)}, {"samples.$": 1})
         return doc['samples'][0]
 
     def get_samples_in_study(self, study_id):
@@ -345,7 +352,7 @@ class EnaCollection(Resource):
             "last_updated": str(date.today()),
         }
         EnaCollections.update(
-            {"_id": o.ObjectId(study_id)},
+            {"_id": ObjectId(study_id)},
             {'$push':
                  {"experiments": spec}
              }

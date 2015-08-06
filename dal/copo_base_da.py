@@ -1,6 +1,8 @@
 __author__ = 'felixshaw'
 
 from datetime import datetime
+import sys
+
 import ast
 import requests
 import bson.objectid as o
@@ -9,10 +11,12 @@ from django.core.urlresolvers import reverse
 from requests.exceptions import ConnectionError
 
 from copo_id import get_uid
-from web_copo.mongo.resource import *
-from web_copo.mongo.mongo_util import *
 from web_copo.vocab.status_vocab import STATUS_CODES
 from web_copo.uiconfigs.utils.data_formats import DataFormats
+from dal.mongo_util import get_collection_ref
+
+from dal.base_resource import Resource
+from bson.objectid import ObjectId
 
 Profiles = get_collection_ref("Profiles")
 Collections = get_collection_ref("Collection_Heads")
@@ -22,7 +26,6 @@ Schemas = get_collection_ref("Schemas")
 class Profile(Resource):
     def GET(self, id):
         s = 'abc'
-
         doc = Profiles.find_one({"_id": o.ObjectId(id)})
         if not doc:
             pass
@@ -48,27 +51,31 @@ class Profile(Resource):
         else:
             return None
 
-    def PUT(self, request):
-        a = request.POST['study_abstract']
-        sa = a[:147]
+    def PUT(self, abstract, title, user_id):
+        import platform
+
+        sa = abstract[:147]
         sa += '...'
 
         # make unique copo id
         try:
             uid = get_uid()
         except ConnectionError:
-            return False
+            if platform.system() == 'Linux':
+                return False
+            else:
+                uid = '0000000000000'
 
         spec = {
             "copo_id": uid,
-            "title": request.POST['study_title'],
-            "abstract": a,
+            "title": title,
+            "abstract": abstract,
             "short_abstract": sa,
             "date_created": datetime.now(),
             "date_modified": datetime.now(),
-            "user_id": request.user.id
+            "user_id": user_id
         }
-        Profiles.insert(spec)
+        return Profiles.insert(spec)
 
     def add_collection_head(self, profile_id, collection_id):
         Profiles.update(
@@ -86,9 +93,8 @@ Collection_Heads = get_collection_ref("Collection_Heads")
 
 class Collection_Head(Resource):
     # method to create a skelton collection object
-    def PUT(self, request):
-        c_type = request.POST['collection_type']
-        c_name = request.POST['collection_name']
+    def PUT(self, c_type, c_name):
+
         spec = {
             "type": c_type,
             "name": c_name,

@@ -18,7 +18,8 @@ from allauth.socialaccount.helpers import complete_social_login
 from allauth.socialaccount.models import SocialToken, SocialLogin
 from allauth.utils import get_request_param
 from ..base import AuthAction, AuthError
-from web_copo.mongo.orcid_da import *
+
+from dal import Orcid
 
 
 class OAuth2Adapter(object):

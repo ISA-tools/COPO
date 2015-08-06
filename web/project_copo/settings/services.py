@@ -6,7 +6,7 @@ REPOSITORIES = {
         'resource_path': 'reposit/aspera/Aspera Connect.app/Contents/Resources/',
         'credentials': {
             'user_token': 'Webin-39962@webin.ebi.ac.uk',
-            'password': 'toni12',  # TODO: probably in mongo?
+            'password': 'toni12',  # TODO: probably in dal?
             'remote_path': 'copo'
         }
     },
@@ -17,7 +17,7 @@ REPOSITORIES = {
             'user_token': 'etuka',
             'host_token': 'v0546.nbi.ac.uk',
             'program': 'python',
-            'password': 'RwvmPMC7',  # TODO: probably in mongo?
+            'password': 'RwvmPMC7',  # TODO: probably in dal?
             'script': 'myptest.py'
         }
     },

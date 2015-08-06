@@ -4,10 +4,12 @@ from datetime import datetime
 
 import pexpect
 
+import os
 from settings.services import *
 from settings.settings import *
 import re
-from web_copo.mongo.mongo_util import *
+from dal.mongo_util import *
+from dal.mongo_util import get_collection_ref
 
 
 def do_aspera_transfer(aspera_transfer_id):

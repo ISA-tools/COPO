@@ -1,7 +1,7 @@
 from django.test import TestCase
 import pymongo
 
-from settings.settings import *
+from settings.master_settings import *
 from copo_id import get_uid
 
 
