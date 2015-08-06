@@ -1,9 +1,10 @@
 __author__ = 'tonietuk'
 
-from django.utils.safestring import mark_safe
 from django import template
+from django.utils.safestring import mark_safe
 
-import web_copo.uiconfigs.utils.data_formats as dfmts
+
+import web_copo.uiconfigs.utils.data_utils as d_utils
 from web_copo.mongo.ena_da import EnaCollection
 import web_copo.uiconfigs.utils.lookup as lkup
 
@@ -12,7 +13,7 @@ register = template.Library()
 
 @register.filter("generate_ena_tags")
 def generate_ena_tags(field_id):
-    out_list = get_fields_list("ENA", field_id)
+    out_list = get_fields_list(field_id)
     for f in out_list:
         if f["id"] == field_id:
             return mark_safe(do_tag(f))
@@ -21,7 +22,7 @@ def generate_ena_tags(field_id):
 
 @register.filter("generate_ena_labels")
 def generate_ena_labels(field_id):
-    out_list = get_fields_list("ENA", field_id)
+    out_list = get_fields_list(field_id)
     for f in out_list:
         if f["id"] == field_id:
             return f["label"]
@@ -71,7 +72,6 @@ def generate_sample_html(ena_collection_id):
 
 
 def get_field_order(prop):
-    ena_full_json = dfmts.json_to_object(lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['UI_TEMPLATE_json'])
     a = {"db_name": "id", "label": "Id"}
     field_order = ["id"]
     headers = ["Id"]
@@ -79,7 +79,7 @@ def get_field_order(prop):
     fields = [a]
 
     if prop == "studySamples":
-        ena_d = ena_full_json.studies.study.studySamples.fields
+        ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.fields
 
         for f in ena_d:
             headers.append(generate_ena_labels(f.id))
@@ -88,7 +88,7 @@ def get_field_order(prop):
             a = {"db_name": key_split[len(key_split) - 1], "label": generate_ena_labels(f.id)}
             fields.append(a)
 
-        ena_d = ena_full_json.studies.study.studySamples.sampleCollection.fields
+        ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.sampleCollection.fields
 
         for f in ena_d:
             headers.append(generate_ena_labels(f.id))
@@ -108,9 +108,6 @@ def get_field_order(prop):
 def get_samples_data(ena_collection_id):
     ena_collection = EnaCollection().GET(ena_collection_id)
     samples = ena_collection["collectionCOPOMetadata"]["samples"]
-
-    ena_full_json = dfmts.json_to_object(lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['UI_TEMPLATE_json'])
-    ena_d = ena_full_json.studies.study.studySamples.fields
 
     fields_property = get_field_order("studySamples")
 
@@ -158,7 +155,7 @@ def get_studies_tree(ena_collection_id):
         study_attributes = get_study_attributes_tree(study, composite_attributes)
         a = {
             "id": study_id + "_study",
-            "text": study["studyCOPOMetadata"]['studyReference'] + " (" + dfmts.lookup_study_type_label(
+            "text": study["studyCOPOMetadata"]['studyReference'] + " (" + d_utils.lookup_study_type_label(
                 study["studyCOPOMetadata"]['studyType']) + ")",
             "state": "closed",
             "attributes": {"txt": study_attributes},
@@ -221,11 +218,14 @@ def format_tree_node(node):
             display_string += "<div>{k!s}: {v!s}</div>".format(**locals())
 
     elif isinstance(node, list):
-        class_name = "study-tree-info-data"
+        class_name = lkup.CSS_CLASSES["study_tree_data"]
+        status_class_name = lkup.CSS_CLASSES["study_tree_data_not_select"]
         for nd in node:
             child_id = nd["id"] + "_div"
+            child_id2 = nd["id"] + "_div2"
             child_data = nd["attributes"]["data"]
-            display_data = "<div id='{child_id!s}' class='{class_name!s}'>".format(**locals())
+            display_data = "<div id='{child_id2!s}' class='{status_class_name!s}'></div>".format(**locals())
+            display_data += "<div id='{child_id!s}' class='{class_name!s}'>".format(**locals())
             for k, v in child_data.items():
                 display_data += "<div>{k!s}: {v!s}</div>".format(**locals())
             display_data += "</div>"
@@ -234,43 +234,53 @@ def format_tree_node(node):
 
 
 def get_study_attributes_tree(study, composite_attributes):
-    # class_name = "study-tree-info-data"
-    class_name = "study-node-data"
-    status_class_name = "study-select-status"
-    list_class_name = "study-tree-data-list"
+    # get css styles
+    class_name = lkup.CSS_CLASSES["study_tree_data"]
+    status_class_name = lkup.CSS_CLASSES["study_tree_data_not_select"]
+    list_class_name = lkup.CSS_CLASSES["study_tree_list_label"]
+    list_status_class_name = lkup.CSS_CLASSES["study_tree_list_label_select"]
+
     study_id = study["studyCOPOMetadata"]["id"]
+
+    class_list = [class_name, status_class_name]
 
     # begin display
     display_string = "<div class='list-group'>"
 
     # study type
     id_name = study_id + "_study_type_leaf_div"
-    display_string += "<div class='{status_class_name!s}'></div>".format(**locals())
+    id_name2 = study_id + "_study_type_leaf_div2"
+    display_string += "<div id='{id_name2!s}' class='{status_class_name!s}'></div>".format(**locals())
     display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node(
         {"Study Type": lookup_study_type_label(study["studyCOPOMetadata"]['studyType'])}) + "</div>"
 
     # study title
     id_name = study_id + "_studyTitle_leaf_div"
-    display_string += "<div class='{status_class_name!s}'></div>".format(**locals())
+    id_name2 = study_id + "_studyTitle_leaf_div2"
+    display_string += "<div id='{id_name2!s}' class='{status_class_name!s}'></div>".format(**locals())
     display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node(
         {generate_ena_labels("studies.study.studyTitle"): study['study']['studyTitle']}) + "</div>"
 
     # study funding agency
     id_name = study_id + "_commentStudyFundingAgency_leaf_div"
-    display_string += "<div class='{status_class_name!s}'></div>".format(**locals())
+    id_name2 = study_id + "_commentStudyFundingAgency_leaf_div2"
+    display_string += "<div id='{id_name2!s}' class='{status_class_name!s}'></div>".format(**locals())
     display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node({
         generate_ena_labels("studies.study.commentStudyFundingAgency"): study['study'][
             'commentStudyFundingAgency']}) + "</div>"
 
     # study description
     id_name = study_id + "_studyDescription_leaf_div"
-    display_string += "<div class='{status_class_name!s}'></div>".format(**locals())
+    id_name2 = study_id + "_studyDescription_leaf_div2"
+    display_string += "<div id='{id_name2!s}' class='{status_class_name!s}'></div>".format(**locals())
     display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node({
         generate_ena_labels("studies.study.studyDescription"): study['study'][
             'studyDescription']}) + "</div>"
 
-    # study samples break
+    # study samples label
+    display_string += "<div class='{list_status_class_name!s}'></div>".format(**locals())
     display_string += "<div class='{list_class_name!s}'><label>Samples</label></div>".format(**locals())
+    # study samples data
     display_string += format_tree_node(composite_attributes[0])
 
     display_string += "</div>"
@@ -316,7 +326,7 @@ def get_study_sample_tree(ena_collection_id):
         study_id = study["studyCOPOMetadata"]["id"]
         a = {
             "id": study_id,
-            "text": study["studyCOPOMetadata"]['studyReference'] + " (" + dfmts.lookup_study_type_label(
+            "text": study["studyCOPOMetadata"]['studyReference'] + " (" + d_utils.lookup_study_type_label(
                 study["studyCOPOMetadata"]['studyType']) + ")",
             "state": "open"
         }
@@ -342,7 +352,7 @@ def get_study_sample_tree_restrict(ena_collection_id, sample_id):
 
         a = {
             "id": study_id,
-            "text": study["studyCOPOMetadata"]['studyReference'] + " (" + dfmts.lookup_study_type_label(
+            "text": study["studyCOPOMetadata"]['studyReference'] + " (" + d_utils.lookup_study_type_label(
                 study["studyCOPOMetadata"]['studyType']) + ")",
             "state": "open"
         }
@@ -386,8 +396,8 @@ def lookup_collection_type_label(val):
     return ""
 
 
-def get_fields_list(schema, field_id):
-    main_dict = dfmts.json_to_dict(lkup.SCHEMAS[schema]['PATHS_AND_URIS']['UI_TEMPLATE_json'])
+def get_fields_list(field_id):
+    main_dict = d_utils.get_ena_ui_template_as_dict()
     out_list = []
 
     key_split = field_id.split(".")

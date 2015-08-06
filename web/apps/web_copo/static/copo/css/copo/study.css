@@ -58,39 +58,15 @@ table, td {
     clear: both;
 }
 
-.study-tree-info-data {
-    /*background-color: #d9edf7;*/
-    border-color: #bce8f1;
-    color: #31708f;
-    border: 1px solid #ddd;
-    display: block;
-    margin-bottom: -1px;
-    padding: 15px;
-    position: relative;
-}
-
 .study-tree-data-list {
-    background-color: #ddd;
-    border-color: #bce8f1;
-    color: #000;
     border: 1px solid #ddd;
-    display: block;
+    color: #000;
     margin-bottom: -1px;
-    padding: 5px 15px;
+    padding: 5px 25px;
     position: relative;
 }
 
-.study_tree_state_indicator {
-    float: left;
-    font-size: 12px;
-    height: 100%;
-    line-height: 20px;
-    width: inherit;
-    padding: 5px 15px;
-    vertical-align: middle;
-}
-
-.study-select-status{
+.study-select-status {
     background-color: #449d44;
     border: 1px solid #ddd;
     border-right: 0px none;
@@ -100,7 +76,17 @@ table, td {
     margin-bottom: -1px;
 }
 
-.study-node-data{
+.study-not-select-status {
+    background-color: #d9534f;
+    border: 1px solid #ddd;
+    border-right: 0px none;
+    height: 50px;
+    width: 10px;
+    float: left;
+    margin-bottom: -1px;
+}
+
+.study-node-data {
     margin-left: 10px;
     height: 50px;
     background-color: #fff;
@@ -113,16 +99,53 @@ table, td {
     margin-bottom: -1px;
 }
 
-.study-tree-info-data-selected{
+/*for composite study data labels*/
+.study-list-select-status {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-right: 0px none;
+    height: 30px;
+    width: 10px;
+    float: left;
+    margin-bottom: -1px;
+}
+
+.study-node-list-data {
+    margin-left: 10px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ddd;
+    border-left: 0px none;
+    padding-left: 15px;
+    position: relative;
+    margin-bottom: -1px;
+}
+
+.study-tree-info-data-selected {
     margin-left: 10px;
     height: 50px;
     background-color: #ffe48d;
     overflow-y: scroll;
     color: #333;
-    border: 1px solid transparent;
+    border: 1px solid #ddd;
     border-left: 0px none;
     padding: 15px;
     position: relative;
     margin-bottom: -1px;
+}
+
+table.fixed-study-tree {
+    table-layout: fixed;
+}
+
+table.fixed-study-tree td {
+    overflow: scroll;
+}
+
+div#study_tree_table {
+    max-height: 700px;
+    overflow: scroll;
 }
 

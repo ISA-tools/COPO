@@ -40,7 +40,6 @@
         <li class="active"><a title=""
                               href="{% url 'copo:view_collection' collection_head_id=collection_head_id %}">Collection</a>
         </li>
-        {#        <li><a href="{% url 'copo:view_study' study_id=study_id %}">Study</a></li>#}
     </ol>
 {% endblock %}
 
@@ -50,15 +49,13 @@
 
         <!-- hidden attributes required to make the page remember where it is and what its dealing with -->
 
-        <input type="hidden" id="study_id" value="{{ study.id }}"/>
+        <input type="hidden" id="study_id" value="{{ study.studyCOPOMetadata.id }}"/>
 
         <input type="hidden" id="collection_head_id" name="collection_head_id" value="{{ collection_head_id }}">
 
         <input type="hidden" id="ena_collection_id" value="{{ ena_collection_id }}"/>
 
-        <input type="hidden" id="study_type" value="{{ study.study_type }}"/>
-
-        <input type="hidden" id="study_with_data" value="{{ study }}"/>
+        <input type="hidden" id="study_type" value="{{ study.studyCOPOMetadata.studyType }}"/>
 
         <input type="hidden" id="attr_counter" value="1"/>
 
@@ -154,7 +151,7 @@
                     <form role="form" id="study_details_update_form" action="{% url 'copo:add_to_study' %}"
                           method="post">
                         {% csrf_token %}
-                        {% for sf in ena_d.fields %}
+                        {% for sf in ui_template.fields %}
                             <div class='form-group'>
                                 {{ sf.id|generate_ena_tags }}
                             </div>
@@ -282,13 +279,13 @@
                           method="post">
                         {% csrf_token %}
                         <div>
-                            {% for sf in ena_d.studySamples.fields %}
+                            {% for sf in ui_template.studySamples.fields %}
                                 <div class='form-group'>
                                     {{ sf.id|generate_ena_tags }}
                                 </div>
                             {% endfor %}
 
-                            {% for sf in ena_d.studySamples.sampleCollection.fields %}
+                            {% for sf in ui_template.studySamples.sampleCollection.fields %}
                                 <div class='form-group'>
                                     {{ sf.id|generate_ena_tags }}
                                 </div>

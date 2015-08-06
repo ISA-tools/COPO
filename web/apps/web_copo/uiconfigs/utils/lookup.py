@@ -6,7 +6,6 @@ SCHEMAS = {
     'ENA': {
         'PATHS_AND_URIS': {
             'ISA_json': PROJ_HOME + '/web/apps/web_copo/uiconfigs/ena/dbmodels/isa_ena_model.json',
-            'UI_TEMPLATE_json': PROJ_HOME + '/web/apps/web_copo/uiconfigs/ena/uimodels/ena_copo_template.json',
             'INVESTIGATION_FILE': 'https://raw.githubusercontent.com/ISA-tools/Configuration-Files/master'
                                   '/isaconfig-default_v2014-01-16/investigation.xml',
             'STUDY_SAMPLE_FILE': 'https://raw.githubusercontent.com/ISA-tools/Configuration-Files/master'
@@ -177,6 +176,18 @@ HTML_TAGS = {
 
 # for displaying information/guidance mostly via tooltips
 UI_INFO = {
-    'study_type_add_info': "Use form to add new studies and/or clone existing ones",
+    'study_type_add_info': "Use form to add new study types",
+    'study_type_clone_info': "Use form to clone existing study types",
     'sample_add_info': "Use form to add/edit study sample and assign to studies"
+}
+
+# use the key to access the actual css name (dict value). Update the value and not the key to point to a different
+# styling
+CSS_CLASSES = {
+    "study_tree_data": "study-node-data",
+    "study_tree_data_select": "study-select-status",
+    "study_tree_data_not_select": "study-not-select-status",
+    "study_tree_data_highlight": "study-tree-info-data-selected",
+    "study_tree_list_label": "study-node-list-data",
+    "study_tree_list_label_select": "study-list-select-status"
 }

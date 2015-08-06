@@ -70,6 +70,8 @@ $(document).ready(function () {
                 do_disengage_study_modal();
             } else if (this.id == "newStudySampleModal") {
                 do_disengage_sample_modal();
+            } else if(this.id == "studyTypeCloneModal") {
+                do_disengage_study_clone_modal();
             }
 
         });
@@ -80,9 +82,43 @@ $(document).ready(function () {
                 display_tree_info(node);
             },
             onCheck: function (node) {
-                display_tree_info(node);
+                display_tree_node_status(node);
             }
         });
+    }
+
+    function display_tree_node_status(node) {
+        var targetId = node.id;
+        var splitIndex = targetId.lastIndexOf("_");
+        var indexPart = targetId.substr(splitIndex + 1);
+
+        //first display the study branch...
+
+        if (indexPart == "leaf" || indexPart == "study") {
+            $('#info_panel_display').parent().show();
+
+            var display_txt = node.attributes.txt;
+            if (display_txt == "") {
+                var rootNode = $('#study_type_tree').tree('find', targetId.substring(0, targetId.indexOf('_')) + "_study");
+                display_txt = rootNode.attributes.txt;
+            }
+
+            $('#info_panel_display').html(display_txt);
+
+
+        }
+
+        //then highlight checked node(s)
+        var selectedNodes = do_get_tree_checked("study_type_tree");
+        var elem = ""
+        for (var i = 0; i < selectedNodes.length; i++) {
+            elem = selectedNodes[i].id + "_div2";
+
+            if ($("#"+elem).get(0)) {
+                $("#" + elem).attr('class', 'study-select-status');
+            }
+        }
+
     }
 
     function display_tree_info(node) {
@@ -94,16 +130,27 @@ $(document).ready(function () {
             $('#info_panel_display').parent().show();
 
             var display_txt = node.attributes.txt;
-            if(display_txt == "") {
-                var rootNode = $('#study_type_tree').tree('find', targetId.substring(0, targetId.indexOf('_'))+ "_study");
+            if (display_txt == "") {
+                var rootNode = $('#study_type_tree').tree('find', targetId.substring(0, targetId.indexOf('_')) + "_study");
                 display_txt = rootNode.attributes.txt;
             }
 
             $('#info_panel_display').html(display_txt);
 
-            if(indexPart == "leaf") { // change the class to make highlighted
-                var elem = node.id+"_div"
-                $("#"+elem).attr('class', 'study-tree-info-data-selected');
+            if (indexPart == "leaf") { // change the class to make highlighted
+                var elem = node.id + "_div"
+                $("#" + elem).attr('class', 'study-tree-info-data-selected');
+            }
+        }
+
+        //then highlight checked node(s)
+        var selectedNodes = do_get_tree_checked("study_type_tree");
+        var elem = ""
+        for (var i = 0; i < selectedNodes.length; i++) {
+            elem = selectedNodes[i].id + "_div2";
+
+            if ($("#"+elem).get(0)) {
+                $("#" + elem).attr('class', 'study-select-status');
             }
         }
 
@@ -192,81 +239,6 @@ $(document).ready(function () {
         var study_fields = JSON.stringify(form_values);
         var collection_head_id = $("#collection_head_id").val();
 
-        // handle cloned studies
-        var selectedNodes = do_get_tree_checked("study_type_tree");
-
-        var allStudyIds = [];
-        var allStudyFragments = [];
-        var splitIndex;
-        var studyId;
-
-        for (var i = 0; i < selectedNodes.length; i++) {
-            splitIndex = selectedNodes[i].id.indexOf("_");
-            studyId = selectedNodes[i].id.substr(0, splitIndex);
-            allStudyIds[i] = studyId;
-            allStudyFragments[i] = selectedNodes[i].id;
-        }
-
-        //get unique studies
-        var uniqueStudyIds = allStudyIds.filter(function (item, i, ar) {
-            return ar.indexOf(item) === i;
-        });
-
-        //retrieve study fragments
-        var clonedStudies = [];
-        for (var i = 0; i < uniqueStudyIds.length; i++) {
-            var curId = uniqueStudyIds[i];
-
-
-            var study_fragments = {"study_id": curId};
-
-            //get study_type
-            study_fragments["study_type"] = "false";
-            if ($.inArray(curId + "_study_type_leaf", allStudyFragments) > -1) {
-                study_fragments["study_type"] = "true";
-            }
-
-            var samples = [];
-            var contacts = [];
-            var publications = [];
-
-            for (var j = 0; j < allStudyFragments.length; j++) {
-                var curNode = allStudyFragments[j];
-                var studyIdPart = curNode.substring(0, curNode.indexOf('_'));
-
-                if (curId != studyIdPart) {
-                    continue;
-                }
-
-                //samples
-                if (curNode.substr(curNode.length - 12) == "_sample_leaf") {
-                    samples[samples.length] = curNode.split("_")[1];
-                }
-
-                //contacts
-                if (curNode.substr(curNode.length - 13) == "_contact_leaf") {
-                    contacts[contacts.length] = curNode.split("_")[1];
-                }
-
-                //publications
-                if (curNode.substr(curNode.length - 17) == "_publication_leaf") {
-                    publications[publications.length] = curNode.split("_")[1];
-                }
-
-
-            }
-
-            study_fragments["samples"] = samples.join();
-            study_fragments["contacts"] = contacts.join();
-            study_fragments["publications"] = publications.join();
-
-            clonedStudies[i] = study_fragments;
-
-        }
-
-        var cloned_studies = JSON.stringify(clonedStudies);
-
-
         formURL = $("#add_new_study_form_2").attr("action");
         csrftoken = $.cookie('csrftoken');
 
@@ -277,14 +249,13 @@ $(document).ready(function () {
             data: {
                 'task': 'add_new_study',
                 'collection_head_id': collection_head_id,
-                'study_fields': study_fields,
-                'cloned_studies': cloned_studies
+                'study_fields': study_fields
             },
             success: function (data) {
                 display_new_study(data);
             },
             error: function () {
-                alert("Couldn't add study!");
+                alert("Couldn't add new study!");
             }
         });
 
@@ -358,6 +329,11 @@ $(document).ready(function () {
 
         do_disengage_study_modal();
 
+    }
+
+    function do_disengage_study_clone_modal () {
+        refresh_study_tree_data();
+        $('#info_panel_display').html("");
     }
 
     function do_disengage_sample_modal() {

@@ -140,7 +140,12 @@
                 <div class="panel-body">
                     <div style="display: inline-block; text-indent: 0.5em;">
                         <a data-toggle="modal" data-target="#newStudyTypeModal" href="#">
-                            <button type="button" id="btn_study_type_quick_update" class="btn btn-primary btn-xs">Add
+                            <button type="button" class="btn btn-primary btn-xs">Add
+                                New Study
+                            </button>
+                        </a>
+                        <a data-toggle="modal" data-target="#studyTypeCloneModal" href="#">
+                            <button type="button" class="btn btn-primary btn-xs">Clone Existing
                                 Study
                             </button>
                         </a>
@@ -182,7 +187,7 @@
 
 
     <!-- Modal for adding new study type -->
-    <div class="modal fade copo-modal2 " id="newStudyTypeModal" tabindex="-1" role="dialog"
+    <div class="modal fade copo-modal " id="newStudyTypeModal" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -243,27 +248,79 @@
                                 </div>
                             </div>
                         </div>
-                        <hr/>
-
-                        <label for="study_type_tree">Clone Existing</label><br/>
-
-                        <div class="two-column-study-container">
-                            <div class="study-column-one">
-                                <ul id="study_type_tree" class="easyui-tree"
-                                    checkbox="true"
-                                    animate="true"
-                                    lines="true">
-                                </ul>
-                            </div>
-                            <div class="study-column-two" hidden="hidden">
-                                <div id="info_panel_display"></div>
-                            </div>
-                            <div class="study-column-clear"></div>
-                        </div>
 
                         <hr/>
                         <div>
                             <button id="submit_study_type_btn" type="button" class="btn btn-primary text-center">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for cloning study types -->
+    <div class="modal fade copo-modal2 " id="studyTypeCloneModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span></button>
+                    <div style="display: inline-block;"><h4 class="modal-title" id="myModalLabel">Clone Existing
+                        Study</h4>
+                    </div>
+                    <div style="display: inline-block;"><span class="blue_icon"><a id="study_type_add_info" href="#"
+                                                                                   class="easyui-tooltip"
+                                                                                   title="{{ "study_type_clone_info"|lookup_info }}"><i
+                            class="glyphicon glyphicon-info-sign"></i></a></span></div>
+
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="clone_new_study_form_2" action="{% url 'copo:add_to_collection' %}"
+                          method="post">
+                        {% csrf_token %}
+
+                        <input type="hidden" name="profile_id" value="{{ profile_id }}">
+
+                        <div id="study_tree_table">
+                            <table class="table-bordered fixed-study-tree">
+                                <col width="40%"/>
+                                <col width="30%"/>
+                                <col width="30%"/>
+
+                                <tr>
+                                    <th>Existing Studies</th>
+                                    <th>View Pane</th>
+                                    <th>Cloned Pane</th>
+                                </tr>
+                                <tr>
+                                    <td valign="top">
+                                        <ul id="study_type_tree" class="easyui-tree"
+                                            checkbox="true"
+                                            animate="true"
+                                            lines="true">
+                                        </ul>
+                                    </td>
+                                    <td valign="top">
+                                        <div id="info_panel_display"></div>
+                                    </td>
+                                    <td valign="top">
+                                        <div id="cloned_panel_display"></div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <hr/>
+                        <div>
+                            <button id="submit_study_clone_btn" type="button" class="btn btn-primary text-center">
                                 Submit
                             </button>
                         </div>
@@ -299,13 +356,13 @@
                           method="post">
                         {% csrf_token %}
                         <div>
-                            {% for sf in ena_d.studies.study.studySamples.fields %}
+                            {% for sf in ui_template.studies.study.studySamples.fields %}
                                 <div class='form-group'>
                                     {{ sf.id|generate_ena_tags }}
                                 </div>
                             {% endfor %}
 
-                            {% for sf in ena_d.studies.study.studySamples.sampleCollection.fields %}
+                            {% for sf in ui_template.studies.study.studySamples.sampleCollection.fields %}
                                 <div class='form-group'>
                                     {{ sf.id|generate_ena_tags }}
                                 </div>

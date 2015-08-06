@@ -9,7 +9,11 @@ LOGIN_ERROR_CODES = {
     'LOGIN_INCORRECT_USERNAME_PASSWORD': 'Your username and/or password were incorrect.',
 }
 
+UI_ERROR_CODES = {
+    "TEMPLATE_NOT_FOUND": "UI Configuration missing! Unable to proceed with request."
+}
 
-PROFILE_ERROR_CODES = {
 
+DB_ERROR_CODES = {
+    "TEMPLATE_NOT_FOUND": "Collection Configuration missing! Unable to proceed with request."
 }

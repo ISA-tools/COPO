@@ -26,6 +26,5 @@ urlpatterns = patterns('web_copo.views',
                        url(r'^save_article/$', FigshareCollection().save_article, name='save_article'),
 
                        url(r'^register_to_irods/$', 'register_to_irods', name='register_to_irods'),
-                       url(r'^ena_template/$', 'ena_template', name='ena_template'),
 
                        )

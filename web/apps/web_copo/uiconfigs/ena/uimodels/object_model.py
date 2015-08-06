@@ -2,8 +2,8 @@ __author__ = 'tonietuk'
 
 # Model used for defining output dictionary
 # Also provides info on how to access the entries
-# For instance, get the fields associated with an investigation
-# in the UI as: investigation.fields, or, investigation.investigationContacts.fields
+# For instance, access the elements associated with 'investigation'
+# as: investigation.fields, or, investigation.investigationContacts.fields
 # or as a dictionary: ['investigation']['fields']
 OUT_DICT = {
     "investigation": {

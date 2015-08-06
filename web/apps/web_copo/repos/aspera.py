@@ -6,6 +6,7 @@ import pexpect
 
 from settings.services import *
 from settings.settings import *
+import re
 from web_copo.mongo.mongo_util import *
 
 

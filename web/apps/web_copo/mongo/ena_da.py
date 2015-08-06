@@ -8,11 +8,10 @@ import random
 import uuid
 import ast
 
-from web_copo.mongo.resource import *
 import web_copo.mongo.mongo_util as mutil
 from web_copo.mongo.resource import *
 from web_copo.mongo.mongo_util import *
-import web_copo.uiconfigs.utils.data_formats as dfmts
+import web_copo.uiconfigs.utils.data_utils as d_utils
 import web_copo.uiconfigs.utils.lookup as lkup
 
 EnaCollections = get_collection_ref("EnaCollections")
@@ -80,8 +79,7 @@ class EnaCollection(Resource):
                                       {"$push": {"studies": study_dict}})
 
     def add_ena_sample(self, ena_collection_id, study_type_list, auto_fields):
-        ena_full_json = dfmts.json_to_object(lkup.SCHEMAS['ENA']['PATHS_AND_URIS']['UI_TEMPLATE_json'])
-        ena_d = ena_full_json.studies.study.studySamples.fields
+        ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.fields
         auto_fields = ast.literal_eval(auto_fields)
 
         sample_id = uuid.uuid4().hex
@@ -93,7 +91,7 @@ class EnaCollection(Resource):
             if f.id in auto_fields.keys():
                 a[key_split[len(key_split) - 1]] = auto_fields[f.id]
 
-        ena_d = ena_full_json.studies.study.studySamples.sampleCollection.fields
+        ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.sampleCollection.fields
 
         for f in ena_d:
             key_split = f.id.split(".")
@@ -112,8 +110,7 @@ class EnaCollection(Resource):
         return sample_id
 
     def edit_ena_sample(self, ena_collection_id, sample_id, study_type_list, auto_fields):
-        ena_full_json = dfmts.json_to_object(lkup.SCHEMAS['ENA']['PATHS_AND_URIS']['UI_TEMPLATE_json'])
-        ena_d = ena_full_json.studies.study.studySamples.fields
+        ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.fields
         auto_fields = ast.literal_eval(auto_fields)
 
         for f in ena_d:
@@ -123,7 +120,7 @@ class EnaCollection(Resource):
                     {"_id": o.ObjectId(ena_collection_id), "collectionCOPOMetadata.samples.id": sample_id},
                     {'$set': {"collectionCOPOMetadata.samples.$." + key_split[len(key_split) - 1]: auto_fields[f.id]}})
 
-        ena_d = ena_full_json.studies.study.studySamples.sampleCollection.fields
+        ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.sampleCollection.fields
 
         for f in ena_d:
             key_split = f.id.split(".")
@@ -195,14 +192,13 @@ class EnaCollection(Resource):
         return mutil.verify_doc_type(doc)
 
     def update_study_type(self, ena_collection_id, study_id, elem_dict):
-        doc = EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.id": study_id}, {
-            '$set': {"studies.$.study_type": elem_dict["study_type"],
-                     "studies.$.study_type_reference": elem_dict["study_type_reference"]}})
+        doc = EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id}, {
+            '$set': {"studies.$.studyCOPOMetadata.studyType": elem_dict["study_type"],
+                     "studies.$.studyCOPOMetadata.studyReference": elem_dict["study_type_reference"]}})
         return doc
 
     def update_study_details(self, ena_collection_id, study_id, auto_fields):
-        ena_full_json = dfmts.json_to_object(lkup.SCHEMAS['ENA']['PATHS_AND_URIS']['UI_TEMPLATE_json'])
-        ena_d = ena_full_json.studies.study.fields
+        ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.fields
         auto_fields = ast.literal_eval(auto_fields)
 
         auto_dict = {}
@@ -212,7 +208,7 @@ class EnaCollection(Resource):
             if f.id in auto_fields.keys():
                 auto_dict["studies.$.study." + key_split[len(key_split) - 1]] = auto_fields[f.id]
 
-        EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.id": study_id}, {
+        EnaCollections.update({"_id": o.ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id}, {
             '$set': auto_dict})
 
     def add_study(self, values, attributes):

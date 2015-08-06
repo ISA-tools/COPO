@@ -1,7 +1,8 @@
 __author__ = 'felixshaw'
 
 from datetime import datetime
-
+import ast
+import requests
 import bson.objectid as o
 from django_tools.middlewares import ThreadLocal
 from django.core.urlresolvers import reverse
@@ -11,11 +12,11 @@ from copo_id import get_uid
 from web_copo.mongo.resource import *
 from web_copo.mongo.mongo_util import *
 from web_copo.vocab.status_vocab import STATUS_CODES
-
-
+from web_copo.uiconfigs.utils.data_formats import DataFormats
 
 Profiles = get_collection_ref("Profiles")
 Collections = get_collection_ref("Collection_Heads")
+Schemas = get_collection_ref("Schemas")
 
 
 class Profile(Resource):
@@ -29,7 +30,7 @@ class Profile(Resource):
 
     def GET_FOR_USER(self):
         user = ThreadLocal.get_current_user().id
-        docs = Profiles.find({'user_id':user})
+        docs = Profiles.find({'user_id': user})
         if not docs:
             pass
         return docs
@@ -149,3 +150,35 @@ class Profile_Status_Info(Resource):
         issues['num_issues'] = issues_count
         issues['issue_description_list'] = issue_desc
         return issues
+
+
+class DataSchemas:
+    def __init__(self, schema):
+        self.schema = schema.upper()
+
+    def add_ui_template(self, template):
+        # remove any existing UI templates for the target schema
+        self.delete_ui_template()
+
+        doc = {"schemaName": self.schema, "schemaType": "UI", "data": template}
+        Schemas.insert(doc)
+
+    def delete_ui_template(self):
+        Schemas.remove({"schemaName": self.schema, "schemaType": "UI"})
+
+    def get_ui_template(self):
+        doc = Schemas.find_one({"schemaName": self.schema, "schemaType": "UI"})
+
+        if doc:
+            return doc["data"]
+        else:
+            # try generating the template
+            temp_dict = DataFormats(self.schema).generate_ui_template()
+
+            # store a copy in the DB
+            if temp_dict["status"] == "success" and temp_dict["data"]:
+                Schemas(self.schema).add_template(temp_dict["data"])
+                return temp_dict["data"]
+            else:
+                # we could do with some human intervention, report error!
+                return ""

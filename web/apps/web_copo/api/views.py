@@ -5,6 +5,8 @@ import requests
 from web_copo.mongo.figshare_da import *
 import web_copo.repos.figshare as f
 from settings.services import *
+from web_copo.mongo.copo_base_da import DataSchemas
+from web_copo.uiconfigs.utils.data_formats import DataFormats
 
 
 def submit_to_figshare(request, article_id):
@@ -52,4 +54,16 @@ def check_orcid_credentials(request):
     # TODO - here we check if the orcid tokens are valid
     out = {'exists': False, 'authorise_url': REPOSITORIES['ORCID']['urls']['authorise_url']}
     return HttpResponse(jsonpickle.encode(out))
+
+
+# call only if you want to generate a new template
+def generate_ena_template(request):
+    temp_dict = DataFormats("ENA").generate_ui_template()
+
+    # purify output (...again!) and store a copy in DB
+    if temp_dict["status"] == "success" and temp_dict["data"]:
+        temp_dict["data"] = DataFormats("ENA").purify(temp_dict["data"])
+        DataSchemas("ENA").add_ui_template(temp_dict["data"])
+
+    return HttpResponse(jsonpickle.encode(temp_dict))
 
