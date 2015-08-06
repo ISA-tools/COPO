@@ -57,8 +57,6 @@ def delete_from_figshare(request, article_id):
 def login_orcid(request):
     r = requests.get(
         'https://sandbox.orcid.org/oauth/authorize?client_id=0000-0002-4011-2520&response_type=code&scope=/authenticate&redirect_uri=http://www.127.0.0.1/copo')
-    print(r.status_code)
-    print(r.json())
     return HttpResponse('ere we go')
 
 

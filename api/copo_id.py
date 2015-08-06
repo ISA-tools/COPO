@@ -7,5 +7,5 @@ from services import WEB_SERVICES
 
 def get_uid():
     r = requests.get(WEB_SERVICES['COPO']['get_id'])
-    print(r.text)
+    #print(r.text)
     return r.text

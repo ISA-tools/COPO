@@ -1,3 +1,5 @@
+import sys
+
 import os
 
 
@@ -113,12 +115,22 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
 from settings_logging import *
 
 import platform
+
+
 if platform.system() == "Darwin":
-    from settings_dev import *
+    from settings_chunked_upload import *
+    if 'test' in sys.argv:
+        from settings_test import *
+    else:
+        from settings_dev import *
     from settings_chunked_upload import *
 elif platform.system() == "Linux":
-    from settings.settings_prod import *
     from settings.settings_chunked_upload import *
+    if 'test' in sys.argv:
+        from settings.settings_test import *
+    else:
+        from settings.settings_prod import *
+
 else:
     raise Exception(
         "Cannot determine execution mode for host '%s'. Please check DEVELOPMENT_HOST and PRODUCTION_HOST in settings_local.py." % node())

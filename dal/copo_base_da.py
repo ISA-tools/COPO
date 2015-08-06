@@ -9,6 +9,7 @@ import bson.objectid as o
 from django_tools.middlewares import ThreadLocal
 from django.core.urlresolvers import reverse
 from requests.exceptions import ConnectionError
+from bson.objectid import ObjectId
 
 from copo_id import get_uid
 from web_copo.vocab.status_vocab import STATUS_CODES
@@ -19,8 +20,8 @@ from dal.base_resource import Resource
 from bson.objectid import ObjectId
 
 Profiles = get_collection_ref("Profiles")
-Collections = get_collection_ref("Collection_Heads")
 Schemas = get_collection_ref("Schemas")
+Collections = get_collection_ref("CollectionHeads")
 
 
 class Profile(Resource):
@@ -31,9 +32,10 @@ class Profile(Resource):
             pass
         return doc
 
-    def GET_FOR_USER(self):
-        user = ThreadLocal.get_current_user().id
-        docs = Profiles.find({'user_id': user})
+    def GET_FOR_USER(self, user=None):
+        if(user == None):
+            user = ThreadLocal.get_current_user().id
+        docs = Profiles.find({'user_id':user})
         if not docs:
             pass
         return docs
@@ -73,12 +75,12 @@ class Profile(Resource):
             "short_abstract": sa,
             "date_created": datetime.now(),
             "date_modified": datetime.now(),
-            "user_id": user_id
+            "user_id": user_id,
         }
         return Profiles.insert(spec)
 
     def add_collection_head(self, profile_id, collection_id):
-        Profiles.update(
+        return Profiles.update(
             {
                 "_id": o.ObjectId(profile_id)
             },
@@ -88,7 +90,7 @@ class Profile(Resource):
         )
 
 
-Collection_Heads = get_collection_ref("Collection_Heads")
+Collection_Heads = get_collection_ref("CollectionHeads")
 
 
 class Collection_Head(Resource):
@@ -98,6 +100,7 @@ class Collection_Head(Resource):
         spec = {
             "type": c_type,
             "name": c_name,
+            "is_clean": False,
         }
         return Collection_Heads.insert(spec)
 
@@ -137,10 +140,14 @@ class Profile_Status_Info(Resource):
             try:
                 collections_ids = p['collections']
             except:
-                issues['num_issues'] = 0
-                return issues
+                issues_count += 1
+                context = {}
+                context["profile_name"] = p['title']
+                context["link"] = reverse('copo:view_profile', args=[p["_id"]])
+                issue_desc.append(STATUS_CODES['PROFILE_EMPTY'].format(**context))
+                break
             # now get the corresponding collection_heads
-            collections_heads = Collections.find({'_id': {'$in': collections_ids}}, {'is_clean': 1})
+            collections_heads = Collections.find({'_id': {'$in': collections_ids}}, {'is_clean': 1, 'collection_details': 1})
             for c in collections_heads:
                 try:
                     if c['is_clean'] == 0:
@@ -149,7 +156,12 @@ class Profile_Status_Info(Resource):
                         context = {}
                         context["profile_name"] = p['title']
                         context["link"] = reverse('copo:view_profile', args=[profile["_id"]])
-                        issue_desc.append(STATUS_CODES['PROFILE_NOT_DEPOSITED'].format(**context))
+
+                        #now work out why the collection is dirty
+                        if False:
+                            pass
+                        else:
+                            issue_desc.append(STATUS_CODES['PROFILE_NOT_DEPOSITED'].format(**context))
                 except:
                     pass
         issues['issue_id_list'] = issue_id

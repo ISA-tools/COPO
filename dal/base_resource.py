@@ -1,19 +1,16 @@
 __author__ = 'felixshaw'
 
 class Resource(object):
-    def GET(self, request, **kwargs):
+    def GET(self, id, **kwargs):
         return NotImplemented()
 
-    def HEAD(self, request, **kwargs):
+    def POST(self, **kwargs):
         return NotImplemented()
 
-    def POST(self, request, **kwargs):
+    def DELETE(self, id, **kwargs):
         return NotImplemented()
 
-    def DELETE(self, request, **kwargs):
-        return NotImplemented()
-
-    def PUT(self, request, **kwargs):
+    def PUT(self, **kwargs):
         return NotImplemented()
 
     def __call__(self, request, **kwargs):
