@@ -18,8 +18,7 @@ log = logging.getLogger(__name__)
 log.debug(sys.path)
 
 
-from dal.copo_base_da import Profile, Collection_Head, ObjectId
-from dal.mongo_util import get_collection_ref
+from dal.copo_base_da import Profile, Collection_Head
 from dal.ena_da import EnaCollection
 from dal.orcid_da import Orcid
 
