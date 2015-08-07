@@ -3,6 +3,7 @@ __author__ = 'felix.shaw@tgac.ac.uk - 05/08/15'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
@@ -15,6 +16,7 @@ DATABASES = {
     }
 
 }
+
 
 MONGO_DB = 'copo_mongo_test'
 MONGO_HOST = '127.0.0.1'
