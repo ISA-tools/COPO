@@ -1,23 +1,349 @@
-[06/Aug/2015 15:09:58] ERROR [django.request:231] Internal Server Error: /rest/check_figshare_credentials/
+[07/Aug/2015 10:20:01] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 10:20:44] ERROR [django.request:231] Internal Server Error: /copo/collection/55c4865d453d9a058911498e/view
 Traceback (most recent call last):
   File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/repos/figshare.py", line 103, in check_figshare_credentials
-    if (Figshare_token().token_exists()):
-NameError: name 'Figshare_token' is not defined
-[06/Aug/2015 15:10:06] ERROR [django.request:231] Internal Server Error: /rest/check_figshare_credentials/
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 218, in view_collection
+    ui_template = DataSchemas("ENA").get_ui_template()
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/copo_base_da.py", line 198, in get_ui_template
+    Schemas(self.schema).add_template(temp_dict["data"])
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/collection.py", line 2066, in __call__
+    self.__name)
+TypeError: 'Collection' object is not callable. If you meant to call the 'Schemas' method on a 'Database' object it is failing because no such method exists.
+[07/Aug/2015 10:20:44] ERROR [django.request:231] Internal Server Error: /copo/collection/55c4865d453d9a058911498e/view
 Traceback (most recent call last):
   File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/repos/figshare.py", line 103, in check_figshare_credentials
-    if (Figshare_token().token_exists()):
-NameError: name 'Figshare_token' is not defined
-[06/Aug/2015 15:10:17] ERROR [django.request:231] Internal Server Error: /rest/check_figshare_credentials/
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 218, in view_collection
+    ui_template = DataSchemas("ENA").get_ui_template()
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/copo_base_da.py", line 194, in get_ui_template
+    temp_dict = DataFormats(self.schema).generate_ui_template()
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/uiconfigs/utils/data_formats.py", line 26, in generate_ui_template
+    out_dict = self.objectify(new_dict, out_dict)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/uiconfigs/utils/data_formats.py", line 110, in objectify
+    del new_dict[key]["option_values"]
+KeyError: 'option_values'
+[07/Aug/2015 10:23:41] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[07/Aug/2015 10:23:48] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 10:23:48] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 10:24:00] ERROR [django.request:231] Internal Server Error: /copo/collection/55c4873d453d9a120d677fd6/view
 Traceback (most recent call last):
   File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/repos/figshare.py", line 103, in check_figshare_credentials
-    if (Figshare_token().token_exists()):
-NameError: name 'Figshare_token' is not defined
-[06/Aug/2015 15:18:05] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Aug/2015 08:52:44] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 218, in view_collection
+    ui_template = DataSchemas("ENA").get_ui_template()
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/copo_base_da.py", line 198, in get_ui_template
+    Schemas(self.schema).add_template(temp_dict["data"])
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/collection.py", line 2066, in __call__
+    self.__name)
+TypeError: 'Collection' object is not callable. If you meant to call the 'Schemas' method on a 'Database' object it is failing because no such method exists.
+[07/Aug/2015 10:27:04] ERROR [django.request:231] Internal Server Error: /copo/collection/55c4873d453d9a120d677fd6/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 218, in view_collection
+    ui_template = DataSchemas("ENA").get_ui_template()
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/copo_base_da.py", line 198, in get_ui_template
+    Schemas(self.schema).add_template(temp_dict["data"])
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/collection.py", line 2066, in __call__
+    self.__name)
+TypeError: 'Collection' object is not callable. If you meant to call the 'Schemas' method on a 'Database' object it is failing because no such method exists.
+[07/Aug/2015 10:27:33] ERROR [django.request:231] Internal Server Error: /copo/collection/55c4873d453d9a120d677fd6/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 218, in view_collection
+    ui_template = DataSchemas("ENA").get_ui_template()
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/copo_base_da.py", line 198, in get_ui_template
+    Schemas(self.schema).add_template(temp_dict["data"])
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/collection.py", line 2066, in __call__
+    self.__name)
+TypeError: 'Collection' object is not callable. If you meant to call the 'Schemas' method on a 'Database' object it is failing because no such method exists.
+[07/Aug/2015 10:28:09] ERROR [django.request:231] Internal Server Error: /copo/collection/55c4873d453d9a120d677fd6/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 218, in view_collection
+    ui_template = DataSchemas("ENA").get_ui_template()
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/copo_base_da.py", line 198, in get_ui_template
+    Schemas(self.schema).add_template(temp_dict["data"])
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/collection.py", line 2066, in __call__
+    self.__name)
+TypeError: 'Collection' object is not callable. If you meant to call the 'Schemas' method on a 'Database' object it is failing because no such method exists.
+[07/Aug/2015 10:33:06] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[07/Aug/2015 10:33:10] ERROR [django.request:231] Internal Server Error: /copo/collection/55c4873d453d9a120d677fd6/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 218, in view_collection
+    ui_template = DataSchemas("ENA").get_ui_template()
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/copo_base_da.py", line 198, in get_ui_template
+    Schemas(self.schema).add_template(temp_dict["data"])
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/collection.py", line 2066, in __call__
+    self.__name)
+TypeError: 'Collection' object is not callable. If you meant to call the 'Schemas' method on a 'Database' object it is failing because no such method exists.
+[07/Aug/2015 10:33:28] ERROR [django.request:231] Internal Server Error: /copo/collection/55c4873d453d9a120d677fd6/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 218, in view_collection
+    ui_template = DataSchemas("ENA").get_ui_template()
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/copo_base_da.py", line 198, in get_ui_template
+    Schemas(self.schema).add_template(temp_dict["data"])
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/collection.py", line 2066, in __call__
+    self.__name)
+TypeError: 'Collection' object is not callable. If you meant to call the 'Schemas' method on a 'Database' object it is failing because no such method exists.
+[07/Aug/2015 10:34:04] ERROR [django.request:231] Internal Server Error: /copo/collection/55c4873d453d9a120d677fd6/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 218, in view_collection
+    ui_template = DataSchemas("ENA").get_ui_template()
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/copo_base_da.py", line 198, in get_ui_template
+    Schemas(self.schema).add_template(temp_dict["data"])
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/collection.py", line 2066, in __call__
+    self.__name)
+TypeError: 'Collection' object is not callable. If you meant to call the 'Schemas' method on a 'Database' object it is failing because no such method exists.
+[07/Aug/2015 10:34:19] WARNING [django.request:143] Not Found: /
+[07/Aug/2015 10:34:26] WARNING [django.request:143] Not Found: /
+[07/Aug/2015 10:35:27] ERROR [django.request:231] Internal Server Error: /copo/collection/55c4873d453d9a120d677fd6/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 218, in view_collection
+    ui_template = DataSchemas("ENA").get_ui_template()
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/copo_base_da.py", line 198, in get_ui_template
+    Schemas(self.schema).add_template(temp_dict["data"])
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/collection.py", line 2066, in __call__
+    self.__name)
+TypeError: 'Collection' object is not callable. If you meant to call the 'Schemas' method on a 'Database' object it is failing because no such method exists.
+[07/Aug/2015 10:36:04] ERROR [django.request:231] Internal Server Error: /copo/collection/55c4873d453d9a120d677fd6/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 218, in view_collection
+    ui_template = DataSchemas("ENA").get_ui_template()
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/copo_base_da.py", line 198, in get_ui_template
+    Schemas(self.schema).add_template(temp_dict["data"])
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/collection.py", line 2066, in __call__
+    self.__name)
+TypeError: 'Collection' object is not callable. If you meant to call the 'Schemas' method on a 'Database' object it is failing because no such method exists.
+[07/Aug/2015 10:38:14] ERROR [django.request:231] Internal Server Error: /copo/collection/55c4873d453d9a120d677fd6/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 218, in view_collection
+    ui_template = DataSchemas("ENA").get_ui_template()
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/copo_base_da.py", line 198, in get_ui_template
+    Schemas(self.schema).add_template(temp_dict["data"])
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/collection.py", line 2066, in __call__
+    self.__name)
+TypeError: 'Collection' object is not callable. If you meant to call the 'Schemas' method on a 'Database' object it is failing because no such method exists.
+[07/Aug/2015 10:40:14] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[07/Aug/2015 10:40:19] ERROR [django.request:231] Internal Server Error: /copo/add_to_collection/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 365, in add_to_collection
+    return_structure['ena_studies'] = htags.get_study_sample_tree(ena_collection_id)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/templatetags/html_tags.py", line 316, in get_study_sample_tree
+    studies = EnaCollection().get_ena_studies(ena_collection_id)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/ena_da.py", line 190, in get_ena_studies
+    doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}}, {"$unwind": "$studies"},
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 110, in __init__
+    self.__validate(oid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 206, in __validate
+    _raise_invalid_id(oid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 52, in _raise_invalid_id
+    " or a 24-character hex string" % oid)
+bson.errors.InvalidId: "[ObjectId('55c4873d453d9a120d677fd7')]" is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
+[07/Aug/2015 10:40:19] ERROR [django.request:231] Internal Server Error: /copo/add_to_collection/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 362, in add_to_collection
+    return_structure['ena_studies'] = htags.get_studies_tree(ena_collection_id)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/templatetags/html_tags.py", line 148, in get_studies_tree
+    studies = EnaCollection().get_ena_studies(ena_collection_id)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/ena_da.py", line 190, in get_ena_studies
+    doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}}, {"$unwind": "$studies"},
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 110, in __init__
+    self.__validate(oid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 206, in __validate
+    _raise_invalid_id(oid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 52, in _raise_invalid_id
+    " or a 24-character hex string" % oid)
+bson.errors.InvalidId: "[ObjectId('55c4873d453d9a120d677fd7')]" is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
+[07/Aug/2015 10:40:42] ERROR [django.request:231] Internal Server Error: /copo/add_to_collection/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 362, in add_to_collection
+    return_structure['ena_studies'] = htags.get_studies_tree(ena_collection_id)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/templatetags/html_tags.py", line 148, in get_studies_tree
+    studies = EnaCollection().get_ena_studies(ena_collection_id)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/ena_da.py", line 190, in get_ena_studies
+    doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}}, {"$unwind": "$studies"},
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 110, in __init__
+    self.__validate(oid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 206, in __validate
+    _raise_invalid_id(oid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 52, in _raise_invalid_id
+    " or a 24-character hex string" % oid)
+bson.errors.InvalidId: "[ObjectId('55c4873d453d9a120d677fd7')]" is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
+[07/Aug/2015 10:40:42] ERROR [django.request:231] Internal Server Error: /copo/add_to_collection/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 365, in add_to_collection
+    return_structure['ena_studies'] = htags.get_study_sample_tree(ena_collection_id)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/templatetags/html_tags.py", line 316, in get_study_sample_tree
+    studies = EnaCollection().get_ena_studies(ena_collection_id)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/ena_da.py", line 190, in get_ena_studies
+    doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}}, {"$unwind": "$studies"},
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 110, in __init__
+    self.__validate(oid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 206, in __validate
+    _raise_invalid_id(oid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 52, in _raise_invalid_id
+    " or a 24-character hex string" % oid)
+bson.errors.InvalidId: "[ObjectId('55c4873d453d9a120d677fd7')]" is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
+[07/Aug/2015 10:48:49] ERROR [django.request:231] Internal Server Error: /copo/add_to_collection/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 362, in add_to_collection
+    return_structure['ena_studies'] = htags.get_studies_tree(ena_collection_id)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/templatetags/html_tags.py", line 148, in get_studies_tree
+    studies = EnaCollection().get_ena_studies(ena_collection_id)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/ena_da.py", line 190, in get_ena_studies
+    doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}}, {"$unwind": "$studies"},
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 110, in __init__
+    self.__validate(oid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 206, in __validate
+    _raise_invalid_id(oid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 52, in _raise_invalid_id
+    " or a 24-character hex string" % oid)
+bson.errors.InvalidId: "[ObjectId('55c4873d453d9a120d677fd7')]" is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
+[07/Aug/2015 10:48:49] ERROR [django.request:231] Internal Server Error: /copo/add_to_collection/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 365, in add_to_collection
+    return_structure['ena_studies'] = htags.get_study_sample_tree(ena_collection_id)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/templatetags/html_tags.py", line 316, in get_study_sample_tree
+    studies = EnaCollection().get_ena_studies(ena_collection_id)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/ena_da.py", line 190, in get_ena_studies
+    doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}}, {"$unwind": "$studies"},
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 110, in __init__
+    self.__validate(oid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 206, in __validate
+    _raise_invalid_id(oid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 52, in _raise_invalid_id
+    " or a 24-character hex string" % oid)
+bson.errors.InvalidId: "[ObjectId('55c4873d453d9a120d677fd7')]" is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
+[07/Aug/2015 10:54:33] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[07/Aug/2015 10:56:17] ERROR [django.request:231] Internal Server Error: /copo/profile/55c48734453d9a120d677fd5/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/templatetags/web_tags.py", line 10, in mongo_id
+    return str(value['_id']['$oid'])
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 163, in view_profile
+    return render(request, 'copo/profile.html', context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/shortcuts.py", line 50, in render
+    return HttpResponse(loader.render_to_string(*args, **kwargs),
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader.py", line 178, in render_to_string
+    return t.render(context_instance)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 148, in render
+    return self._render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader_tags.py", line 126, in render
+    return compiled_parent._render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 312, in render
+    return nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 201, in render
+    nodelist.append(node.render(context))
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 90, in render
+    output = self.filter_expression.resolve(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 624, in resolve
+    new_obj = func(obj, *arg_vals)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/templatetags/web_tags.py", line 12, in mongo_id
+    return str(value['_id'])
+TypeError: 'NoneType' object is not subscriptable
+[07/Aug/2015 10:56:49] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 10:56:49] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 11:37:36] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 11:37:36] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 11:37:36] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 11:37:36] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 11:37:36] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 11:37:36] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 11:37:36] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 11:37:36] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 11:37:36] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 11:37:36] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 11:37:36] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 11:37:36] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 11:37:36] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 11:37:36] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 11:37:36] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 11:37:36] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 11:37:36] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 11:37:36] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 11:37:36] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 11:37:36] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 11:37:36] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 11:37:36] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None

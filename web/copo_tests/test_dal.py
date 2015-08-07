@@ -2,7 +2,6 @@ from django.test import TestCase
 from bson.objectid import ObjectId
 
 import dal.copo_base_da as base
-import dal.ena_da as ena_da
 from web_copo.uiconfigs.utils.data_utils import get_ena_db_template
 
 
@@ -93,9 +92,14 @@ class DalTests(TestCase):
     def test_add_collection_details(self):
 
         c = base.Collection_Head()
-        f = ena_da.EnaCollection()
         ena_tmpl = get_ena_db_template()
         ena_collection_id = base.get_collection_ref("EnaCollections").insert(ena_tmpl)
+        collection_id = c.PUT('type', 'name')
+        c.add_collection_details(collection_id, ena_collection_id)
+        c.add_collection_details(collection_id, ena_collection_id)
+        collection = c.GET(collection_id)
+        self.assertIn('collection_details', collection)
+        self.assertEqual(len(collection['collection_details']), 2)
 
 
 
@@ -110,5 +114,3 @@ class DalTests(TestCase):
         get_collection_ref('OrcidCollections').drop()
         get_collection_ref('EnaCollections').drop()
         get_collection_ref('CollectionHeads').drop()
-
-

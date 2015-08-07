@@ -1,10 +1,7 @@
 __author__ = 'felixshaw'
 
 from datetime import datetime
-import sys
 
-import ast
-import requests
 import bson.objectid as o
 from django_tools.middlewares import ThreadLocal
 from django.core.urlresolvers import reverse
@@ -15,9 +12,7 @@ from copo_id import get_uid
 from web_copo.vocab.status_vocab import STATUS_CODES
 from web_copo.uiconfigs.utils.data_formats import DataFormats
 from dal.mongo_util import get_collection_ref
-
 from dal.base_resource import Resource
-from bson.objectid import ObjectId
 
 Profiles = get_collection_ref("Profiles")
 Schemas = get_collection_ref("Schemas")
@@ -113,7 +108,7 @@ class Collection_Head(Resource):
                 "_id": o.ObjectId(collection_head_id)
             },
             {
-                '$set': {"collection_details": details_id}
+                '$push': {"collection_details": details_id}
             }
         )
 
@@ -195,7 +190,7 @@ class DataSchemas:
 
             # store a copy in the DB
             if temp_dict["status"] == "success" and temp_dict["data"]:
-                Schemas(self.schema).add_template(temp_dict["data"])
+                self.add_ui_template(temp_dict["data"])
                 return temp_dict["data"]
             else:
                 # we could do with some human intervention, report error!

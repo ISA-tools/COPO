@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.template import RequestContext
+
 from error_codes import DB_ERROR_CODES, UI_ERROR_CODES
 from settings_dev import MEDIA_ROOT
 
@@ -18,8 +19,7 @@ log = logging.getLogger(__name__)
 log.debug(sys.path)
 
 
-from dal.copo_base_da import Profile, Collection_Head, ObjectId
-from dal.mongo_util import get_collection_ref
+from dal.copo_base_da import Profile, Collection_Head
 from dal.ena_da import EnaCollection
 from dal.orcid_da import Orcid
 
@@ -227,7 +227,7 @@ def view_collection(request, collection_head_id):
         study_types = lkup.DROP_DOWNS['STUDY_TYPES']
 
         if 'collection_details' in collection_head:
-            request.session['ena_collection_id'] = str(collection_head['collection_details'])
+            request.session['ena_collection_id'] = str(collection_head['collection_details'][0])
             profile = Profile().GET(profile_id)
             ena_collection = EnaCollection().GET(request.session['ena_collection_id'])
             sample_data = htags.get_samples_data(request.session['ena_collection_id'])
@@ -246,7 +246,7 @@ def view_collection(request, collection_head_id):
             data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
                          'profile_id': profile_id}
         return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
-    elif collection_head['type'] == 'PDF File' or collection_head['type'] == 'Image':
+    elif collection_head['type'].lower() == 'pdf file' or collection_head['type'].lower() == 'image':
         articles = FigshareCollection().get_articles_in_collection(collection_head_id)
         data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
                      'profile_id': profile_id,
@@ -337,7 +337,7 @@ def add_to_collection(request):
 
     collection_head_id = request.POST['collection_head_id']
     collection = Collection_Head().GET(collection_head_id)
-    ena_collection_id = str(collection['collection_details'])
+    ena_collection_id = str(collection['collection_details'][0])
 
     if task == "add_new_study":
         study_fields = request.POST['study_fields']
@@ -393,7 +393,7 @@ def remove_from_collection(request):
 
     collection_head_id = request.GET['collection_head_id']
     collection = Collection_Head().GET(collection_head_id)
-    ena_collection_id = str(collection['collection_details'])
+    ena_collection_id = str(collection['collection_details'][0])
 
     if task == "remove_study_sample":
         study_samples_id = request.GET['study_samples_id']
