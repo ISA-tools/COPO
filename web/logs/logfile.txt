@@ -347,3 +347,49 @@ TypeError: 'NoneType' object is not subscriptable
 [07/Aug/2015 11:37:36] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
 [07/Aug/2015 11:37:36] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
 [07/Aug/2015 11:37:36] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 13:24:50] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 13:24:51] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 13:24:51] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 13:24:51] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 13:24:51] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 13:24:51] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 13:24:51] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 13:24:51] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 13:24:51] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 13:24:51] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 13:24:51] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 13:24:51] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 13:24:51] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 13:24:51] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 13:24:51] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 13:24:51] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 13:24:51] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 13:24:51] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 13:24:51] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 13:24:51] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 13:24:51] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+[07/Aug/2015 13:24:51] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
+[07/Aug/2015 13:25:05] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[07/Aug/2015 13:52:04] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[07/Aug/2015 13:55:59] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[07/Aug/2015 14:09:11] ERROR [django.request:231] Internal Server Error: /copo/study/8f3275357c614c9e8c1668034b1d6260/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 274, in view_study
+    study = EnaCollection().get_ena_study(study_id, ena_collection_id)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/ena_da.py", line 183, in get_ena_study
+    doc = EnaCollections.find_one({"_id": ObjectId(ena_collection_id),
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 110, in __init__
+    self.__validate(oid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 206, in __validate
+    _raise_invalid_id(oid)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 52, in _raise_invalid_id
+    " or a 24-character hex string" % oid)
+bson.errors.InvalidId: "[ObjectId('55c4bc00453d9a84d02de833')]" is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
+[07/Aug/2015 15:37:52] WARNING [django.request:143] Not Found: /favicon.ico
+[08/Aug/2015 14:39:54] WARNING [django.request:143] Not Found: /favicon.ico
+[08/Aug/2015 14:39:54] WARNING [django.request:143] Not Found: /apple-touch-icon-precomposed.png
+[08/Aug/2015 14:39:55] WARNING [django.request:143] Not Found: /apple-touch-icon.png

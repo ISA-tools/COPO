@@ -184,7 +184,7 @@ def new_collection_head(request):
                           )
             return HttpResponseRedirect(reverse('copo:index'))
 
-        ena_collection_id = get_collection_ref("EnaCollections").insert(db_template)
+        ena_collection_id = EnaCollection().PUT(db_template)
 
         # add collection details
         Collection_Head().add_collection_details(collection_head_id, ena_collection_id)

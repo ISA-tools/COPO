@@ -7,6 +7,7 @@ import ast
 
 import dal.mongo_util as mutil
 
+
 #from dal.resource import *
 #from web_copo.mongo.mongo_util import *
 import web_copo.uiconfigs.utils.data_utils as d_utils
@@ -25,6 +26,9 @@ class EnaCollection(Resource):
         if not doc:
             pass
         return doc
+
+    def PUT(self, doc):
+        return EnaCollections.insert(doc)
 
     def add_ena_study(self, ena_collection_id, study_type_list):
         # first study in list is left blank (flat set to delete though)
