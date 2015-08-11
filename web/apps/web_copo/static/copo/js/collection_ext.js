@@ -23,32 +23,41 @@ $(document).ready(function () {
 
         });
 
+        //disable submit in clone study
+        $("#submit_study_clone_btn").prop('disabled', true);
 
         //hide delete button for first element in the study type group
         $("#study_type_remove_0").hide();
-
-        //hide or show tables depending on presence of records to display
-        if (parseInt($("#sample_data_count").val()) == 0) {
-            $("#samples_table_div").hide();
-        }
-
-        if (parseInt($("#study_data_count").val()) == 0) {
-            $("#studies_table_div").hide();
-        }
 
         //handle event for add new study type
         $('#submit_study_type_btn').on('click', function () {
             do_submit_study_type();
         });
 
+        //handle event for delete study confirmation
+        $('#delete_study_btn').on('click', function () {
+            do_delete_study();
+        });
+
+        //handle event for clone study
+        $('#submit_study_clone_btn').on('click', function () {
+            do_clone_study();
+        });
+
+
         //handle event for add study type
-        $("#study_type_add").click(function (event) {
+        $(".study-type-add").click(function (event) {
             do_add_study_type();
         });
 
         //handle click event for delete study type
-        $("#study_types_lists_div").on('click', 'a.study_type_remove', function (event) {
+        $("#study_types_lists_div").on('click', 'a.study-type-remove', function (event) {
             do_remove_study_type(event);
+        });
+
+        //handle event for delete study
+        $("#studies_table_div").on('click', 'a.study-delete', function (event) {
+            do_study_delete_confirmation(event);
         });
 
 
@@ -64,14 +73,21 @@ $(document).ready(function () {
 
         $('.modal').on('hidden.bs.modal', function () {
             $('.modal-backdrop').remove();
-            $(this).find('form')[0].reset();
+
+            try {
+                $(this).find('form')[0].reset();
+            } catch (err) {
+                ;
+            }
 
             if (this.id == "newStudyTypeModal") {
                 do_disengage_study_modal();
             } else if (this.id == "newStudySampleModal") {
                 do_disengage_sample_modal();
-            } else if(this.id == "studyTypeCloneModal") {
+            } else if (this.id == "studyTypeCloneModal") {
                 do_disengage_study_clone_modal();
+            } else if (this.id == "studyDeleteModal") {
+                do_disengage_study_delete_modal();
             }
 
         });
@@ -81,77 +97,182 @@ $(document).ready(function () {
             onClick: function (node) {
                 display_tree_info(node);
             },
-            onCheck: function (node) {
-                display_tree_node_status(node);
+            onCheck: function (node, checked) {
+                display_tree_node_status(node, checked);
+                refresh_study_clone_info();
             }
         });
     }
 
-    function display_tree_node_status(node) {
-        var targetId = node.id;
-        var splitIndex = targetId.lastIndexOf("_");
-        var indexPart = targetId.substr(splitIndex + 1);
+    function do_delete_study() {
+        //get the study id...
+        var studyId = $("#target_study_delete").val();
 
+        var collection_head_id = $("#collection_head_id").val();
+
+        formURL = $("#delete_study_form_2").attr("action");
+        csrftoken = $.cookie('csrftoken');
+
+        $.ajax({
+            url: formURL,
+            type: "POST",
+            headers: {'X-CSRFToken': csrftoken},
+            data: {
+                'task': 'delete_study',
+                'collection_head_id': collection_head_id,
+                'study_id': studyId
+            },
+            success: function (data) {
+                display_new_study(data);
+                $('#studyDeleteModal').modal('hide');
+                do_disengage_study_delete_modal();
+            },
+            error: function () {
+                alert("Couldn't add new study!");
+            }
+        });
+
+    }
+
+    function do_study_delete_confirmation(event) {
+        var targetId = $($(event.target)).parent().attr("id");
+        var studyRef = $($(event.target)).parent().attr("custom-data-reference");
+        var studyType = $($(event.target)).parent().attr("custom-data-type");
+
+        if (targetId.slice(-9) == "st_delete") {
+            studyId = targetId.slice(0, -10);
+            studyRow = studyId + "_study_row";
+
+            $("#" + studyRow).attr('class', 'row-delete-higlight');
+            $("#target_study_delete_span").html(studyRef + " (" + studyType + ")");
+            $("#target_study_delete").val(studyId);
+        }
+    }
+
+    function display_tree_node_status(node, checked) {
         //first display the study branch...
 
-        if (indexPart == "leaf" || indexPart == "study") {
-            $('#info_panel_display').parent().show();
+        $('#info_panel_display').show();
 
-            var display_txt = node.attributes.txt;
-            if (display_txt == "") {
-                var rootNode = $('#study_type_tree').tree('find', targetId.substring(0, targetId.indexOf('_')) + "_study");
-                display_txt = rootNode.attributes.txt;
-            }
-
-            $('#info_panel_display').html(display_txt);
-
-
-        }
-
-        //then highlight checked node(s)
+        //handle checked nodes,
+        //nodes at the same level across studies are mutually exclusive
         var selectedNodes = do_get_tree_checked("study_type_tree");
-        var elem = ""
-        for (var i = 0; i < selectedNodes.length; i++) {
-            elem = selectedNodes[i].id + "_div2";
+        if (checked) {
+            $("#cloned_panel_display").show();
 
-            if ($("#"+elem).get(0)) {
-                $("#" + elem).attr('class', 'study-select-status');
+            for (var i = 0; i < selectedNodes.length; i++) {
+
+                if (node.id == selectedNodes[i].id) {
+                    continue;
+                }
+
+                targetSplit = node.id.split("_");
+                elemSplit = selectedNodes[i].id.split("_");
+
+
+                if ((targetSplit.length == 2
+                    && elemSplit.length == 2)
+                    && (targetSplit[1] == elemSplit[1])) {
+                    elemNode = $('#study_type_tree').tree('find', selectedNodes[i].id);
+                    $('#study_type_tree').tree('uncheck', elemNode.target);
+                } else if ((targetSplit.length == 3
+                    && elemSplit.length == 3)
+                    && (targetSplit[1] + targetSplit[2] == elemSplit[1] + elemSplit[2])) {
+                    elemNode = $('#study_type_tree').tree('find', selectedNodes[i].id);
+                    $('#study_type_tree').tree('uncheck', elemNode.target);
+                }
             }
         }
 
+        // display the branch of this node in the view pane
+        var display_txt = node.attributes.txt;
+        if (display_txt == "") {
+            var rootNode = $('#study_type_tree').tree('find', node.id.substring(0, node.id.indexOf('_')) + "_study");
+            display_txt = rootNode.attributes.txt;
+        }
+
+        $('#info_panel_display').html(display_txt);
+    }
+
+    function refresh_study_clone_info() {
+        var selectedNodes = do_get_tree_checked("study_type_tree");
+
+        //update the view in the cloned pane
+        //hide all node by default...show selected elements
+        $("#cloned_panel_display").children(":nth-child(1)").children().each(function () {
+            if ($("#" + this.id).get(0) && (this.id.slice(-9) == "clone_div")) {
+                $("#" + this.id).hide();
+            }
+        });
+
+        //clear composite-type nodes ready for rebuilding
+        $(".study-list-data-active").remove();
+
+        //show all passive divs
+        //passive divs are used to clone composite nodes
+        $(".study-list-data-passive").show();
+
+        for (var i = 0; i < selectedNodes.length; i++) {
+            elemSplit = selectedNodes[i].id.split("_");
+            literalPart = elemSplit[elemSplit.length - 1]
+
+            elemDiv = literalPart + "_clone_div";
+
+            if ($("#" + elemDiv).get(0)) {
+                $("#" + elemDiv).show();
+
+                //set values...but done in a slightly different way depending on the level of nesting of nodes
+                if (elemSplit.length == 2) {
+                    elemSpan = literalPart + "_clone_span";
+                    $("#" + elemSpan).html(selectedNodes[i].attributes.label);
+
+                    elemValue = literalPart + "_clone_value";
+                    $("#" + elemValue).val(selectedNodes[i].attributes.value);
+                } else if (elemSplit.length == 3) {
+                    //find and retrieve the composite node data
+                    elemNode = $('#study_type_tree').tree('find', selectedNodes[i].id);
+                    dataDivs = elemNode.attributes.label;
+
+                    clonableDiv = $("#" + elemDiv).find(".study-list-data-passive").clone();
+                    clonableDiv.attr("class", "study-list-data-active");
+                    clonableDiv.find(".study-node-data").html(dataDivs);
+                    clonableDiv.find(".study-node-data-value").attr("id", literalPart + "_" + i + "_clone_value");
+                    clonableDiv.find(".study-node-data-value").val(elemNode.attributes.value);
+                    $("#" + elemDiv).append(clonableDiv);
+
+                }
+            }
+        }
+
+        //hide all passive divs
+        $(".study-list-data-passive").hide();
+
+        //check if minimum requirement for cloning is met before activating the submit button
+        // ...i.e. do some validation here!
+        if (selectedNodes.length > 0) {
+            $("#submit_study_clone_btn").prop('disabled', false);
+        } else {
+            $("#submit_study_clone_btn").prop('disabled', true);
+        }
     }
 
     function display_tree_info(node) {
         var targetId = node.id;
-        var splitIndex = targetId.lastIndexOf("_");
-        var indexPart = targetId.substr(splitIndex + 1);
 
-        if (indexPart == "leaf" || indexPart == "study") {
-            $('#info_panel_display').parent().show();
+        $('#info_panel_display').show();
 
-            var display_txt = node.attributes.txt;
-            if (display_txt == "") {
-                var rootNode = $('#study_type_tree').tree('find', targetId.substring(0, targetId.indexOf('_')) + "_study");
-                display_txt = rootNode.attributes.txt;
-            }
-
-            $('#info_panel_display').html(display_txt);
-
-            if (indexPart == "leaf") { // change the class to make highlighted
-                var elem = node.id + "_div"
-                $("#" + elem).attr('class', 'study-tree-info-data-selected');
-            }
+        var display_txt = node.attributes.txt;
+        if (display_txt == "") {
+            var rootNode = $('#study_type_tree').tree('find', targetId.substring(0, targetId.indexOf('_')) + "_study");
+            display_txt = rootNode.attributes.txt;
         }
 
-        //then highlight checked node(s)
-        var selectedNodes = do_get_tree_checked("study_type_tree");
-        var elem = ""
-        for (var i = 0; i < selectedNodes.length; i++) {
-            elem = selectedNodes[i].id + "_div2";
+        $('#info_panel_display').html(display_txt);
 
-            if ($("#"+elem).get(0)) {
-                $("#" + elem).attr('class', 'study-select-status');
-            }
+        var elem = node.id + "_div"
+
+        if ($("#" + elem).get(0)) { // change class to highlighted
+            $("#" + elem).attr('class', 'study-tree-info-data-selected');
         }
 
     }
@@ -209,9 +330,47 @@ $(document).ready(function () {
         $('#study_type_sample_tree').tree({
             data: data.ena_studies
         });
-        $('#study_type_sample_tree').tree('expandAll');
 
+        $('#study_type_sample_tree').tree('expandAll');
         $('#newStudySampleModal').modal('show');
+
+    }
+
+    function do_clone_study() {
+        var $inputs = $('#clone_new_study_form_2 :input');
+
+        var form_values = {};
+
+        $inputs.each(function () {
+            if (this.id.slice(-11) == "clone_value") {
+                form_values[this.id.slice(0, -12)] = $(this).val();
+            }
+        });
+
+        var cloned_elements = JSON.stringify(form_values);
+        var collection_head_id = $("#collection_head_id").val();
+
+        formURL = $("#clone_new_study_form_2").attr("action");
+        csrftoken = $.cookie('csrftoken');
+
+        $.ajax({
+            url: formURL,
+            type: "POST",
+            headers: {'X-CSRFToken': csrftoken},
+            data: {
+                'task': 'clone_study',
+                'collection_head_id': collection_head_id,
+                'cloned_elements': cloned_elements
+            },
+            success: function (data) {
+                display_new_study(data);
+                $('#studyTypeCloneModal').modal('hide');
+                do_disengage_study_clone_modal();
+            },
+            error: function () {
+                alert("Couldn't clone study!");
+            }
+        });
 
     }
 
@@ -253,6 +412,8 @@ $(document).ready(function () {
             },
             success: function (data) {
                 display_new_study(data);
+                $('#newStudyTypeModal').modal('hide');
+                do_disengage_study_modal();
             },
             error: function () {
                 alert("Couldn't add new study!");
@@ -274,66 +435,21 @@ $(document).ready(function () {
     function display_new_study(data) {
         //clone an existing study as template for minting new ones
 
-        var studies = data.study_data;
-
-        var clonedTR = [];
-        for (var i = 0; i < studies.length; i++) {
-
-            var clonableTarget = $(".study_table_row:last").clone();
-
-            //update row id
-            var targetId = clonableTarget.attr("id");
-            var splitIndex = targetId.lastIndexOf("_");
-            var literalPart = targetId.substr(0, splitIndex + 1);
-            clonableTarget.attr("id", literalPart + studies[i].id);
-
-            //update study_type_reference column
-            var targetChild = clonableTarget.children(":nth-child(1)");
-            var theRefTag = targetChild.children(":nth-child(1)");
-            var splitLink = theRefTag.attr("href").split("/");
-            theRefTag.attr("href", "/" + splitLink[1] + "/" + splitLink[2] + "/" + studies[i].id + "/" + splitLink[4]);
-            theRefTag.html(studies[i].studyReference);
-
-            //update the study_type column
-            targetChild = clonableTarget.children(":nth-child(2)");
-            targetChild.html(studies[i].studyType);
-
-            //update the # samples column
-            targetChild = clonableTarget.children(":nth-child(3)");
-            targetChild.html(studies[i].samplescount);
-
-            //update the actions column
-            targetChild = clonableTarget.children(":nth-child(4)");
-
-            update_id_name_byref(targetChild.children(":nth-child(1)"), studies[i].id); //...for quick view study
-            update_id_name_byref(targetChild.children(":nth-child(2)"), studies[i].id); //...for update study
-            update_id_name_byref(targetChild.children(":nth-child(3)"), studies[i].id); //...for delete study
-
-            clonedTR[i] = clonableTarget;
-
-        }
-
-        $("#study_table").find("tr:gt(0)").remove();
-
-        for (var i = 0; i < clonedTR.length; i++) {
-            $('#study_table').append(clonedTR[i]);
-        }
+       $('#studies_table_div').html(data.study_data);
 
         //refresh tree data
         refresh_study_tree_data();
 
         //also refresh tree in sample modal
         refresh_study_sample_tree_data();
-
-        $('#newStudyTypeModal').modal('hide');
-
-        do_disengage_study_modal();
-
     }
 
-    function do_disengage_study_clone_modal () {
+    function do_disengage_study_clone_modal() {
         refresh_study_tree_data();
         $('#info_panel_display').html("");
+        $("#cloned_panel_display").hide();
+        $('#studyReference_clone_value').val("");
+        $("#submit_study_clone_btn").prop('disabled', true);
     }
 
     function do_disengage_sample_modal() {
@@ -345,7 +461,7 @@ $(document).ready(function () {
     function do_disengage_study_modal() {
 
         //remove all redundant fields
-        $('.study_type_remove').each(function () {
+        $('.study-type-remove').each(function () {
             var targetId = this.id;
             var splitIndex = targetId.lastIndexOf("_");
             var indexPart = targetId.substr(splitIndex + 1);
@@ -357,6 +473,16 @@ $(document).ready(function () {
 
         });
 
+    }
+
+    function do_disengage_study_delete_modal() {
+        //get the study id...
+        var studyId = $("#target_study_delete").val();
+        var studyRow = studyId + "_study_row";
+
+        $("#" + studyRow).removeClass("row-delete-higlight");
+        $("#target_study_delete_span").html("");
+        $("#target_study_delete").val("");
     }
 
     function do_add_new_study_sample() { //todo: attached bootstrap validator
