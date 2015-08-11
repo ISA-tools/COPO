@@ -3,11 +3,10 @@ __author__ = 'etuka'
 from datetime import datetime
 
 import pexpect
-
 import os
-from settings.services import *
-from settings.settings import *
 import re
+
+from services import *
 from dal.mongo_util import *
 from dal.mongo_util import get_collection_ref
 

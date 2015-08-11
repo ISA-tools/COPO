@@ -5,18 +5,17 @@ import string
 import uuid
 import ast
 
-import web_copo.mongo.mongo_util as mutil
-from web_copo.mongo.resource import *
-from web_copo.mongo.mongo_util import *
+import dal.mongo_util as mutil
+
+
+#from dal.resource import *
+#from web_copo.mongo.mongo_util import *
 import web_copo.uiconfigs.utils.data_utils as d_utils
 import random
-import pymongo
 
 from mongo_util import get_collection_ref
 from base_resource import Resource
 from dal import ObjectId
-import web_copo.uiconfigs.utils.data_formats as dfmts
-import web_copo.uiconfigs.utils.lookup as lkup
 
 EnaCollections = get_collection_ref("EnaCollections")
 
@@ -27,6 +26,9 @@ class EnaCollection(Resource):
         if not doc:
             pass
         return doc
+
+    def PUT(self, doc):
+        return EnaCollections.insert(doc)
 
     def add_ena_study(self, ena_collection_id, study_type_list):
         # first study in list is left blank (flat set to delete though)

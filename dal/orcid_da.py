@@ -6,7 +6,7 @@ from allauth.socialaccount.models import SocialAccount
 from dal.base_resource import Resource
 from dal.mongo_util import get_collection_ref
 
-ORCID = get_collection_ref("OcidCollections")
+ORCID = get_collection_ref("OrcidCollections")
 
 
 class Orcid(Resource):

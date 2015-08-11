@@ -1,9 +1,11 @@
 __author__ = 'etuka'
 
 import json
+
 from collections import namedtuple
-import web_copo.uiconfigs.utils.lookup as lkup
-from web_copo.mongo.copo_base_da import DataSchemas
+
+from web_copo.uiconfigs.utils import lookup
+from dal import DataSchemas
 
 
 # converts a dictionary to object
@@ -21,7 +23,7 @@ def get_label(value, list_of_elements, key_name):
 
 def lookup_study_type_label(val):
     # get study types
-    study_types = lkup.DROP_DOWNS['STUDY_TYPES']
+    study_types = lookup.DROP_DOWNS['STUDY_TYPES']
 
     for st in study_types:
         if st["value"].lower() == val.lower():
@@ -40,7 +42,7 @@ def get_ena_ui_template_as_obj():
 
 
 def get_ena_db_template():
-    path_to_json = lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['ISA_json']
+    path_to_json = lookup.SCHEMAS["ENA"]['PATHS_AND_URIS']['ISA_json']
     data = ""
     with open(path_to_json, encoding='utf-8') as data_file:
         data = json.loads(data_file.read())
