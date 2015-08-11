@@ -3,7 +3,6 @@ __author__ = 'tonietuk'
 from django import template
 from django.utils.safestring import mark_safe
 
-
 import web_copo.uiconfigs.utils.data_utils as d_utils
 from dal.ena_da import EnaCollection
 import web_copo.uiconfigs.utils.lookup as lkup
@@ -126,6 +125,64 @@ def get_samples_data(ena_collection_id):
     return sample_data
 
 
+@register.filter("generate_study_table")
+def generate_study_table(ena_collection_id):
+    # serves Django template via the mark_safe pipe
+    # not necessarily supported by calls via other routes e.g., AJAX calls. for those, use
+    # 'generate_sample_table2' function
+    return mark_safe(generate_study_html(ena_collection_id))
+
+
+def generate_study_table2(ena_collection_id):
+    return generate_study_html(ena_collection_id)
+
+
+def generate_study_html(ena_collection_id):
+    html_tag = ""
+    row_class = 'study-table-row'
+    study_data = get_studies_data(ena_collection_id)
+
+    if study_data:
+        html_tag += "<hr/>"
+        html_tag += "<table class='table-bordered' id='study_table'>"
+        html_tag += "<tr>"
+        html_tag += "<th>Study Reference</th>"
+        html_tag += "<th>Study Type</th>"
+        html_tag += "<th># Samples</th>"
+        html_tag += "<th>&nbsp;</th>"
+        html_tag += "</tr>"
+
+        for sd in study_data:
+            study_id = sd["id"]
+            row_id = study_id + "_study_row"
+            delete_id = study_id + "_st_delete"
+            study_reference = sd["studyReference"]
+            study_type = sd["studyType"]
+            samples_count = sd["samplescount"]
+            edit_link = "/copo/study/" + study_id + "/view"
+
+            html_tag += " <tr class='{row_class!s}' id='{row_id!s}'>".format(**locals())
+            html_tag += " <td><a href='{edit_link!s}'>{study_reference!s}</a></td>".format(**locals())
+            html_tag += " <td>{study_type!s}</td>".format(**locals())
+            html_tag += " <td>{samples_count!s}</td>".format(**locals())
+            html_tag += " <td>"
+            html_tag += " <span style='padding-right: 15px;'>"
+            html_tag += " <a class='study-type-edit' href='{edit_link!s}'>".format(**locals())
+            html_tag += " <i data-toggle='tooltip' title='Update Study' class='fa fa-pencil-square-o'></i></a>"
+            html_tag += " </span>"
+            html_tag += " <span><a id='{delete_id!s}' class='study-type-remove study-delete' ".format(**locals())
+            html_tag += " data-toggle='modal' data-target='#studyDeleteModal' custom-data-reference='{study_reference!s}'".format(**locals())
+            html_tag += " custom-data-type='{study_type!s}' href='#'>".format(**locals())
+            html_tag += " <i data-toggle='tooltip' title='Delete Study'"
+            html_tag += " class='glyphicon glyphicon-remove-sign'></i></a>"
+            html_tag += " </span>"
+            html_tag += " </td>"
+            html_tag += " </tr>"
+        html_tag += " </table>"
+
+    return html_tag
+
+
 def get_studies_data(ena_collection_id):
     studies = EnaCollection().get_ena_studies(ena_collection_id)
     study_data = []
@@ -161,31 +218,35 @@ def get_studies_tree(ena_collection_id):
             "attributes": {"txt": study_attributes},
             "children": [
                 {
-                    "id": study_id + "_study_type_leaf",
+                    "id": study_id + "_studyType",
                     "text": "Study Type",
                     "state": "open",
-                    "attributes": {"txt": ""}
+                    "attributes": {"txt": "", "label": lookup_study_type_label(
+                        study["studyCOPOMetadata"]['studyType']), "value": study["studyCOPOMetadata"]['studyType']}
                 },
                 {
-                    "id": study_id + "_studyTitle_leaf",
+                    "id": study_id + "_studyTitle",
                     "text": generate_ena_labels("studies.study.studyTitle"),
                     "state": "open",
-                    "attributes": {"txt": ""}
+                    "attributes": {"txt": "", "label": study['study']['studyTitle'],
+                                   "value": study['study']['studyTitle']}
                 },
                 {
-                    "id": study_id + "_commentStudyFundingAgency_leaf",
+                    "id": study_id + "_commentStudyFundingAgency",
                     "text": generate_ena_labels("studies.study.commentStudyFundingAgency"),
                     "state": "open",
-                    "attributes": {"txt": ""}
+                    "attributes": {"txt": "", "label": study['study']['commentStudyFundingAgency'],
+                                   "value": study['study']['commentStudyFundingAgency']}
                 },
                 {
-                    "id": study_id + "_studyDescription_leaf",
+                    "id": study_id + "_studyDescription",
                     "text": generate_ena_labels("studies.study.studyDescription"),
                     "state": "open",
-                    "attributes": {"txt": ""}
+                    "attributes": {"txt": "", "label": study['study']['studyDescription'],
+                                   "value": study['study']['studyDescription']}
                 },
                 {
-                    "id": study_id + "_samples_leaf",
+                    "id": study_id + "_samples",
                     "text": "Samples",
                     "state": "closed",
                     "children": sample_children,
@@ -215,30 +276,29 @@ def format_tree_node(node):
     display_string = ""
     if isinstance(node, dict):
         for k, v in node.items():
-            display_string += "<div>{k!s}: {v!s}</div>".format(**locals())
+            display_string += "<div><span class='study-node-title'>{k!s}</span>: {v!s}</div>".format(**locals())
 
     elif isinstance(node, list):
-        class_name = lkup.CSS_CLASSES["study_tree_data"]
-        status_class_name = lkup.CSS_CLASSES["study_tree_data_not_select"]
+        class_name = "study-node-data"
+        status_class_name = "study-view-select-status"
         for nd in node:
             child_id = nd["id"] + "_div"
             child_id2 = nd["id"] + "_div2"
             child_data = nd["attributes"]["data"]
             display_data = "<div id='{child_id2!s}' class='{status_class_name!s}'></div>".format(**locals())
             display_data += "<div id='{child_id!s}' class='{class_name!s}'>".format(**locals())
-            for k, v in child_data.items():
-                display_data += "<div>{k!s}: {v!s}</div>".format(**locals())
+            display_data += nd["attributes"]["label"]
             display_data += "</div>"
             display_string += display_data
     return display_string
 
 
 def get_study_attributes_tree(study, composite_attributes):
-    # get css styles
-    class_name = lkup.CSS_CLASSES["study_tree_data"]
-    status_class_name = lkup.CSS_CLASSES["study_tree_data_not_select"]
-    list_class_name = lkup.CSS_CLASSES["study_tree_list_label"]
-    list_status_class_name = lkup.CSS_CLASSES["study_tree_list_label_select"]
+    # define css styles
+    class_name = "study-node-data"
+    status_class_name = "study-view-select-status"
+    list_class_name = "study-node-list-data"
+    list_status_class_name = "study-list-status"
 
     study_id = study["studyCOPOMetadata"]["id"]
 
@@ -248,30 +308,31 @@ def get_study_attributes_tree(study, composite_attributes):
     display_string = "<div class='list-group'>"
 
     # study type
-    id_name = study_id + "_study_type_leaf_div"
-    id_name2 = study_id + "_study_type_leaf_div2"
+    id_name = study_id + "_studyType_div"
+    id_name2 = study_id + "_studyType_div2"
     display_string += "<div id='{id_name2!s}' class='{status_class_name!s}'></div>".format(**locals())
     display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node(
-        {"Study Type": lookup_study_type_label(study["studyCOPOMetadata"]['studyType'])}) + "</div>"
+        {"<span class='study-node-title'>Study Type</span>": lookup_study_type_label(
+            study["studyCOPOMetadata"]['studyType'])}) + "</div>"
 
     # study title
-    id_name = study_id + "_studyTitle_leaf_div"
-    id_name2 = study_id + "_studyTitle_leaf_div2"
+    id_name = study_id + "_studyTitle_div"
+    id_name2 = study_id + "_studyTitle_div2"
     display_string += "<div id='{id_name2!s}' class='{status_class_name!s}'></div>".format(**locals())
     display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node(
         {generate_ena_labels("studies.study.studyTitle"): study['study']['studyTitle']}) + "</div>"
 
     # study funding agency
-    id_name = study_id + "_commentStudyFundingAgency_leaf_div"
-    id_name2 = study_id + "_commentStudyFundingAgency_leaf_div2"
+    id_name = study_id + "_commentStudyFundingAgency_div"
+    id_name2 = study_id + "_commentStudyFundingAgency_div2"
     display_string += "<div id='{id_name2!s}' class='{status_class_name!s}'></div>".format(**locals())
     display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node({
         generate_ena_labels("studies.study.commentStudyFundingAgency"): study['study'][
             'commentStudyFundingAgency']}) + "</div>"
 
     # study description
-    id_name = study_id + "_studyDescription_leaf_div"
-    id_name2 = study_id + "_studyDescription_leaf_div2"
+    id_name = study_id + "_studyDescription_div"
+    id_name2 = study_id + "_studyDescription_div2"
     display_string += "<div id='{id_name2!s}' class='{status_class_name!s}'></div>".format(**locals())
     display_string += "<div id='{id_name!s}' class='{class_name!s}'>".format(**locals()) + format_tree_node({
         generate_ena_labels("studies.study.studyDescription"): study['study'][
@@ -282,6 +343,18 @@ def get_study_attributes_tree(study, composite_attributes):
     display_string += "<div class='{list_class_name!s}'><label>Samples</label></div>".format(**locals())
     # study samples data
     display_string += format_tree_node(composite_attributes[0])
+
+    # study publications label
+    display_string += "<div class='{list_status_class_name!s}'></div>".format(**locals())
+    display_string += "<div class='{list_class_name!s}'><label>Publications</label></div>".format(**locals())
+    # study publications data
+    # display_string += format_tree_node(composite_attributes[1])
+
+    # study contacts label
+    display_string += "<div class='{list_status_class_name!s}'></div>".format(**locals())
+    display_string += "<div class='{list_class_name!s}'><label>Contacts</label></div>".format(**locals())
+    # study contacts data
+    # display_string += format_tree_node(composite_attributes[2])
 
     display_string += "</div>"
     return display_string
@@ -297,15 +370,19 @@ def get_study_samples_children(ena_collection_id, study_id):
         sample_details = EnaCollection().get_ena_sample(ena_collection_id, sd["id"])
 
         if sample_details:
-            sample = {"id": study_id + "_" + sd['id'] + "_sample_leaf",
+            sample = {"id": study_id + "_" + sd['id'] + "_sample",
                       "state": "open"}
             txt = {}
+            display_string = ""
 
             for f_o in fields_property["dblabel"][1:]:
                 txt[f_o["label"]] = sample_details[f_o["db_name"]]
+                k = f_o["label"]
+                v = sample_details[f_o["db_name"]]
+                display_string += "<div><span class='study-node-title'>{k!s}</span>: {v!s}</div>".format(**locals())
 
             sample["text"] = idx
-            sample["attributes"] = {"data": txt, "txt": ""}
+            sample["attributes"] = {"data": txt, "txt": "", "label": display_string, "value": sd['id']}
 
             sample_children.append(sample)
 

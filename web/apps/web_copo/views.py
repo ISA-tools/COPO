@@ -13,7 +13,6 @@ from django.contrib.auth.models import User
 from django.template import RequestContext
 
 from error_codes import DB_ERROR_CODES, UI_ERROR_CODES
-from settings_dev import MEDIA_ROOT
 
 log = logging.getLogger(__name__)
 log.debug(sys.path)
@@ -231,7 +230,6 @@ def view_collection(request, collection_head_id):
             profile = Profile().GET(profile_id)
             ena_collection = EnaCollection().GET(request.session['ena_collection_id'])
             sample_data = htags.get_samples_data(request.session['ena_collection_id'])
-            study_data = htags.get_studies_data(request.session['ena_collection_id'])
 
             data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
                          'ena_collection_id': request.session['ena_collection_id'], 'profile_id': profile_id,
@@ -239,8 +237,7 @@ def view_collection(request, collection_head_id):
                          'profile': profile,
                          'ui_template': ui_template,
                          'study_types': study_types,
-                         'sample_data': sample_data,
-                         'study_data': study_data
+                         'sample_data': sample_data
                          }
         else:
             data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
@@ -356,7 +353,19 @@ def add_to_collection(request):
         if st_list:
             EnaCollection().add_ena_study(ena_collection_id, st_list)
 
-        return_structure['study_data'] = htags.get_studies_data(ena_collection_id)
+        return_structure['study_data'] = htags.generate_study_table2(ena_collection_id)
+
+    elif task == "clone_study":
+        cloned_elements = request.POST['cloned_elements']
+        cloned_elements = ast.literal_eval(cloned_elements)
+
+        EnaCollection().clone_ena_study(ena_collection_id, cloned_elements)
+        return_structure['study_data'] = htags.generate_study_table2(ena_collection_id)
+
+    elif task == "delete_study":
+        study_id = request.POST['study_id']
+        EnaCollection().delete_study(ena_collection_id, study_id)
+        return_structure['study_data'] = htags.generate_study_table2(ena_collection_id)
 
     elif task == "get_tree_study":
         return_structure['ena_studies'] = htags.get_studies_tree(ena_collection_id)
@@ -381,7 +390,7 @@ def add_to_collection(request):
             EnaCollection().add_ena_sample(ena_collection_id, study_type_list, auto_fields)
 
         return_structure['sample_data'] = htags.generate_sample_table2(ena_collection_id)
-        return_structure['study_data'] = htags.get_studies_data(ena_collection_id)
+        return_structure['study_data'] = htags.generate_study_table2(ena_collection_id)
 
     return_structure['exit_status'] = 'success'
     out = jsonpickle.encode(return_structure)

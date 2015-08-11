@@ -70,8 +70,6 @@
 
         <input type="hidden" id="current_sample_id" value=""/>
         <input type="hidden" id="current_sample_task" value=""/>
-        <input type="hidden" id="sample_data_count" value="{{ sample_data.data|length }}"/>
-        <input type="hidden" id="study_data_count" value="{{ study_data|length }}"/>
 
     </div>
 
@@ -152,39 +150,49 @@
                     </div>
 
                     <div id="studies_table_div">
-                        <hr/>
-                        <table class="table-bordered" id="study_table">
-                            <tr>
-                                <th>Study Reference</th>
-                                <th>Study Type</th>
-                                <th># Samples</th>
-                                <th>&nbsp;</th>
-                            </tr>
-                            {% for sd in study_data %}
-                                <tr class="study_table_row" id="study_row_{{ sd.id }}">
-                                    <td>
-                                        <a href="{% url 'copo:view_study' study_id=sd.id %}">{{ sd.studyReference }}</a>
-                                    </td>
-                                    <td>{{ sd.studyType }}</td>
-                                    <td>{{ sd.samplescount }}</td>
-                                    <td><a id="stview_{{ sd.id }}" class="study_type_view" href="#"
-                                           title="Quick View Study">
-                                        <i class="glyphicon glyphicon-eye-open "></i></a>&nbsp;&nbsp;
-                                        <a id="stupdate_{{ sd.id }}" class="study_type_edit" href="#"
-                                           title="Update Study Details">
-                                            <i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;
-                                        <a id="stdelete_{{ sd.id }}" class="type_remove" href="#"
-                                           title="Delete Study">
-                                            <i class="glyphicon glyphicon-remove "></i></a></td>
-                                </tr>
-                            {% endfor %}
-                        </table>
+                        {{ ena_collection_id|generate_study_table }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+
+    <!-- Modal for deleting study -->
+    <div class="modal fade" id="studyDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form role="form" id="delete_study_form_2" action="{% url 'copo:add_to_collection' %}"
+                          method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="target_study_delete" value="">
+
+                        <p>You are about to delete a study: <span id="target_study_delete_span"
+                                                                  class="study-node-title"></span>, this procedure
+                            is irreversible.</p>
+
+                        <p>Do you want to proceed?</p>
+
+                        <p class="debug-url"></p>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <a id="delete_study_btn" class="btn btn-danger btn-ok">Delete</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal for adding new study type -->
     <div class="modal fade copo-modal " id="newStudyTypeModal" tabindex="-1" role="dialog"
@@ -198,8 +206,7 @@
                             class="sr-only">Close</span></button>
                     <div style="display: inline-block;"><h4 class="modal-title" id="myModalLabel">Add Study Type</h4>
                     </div>
-                    <div style="display: inline-block;"><span class="blue_icon"><a id="study_type_add_info" href="#"
-                                                                                   class="easyui-tooltip"
+                    <div style="display: inline-block;"><span class="blue_icon"><a href="#" data-toggle="tooltip"
                                                                                    title="{{ "study_type_add_info"|lookup_info }}"><i
                             class="glyphicon glyphicon-info-sign"></i></a></span></div>
 
@@ -214,9 +221,9 @@
                         <div id="study_type_div" class="form-group">
                             <label for="study_type">New Study Type
                                 <div style="display: inline-block; text-indent: 0.5em;">
-                                    <a id="study_type_add" href="#" title="Add Study Type">
+                                    <a class="study-type-add" href="#" title="Add Study Type">
                                         <button type="button" class="btn btn-default btn-xs"><i
-                                                class="glyphicon glyphicon-plus "></i>Add
+                                                class="glyphicon glyphicon-plus-sign "></i>Add
                                         </button>
                                     </a>
                                 </div>
@@ -238,10 +245,10 @@
                                                placeholder="Enter Study Reference"/>
                                     </div>
                                     <div style="display: inline-block;">
-                                        <a id="study_type_remove_0" name="study_type_remove_0" class="study_type_remove"
+                                        <a id="study_type_remove_0" name="study_type_remove_0" class="study-type-remove"
                                            href="#" title="Delete Study">
                                             <button type="button" class="btn btn-default btn-xs"><i
-                                                    class="glyphicon glyphicon-remove "></i>Delete
+                                                    class="glyphicon glyphicon-remove-sign "></i>Delete
                                             </button>
                                         </a>
                                     </div>
@@ -277,8 +284,7 @@
                     <div style="display: inline-block;"><h4 class="modal-title" id="myModalLabel">Clone Existing
                         Study</h4>
                     </div>
-                    <div style="display: inline-block;"><span class="blue_icon"><a id="study_type_add_info" href="#"
-                                                                                   class="easyui-tooltip"
+                    <div style="display: inline-block;"><span class="blue_icon"><a href="#" data-toggle="tooltip"
                                                                                    title="{{ "study_type_clone_info"|lookup_info }}"><i
                             class="glyphicon glyphicon-info-sign"></i></a></span></div>
 
@@ -288,9 +294,13 @@
                           method="post">
                         {% csrf_token %}
 
-                        <input type="hidden" name="profile_id" value="{{ profile_id }}">
-
                         <div id="study_tree_table">
+                            <div style="display: inline-block;">
+                                <input type="text"
+                                       id="studyReference_clone_value"
+                                       class="form_control input-copo"
+                                       placeholder="Enter Study Reference"/>
+                            </div>
                             <table class="table-bordered fixed-study-tree">
                                 <col width="40%"/>
                                 <col width="30%"/>
@@ -306,20 +316,95 @@
                                         <ul id="study_type_tree" class="easyui-tree"
                                             checkbox="true"
                                             animate="true"
-                                            lines="true">
+                                            lines="true"
+                                            onlyLeafCheck="true">
                                         </ul>
                                     </td>
                                     <td valign="top">
                                         <div id="info_panel_display"></div>
                                     </td>
                                     <td valign="top">
-                                        <div id="cloned_panel_display"></div>
+                                        <div id="cloned_panel_display" hidden="hidden">
+
+                                            <div class="list-group">
+                                                <div id="studyType_clone_div" hidden="hidden">
+                                                    <div class="study-select-status"></div>
+                                                    <div class="study-node-data"><span class="study-node-title">Study Type</span>:
+                                                        <span id="studyType_clone_span"></span>
+                                                        <input type="hidden" id="studyType_clone_value" value=""/>
+                                                    </div>
+                                                </div>
+
+                                                <div id="studyTitle_clone_div" hidden="hidden">
+                                                    <div class="study-select-status"></div>
+                                                    <div class="study-node-data"><span
+                                                            class="study-node-title">{{ "studies.study.studyTitle" | generate_ena_labels }}</span>:
+                                                        <span id="studyTitle_clone_span"></span>
+                                                        <input type="hidden" id="studyTitle_clone_value" value=""/>
+                                                    </div>
+                                                </div>
+
+                                                <div id="commentStudyFundingAgency_clone_div" hidden="hidden">
+                                                    <div class="study-select-status"></div>
+                                                    <div class="study-node-data"><span
+                                                            class="study-node-title">{{ "studies.study.commentStudyFundingAgency" | generate_ena_labels }}</span>:
+                                                        <span id="commentStudyFundingAgency_clone_span"></span>
+                                                        <input type="hidden"
+                                                               id="commentStudyFundingAgency_clone_value"
+                                                               value=""/>
+                                                    </div>
+                                                </div>
+
+                                                <div id="studyDescription_clone_div" hidden="hidden">
+                                                    <div class="study-select-status"></div>
+                                                    <div class="study-node-data"><span
+                                                            class="study-node-title">{{ "studies.study.studyDescription" | generate_ena_labels }}</span>:
+                                                        <span id="studyDescription_clone_span"></span>
+                                                        <input type="hidden" id="studyDescription_clone_value"
+                                                               value=""/>
+                                                    </div>
+                                                </div>
+
+                                                <div id="sample_clone_div" hidden="hidden">
+                                                    <div class="study-list-status"></div>
+                                                    <div class="study-node-list-data"><label>Samples</label></div>
+                                                    <div class="study-list-data-passive">
+                                                        <div class="study-list-data-status"></div>
+                                                        <div class="study-node-data"></div>
+                                                        <input class="study-node-data-value" type="hidden" value=""/>
+                                                    </div>
+                                                </div>
+
+                                                <div id="publication_clone_div" hidden="hidden">
+                                                    <div class="study-list-status"></div>
+                                                    <div class="study-node-list-data">
+                                                        <label>Publications</label>
+                                                    </div>
+                                                    <div class="study-list-data-passive">
+                                                        <div class="study-list-data-status"></div>
+                                                        <div class="study-node-data"></div>
+                                                        <input type="hidden" value=""/>
+                                                    </div>
+                                                </div>
+
+                                                <div id="contact_clone_div" hidden="hidden">
+                                                    <div class="study-list-status"></div>
+                                                    <div class="study-node-list-data"><label>Contacts</label>
+                                                    </div>
+                                                    <div class="study-list-data-passive">
+                                                        <div class="study-list-data-status"></div>
+                                                        <div class="study-node-data"></div>
+                                                        <input type="hidden" value=""/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
                         </div>
                         <hr/>
-                        <div>
+                        <div style="display: inline-block;">
                             <button id="submit_study_clone_btn" type="button" class="btn btn-primary text-center">
                                 Submit
                             </button>
@@ -346,10 +431,9 @@
                     <div style="display: inline-block;"><h4 class="modal-title" id="mySampleModalLabel">Add Study
                         Sample</h4>
                     </div>
-                    <div style="display: inline-block;"><span class="blue_icon"><a id="sample_add_info" href="#"
-                                                                                   class="easyui-tooltip"
-                                                                                   title="{{ "sample_add_info"|lookup_info }}"><i
-                            class="glyphicon glyphicon-info-sign"></i></a></span></div>
+                    <div style="display: inline-block;"><span class="blue_icon">
+                        <a href="#" data-toggle="tooltip" title="{{ "sample_add_info"|lookup_info }}">
+                            <i class="glyphicon glyphicon-info-sign"></i></a></span></div>
                 </div>
                 <div class="modal-body">
                     <form role="form" id="add_new_study_sample_form" action="{% url 'copo:add_to_collection' %}"

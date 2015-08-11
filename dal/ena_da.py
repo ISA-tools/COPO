@@ -1,20 +1,16 @@
 __author__ = 'felix.shaw@tgac.ac.uk - 18/03/15'
 
 from datetime import date
+import random
 import string
 import uuid
 import ast
 
 import dal.mongo_util as mutil
-
-
-#from dal.resource import *
-#from web_copo.mongo.mongo_util import *
 import web_copo.uiconfigs.utils.data_utils as d_utils
-import random
 
-from mongo_util import get_collection_ref
-from base_resource import Resource
+from dal.mongo_util import get_collection_ref
+from dal.base_resource import Resource
 from dal import ObjectId
 
 EnaCollections = get_collection_ref("EnaCollections")
@@ -40,49 +36,62 @@ class EnaCollection(Resource):
                 study_dict = doc
                 study_dict["studyCOPOMetadata"]["id"] = uuid.uuid4().hex
                 study_dict["studyCOPOMetadata"]["studyType"] = st['study_type']
-                study_dict["studyCOPOMetadata"]["studyReference"] = st['study_type_reference']
+
+                # handles empty study reference assignment
+                study_dict["studyCOPOMetadata"]["studyReference"] = ''.join(
+                    random.choice(string.ascii_uppercase) for i in range(4))
+                if st["study_type_reference"]:
+                    study_dict["studyCOPOMetadata"]["studyReference"] = st["study_type_reference"]
+
                 # ...since the model study is deleted by default
                 study_dict["studyCOPOMetadata"]["deleted"] = "0"
 
                 EnaCollections.update({"_id": ObjectId(ena_collection_id)},
                                       {"$push": {"studies": study_dict}})
 
-    # add a new study by cloning an existing one
-    def add_ena_study_clone(self, ena_collection_id, cloned_studies):
-        # first study in list is left blank (flat set to delete though)
-        # for the purpose of cloning subsequent ones
+    def clone_ena_study(self, ena_collection_id, cloned_elements):
         doc = EnaCollections.find_one({"_id": ObjectId(ena_collection_id)})['studies'][0]
 
         if doc:
-            for cst in cloned_studies:
-                study_dict = doc
+            study_dict = doc
 
-                # get the clonable target study
-                clonable_study = self.get_ena_study(cst['study_id'], ena_collection_id)
+            study_dict["studyCOPOMetadata"]["id"] = uuid.uuid4().hex
+            study_dict["studyCOPOMetadata"]["deleted"] = "0"
 
-                study_dict["studyCOPOMetadata"]["id"] = uuid.uuid4().hex
-                # study is deleted by default, undelete it...
-                study_dict["studyCOPOMetadata"]["deleted"] = "0"
+            if cloned_elements["studyType"]:
+                study_dict["studyCOPOMetadata"]["studyType"] = cloned_elements["studyType"]
 
-                rnd_name = ''.join(random.choice(string.ascii_uppercase) for i in range(4))
-                study_dict["studyCOPOMetadata"]["studyReference"] = "New Study Reference_" + rnd_name
+            study_dict["studyCOPOMetadata"]["studyReference"] = ''.join(
+                random.choice(string.ascii_uppercase) for i in range(4))
+            if cloned_elements["studyReference"]:
+                study_dict["studyCOPOMetadata"]["studyReference"] = cloned_elements["studyReference"]
 
-                if cst['study_type'] == 'true':
-                    study_dict["studyCOPOMetadata"]["studyType"] = clonable_study["studyCOPOMetadata"]["studyType"]
+            # check for samples and other composite types
+            new_samples = []
+            for k, v in cloned_elements.items():
+                if k[:-2] == "sample":
+                    new_samples.append({'id': v, 'deleted': '0'})
 
-                new_samples = []
-                if cst['samples']:
-                    samples_ids = cst['samples'].split(",")
-                    for s_id in samples_ids:
-                        cloned_sample = [sd for sd in clonable_study["studyCOPOMetadata"]["samples"] if
-                                         sd["id"] == s_id]
-                        new_samples.append(cloned_sample[0])
+            if new_samples:
+                study_dict["studyCOPOMetadata"]['samples'] = new_samples
 
-                if new_samples:
-                    study_dict["studyCOPOMetadata"]['samples'] = new_samples
+            # get study fields
+            ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.fields
 
-                EnaCollections.update({"_id": ObjectId(ena_collection_id)},
-                                      {"$push": {"studies": study_dict}})
+            for f in ena_d:
+                key_split = f.id.split(".")
+                target_key = key_split[len(key_split) - 1]
+                if target_key in cloned_elements.keys():
+                    study_dict["study"][target_key] = cloned_elements[target_key]
+
+            EnaCollections.update({"_id": ObjectId(ena_collection_id)},
+                                  {"$push": {"studies": study_dict}})
+
+    def delete_study(self, ena_collection_id, study_id):
+        EnaCollections.update(
+                    {"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
+                    {'$set': {"studies.$.studyCOPOMetadata.deleted": "1"}})
+
 
     def add_ena_sample(self, ena_collection_id, study_type_list, auto_fields):
         ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.fields
