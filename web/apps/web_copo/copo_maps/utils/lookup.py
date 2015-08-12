@@ -186,14 +186,3 @@ UI_INFO = {
     'study_type_clone_info': "Use form to clone existing study types",
     'sample_add_info': "Use form to add/edit study sample and assign to studies"
 }
-
-# use the key to access the actual css name (dict value). Update the value and not the key to point to a different
-# styling
-CSS_CLASSES = {
-    "study_tree_data": "study-node-data",
-    "study_tree_data_select": "study-select-status",
-    "study_tree_data_not_select": "study-not-select-status",
-    "study_tree_data_highlight": "study-tree-info-data-selected",
-    "study_tree_list_label": "study-node-list-data",
-    "study_tree_list_label_select": "study-list-select-status"
-}

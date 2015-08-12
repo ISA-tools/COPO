@@ -26,12 +26,12 @@ $(document).ready(function () {
     });
 
     //handle event for add study type
-    $("#study_type_add").click(function (event) {
+    $(".study-type-add").click(function (event) {
         do_add_study_type();
     });
 
     //handle click event for delete study type
-    $("#study_types_lists_div").on('click', 'a.study_type_remove', function (event) {
+    $("#study_types_lists_div").on('click', 'a.study-type-remove', function (event) {
         do_remove_study_type(event);
     });
 

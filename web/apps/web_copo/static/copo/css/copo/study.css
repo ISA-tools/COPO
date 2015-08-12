@@ -19,13 +19,13 @@
 }
 
 .type_remove i,
-.study_type_remove i {
-    color: darkred;
-    font-size: 0.8em;
+.study-type-remove i {
+    color: #800000;
+    font-size: 1.0em;
 }
 
 .type_add i,
-#study_type_add i {
+.study-type-add i {
     color: darkgreen;
     font-size: 1.0em;
 }
@@ -58,29 +58,31 @@ table, td {
     clear: both;
 }
 
-.study-tree-data-list {
-    border: 1px solid #ddd;
-    color: #000;
-    margin-bottom: -1px;
-    padding: 5px 25px;
-    position: relative;
-}
-
 .study-select-status {
     background-color: #449d44;
-    border: 1px solid #ddd;
+    border: 1px solid #449d44;
     border-right: 0px none;
-    height: 50px;
+    height: 60px;
     width: 10px;
     float: left;
     margin-bottom: -1px;
 }
 
-.study-not-select-status {
-    background-color: #d9534f;
-    border: 1px solid #ddd;
+.study-view-select-status {
+    background-color: #ffe48d;
+    border: 1px solid #ffe48d;
     border-right: 0px none;
-    height: 50px;
+    height: 60px;
+    width: 10px;
+    float: left;
+    margin-bottom: -1px;
+}
+
+.study-list-data-status {
+    background-color: #449d44;
+    border: 1px solid #449d44;
+    border-right: 0px none;
+    height: 60px;
     width: 10px;
     float: left;
     margin-bottom: -1px;
@@ -88,7 +90,7 @@ table, td {
 
 .study-node-data {
     margin-left: 10px;
-    height: 50px;
+    height: 60px;
     background-color: #fff;
     overflow-y: scroll;
     color: #31708f;
@@ -110,11 +112,21 @@ table, td {
     margin-bottom: -1px;
 }
 
+.study-list-status {
+    background-color: #D4D4CA;
+    border: 1px solid #ddd;
+    border-right: 0px none;
+    height: 30px;
+    width: 10px;
+    float: left;
+    margin-bottom: -1px;
+}
+
 .study-node-list-data {
     margin-left: 10px;
     height: 30px;
     line-height: 30px;
-    background-color: #fff;
+    background-color: #EBEBE0;
     color: #000;
     border: 1px solid #ddd;
     border-left: 0px none;
@@ -125,7 +137,7 @@ table, td {
 
 .study-tree-info-data-selected {
     margin-left: 10px;
-    height: 50px;
+    height: 60px;
     background-color: #ffe48d;
     overflow-y: scroll;
     color: #333;
@@ -134,6 +146,7 @@ table, td {
     padding: 15px;
     position: relative;
     margin-bottom: -1px;
+    font-style: italic;
 }
 
 table.fixed-study-tree {
@@ -148,4 +161,14 @@ div#study_tree_table {
     max-height: 700px;
     overflow: scroll;
 }
+
+span.study-node-title {
+    font-weight: bold;
+    color: #163657;
+}
+
+.row-delete-higlight {
+    background-color: #c12e2a;
+}
+
 
