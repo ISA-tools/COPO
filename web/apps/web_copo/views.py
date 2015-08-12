@@ -10,6 +10,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
+
 from django.template import RequestContext
 
 from error_codes import DB_ERROR_CODES, UI_ERROR_CODES
@@ -168,8 +169,10 @@ def new_collection_head(request):
     # create the new collection
     c_type = request.POST['collection_type']
     c_name = request.POST['collection_name']
-    collection_head_id = Collection_Head().PUT(c_type, c_name)
+    collection_head_id = Collection_Head().PUT()
     collection_head_dc = get_collection_head_dc()
+    collection_head_dc['name']=c_name
+    collection_head_dc['type']=c_type
     Collection_Head().update(collection_head_id, collection_head_dc)
 
     # add a template for ENA submission

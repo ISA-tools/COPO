@@ -90,14 +90,8 @@ class Profile(Resource):
 
 class Collection_Head(Resource):
     # method to create a skelton collection object
-    def PUT(self, c_type, c_name):
-
-        spec = {
-            "type": c_type,
-            "name": c_name,
-            "is_clean": False,
-        }
-        return Collections.insert(spec)
+    def PUT(self):
+        return Collections.insert({})
 
     def update(self, collection_head_id, doc):
 
