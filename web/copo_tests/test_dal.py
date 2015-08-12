@@ -2,7 +2,7 @@ from django.test import TestCase
 from bson.objectid import ObjectId
 
 import dal.copo_base_da as base
-from web_copo.uiconfigs.utils.data_utils import get_ena_db_template
+from web_copo.copo_maps.utils.data_utils import get_ena_db_template
 
 
 class DalTests(TestCase):

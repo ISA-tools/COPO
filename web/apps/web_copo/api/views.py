@@ -9,7 +9,7 @@ import dal.figshare_da as fs
 from dal.figshare_da import FigshareCollection
 from services import *
 from dal.copo_base_da import DataSchemas
-from web_copo.uiconfigs.utils.data_formats import DataFormats
+from web_copo.copo_maps.utils.data_formats import DataFormats
 
 
 def upload_to_figshare_profile(request):

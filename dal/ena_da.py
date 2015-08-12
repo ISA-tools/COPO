@@ -8,9 +8,10 @@ import ast
 import dal.mongo_util as mutil
 
 
+
 #from dal.resource import *
 #from web_copo.mongo.mongo_util import *
-import web_copo.uiconfigs.utils.data_utils as d_utils
+import web_copo.copo_maps.utils.data_utils as d_utils
 import random
 
 from mongo_util import get_collection_ref

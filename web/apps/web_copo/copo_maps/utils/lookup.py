@@ -5,7 +5,7 @@ from master_settings import PROJ_HOME
 SCHEMAS = {
     'ENA': {
         'PATHS_AND_URIS': {
-            'ISA_json': PROJ_HOME + '/web/apps/web_copo/uiconfigs/ena/dbmodels/isa_ena_model.json',
+            'ISA_json': PROJ_HOME + '/web/apps/web_copo/copo_maps/ena/dbmodels/isa_ena_model.json',
             'INVESTIGATION_FILE': 'https://raw.githubusercontent.com/ISA-tools/Configuration-Files/master'
                                   '/isaconfig-default_v2014-01-16/investigation.xml',
             'STUDY_SAMPLE_FILE': 'https://raw.githubusercontent.com/ISA-tools/Configuration-Files/master'
@@ -16,7 +16,8 @@ SCHEMAS = {
             'STUDY_ASSAY_METAGENOME_SEQ_FILE': 'https://raw.githubusercontent.com/ISA-tools/Configuration-Files/master'
                                                '/isaconfig-default_v2014-01-16/metagenome_seq.xml',
             'STUDY_ASSAY_TRANSCRIPTOME_ANALYSIS_FILE': 'https://raw.githubusercontent.com/ISA-tools/Configuration-Files/master'
-                                                       '/isaconfig-default_v2014-01-16/transcription_seq.xml'
+                                                       '/isaconfig-default_v2014-01-16/transcription_seq.xml',
+
 
         },
         'ATTRIBUTE_MAPPINGS': {
@@ -33,6 +34,11 @@ SCHEMAS = {
             'Long String': 'textarea',
             'List': 'select'
             # 'Ontology term':?
+        }
+    },
+    'COPO':{
+        'PATHS_AND_URIS':{
+            'COPO_COLLECTION_HEAD_FILE': PROJ_HOME + '/web/apps/web_copo/copo_maps/copo/dbmodels/collection_head_model.json'
         }
     },
     'METABOLIGHTS': {

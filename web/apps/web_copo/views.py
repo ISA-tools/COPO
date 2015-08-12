@@ -22,15 +22,16 @@ log.debug(sys.path)
 from dal.copo_base_da import Profile, Collection_Head
 from dal.ena_da import EnaCollection
 from dal.orcid_da import Orcid
+from web_copo.copo_maps.utils.data_utils import get_collection_head_dc
 
 from web_copo.repos.irods import *
 from web_copo.repos.aspera import *
 from chunked_upload.models import ChunkedUpload
 from web_copo.api.views import *
-import web_copo.uiconfigs.utils.lookup as lkup
+import web_copo.copo_maps.utils.lookup as lkup
 import web_copo.templatetags.html_tags as htags
 from django_tools.middlewares import ThreadLocal
-import web_copo.uiconfigs.utils.data_utils as d_utils
+import web_copo.copo_maps.utils.data_utils as d_utils
 
 
 @login_required
@@ -169,6 +170,8 @@ def new_collection_head(request):
     c_type = request.POST['collection_type']
     c_name = request.POST['collection_name']
     collection_head_id = Collection_Head().PUT(c_type, c_name)
+    collection_head_dc = get_collection_head_dc()
+    Collection_Head().update(collection_head_id, collection_head_dc)
 
     # add a template for ENA submission
     coll_type = request.POST['collection_type']

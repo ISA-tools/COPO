@@ -1,12 +1,13 @@
 __author__ = 'etuka'
 
-import re
 import xml.etree.ElementTree as ET
 from urllib.request import urlopen
 
-import web_copo.uiconfigs.utils.lookup as lkup
-import web_copo.uiconfigs.ena.uimodels.object_model as om
-import web_copo.uiconfigs.ena.uimodels.ena_copo_config as ecc
+import re
+
+import web_copo.copo_maps.utils.lookup as lkup
+import web_copo.copo_maps.ena.uimodels.object_model as om
+import web_copo.copo_maps.ena.uimodels.ena_copo_config as ecc
 
 
 class DataFormats:

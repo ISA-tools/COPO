@@ -10,7 +10,7 @@ from bson.objectid import ObjectId
 
 from copo_id import get_uid
 from web_copo.vocab.status_vocab import STATUS_CODES
-from web_copo.uiconfigs.utils.data_formats import DataFormats
+from web_copo.copo_maps.utils.data_formats import DataFormats
 from dal.mongo_util import get_collection_ref
 from dal.base_resource import Resource
 
@@ -85,8 +85,8 @@ class Profile(Resource):
         )
 
 
-Collection_Heads = get_collection_ref("CollectionHeads")
-
+#Collection_Heads = get_collection_ref("CollectionHeads")
+#Collections = get_collection_ref("CollectionHeads")
 
 class Collection_Head(Resource):
     # method to create a skelton collection object
@@ -97,13 +97,24 @@ class Collection_Head(Resource):
             "name": c_name,
             "is_clean": False,
         }
-        return Collection_Heads.insert(spec)
+        return Collections.insert(spec)
+
+    def update(self, collection_head_id, doc):
+
+        Collections.update(
+            {
+                '_id': collection_head_id
+            },
+            {
+                '$set':doc
+            }
+        )
 
     def GET(self, id):
-        return Collection_Heads.find_one({"_id": o.ObjectId(id)})
+        return Collections.find_one({"_id": o.ObjectId(id)})
 
     def add_collection_details(self, collection_head_id, details_id):
-        Collection_Heads.update(
+        Collections.update(
             {
                 "_id": o.ObjectId(collection_head_id)
             },
@@ -113,7 +124,7 @@ class Collection_Head(Resource):
         )
 
     def collection_details_id_from_head(self, head_id):
-        collection = Collection_Heads.find_one({"_id": o.ObjectId(head_id)})
+        collection = Collections.find_one({"_id": o.ObjectId(head_id)})
         return 0
 
 
