@@ -45,3 +45,9 @@ WEB_SERVICES = {
         'get_id': 'http://v0514.nbi.ac.uk:1025/id/'
     }
 }
+
+EXPORT_LOCATIONS = {
+    'ENA': {
+        'export_path': '~/Desktop/'
+    }
+}

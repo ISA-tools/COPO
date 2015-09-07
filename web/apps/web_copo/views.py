@@ -249,7 +249,7 @@ def view_collection(request, collection_head_id):
             data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
                          'profile_id': profile_id}
         return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
-    elif collection_head['type'].lower() == 'pdf file' or collection_head['type'].lower() == 'image':
+    elif collection_head['type'].lower() == 'figshare':
         articles = FigshareCollection().get_articles_in_collection(collection_head_id)
         data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
                      'profile_id': profile_id,
@@ -479,6 +479,9 @@ def initiate_repo(request):
                         }
     out = jsonpickle.encode(return_structure)
     return HttpResponse(out, content_type='json')
+
+def submit_to_repo(request):
+    pass
 
 
 def register_to_irods(request):

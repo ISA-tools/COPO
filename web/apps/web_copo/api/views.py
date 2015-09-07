@@ -77,3 +77,17 @@ def generate_ena_template(request):
 
     return HttpResponse(jsonpickle.encode(temp_dict))
 
+def get_collection_type(request):
+    from dal.copo_base_da import Collection_Head
+    collection_id = request.GET['collection_id']
+    c = Collection_Head().GET(collection_id)
+    return HttpResponse(c['type'])
+
+def convert_to_sra(request):
+    from converters.ena.copo_hokey import exporter
+    from services import EXPORT_LOCATIONS
+    collection_id = request.POST['collection_id']
+    if exporter().do_validate(collection_id):
+        exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+    return HttpResponse('here')
+

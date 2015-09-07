@@ -66,12 +66,12 @@ DROP_DOWNS = {
             'description': 'Submission to the ENA repository'
         },
         {
-            'value': 'PDF File',
+            'value': 'Figshare',
             'label': 'PDF File',
             'description': ''
         },
         {
-            'value': 'Image',
+            'value': 'Figshare',
             'label': 'Image',
             'description': ''
         },
