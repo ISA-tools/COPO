@@ -1,283 +1,287 @@
-[01/Sep/2015 14:40:25] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[01/Sep/2015 14:40:34] ERROR [django.request:231] Internal Server Error: /copo/collection/55ddb359453d9a2becee59a2/view
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
-    return view_func(request, *args, **kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 238, in view_collection
-    sample_data = htags.get_samples_data(request.session['ena_collection_id'])
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/templatetags/html_tags.py", line 109, in get_samples_data
-    samples = ena_collection["collectionCOPOMetadata"]["samples"]
-KeyError: 'collectionCOPOMetadata'
-[01/Sep/2015 14:40:42] ERROR [django.request:231] Internal Server Error: /copo/collection/55ddb359453d9a2becee59a2/view
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
-    return view_func(request, *args, **kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 238, in view_collection
-    sample_data = htags.get_samples_data(request.session['ena_collection_id'])
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/templatetags/html_tags.py", line 109, in get_samples_data
-    samples = ena_collection["collectionCOPOMetadata"]["samples"]
-KeyError: 'collectionCOPOMetadata'
-[01/Sep/2015 14:41:47] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[01/Sep/2015 14:42:36] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[01/Sep/2015 14:56:58] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[01/Sep/2015 14:56:59] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 87, in convert_to_sra
-    from converters.ena.copo_hokey import exporter
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 47
-    for s in c['studies'][0]['study']['studySamples']
-                                                    ^
-SyntaxError: invalid syntax
-[01/Sep/2015 14:57:08] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 87, in convert_to_sra
-    from converters.ena.copo_hokey import exporter
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 47
-    for s in c['studies'][0]['study']['studySamples']
-                                                    ^
-SyntaxError: invalid syntax
-[07/Sep/2015 10:01:31] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Sep/2015 10:01:55] INFO [requests.packages.urllib3.connectionpool:735] Starting new HTTPS connection (1): pub.orcid.org
-[07/Sep/2015 10:01:56] DEBUG [requests.packages.urllib3.connectionpool:383] "POST /oauth/token HTTP/1.1" 200 None
-[07/Sep/2015 10:01:56] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): pub.orcid.org
-[07/Sep/2015 10:01:57] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /v1.2/0000-0001-9649-5906/orcid-profile HTTP/1.1" 200 None
-[07/Sep/2015 10:01:57] ERROR [django.request:231] Internal Server Error: /accounts/orcid/login/callback/
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/socialaccount/providers/oauth2/views.py", line 58, in view
-    return self.dispatch(request, *args, **kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/socialaccount/providers/oauth2/views.py", line 128, in dispatch
-    log = complete_social_login(request, login)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/socialaccount/helpers.py", line 146, in complete_social_login
-    return _complete_social_login(request, sociallogin)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/socialaccount/helpers.py", line 159, in _complete_social_login
-    ret = _login_social_account(request, sociallogin)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/socialaccount/helpers.py", line 60, in _login_social_account
-    signal_kwargs={"sociallogin": sociallogin})
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/utils.py", line 134, in perform_login
-    get_adapter().login(request, user)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/allauth/account/adapter.py", line 296, in login
-    login(request, user)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/__init__.py", line 96, in login
-    request.session.cycle_key()
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/sessions/backends/base.py", line 279, in cycle_key
-    self.create()
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis_sessions/session.py", line 59, in create
-    self.save(must_create=True)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis_sessions/session.py", line 73, in save
-    data
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/client.py", line 1076, in setex
-    return self.execute_command('SETEX', name, time, value)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/client.py", line 565, in execute_command
-    return self.parse_response(connection, command_name, **options)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/client.py", line 577, in parse_response
-    response = connection.read_response()
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/connection.py", line 574, in read_response
-    raise response
-redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. Commands that may modify the data set are disabled. Please check Redis logs for details about the error.
-[07/Sep/2015 10:01:58] WARNING [django.request:143] Not Found: /favicon.ico
-[07/Sep/2015 10:11:04] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Sep/2015 10:11:19] INFO [requests.packages.urllib3.connectionpool:735] Starting new HTTPS connection (1): pub.orcid.org
-[07/Sep/2015 10:11:20] DEBUG [requests.packages.urllib3.connectionpool:383] "POST /oauth/token HTTP/1.1" 200 None
-[07/Sep/2015 10:11:20] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): pub.orcid.org
-[07/Sep/2015 10:11:21] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /v1.2/0000-0001-9649-5906/orcid-profile HTTP/1.1" 200 None
-[07/Sep/2015 10:13:36] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Sep/2015 10:13:37] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Sep/2015 10:14:12] WARNING [django.request:143] Not Found: /favicon.ico
-[07/Sep/2015 10:19:55] ERROR [django.request:231] Internal Server Error: /copo/collection/55ed636a453d9a14dbecf974/view
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
-    return view_func(request, *args, **kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 238, in view_collection
-    sample_data = htags.get_samples_data(request.session['ena_collection_id'])
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/templatetags/html_tags.py", line 109, in get_samples_data
-    samples = ena_collection["collectionCOPOMetadata"]["samples"]
-KeyError: 'collectionCOPOMetadata'
-[07/Sep/2015 10:20:50] ERROR [django.request:231] Internal Server Error: /copo/profile/55ed6351453d9a14dbecf973/view
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 204, in get_response
-    response = middleware_method(request, response)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/sessions/middleware.py", line 42, in process_response
-    request.session.save()
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis_sessions/session.py", line 73, in save
-    data
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/client.py", line 1076, in setex
-    return self.execute_command('SETEX', name, time, value)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/client.py", line 565, in execute_command
-    return self.parse_response(connection, command_name, **options)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/client.py", line 577, in parse_response
-    response = connection.read_response()
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/connection.py", line 574, in read_response
-    raise response
-redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. Commands that may modify the data set are disabled. Please check Redis logs for details about the error.
-[07/Sep/2015 10:22:19] ERROR [django.request:231] Internal Server Error: /copo/profile/55ed6351453d9a14dbecf973/view
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 204, in get_response
-    response = middleware_method(request, response)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/sessions/middleware.py", line 42, in process_response
-    request.session.save()
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis_sessions/session.py", line 73, in save
-    data
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/client.py", line 1076, in setex
-    return self.execute_command('SETEX', name, time, value)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/client.py", line 565, in execute_command
-    return self.parse_response(connection, command_name, **options)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/client.py", line 577, in parse_response
-    response = connection.read_response()
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/connection.py", line 574, in read_response
-    raise response
-redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. Commands that may modify the data set are disabled. Please check Redis logs for details about the error.
-[07/Sep/2015 10:22:36] ERROR [django.request:231] Internal Server Error: /copo/profile/55ed6351453d9a14dbecf973/view
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 204, in get_response
-    response = middleware_method(request, response)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/sessions/middleware.py", line 42, in process_response
-    request.session.save()
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis_sessions/session.py", line 73, in save
-    data
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/client.py", line 1076, in setex
-    return self.execute_command('SETEX', name, time, value)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/client.py", line 565, in execute_command
-    return self.parse_response(connection, command_name, **options)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/client.py", line 577, in parse_response
-    response = connection.read_response()
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/redis/connection.py", line 574, in read_response
-    raise response
-redis.exceptions.ResponseError: MISCONF Redis is configured to save RDB snapshots, but is currently not able to persist on disk. Commands that may modify the data set are disabled. Please check Redis logs for details about the error.
-[07/Sep/2015 10:28:55] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Sep/2015 10:29:26] ERROR [django.request:231] Internal Server Error: /copo/
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
-    return view_func(request, *args, **kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 44, in index
-    return render(request, 'copo/index.html', context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/shortcuts.py", line 46, in render
-    context_instance = RequestContext(request, current_app=current_app)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/context.py", line 209, in __init__
-    updates.update(processor(request))
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/context_processors.py", line 7, in get_status
-    issues = Profile_Status_Info().get_profiles_status()
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/copo_base_da.py", line 140, in get_profiles_status
-    for p in prof:
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/cursor.py", line 977, in next
-    if len(self.__data) or self._refresh():
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/cursor.py", line 902, in _refresh
-    self.__read_preference))
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/cursor.py", line 813, in __send_message
-    **kwargs)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/mongo_client.py", line 728, in _send_message_with_response
-    server = topology.select_server(selector)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/topology.py", line 121, in select_server
-    address))
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/topology.py", line 97, in select_servers
-    self._error_message(selector))
-pymongo.errors.ServerSelectionTimeoutError: 127.0.0.1:27017: [Errno 61] Connection refused
-[07/Sep/2015 10:29:46] ERROR [django.request:231] Internal Server Error: /copo/
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
-    return view_func(request, *args, **kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 44, in index
-    return render(request, 'copo/index.html', context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/shortcuts.py", line 46, in render
-    context_instance = RequestContext(request, current_app=current_app)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/context.py", line 209, in __init__
-    updates.update(processor(request))
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/context_processors.py", line 7, in get_status
-    issues = Profile_Status_Info().get_profiles_status()
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/copo_base_da.py", line 140, in get_profiles_status
-    for p in prof:
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/cursor.py", line 977, in next
-    if len(self.__data) or self._refresh():
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/cursor.py", line 902, in _refresh
-    self.__read_preference))
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/cursor.py", line 813, in __send_message
-    **kwargs)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/mongo_client.py", line 728, in _send_message_with_response
-    server = topology.select_server(selector)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/topology.py", line 121, in select_server
-    address))
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/topology.py", line 97, in select_servers
-    self._error_message(selector))
-pymongo.errors.ServerSelectionTimeoutError: 127.0.0.1:27017: [Errno 61] Connection refused
-[07/Sep/2015 10:30:31] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Sep/2015 10:34:21] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Sep/2015 10:34:21] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Sep/2015 11:26:23] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+[08/Sep/2015 14:56:29] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[08/Sep/2015 15:04:45] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[08/Sep/2015 15:05:22] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[08/Sep/2015 15:12:16] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[08/Sep/2015 15:19:48] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[08/Sep/2015 15:19:48] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
 Traceback (most recent call last):
   File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
   File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
     exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 48, in do_export
-    SAMPLE = ET.SubElement()
-TypeError: SubElement() takes at least 2 arguments (0 given)
-[07/Sep/2015 11:28:48] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Sep/2015 11:39:05] ERROR [django.request:231] Internal Server Error: /copo/collection/55ed73e4453d9a581808e879/view
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
-    return view_func(request, *args, **kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 238, in view_collection
-    sample_data = htags.get_samples_data(request.session['ena_collection_id'])
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/templatetags/html_tags.py", line 109, in get_samples_data
-    samples = ena_collection["collectionCOPOMetadata"]["samples"]
-TypeError: 'NoneType' object is not subscriptable
-[07/Sep/2015 13:32:18] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Sep/2015 13:40:56] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Sep/2015 13:42:07] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Sep/2015 14:31:27] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Sep/2015 14:31:29] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 95, in do_export
+    if info['name'] == 'Sample Name':
+TypeError: list indices must be integers, not str
+[08/Sep/2015 15:25:34] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
 Traceback (most recent call last):
   File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
   File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
     exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 56, in do_export
-    SCIENTIFIC_NAME.text = s[1]['characteristics']
-KeyError: 'characteristics'
-[07/Sep/2015 14:31:48] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 95, in do_export
+    if info['name'] == 'Sample Name':
+TypeError: list indices must be integers, not str
+[08/Sep/2015 15:28:30] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[08/Sep/2015 15:28:31] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
 Traceback (most recent call last):
   File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
   File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
     exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 56, in do_export
-    SCIENTIFIC_NAME.text = s[1]['characteristics']
-KeyError: 'characteristics'
-[07/Sep/2015 14:32:30] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
-    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 56, in do_export
-    SCIENTIFIC_NAME.text = s[1]['characteristics']
-KeyError: 'characteristics'
-[07/Sep/2015 14:33:56] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Sep/2015 14:40:01] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Sep/2015 14:40:32] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
-    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 51, in do_export
-    if el['name'] == "Source Name":
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 96, in do_export
+    if cell['name'] == 'Sample Name':
 KeyError: 'name'
-[07/Sep/2015 14:41:30] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[08/Sep/2015 15:28:42] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 96, in do_export
+    if cell['name'] == 'Sample Name':
+KeyError: 'name'
+[08/Sep/2015 15:29:37] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 96, in do_export
+    if cell['name'] == 'Sample Name':
+KeyError: 'name'
+[08/Sep/2015 15:30:06] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[08/Sep/2015 15:31:23] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[09/Sep/2015 10:39:07] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[09/Sep/2015 10:39:10] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 95, in do_export
+    for index, cell in row:
+ValueError: too many values to unpack (expected 2)
+[09/Sep/2015 10:39:30] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 95, in do_export
+    for index, cell in row:
+ValueError: too many values to unpack (expected 2)
+[09/Sep/2015 10:39:41] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 95, in do_export
+    for index, cell in row:
+ValueError: too many values to unpack (expected 2)
+[09/Sep/2015 10:39:48] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 95, in do_export
+    for index, cell in row:
+ValueError: too many values to unpack (expected 2)
+[09/Sep/2015 10:40:10] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 95, in do_export
+    for index, cell in row:
+ValueError: too many values to unpack (expected 2)
+[09/Sep/2015 10:40:40] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[09/Sep/2015 10:43:52] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[09/Sep/2015 11:08:22] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[09/Sep/2015 11:08:26] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el['parameterTerm']
+TypeError: string indices must be integers
+[09/Sep/2015 11:08:45] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el['parameterTerm']
+TypeError: string indices must be integers
+[09/Sep/2015 11:09:55] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[09/Sep/2015 11:09:56] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el['parameterTerm']
+TypeError: string indices must be integers
+[09/Sep/2015 11:10:23] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[09/Sep/2015 11:10:24] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el['parameterTerm']
+TypeError: string indices must be integers
+[09/Sep/2015 11:11:28] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[09/Sep/2015 11:11:29] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el['parameterTerm']
+TypeError: string indices must be integers
+[09/Sep/2015 11:12:11] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[09/Sep/2015 11:12:20] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el['parameterTerm']
+TypeError: string indices must be integers
+[09/Sep/2015 11:12:45] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el['parameterTerm']
+TypeError: string indices must be integers
+[09/Sep/2015 11:13:11] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el['parameterTerm']
+TypeError: string indices must be integers
+[09/Sep/2015 11:13:16] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el['parameterTerm']
+TypeError: string indices must be integers
+[09/Sep/2015 11:13:36] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el['parameterTerm']
+TypeError: string indices must be integers
+[09/Sep/2015 11:14:45] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el['parameterTerm']
+TypeError: string indices must be integers
+[09/Sep/2015 11:15:58] DEBUG [web_copo.views:19] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[09/Sep/2015 11:16:03] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el['parameterTerm']
+TypeError: tuple indices must be integers, not str
+[09/Sep/2015 11:16:56] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el['parameterTerm']
+TypeError: tuple indices must be integers, not str
+[09/Sep/2015 13:29:30] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el['parameterTerm']
+TypeError: tuple indices must be integers, not str
+[09/Sep/2015 13:29:47] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el[1]['parameterTerm']
+TypeError: tuple indices must be integers, not str
+[09/Sep/2015 13:30:14] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el[1]['parameterTerm']
+TypeError: tuple indices must be integers, not str
+[09/Sep/2015 13:32:16] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    term = lib_el[1]['parameterTerm']
+TypeError: tuple indices must be integers, not str
+[09/Sep/2015 13:33:23] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    l = lib_el[1]
+TypeError: tuple indices must be integers, not str
+[09/Sep/2015 13:35:02] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    l = lib_el[1]
+TypeError: tuple indices must be integers, not str
+[09/Sep/2015 13:36:09] ERROR [django.request:231] Internal Server Error: /api/convert_to_sra/
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/api/views.py", line 91, in convert_to_sra
+    exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/converters/ena/copo_hokey.py", line 102, in do_export
+    l = lib_el[1]
+TypeError: tuple indices must be integers, not str
