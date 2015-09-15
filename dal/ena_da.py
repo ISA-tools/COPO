@@ -7,7 +7,7 @@ import uuid
 import ast
 
 import dal.mongo_util as mutil
-import web_copo.uiconfigs.utils.data_utils as d_utils
+import web.apps.web_copo.uiconfigs.utils.data_utils as d_utils
 
 from dal.mongo_util import get_collection_ref
 from dal.base_resource import Resource
@@ -62,7 +62,7 @@ class EnaCollection(Resource):
                 study_dict["studyCOPOMetadata"]["studyType"] = cloned_elements["studyType"]
 
             study_dict["studyCOPOMetadata"]["studyReference"] = ''.join(
-                random.choice(string.ascii_uppercase) for i in range(4))
+                random.choice(string.ascii_uppercase) for i in range(4)) + "_CLONE"
             if cloned_elements["studyReference"]:
                 study_dict["studyCOPOMetadata"]["studyReference"] = cloned_elements["studyReference"]
 
@@ -89,9 +89,182 @@ class EnaCollection(Resource):
 
     def delete_study(self, ena_collection_id, study_id):
         EnaCollections.update(
-                    {"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
-                    {'$set': {"studies.$.studyCOPOMetadata.deleted": "1"}})
+            {"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
+            {'$set': {"studies.$.studyCOPOMetadata.deleted": "1"}})
 
+    def add_study_publication(self, study_id, ena_collection_id, auto_fields):
+        ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studyPublications.fields
+        auto_fields = ast.literal_eval(auto_fields)
+
+        # get target study
+        study = self.get_ena_study(study_id, ena_collection_id)
+
+        # each study should have an empty publication document for creating others
+        publication_dict = study["study"]["studyPublications"][0]
+
+        if publication_dict:
+            publication_dict["id"] = uuid.uuid4().hex
+            publication_dict["deleted"] = "0"
+
+            for f in ena_d:
+                key_split = f.id.split(".")
+                if f.id in auto_fields.keys():
+                    publication_dict[key_split[len(key_split) - 1]] = auto_fields[f.id]
+
+            EnaCollections.update(
+                {"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
+                {'$push': {"studies.$.study.studyPublications": publication_dict}})
+
+    def add_study_contact(self, study_id, ena_collection_id, auto_fields):
+        ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studyContacts.fields
+        auto_fields = ast.literal_eval(auto_fields)
+
+        # get target study
+        study = self.get_ena_study(study_id, ena_collection_id)
+
+        # each study should have an empty contact document for creating others
+        contact_dict = study["study"]["studyContacts"][0]
+
+        if contact_dict:
+            contact_dict["id"] = uuid.uuid4().hex
+            contact_dict["deleted"] = "0"
+
+            for f in ena_d:
+                key_split = f.id.split(".")
+                if f.id in auto_fields.keys():
+                    contact_dict[key_split[len(key_split) - 1]] = auto_fields[f.id]
+
+            EnaCollections.update(
+                {"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
+                {'$push': {"studies.$.study.studyContacts": contact_dict}})
+
+    def add_study_protocol(self, study_id, ena_collection_id, auto_fields):
+        ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studyProtocols.fields
+        auto_fields = ast.literal_eval(auto_fields)
+
+        # get target study
+        study = self.get_ena_study(study_id, ena_collection_id)
+
+        # each study should have an empty protocol document for creating others
+        protocol_dict = study["study"]["studyProtocols"][0]
+
+        if protocol_dict:
+            protocol_dict["id"] = uuid.uuid4().hex
+            protocol_dict["deleted"] = "0"
+
+            for f in ena_d:
+                key_split = f.id.split(".")
+                if f.id in auto_fields.keys():
+                    protocol_dict[key_split[len(key_split) - 1]] = auto_fields[f.id]
+
+            EnaCollections.update(
+                {"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
+                {'$push': {"studies.$.study.studyProtocols": protocol_dict}})
+
+    def get_study_publications(self, study_id, ena_collection_id):
+        doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
+                                        {"$unwind": "$studies"},
+                                        {"$match": {"studies.studyCOPOMetadata.id": study_id}},
+                                        {"$unwind": "$studies.study.studyPublications"},
+                                        {"$match": {"studies.study.studyPublications.deleted": "0"}},
+                                        {"$group": {"_id": "$_id",
+                                                    "data": {"$push": "$studies.study.studyPublications"}}}])
+
+        return mutil.verify_doc_type(doc)
+
+    def get_study_publication(self, study_id, ena_collection_id, publication_id):
+        doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
+                                        {"$unwind": "$studies"},
+                                        {"$match": {"studies.studyCOPOMetadata.id": study_id}},
+                                        {"$unwind": "$studies.study.studyPublications"},
+                                        {"$match": {"studies.study.studyPublications.id": publication_id}},
+                                        {"$group": {"_id": "$_id",
+                                                    "data": {"$push": "$studies.study.studyPublications"}}}])
+
+        data = mutil.verify_doc_type(doc)
+
+        return data[0] if data else {}
+
+    def get_study_publications_all(self, study_id, ena_collection_id):  # this will also include 'deleted' items
+        doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
+                                        {"$unwind": "$studies"},
+                                        {"$match": {"studies.studyCOPOMetadata.id": study_id}},
+                                        {"$group": {"_id": "$_id",
+                                                    "data": {"$push": "$studies.study.studyPublications"}}}])
+
+        data = mutil.verify_doc_type(doc)
+
+        return data[0] if data else []
+
+    def get_study_contacts(self, study_id, ena_collection_id):
+        doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
+                                        {"$unwind": "$studies"},
+                                        {"$match": {"studies.studyCOPOMetadata.id": study_id}},
+                                        {"$unwind": "$studies.study.studyContacts"},
+                                        {"$match": {"studies.study.studyContacts.deleted": "0"}},
+                                        {"$group": {"_id": "$_id",
+                                                    "data": {"$push": "$studies.study.studyContacts"}}}])
+
+        return mutil.verify_doc_type(doc)
+
+    def get_study_contact(self, study_id, ena_collection_id, contact_id):
+        doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
+                                        {"$unwind": "$studies"},
+                                        {"$match": {"studies.studyCOPOMetadata.id": study_id}},
+                                        {"$unwind": "$studies.study.studyContacts"},
+                                        {"$match": {"studies.study.studyContacts.id": contact_id}},
+                                        {"$group": {"_id": "$_id",
+                                                    "data": {"$push": "$studies.study.studyContacts"}}}])
+
+        data = mutil.verify_doc_type(doc)
+
+        return data[0] if data else {}
+
+    def get_study_contacts_all(self, study_id, ena_collection_id):  # this will also include 'deleted' items
+        doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
+                                        {"$unwind": "$studies"},
+                                        {"$match": {"studies.studyCOPOMetadata.id": study_id}},
+                                        {"$group": {"_id": "$_id",
+                                                    "data": {"$push": "$studies.study.studyContacts"}}}])
+
+        data = mutil.verify_doc_type(doc)
+
+        return data[0] if data else []
+
+    def get_study_protocols(self, study_id, ena_collection_id):
+        doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
+                                        {"$unwind": "$studies"},
+                                        {"$match": {"studies.studyCOPOMetadata.id": study_id}},
+                                        {"$unwind": "$studies.study.studyProtocols"},
+                                        {"$match": {"studies.study.studyProtocols.deleted": "0"}},
+                                        {"$group": {"_id": "$_id",
+                                                    "data": {"$push": "$studies.study.studyProtocols"}}}])
+
+        return mutil.verify_doc_type(doc)
+
+    def get_study_protocol(self, study_id, ena_collection_id, protocol_id):
+        doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
+                                        {"$unwind": "$studies"},
+                                        {"$match": {"studies.studyCOPOMetadata.id": study_id}},
+                                        {"$unwind": "$studies.study.studyProtocols"},
+                                        {"$match": {"studies.study.studyProtocols.id": protocol_id}},
+                                        {"$group": {"_id": "$_id",
+                                                    "data": {"$push": "$studies.study.studyProtocols"}}}])
+
+        data = mutil.verify_doc_type(doc)
+
+        return data[0] if data else {}
+
+    def get_study_protocols_all(self, study_id, ena_collection_id):  # this will also include 'deleted' items
+        doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
+                                        {"$unwind": "$studies"},
+                                        {"$match": {"studies.studyCOPOMetadata.id": study_id}},
+                                        {"$group": {"_id": "$_id",
+                                                    "data": {"$push": "$studies.study.studyProtocols"}}}])
+
+        data = mutil.verify_doc_type(doc)
+
+        return data[0] if data else []
 
     def add_ena_sample(self, ena_collection_id, study_type_list, auto_fields):
         ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.fields
@@ -100,11 +273,20 @@ class EnaCollection(Resource):
         sample_id = uuid.uuid4().hex
         a = {'id': sample_id}
 
+        characteristics = []
+
         for f in ena_d:
             key_split = f.id.split(".")
             a[key_split[len(key_split) - 1]] = ""  # accommodates fields not displayed on form
             if f.id in auto_fields.keys():
                 a[key_split[len(key_split) - 1]] = auto_fields[f.id]
+                if key_split[len(key_split) - 1] == "organism":
+                    characteristics.append({
+                        "categoryTerm": "organism",
+                        "characteristics": auto_fields[f.id],
+                        "termSourceREF": auto_fields["termSourceREF_organism"],
+                        "termAccessionNumber": auto_fields["termAccessionNumber_organism"]
+                    })
 
         ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.sampleCollection.fields
 
@@ -113,6 +295,26 @@ class EnaCollection(Resource):
             a[key_split[len(key_split) - 1]] = ""
             if f.id in auto_fields.keys():
                 a[key_split[len(key_split) - 1]] = auto_fields[f.id]
+
+        # get characteristics, we have already begun with the organism,
+        # retrieve and sort to maintain order as displayed form
+        categories = [key for key, value in auto_fields.items() if key.startswith('categoryTerm_')]
+        categories.sort()
+
+        for category in categories:
+            index_part = category.split("categoryTerm_")[1]
+            if auto_fields['categoryTerm_' + index_part]:
+                    ch = {
+                        "categoryTerm": auto_fields['categoryTerm_' + index_part],
+                        "characteristics": auto_fields['characteristics_' + index_part],
+                        "termSourceREF": auto_fields['termSourceREF_' + index_part],
+                        "termAccessionNumber": auto_fields['termAccessionNumber_' + index_part],
+                        "unit": auto_fields['unit_' + index_part]
+                    }
+
+                    characteristics.append(ch)
+
+        a["characteristics"] = characteristics
 
         EnaCollections.update({"_id": ObjectId(ena_collection_id)},
                               {"$push": {"collectionCOPOMetadata.samples": a}})
@@ -128,12 +330,22 @@ class EnaCollection(Resource):
         ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.fields
         auto_fields = ast.literal_eval(auto_fields)
 
+        characteristics = []
+
         for f in ena_d:
             key_split = f.id.split(".")
             if f.id in auto_fields.keys():
                 EnaCollections.update(
                     {"_id": ObjectId(ena_collection_id), "collectionCOPOMetadata.samples.id": sample_id},
                     {'$set': {"collectionCOPOMetadata.samples.$." + key_split[len(key_split) - 1]: auto_fields[f.id]}})
+
+                if key_split[len(key_split) - 1] == "organism":
+                    characteristics.append({
+                        "categoryTerm": "organism",
+                        "characteristics": auto_fields[f.id],
+                        "termSourceREF": auto_fields["termSourceREF_organism"],
+                        "termAccessionNumber": auto_fields["termAccessionNumber_organism"]
+                    })
 
         ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.sampleCollection.fields
 
@@ -143,6 +355,28 @@ class EnaCollection(Resource):
                 EnaCollections.update(
                     {"_id": ObjectId(ena_collection_id), "collectionCOPOMetadata.samples.id": sample_id},
                     {'$set': {"collectionCOPOMetadata.samples.$." + key_split[len(key_split) - 1]: auto_fields[f.id]}})
+
+        # get characteristics
+        #
+        categories = [key for key, value in auto_fields.items() if key.startswith('categoryTerm_')]
+        categories.sort()
+
+        for category in categories:
+            index_part = category.split("categoryTerm_")[1]
+            if auto_fields['categoryTerm_' + index_part]:
+                    ch = {
+                        "categoryTerm": auto_fields['categoryTerm_' + index_part],
+                        "characteristics": auto_fields['characteristics_' + index_part],
+                        "termSourceREF": auto_fields['termSourceREF_' + index_part],
+                        "termAccessionNumber": auto_fields['termAccessionNumber_' + index_part],
+                        "unit": auto_fields['unit_' + index_part]
+                    }
+
+                    characteristics.append(ch)
+
+        EnaCollections.update(
+            {"_id": ObjectId(ena_collection_id), "collectionCOPOMetadata.samples.id": sample_id},
+            {'$set': {"collectionCOPOMetadata.samples.$.characteristics": characteristics}})
 
         # update studies: add sample to study if study in the selected list,
         # delete from study not selected
@@ -164,6 +398,16 @@ class EnaCollection(Resource):
 
         return doc['collectionCOPOMetadata']['samples'][0] if doc else ''
 
+    # this might have to scale to handle samples at the Profile level
+    def get_all_samples(self, ena_collection_id):
+        ena_collection = EnaCollection().GET(ena_collection_id)
+        samples = ena_collection["collectionCOPOMetadata"]["samples"]
+
+        # the first entry is always a placeholder, and we don't want to include this in the returned data
+        del samples[0]
+
+        return samples
+
     def get_study_samples(self, ena_collection_id, study_id):
         doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
                                         {"$unwind": "$studies"},
@@ -175,44 +419,71 @@ class EnaCollection(Resource):
 
         return mutil.verify_doc_type(doc)
 
-
     def add_sample_to_ena_study(self, study_id, ena_collection_id, sample):
         EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
                               {'$push': {"studies.$.studyCOPOMetadata.samples": sample}})
+
+    def add_delete_samples_in_study(self, study_id, ena_collection_id, add_list, remove_list):
+        if remove_list:
+            for sample_id in remove_list:
+                self.hard_delete_sample_from_study(sample_id, study_id, ena_collection_id)
+
+        if add_list:
+            for sample_id in add_list:
+                self.hard_delete_sample_from_study(sample_id, study_id, ena_collection_id)
+                a = {'id': sample_id, 'deleted': '0'}
+                self.add_sample_to_ena_study(study_id, ena_collection_id, a)
 
     # this allows the total removal of the specified sample record from a study
     def hard_delete_sample_from_study(self, sample_id, study_id, ena_collection_id):
         EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
                               {'$pull': {"studies.$.studyCOPOMetadata.samples": {'id': sample_id}}})
 
-    # this sets the deleted flag true
-    def soft_delete_sample_from_study(self, sample_id, study_id, ena_collection_id):
-        pass
+    def update_study_publication(self, publication_id, study_id, ena_collection_id, field_list):
+        publication = self.get_study_publication(study_id, ena_collection_id, publication_id)
+        all_publications = self.get_study_publications_all(study_id, ena_collection_id)
+
+        indx = all_publications.index(publication)
+
+        if indx:
+            for f_l in field_list:
+                for k, v in f_l.items():
+                    EnaCollections.update(
+                        {"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
+                        {'$set': {"studies.$.study.studyPublications." + str(indx) + "." + k: v}})
+
+    def update_study_contact(self, contact_id, study_id, ena_collection_id, field_list):
+        contact = self.get_study_contact(study_id, ena_collection_id, contact_id)
+        all_contacts = self.get_study_contacts_all(study_id, ena_collection_id)
+
+        indx = all_contacts.index(contact)
+
+        if indx:
+            for f_l in field_list:
+                for k, v in f_l.items():
+                    EnaCollections.update(
+                        {"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
+                        {'$set': {"studies.$.study.studyContacts." + str(indx) + "." + k: v}})
 
     def get_ena_study(self, study_id, ena_collection_id):
         doc = EnaCollections.find_one({"_id": ObjectId(ena_collection_id),
                                        "studies.studyCOPOMetadata.id": study_id},
                                       {"studies.studyCOPOMetadata.id.$": 1})
 
-        study = {}
-        if doc:
-            study = doc['studies'][0]
-        return study
+        return doc['studies'][0] if doc else {}
 
     def get_ena_studies(self, ena_collection_id):
         doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}}, {"$unwind": "$studies"},
                                         {"$match": {"studies.studyCOPOMetadata.deleted": "0"}},
                                         {"$group": {"_id": "$_id", "data": {"$push": "$studies"}}}])  # using 'data'
-        # as a projection variable (in the $group part) to allow the management of the returned type in verify_doc_type
+        # as a projection variable (in the $group part), allows for harmonising the returned type in verify_doc_type
 
         return mutil.verify_doc_type(doc)
 
-
-
     def update_study_type(self, ena_collection_id, study_id, elem_dict):
-        doc = EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.id": study_id}, {
-            '$set': {"studies.$.study_type": elem_dict["study_type"],
-                     "studies.$.study_type_reference": elem_dict["study_type_reference"]}})
+        doc = EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id}, {
+            '$set': {"studies.$.studyCOPOMetadata.studyType": elem_dict["study_type"],
+                     "studies.$.studyCOPOMetadata.studyReference": elem_dict["study_type_reference"]}})
         return doc
 
     def update_study_details(self, ena_collection_id, study_id, auto_fields):
@@ -226,7 +497,7 @@ class EnaCollection(Resource):
             if f.id in auto_fields.keys():
                 auto_dict["studies.$.study." + key_split[len(key_split) - 1]] = auto_fields[f.id]
 
-        EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.id": study_id}, {
+        EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id}, {
             '$set': auto_dict})
 
     def add_study(self, values, attributes):

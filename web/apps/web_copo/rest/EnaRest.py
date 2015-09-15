@@ -2,6 +2,7 @@ import uuid
 
 __author__ = 'fshaw'
 import gzip
+import os
 
 import hashlib
 from django.http import HttpResponse
@@ -12,9 +13,13 @@ from django.core.files.base import ContentFile
 from bson.json_util import dumps
 
 from chunked_upload.models import ChunkedUpload
-import web_copo.xml_tools.EnaParsers as parsers
-import web_copo.utils.EnaUtils as u
-from web_copo.repos.irods import *
+import web.apps.web_copo.xml_tools.EnaParsers as parsers
+import web.apps.web_copo.utils.EnaUtils as u
+# from web.apps.web_copo.repos.irods import *
+from settings_dev import MEDIA_ROOT
+from dal.ena_da import EnaCollection
+from dal.copo_base_da import Collection_Head
+from dal.mongo_util import cursor_to_list
 
 
 class JSONResponse(HttpResponse):
@@ -225,7 +230,7 @@ def receive_data_file(request):
 
 
         path = chunked_upload.file
-        destination = open(os.path.join(settings.MEDIA_ROOT, path.file.name), 'wb+')
+        destination = open(os.path.join(MEDIA_ROOT, path.file.name), 'wb+')
         for chunk in f.chunks():
             destination.write(chunk)
         destination.close()
@@ -243,8 +248,8 @@ def receive_data_file(request):
         files['files']['deleteUrl'] = ''
         files['files']['deleteType'] = 'DELETE'
 
-        status = register_to_irods()
-        print(status)
+        # status = register_to_irods()
+        # print(status)
 
         str = jsonpickle.encode(files)
     return HttpResponse(str, content_type='json')
@@ -256,7 +261,7 @@ def hash_upload(request):
     file_id = request.GET['file_id']
     print('hash started ' + file_id)
     file_upload = ChunkedUpload.objects.get(pk=file_id)
-    file_name = os.path.join(settings.MEDIA_ROOT, file_upload.file.name)
+    file_name = os.path.join(MEDIA_ROOT, file_upload.file.name)
 
     #now hash opened file
     md5 = hashlib.md5()
@@ -275,7 +280,7 @@ def inspect_file(request):
     # get reference to file
     file_id = request.GET['file_id']
     chunked_upload = ChunkedUpload.objects.get(id=int(file_id))
-    file_name = os.path.join(settings.MEDIA_ROOT, chunked_upload.file.name)
+    file_name = os.path.join(MEDIA_ROOT, chunked_upload.file.name)
 
     if (u.is_fastq_file(file_name)):
         output_dict['file_type'] = 'fastq'
@@ -298,11 +303,11 @@ def zip_file(request):
     file_obj = ChunkedUpload.objects.get(pk=f_id)
 
     #get the name of the file to zip and change its suffix to .gz
-    input_file_name = os.path.join(settings.MEDIA_ROOT, file_obj.file.name)
+    input_file_name = os.path.join(MEDIA_ROOT, file_obj.file.name)
     output_file_name = os.path.splitext(file_obj.filename)[0] + '.gz'
     try:
         #open the file as gzip acrchive...set compression level
-        temp_name = os.path.join(settings.MEDIA_ROOT, str(uuid.uuid4()) + '.tmp')
+        temp_name = os.path.join(MEDIA_ROOT, str(uuid.uuid4()) + '.tmp')
         myzip = gzip.open(temp_name, 'wb', compresslevel=1)
         src = open(input_file_name, 'r')
 
@@ -421,7 +426,7 @@ def delete_file(request):
     ch = ChunkedUpload.objects.get(id=int(file_id))
 
     #get full path
-    filepath = os.path.join(settings.MEDIA_ROOT, ch.file.name)
+    filepath = os.path.join(MEDIA_ROOT, ch.file.name)
     #delete file
     os.remove(filepath)
     #now delete database entries for the file

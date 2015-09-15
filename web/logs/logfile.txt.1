@@ -1,330 +1,224 @@
-[06/Aug/2015 15:09:58] ERROR [django.request:231] Internal Server Error: /rest/check_figshare_credentials/
+[14/Sep/2015 14:32:50] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 14:33:05] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 14:33:05] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 14:33:50] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 14:33:50] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 14:34:08] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 14:34:08] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 14:34:40] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 14:34:41] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 14:36:47] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 14:36:47] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 14:37:24] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 14:37:24] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 14:37:50] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 14:37:51] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 14:42:27] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 14:42:27] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 14:42:58] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 14:42:58] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 14:53:52] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 14:53:52] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 14:54:13] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 14:54:13] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 14:54:30] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 14:54:30] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 14:55:38] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 14:55:38] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 14:59:23] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 14:59:23] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 15:06:38] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 15:06:38] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 15:08:51] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 15:08:51] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 15:10:08] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 15:10:08] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 15:11:41] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 15:11:41] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 15:13:10] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 15:13:10] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 15:13:32] ERROR [django.request:231] Internal Server Error: /copo/study/d4be509a5a344a9b8cabeec2554e863a/view
 Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/repos/figshare.py", line 103, in check_figshare_credentials
-    if (Figshare_token().token_exists()):
-NameError: name 'Figshare_token' is not defined
-[06/Aug/2015 15:10:06] ERROR [django.request:231] Internal Server Error: /rest/check_figshare_credentials/
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/repos/figshare.py", line 103, in check_figshare_credentials
-    if (Figshare_token().token_exists()):
-NameError: name 'Figshare_token' is not defined
-[06/Aug/2015 15:10:17] ERROR [django.request:231] Internal Server Error: /rest/check_figshare_credentials/
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/repos/figshare.py", line 103, in check_figshare_credentials
-    if (Figshare_token().token_exists()):
-NameError: name 'Figshare_token' is not defined
-[06/Aug/2015 15:18:05] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Aug/2015 08:52:44] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Aug/2015 09:08:00] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:08:00] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:08:00] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:08:00] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:08:00] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:08:00] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:08:00] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:08:00] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:08:00] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:08:00] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:08:00] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:08:00] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:08:00] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:08:00] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:08:00] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:08:00] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:08:01] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:08:01] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:08:01] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:08:01] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:08:01] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:08:01] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:11:09] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Aug/2015 09:27:20] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:27:20] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:27:20] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:27:20] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:27:20] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:27:20] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:27:20] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:27:20] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:27:20] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:27:20] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:27:20] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:27:20] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:27:20] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:27:20] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:27:20] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:27:20] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:27:20] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:27:20] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:27:20] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:27:20] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:27:20] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:27:20] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:28:35] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:28:35] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:28:35] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:28:35] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:28:35] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:28:35] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:28:35] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:28:35] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:28:35] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:28:35] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:28:35] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:28:35] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:28:35] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:28:35] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:28:35] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:28:35] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:28:35] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:28:35] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:28:35] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:28:35] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:28:35] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:28:35] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:29:30] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:29:30] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:29:30] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:29:30] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:29:30] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:29:30] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:29:30] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:29:30] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:29:30] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:29:30] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:29:30] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:29:30] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:29:30] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:29:30] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:29:30] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:29:30] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:29:30] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:29:30] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:29:30] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:29:30] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:29:30] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:29:30] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:30:43] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:30:43] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:30:43] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:30:43] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:30:43] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:30:43] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:30:44] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:30:44] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:30:44] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:30:44] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:30:44] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:30:44] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:30:44] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:30:44] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:30:44] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:30:44] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:30:44] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:30:44] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:30:44] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:30:44] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:30:44] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:30:44] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:31:22] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:31:22] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:31:23] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:31:23] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:31:23] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:31:23] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:31:23] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:31:23] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:31:23] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:31:23] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:31:23] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:31:23] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:31:23] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:31:23] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:31:23] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:31:23] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:31:23] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:31:23] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:31:23] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:31:23] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:31:23] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:31:23] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:34:05] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:34:05] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:34:05] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:34:05] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:34:05] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:34:05] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:34:05] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:34:05] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:34:05] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:34:05] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:34:05] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:34:05] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:34:05] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:34:05] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:34:05] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:34:05] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:34:05] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:34:05] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:34:05] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:34:05] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:34:05] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
-[07/Aug/2015 09:34:05] DEBUG [requests.packages.urllib3.connectionpool:383] "GET /id/ HTTP/1.1" 200 None
-[07/Aug/2015 09:34:16] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Aug/2015 09:35:23] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Aug/2015 10:04:08] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Aug/2015 10:04:08] ERROR [django.request:231] Internal Server Error: /copo/profile/55c3789c453d9a7766bd0683/view
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
     return view_func(request, *args, **kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 163, in view_profile
-    return render(request, 'copo/profile.html', conte+xt)
-NameError: name 'conte' is not defined
-[07/Aug/2015 10:04:24] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Aug/2015 10:14:49] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Aug/2015 10:14:50] ERROR [django.request:231] Internal Server Error: /copo/profile/55c3789c453d9a7766bd0683/view
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 537, in reverse
-    extra, resolver = resolver.namespace_dict[ns]
-KeyError: 'project_copo.copo'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 452, in render
-    current_app=context.current_app)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 547, in reverse
-    key)
-django.core.urlresolvers.NoReverseMatch: 'project_copo.copo' is not a registered namespace
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
-    return view_func(request, *args, **kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 163, in view_profile
-    return render(request, 'copo/profile.html', context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/shortcuts.py", line 50, in render
+  File "/Users/etuka/Dropbox/Dev/COPO/web/apps/web_copo/views.py", line 308, in view_study
+    return render(request, 'copo/ena_study.html', data_dict, context_instance=RequestContext(request))
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/shortcuts.py", line 50, in render
     return HttpResponse(loader.render_to_string(*args, **kwargs),
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader.py", line 178, in render_to_string
-    return t.render(context_instance)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 148, in render
-    return self._render(context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 142, in _render
-    return self.nodelist.render(context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
-    bit = self.render_node(node, context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
-    return node.render(context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader_tags.py", line 126, in render
-    return compiled_parent._render(context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 142, in _render
-    return self.nodelist.render(context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
-    bit = self.render_node(node, context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
-    return node.render(context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader_tags.py", line 65, in render
-    result = block.nodelist.render(context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
-    bit = self.render_node(node, context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
-    return node.render(context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 312, in render
-    return nodelist.render(context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
-    bit = self.render_node(node, context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
-    return node.render(context)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 201, in render
-    nodelist.append(node.render(context))
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 458, in render
-    six.reraise(*exc_info)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/utils/six.py", line 659, in reraise
-    raise value
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 444, in render
-    url = reverse(view_name, args=args, kwargs=kwargs, current_app=context.current_app)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 551, in reverse
-    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 468, in _reverse_with_prefix
-    (lookup_view_s, args, kwargs, len(patterns), patterns))
-django.core.urlresolvers.NoReverseMatch: Reverse for 'view_collection' with arguments '()' and keyword arguments '{'collection_head_id': '55c378a8453d9a7766bd0684'}' not found. 1 pattern(s) tried: ['copo/collection/(?P<collection_head_id>\\d+)/view']
-[07/Aug/2015 10:15:17] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Aug/2015 10:15:28] ERROR [django.request:231] Internal Server Error: /copo/collection/55c47bb7453d9a7e17aedb4a/view
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/loader.py", line 170, in render_to_string
+    t = get_template(template_name, dirs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/loader.py", line 144, in get_template
+    template, origin = find_template(template_name, dirs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/loader.py", line 132, in find_template
+    source, display_name = loader(name, dirs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/loader.py", line 44, in __call__
+    return self.load_template(template_name, template_dirs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/loader.py", line 50, in load_template
+    template = get_template_from_string(source, origin, template_name)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/loader.py", line 156, in get_template_from_string
+    return Template(source, origin, name)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/base.py", line 132, in __init__
+    self.nodelist = compile_string(template_string, origin)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/base.py", line 162, in compile_string
+    return parser.parse()
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/base.py", line 290, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/loader_tags.py", line 201, in do_extends
+    nodelist = parser.parse()
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/base.py", line 290, in parse
+    compiled_result = compile_func(self, token)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/loader_tags.py", line 175, in do_block
+    nodelist = parser.parse(('endblock',))
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/base.py", line 266, in parse
+    filter_expression = self.compile_filter(token.contents)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/base.py", line 372, in compile_filter
+    return FilterExpression(token, self)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/base.py", line 582, in __init__
+    filter_func = parser.find_filter(filter_name)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/template/base.py", line 378, in find_filter
+    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
+django.template.base.TemplateSyntaxError: Invalid filter: 'generate_study_protocols_table'
+[14/Sep/2015 15:49:29] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 15:49:29] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 15:49:57] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 15:49:58] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 15:50:24] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 15:50:24] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 15:50:50] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 15:50:50] INFO [rdflib:81] RDFLib Version: 4.2.1
+[14/Sep/2015 16:20:44] ERROR [django.request:231] Internal Server Error: /rest/receive_data_file_chunked/
 Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
-    return view_func(request, *args, **kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 218, in view_collection
-    ui_template = DataSchemas("ENA").get_ui_template()
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/copo_base_da.py", line 198, in get_ui_template
-    Schemas(self.schema).add_template(temp_dict["data"])
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/pymongo/collection.py", line 2066, in __call__
-    self.__name)
-TypeError: 'Collection' object is not callable. If you meant to call the 'Schemas' method on a 'Database' object it is failing because no such method exists.
-[07/Aug/2015 10:15:59] WARNING [django.request:143] Not Found: /
-[07/Aug/2015 10:16:59] ERROR [django.request:231] Internal Server Error: /copo/collection/55c47bb7453d9a7e17aedb4a/view
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 87, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/chunked_upload/views.py", line 104, in post
+    return self._post(request, *args, **kwargs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/chunked_upload/views.py", line 189, in _post
+    chunked_upload = self.create_chunked_upload(save=False, **attrs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/chunked_upload/views.py", line 145, in create_chunked_upload
+    chunked_upload.file.save(name='', content=ContentFile(''), save=save)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/db/models/fields/files.py", line 89, in save
+    self.name = self.storage.save(name, content)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/core/files/storage.py", line 51, in save
+    name = self._save(name, content)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/core/files/storage.py", line 193, in _save
+    os.makedirs(directory)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 237, in makedirs
+    mkdir(name, mode)
+PermissionError: [Errno 13] Permission denied: '/Users/fshaw'
+[14/Sep/2015 16:24:14] ERROR [django.request:231] Internal Server Error: /rest/receive_data_file_chunked/
 Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
-    return view_func(request, *args, **kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 232, in view_collection
-    ena_collection = EnaCollection().GET(request.session['ena_collection_id'])
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/ena_da.py", line 24, in GET
-    doc = EnaCollections.find_one({"_id": ObjectId(id)})
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 110, in __init__
-    self.__validate(oid)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 206, in __validate
-    _raise_invalid_id(oid)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 52, in _raise_invalid_id
-    " or a 24-character hex string" % oid)
-bson.errors.InvalidId: "[ObjectId('55c47bb7453d9a7e17aedb4b')]" is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
-[07/Aug/2015 10:17:21] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Aug/2015 10:17:21] ERROR [django.request:231] Internal Server Error: /copo/collection/55c47bb7453d9a7e17aedb4a/view
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 87, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/chunked_upload/views.py", line 104, in post
+    return self._post(request, *args, **kwargs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/chunked_upload/views.py", line 189, in _post
+    chunked_upload = self.create_chunked_upload(save=False, **attrs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/chunked_upload/views.py", line 145, in create_chunked_upload
+    chunked_upload.file.save(name='', content=ContentFile(''), save=save)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/db/models/fields/files.py", line 89, in save
+    self.name = self.storage.save(name, content)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/core/files/storage.py", line 51, in save
+    name = self._save(name, content)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/core/files/storage.py", line 193, in _save
+    os.makedirs(directory)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 237, in makedirs
+    mkdir(name, mode)
+PermissionError: [Errno 13] Permission denied: '/Users/fshaw'
+[14/Sep/2015 16:26:49] ERROR [django.request:231] Internal Server Error: /rest/receive_data_file_chunked/
 Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
-    return view_func(request, *args, **kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 232, in view_collection
-    ena_collection = EnaCollection().GET(request.session['ena_collection_id'])
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/ena_da.py", line 24, in GET
-    doc = EnaCollections.find_one({"_id": ObjectId(id)})
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 110, in __init__
-    self.__validate(oid)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 206, in __validate
-    _raise_invalid_id(oid)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 52, in _raise_invalid_id
-    " or a 24-character hex string" % oid)
-bson.errors.InvalidId: "[ObjectId('55c47bb7453d9a7e17aedb4b')]" is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
-[07/Aug/2015 10:19:03] ERROR [django.request:231] Internal Server Error: /copo/collection/55c47bb7453d9a7e17aedb4a/view
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 87, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/chunked_upload/views.py", line 104, in post
+    return self._post(request, *args, **kwargs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/chunked_upload/views.py", line 189, in _post
+    chunked_upload = self.create_chunked_upload(save=False, **attrs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/chunked_upload/views.py", line 145, in create_chunked_upload
+    chunked_upload.file.save(name='', content=ContentFile(''), save=save)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/db/models/fields/files.py", line 89, in save
+    self.name = self.storage.save(name, content)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/core/files/storage.py", line 51, in save
+    name = self._save(name, content)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/core/files/storage.py", line 193, in _save
+    os.makedirs(directory)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 237, in makedirs
+    mkdir(name, mode)
+PermissionError: [Errno 13] Permission denied: '/Users/fshaw'
+[14/Sep/2015 16:37:52] ERROR [django.request:231] Internal Server Error: /rest/receive_data_file_chunked/
 Traceback (most recent call last):
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
-    return view_func(request, *args, **kwargs)
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 232, in view_collection
-    ena_collection = EnaCollection().GET(request.session['ena_collection_id'])
-  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal/ena_da.py", line 24, in GET
-    doc = EnaCollections.find_one({"_id": ObjectId(id)})
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 110, in __init__
-    self.__validate(oid)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 206, in __validate
-    _raise_invalid_id(oid)
-  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/bson/objectid.py", line 52, in _raise_invalid_id
-    " or a 24-character hex string" % oid)
-bson.errors.InvalidId: "[ObjectId('55c47bb7453d9a7e17aedb4b')]" is not a valid ObjectId, it must be a 12-byte input or a 24-character hex string
-[07/Aug/2015 10:19:51] DEBUG [web_copo.views:18] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
-[07/Aug/2015 10:20:01] INFO [requests.packages.urllib3.connectionpool:203] Starting new HTTP connection (1): v0514.nbi.ac.uk
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 69, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/views/generic/base.py", line 87, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/chunked_upload/views.py", line 104, in post
+    return self._post(request, *args, **kwargs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/chunked_upload/views.py", line 189, in _post
+    chunked_upload = self.create_chunked_upload(save=False, **attrs)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/chunked_upload/views.py", line 145, in create_chunked_upload
+    chunked_upload.file.save(name='', content=ContentFile(''), save=save)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/db/models/fields/files.py", line 89, in save
+    self.name = self.storage.save(name, content)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/core/files/storage.py", line 51, in save
+    name = self._save(name, content)
+  File "/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/django/core/files/storage.py", line 193, in _save
+    os.makedirs(directory)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 227, in makedirs
+    makedirs(head, mode, exist_ok)
+  File "/Users/etuka/environments/venv3.4/bin/../lib/python3.4/os.py", line 237, in makedirs
+    mkdir(name, mode)
+PermissionError: [Errno 13] Permission denied: '/Users/fshaw'
+[14/Sep/2015 17:16:05] DEBUG [web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[14/Sep/2015 17:16:05] INFO [rdflib:81] RDFLib Version: 4.2.1

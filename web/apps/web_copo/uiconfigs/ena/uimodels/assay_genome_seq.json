@@ -1,0 +1,63 @@
+[
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.qualityScorer",
+    "ref": "Parameter Value[quality scorer]"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidExtraction.extractName",
+    "ref": "Extract Name"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.rawDataFile",
+    "ref": "Raw Data File"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.libraryLayout",
+    "ref": "Parameter Value[library layout]"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.baseCaller",
+    "ref": "Parameter Value[base caller]"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.sequenceAssembly.dataTransformationName",
+    "ref": "Data Transformation Name"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.sequenceAssembly.derivedDataFile",
+    "ref": "Derived Data File"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.export",
+    "ref": "Comment[Export]"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.sequenceAssembly.normalizationName",
+    "ref": "Normalization Name"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.libraryStrategy",
+    "ref": "Parameter Value[library strategy]"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.assayName",
+    "ref": "Assay Name"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.librarySource",
+    "ref": "Parameter Value[library source]"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.librarySelection",
+    "ref": "Parameter Value[library selection]"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.sampleName",
+    "ref": "Sample Name"
+  },
+  {
+    "label": "Sequencing Instrument",
+    "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.sequencingInstrument",
+    "ref": "Parameter Value[sequencing instrument]"
+  }
+]

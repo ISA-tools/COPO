@@ -114,8 +114,9 @@
             <div id="collapseOne" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <div style="display: inline-block; text-indent: 0.5em;">
-                        <a class="type_add" data-toggle="modal" data-target="#newStudySampleModal" href="#">
-                            <button type="button" id="btn_study_type_quick_update" class="btn btn-primary btn-xs">Add
+                        <a class="sample-refresh-modal" data-toggle="modal" data-target="#newStudySampleModal"
+                           href="#">
+                            <button type="button" class="btn btn-primary btn-xs">Add
                                 Sample
                             </button>
                         </a>
@@ -142,7 +143,7 @@
                                 New Study
                             </button>
                         </a>
-                        <a data-toggle="modal" data-target="#studyTypeCloneModal" href="#">
+                        <a class="study-refresh-modal" data-toggle="modal" data-target="#studyTypeCloneModal" href="#">
                             <button type="button" class="btn btn-primary btn-xs">Clone Existing
                                 Study
                             </button>
@@ -157,16 +158,15 @@
         </div>
     </div>
 
-
     <!-- Modal for deleting study -->
     <div class="modal fade" id="studyDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content alert alert-warning">
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Study Delete</h4>
                 </div>
 
                 <div class="modal-body">
@@ -175,8 +175,10 @@
                         {% csrf_token %}
                         <input type="hidden" id="target_study_delete" value="">
 
-                        <p>You are about to delete a study: <span id="target_study_delete_span"
-                                                                  class="study-node-title"></span>, this procedure
+                        <p>You are about to delete the study: <span id="target_study_delete_span"
+                                                                    class="study-node-title"></span>. Please note that
+                            this
+                            procedure
                             is irreversible.</p>
 
                         <p>Do you want to proceed?</p>
@@ -206,9 +208,10 @@
                             class="sr-only">Close</span></button>
                     <div style="display: inline-block;"><h4 class="modal-title" id="myModalLabel">Add Study Type</h4>
                     </div>
-                    <div style="display: inline-block;"><span class="blue_icon"><a href="#" data-toggle="tooltip"
-                                                                                   title="{{ "study_type_add_info"|lookup_info }}"><i
-                            class="glyphicon glyphicon-info-sign"></i></a></span></div>
+                    <div style="display: inline-block;">
+                        <span class="blue_icon"><a href="#" data-toggle="tooltip"
+                                                   title="{{ "study_type_add_info"|lookup_info }}">
+                            <i class="glyphicon glyphicon-info-sign"></i></a></span></div>
 
                 </div>
                 <div class="modal-body">
@@ -220,12 +223,9 @@
 
                         <div id="study_type_div" class="form-group">
                             <label for="study_type">New Study Type
-                                <div style="display: inline-block; text-indent: 0.5em;">
-                                    <a class="study-type-add" href="#" title="Add Study Type">
-                                        <button type="button" class="btn btn-default btn-xs"><i
-                                                class="glyphicon glyphicon-plus-sign "></i>Add
-                                        </button>
-                                    </a>
+                                <div style="display: inline-block;">
+                                    <a class="btn btn-xs btn-success study-type-add" href="#">
+                                        <i class="fa fa-plus-square-o fa-sm"></i> Add</a>
                                 </div>
                             </label>
 
@@ -241,16 +241,13 @@
                                     </div>
                                     <div style="display: inline-block;">
                                         <input type="text" name="study_type_reference_0" id="study_type_reference_0"
-                                               class="form_control input-copo"
+                                               class=" input-copo"
                                                placeholder="Enter Study Reference"/>
                                     </div>
                                     <div style="display: inline-block;">
-                                        <a id="study_type_remove_0" name="study_type_remove_0" class="study-type-remove"
-                                           href="#" title="Delete Study">
-                                            <button type="button" class="btn btn-default btn-xs"><i
-                                                    class="glyphicon glyphicon-remove-sign "></i>Delete
-                                            </button>
-                                        </a>
+                                        <a id="study_type_remove_0" name="study_type_remove_0"
+                                           class="btn btn-xs btn-danger study-type-remove" href="#">
+                                            <i class="fa fa-trash-o fa-sm"></i> Delete</a>
                                     </div>
                                 </div>
                             </div>
@@ -298,7 +295,7 @@
                             <div style="display: inline-block;">
                                 <input type="text"
                                        id="studyReference_clone_value"
-                                       class="form_control input-copo"
+                                       class=" input-copo"
                                        placeholder="Enter Study Reference"/>
                             </div>
                             <table class="table-bordered fixed-study-tree">
@@ -411,9 +408,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-
-                </div>
+                <div class="modal-footer"></div>
             </div>
         </div>
     </div>
@@ -439,14 +434,18 @@
                     <form role="form" id="add_new_study_sample_form" action="{% url 'copo:add_to_collection' %}"
                           method="post">
                         {% csrf_token %}
+
+                        <input type="hidden" name="termAccessionNumber_organism" id="termAccessionNumber_organism"/>
+                        <input type="hidden" name="termSourceREF_organism" id="termSourceREF_organism"/>
+
                         <div>
-                            {% for sf in ui_template.studies.study.studySamples.fields %}
+                            {% for sf in ui_template.studies.study.studySamples.sampleCollection.fields %}
                                 <div class='form-group'>
                                     {{ sf.id|generate_ena_tags }}
                                 </div>
                             {% endfor %}
 
-                            {% for sf in ui_template.studies.study.studySamples.sampleCollection.fields %}
+                            {% for sf in ui_template.studies.study.studySamples.fields %}
                                 <div class='form-group'>
                                     {{ sf.id|generate_ena_tags }}
                                 </div>
@@ -455,11 +454,117 @@
                             <hr/>
 
                             <div class="form-group">
-                                <label for="assigned_study_type">Assign to...</label><br/>
-                                <ul id="study_type_sample_tree" class="easyui-tree"
-                                    checkbox="true"
-                                    animate="true">
-                                </ul>
+                                <label>Sample Attributes</label><br/>
+                            </div>
+                            <div class="form-group">
+                                <div id="sample_attributes_div">
+                                    <!-- Section for system-suggested attributes -->
+                                    {% if sample_attributes %}
+                                        {% for satt in sample_attributes %}
+                                            <div id="sample_attribute_div_{{ forloop.counter }}"
+                                                 style="white-space: nowrap; margin-bottom: 0.5em;">
+                                                <div style="display: inline-block;">
+                                                    <input type="text" name="categoryTerm_{{ forloop.counter }}"
+                                                           id="categoryTerm_{{ forloop.counter }}"
+                                                           class=" input-copo"
+                                                           value="{{ satt.label }}" readonly/>
+                                                </div>
+                                                <div style="display: inline-block;">
+                                                    <input type="text" name="characteristics_{{ forloop.counter }}"
+                                                           id="characteristics_{{ forloop.counter }}"
+                                                           class=" input-copo"
+                                                           placeholder="value"/>
+                                                </div>
+                                                {% if satt.has_unit == "yes" %}
+                                                    <div style="display: inline-block;">
+                                                        <input type="text" name="unit_{{ forloop.counter }}"
+                                                               id="unit_{{ forloop.counter }}"
+                                                               class="input-copo"
+                                                               placeholder="unit"/>
+                                                    </div>
+                                                {% else %}
+                                                    <div style="display: inline-block;">
+                                                        <input type="text" name="unit_{{ forloop.counter }}"
+                                                               id="unit_{{ forloop.counter }}"
+                                                               class="input-copo"
+                                                               value="n/a" readonly/>
+                                                    </div>
+                                                {% endif %}
+                                                <input type="hidden" name="termAccessionNumber_{{ forloop.counter }}"
+                                                       id="termAccessionNumber_{{ forloop.counter }}"/>
+                                                <input type="hidden" name="termSourceREF_{{ forloop.counter }}"
+                                                       id="termSourceREF_{{ forloop.counter }}"/>
+
+                                                <div style="display: inline-block;">
+                                                    <a id="sample_attribute_message_{{ forloop.counter }}"
+                                                       name="sample_attribute_message_{{ forloop.counter }}"
+                                                       data-toggle="popover" data-trigger="hover"
+                                                       title="Attributes Info"
+                                                       data-html="true"
+                                                       data-content="{{ messages.system_suggested_attribute_message }}"
+                                                       href="#">
+                                                        <i class="fa fa-sticky-note"></i></a>
+                                                </div>
+
+                                                <div style="display: inline-block;">
+                                                    <a id="sample_attribute_remove_{{ forloop.counter }}"
+                                                       name="sample_attribute_remove_{{ forloop.counter }}"
+                                                       class="btn btn-xs btn-danger sample-attribute-remove" href="#">
+                                                        <i class="fa fa-trash-o fa-sm"></i> Delete</a>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                    <!-- Section for user-defined attributes -->
+                                    <div id="sample_attribute_div_0"
+                                         style="white-space: nowrap; margin-bottom: 0.5em; display: none;">
+                                        <div style="display: inline-block;">
+                                            <input type="text" name="categoryTerm_0" id="categoryTerm_0"
+                                                   class=" input-copo"
+                                                   placeholder="term"/>
+                                        </div>
+                                        <div style="display: inline-block;">
+                                            <input type="text" name="characteristics_0" id="characteristics_0"
+                                                   class=" input-copo"
+                                                   placeholder="value"/>
+                                        </div>
+                                        <div style="display: inline-block;">
+                                            <input type="text" name="unit_0" id="unit_0"
+                                                   class="input-copo"
+                                                   placeholder="unit"/>
+                                        </div>
+                                        <input type="hidden" name="termAccessionNumber_0" id="termAccessionNumber_0"/>
+                                        <input type="hidden" name="termSourceREF_0" id="termSourceREF_0"/>
+
+                                        <div style="display: inline-block;">
+                                            <a id="sample_attribute_message_0" name="sample_attribute_message_0"
+                                               data-toggle="popover" data-trigger="hover" title="Attributes Info"
+                                               data-content="{{ messages.user_defined_attribute_message }}"
+                                               href="#">
+                                                <i class="fa fa-sticky-note"></i></a>
+                                        </div>
+                                        <div style="display: inline-block;">
+                                            <a id="sample_attribute_remove_0" name="sample_attribute_remove_0"
+                                               class="btn btn-xs btn-danger sample-attribute-remove" href="#">
+                                                <i class="fa fa-trash-o fa-sm"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="padding-top: 1.0em;">
+                                    <div style="display: inline-block;">
+                                        <a class="btn btn-xs btn-success sample-attribute-add" href="#">
+                                            <i class="fa fa-plus-square-o fa-sm"></i> Add Sample Attribute</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr/>
+
+                            <div class="form-group">
+                                <label>Assign Sample to...</label><br/>
+
+                                <div id="study_type_sample_tree"></div>
                             </div>
                             <hr/>
                             <div>
@@ -488,9 +593,6 @@
     {#    <script src="{% static 'copo/js/collection.js' %}"></script>#}
     <script src="{% static 'copo/js/jquery.form.js' %}"></script>
     <script src="{% static 'copo/js/bootstrapValidator.js' %}"></script>
-    <script src="{% static 'copo/js/uploader/vendor/jquery.ui.widget.js' %}"></script>
-    <script src="{% static 'copo/js/uploader/jquery.iframe-transport.js' %}"></script>
-    <script src="{% static 'copo/js/uploader/jquery.fileupload.js' %}"></script>
     <script src="{% static 'copo/js/uploader/vendor/jquery.ui.widget.js' %}"></script>
     <script src="{% static 'copo/js/uploader/jquery.iframe-transport.js' %}"></script>
     <script src="{% static 'copo/js/uploader/jquery.fileupload.js' %}"></script>

@@ -1,10 +1,10 @@
 __author__ = 'etuka'
 
 import json
-
 from collections import namedtuple
 
-from web_copo.uiconfigs.utils import lookup
+import web.apps.web_copo.uiconfigs.ena.uimodels.ena_copo_config as ecc
+import web.apps.web_copo.uiconfigs.utils.lookup as lkup
 from dal import DataSchemas
 
 
@@ -23,7 +23,7 @@ def get_label(value, list_of_elements, key_name):
 
 def lookup_study_type_label(val):
     # get study types
-    study_types = lookup.DROP_DOWNS['STUDY_TYPES']
+    study_types = lkup.DROP_DOWNS['STUDY_TYPES']
 
     for st in study_types:
         if st["value"].lower() == val.lower():
@@ -42,8 +42,22 @@ def get_ena_ui_template_as_obj():
 
 
 def get_ena_db_template():
-    path_to_json = lookup.SCHEMAS["ENA"]['PATHS_AND_URIS']['ISA_json']
+    path_to_json = lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['ISA_json']
     data = ""
     with open(path_to_json, encoding='utf-8') as data_file:
         data = json.loads(data_file.read())
     return data
+
+
+def get_sample_attributes():
+    sample_attributes = json_to_pytype(ecc.MODEL_FILES["SAMPLE_ATTRIBUTES"])
+    # maybe some logic here to filter the returned attributes,
+    # for instance, based on the tags?
+    return sample_attributes
+
+
+def json_to_pytype(path_to_json):
+        data = ""
+        with open(path_to_json, encoding='utf-8') as data_file:
+            data = json.loads(data_file.read())
+        return data

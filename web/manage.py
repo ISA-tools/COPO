@@ -7,8 +7,6 @@ import os
 web_home = os.path.dirname(os.path.realpath(__file__ ))
 proj_home = os.path.abspath(os.path.join(web_home, os.pardir))
 
-
-
 if __name__ == "__main__":
     system = platform.system()
     #sys.path.append(web_home)

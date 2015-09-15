@@ -1,0 +1,331 @@
+[
+  {
+    "id": "investigation.investigationIdentifier",
+    "ref": "Investigation Identifier"
+  },
+  {
+    "id": "investigation.investigationTitle",
+    "ref": "Investigation Title"
+  },
+  {
+    "id": "investigation.investigationDescription",
+    "ref": "Investigation Description"
+  },
+  {
+    "id": "investigation.investigationPublicReleaseDate",
+    "ref": "Investigation Public Release Date"
+  },
+  {
+    "id": "investigation.investigationSubmissionDate",
+    "ref": "Investigation Submission Date"
+  },
+  {
+    "id": "investigation.commentLastOpenedWithConfiguration",
+    "ref": "Comment[Last Opened With Configuration]"
+  },
+  {
+    "id": "investigation.investigationContacts.investigationPersonLastName",
+    "ref": "Investigation Person Last Name",
+    "label": "Last Name"
+  },
+  {
+    "id": "investigation.investigationContacts.investigationPersonFirstName",
+    "ref": "Investigation Person First Name"
+  },
+  {
+    "id": "investigation.investigationContacts.investigationPersonMidInitials",
+    "ref": "Investigation Person Mid Initials"
+  },
+  {
+    "id": "investigation.investigationContacts.investigationPersonPhone",
+    "ref": "Investigation Person Phone"
+  },
+  {
+    "id": "investigation.investigationContacts.investigationPersonEmail",
+    "ref": "Investigation Person Email"
+  },
+  {
+    "id": "investigation.investigationContacts.investigationPersonFax",
+    "ref": "Investigation Person Fax"
+  },
+  {
+    "id": "investigation.investigationContacts.commentInvestigationPersonREF",
+    "ref": "Comment[Investigation Person REF]"
+  },
+  {
+    "id": "investigation.investigationContacts.investigationPersonRolesTermAccessionNumber",
+    "ref": ""
+  },
+  {
+    "id": "investigation.investigationContacts.investigationPersonAddress",
+    "ref": "Investigation Person Address"
+  },
+  {
+    "id": "investigation.investigationContacts.investigationPersonAffiliation",
+    "ref": "Investigation Person Affiliation"
+  },
+  {
+    "id": "investigation.investigationContacts.investigationPersonRoles",
+    "ref": "Investigation Person Roles"
+  },
+  {
+    "id": "investigation.investigationContacts.investigationPersonRolesTermSourceREF",
+    "ref": ""
+  },
+  {
+    "id": "investigation.investigationPublications.investigationPublicationTitle",
+    "ref": "Investigation Publication Title"
+  },
+  {
+    "id": "investigation.investigationPublications.investigationPublicationDOI",
+    "ref": "Investigation Publication DOI"
+  },
+  {
+    "id": "investigation.investigationPublications.investigationPubMedID",
+    "ref": "Investigation PubMed ID"
+  },
+  {
+    "id": "investigation.investigationPublications.investigationPublicationAuthorList",
+    "ref": "Investigation Publication Author List"
+  },
+  {
+    "id": "investigation.investigationPublications.investigationPublicationStatus",
+    "ref": "Investigation Publication Status"
+  },
+  {
+    "id": "investigation.investigationPublications.investigationPublicationStatusTermSourceREF",
+    "ref": ""
+  },
+  {
+    "id": "investigation.investigationPublications.investigationPublicationStatusTermAccessionNumber",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.studyTitle",
+    "ref": "Study Title"
+  },
+  {
+    "id": "studies.study.studyIdentifier",
+    "ref": "Study Identifier"
+  },
+  {
+    "id": "studies.study.studyDescription",
+    "ref": "Study Description"
+  },
+  {
+    "id": "studies.study.studyDesignDescriptors.studyDesignTypeTermSourceREF",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.assays.studyAssayTechnologyType",
+    "ref": "Study Assay Technology Type"
+  },
+  {
+    "id": "studies.study.studyDesignDescriptors.studyDesignType",
+    "ref": "Study Design Type"
+  },
+  {
+    "id": "studies.study.studyContacts.studyPersonLastName",
+    "ref": "Study Person Last Name"
+  },
+  {
+    "id": "studies.study.studyContacts.studyPersonFirstName",
+    "ref": "Study Person First Name"
+  },
+  {
+    "id": "studies.study.studyContacts.studyPersonMidInitials",
+    "ref": "Study Person Mid Initials"
+  },
+  {
+    "id": "studies.study.studyContacts.studyPersonEmail",
+    "ref": "Study Person Email"
+  },
+  {
+    "id": "studies.study.studyContacts.studyPersonPhone",
+    "ref": "Study Person Phone"
+  },
+  {
+    "id": "studies.study.studyContacts.studyPersonFax",
+    "ref": "Study Person Fax"
+  },
+  {
+    "id": "studies.study.studyContacts.studyPersonAddress",
+    "ref": "Study Person Address"
+  },
+  {
+    "id": "studies.study.studyContacts.studyPersonAffiliation",
+    "ref": "Study Person Affiliation"
+  },
+  {
+    "id": "studies.study.studyContacts.studyPersonRoles",
+    "ref": "Study Person Roles"
+  },
+  {
+    "id": "studies.study.studyContacts.studyPersonRolesTermAccessionNumber",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.studyContacts.studyPersonRolesTermSourceREF",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.studyContacts.commentStudyPersonREF",
+    "ref": "Comment[Study Person REF]"
+  },
+  {
+    "id": "studies.study.studyProtocols.studyProtocolParametersNameTermSourceREF",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.studyProtocols.studyProtocolVersion",
+    "ref": "Study Protocol Version"
+  },
+  {
+    "id": "studies.study.studyPublicReleaseDate",
+    "ref": "Study Public Release Date"
+  },
+  {
+    "id": "studies.study.studyProtocols.studyProtocolName",
+    "ref": "Study Protocol Name"
+  },
+  {
+    "id": "studies.study.studyProtocols.studyProtocolComponentsType",
+    "ref": "Study Protocol Components Type"
+  },
+  {
+    "id": "investigation.commentCreatedWithConfiguration",
+    "ref": "Comment[Created with configuration]"
+  },
+  {
+    "id": "studies.study.studyPublications.studyPubMedID",
+    "ref": "Study PubMed ID"
+  },
+  {
+    "id": "studies.study.studyProtocols.studyProtocolParametersNameTermAccessionNumber",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.assays.studyAssayTechnologyPlatform",
+    "ref": "Study Assay Technology Platform"
+  },
+  {
+    "id": "studies.study.studyProtocols.studyProtocolComponentsTypeTermAccessionNumber",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.studyProtocols.studyProtocolURI",
+    "ref": "Study Protocol URI"
+  },
+  {
+    "id": "studies.study.studySubmissionDate",
+    "ref": "Study Submission Date"
+  },
+  {
+    "id": "studies.study.studyPublications.studyPublicationStatusTermSourceREF",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.studyPublications.studyPublicationTitle",
+    "ref": "Study Publication Title"
+  },
+  {
+    "id": "studies.study.studyDesignDescriptors.studyDesignTypeTermAccessionNumber",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.studyFactors.studyFactorName",
+    "ref": "Study Factor Name"
+  },
+  {
+    "id": "studies.study.studyProtocols.studyProtocolComponentsName",
+    "ref": "Study Protocol Components Name"
+  },
+  {
+    "id": "studies.study.studyProtocols.studyProtocolComponentsTypeTermSourceREF",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.assays.studyAssayFileName",
+    "ref": "Study Assay File Name"
+  },
+  {
+    "id": "studies.study.commentStudyGrantNumber",
+    "ref": "Comment[Study Grant Number]"
+  },
+  {
+    "id": "studies.study.studyFactors.studyFactorTypeTermAccessionNumber",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.assays.studyAssayMeasurementTypeTermAccessionNumber",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.assays.studyAssayTechnologyTypeTermSourceREF",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.studyProtocols.studyProtocolType",
+    "ref": "Study Protocol Type"
+  },
+  {
+    "id": "studies.study.studyPublications.studyPublicationAuthorList",
+    "ref": "Study Publication Author List"
+  },
+  {
+    "id": "studies.study.studyProtocols.studyProtocolParametersName",
+    "ref": "Study Protocol Parameters Name"
+  },
+  {
+    "id": "studies.study.assays.studyAssayMeasurementType",
+    "ref": "Study Assay Measurement Type"
+  },
+  {
+    "id": "studies.study.studyPublications.studyPublicationDOI",
+    "ref": "Study Publication DOI"
+  },
+  {
+    "id": "studies.study.studyProtocols.studyProtocolTypeTermSourceREF",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.studyPublications.studyPublicationStatus",
+    "ref": "Study Publication Status"
+  },
+  {
+    "id": "studies.study.studyFileName",
+    "ref": "Study File Name"
+  },
+  {
+    "id": "studies.study.studyFactors.studyFactorType",
+    "ref": "Study Factor Type"
+  },
+  {
+    "id": "studies.study.studyPublications.studyPublicationStatusTermAccessionNumber",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.studyProtocols.studyProtocolTypeTermAccessionNumber",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.studyFactors.studyFactorTypeTermSourceREF",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.assays.studyAssayMeasurementTypeTermSourceREF",
+    "ref": ""
+  },
+  {
+    "id": "studies.study.commentStudyFundingAgency",
+    "ref": "Comment[Study Funding Agency]"
+  },
+  {
+    "id": "studies.study.studyProtocols.studyProtocolDescription",
+    "ref": "Study Protocol Description"
+  },
+  {
+    "id": "studies.study.assays.studyAssayTechnologyTypeTermAccessionNumber",
+    "ref": ""
+  }
+]

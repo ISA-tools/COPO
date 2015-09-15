@@ -5,14 +5,8 @@ $(document).ready(function () {
 
 
     function do_housekeeping() {
-        //generate a tree view for cloning studies
-        refresh_study_tree_data();
-
-        //...and for assigning sample to studies
-        refresh_study_sample_tree_data();
-
-
-        $('[data-toggle="tooltip"]').tooltip();
+        //re-establishes bootstrap tooltips
+        refresh_tool_tips();
 
         //handle event for date picker
         $('.pop_date_picker').datepick({
@@ -29,6 +23,9 @@ $(document).ready(function () {
         //hide delete button for first element in the study type group
         $("#study_type_remove_0").hide();
 
+        //hide delete button for first element in the sample attribute group
+        $("#sample_attribute_remove_0").hide();
+
         //handle event for add new study type
         $('#submit_study_type_btn').on('click', function () {
             do_submit_study_type();
@@ -44,10 +41,20 @@ $(document).ready(function () {
             do_clone_study();
         });
 
+        //handle check all
+        $("#study_type_sample_tree").on('click', 'input.check-pointer', function (event) {
+            do_check_all(event);
+        });
 
         //handle event for add study type
         $(".study-type-add").click(function (event) {
             do_add_study_type();
+        });
+
+        //handle event for add sample attribute
+        $(".sample-attribute-add").click(function (event) {
+            do_add_sample_attribute();
+            refresh_tool_tips();
         });
 
         //handle click event for delete study type
@@ -55,9 +62,30 @@ $(document).ready(function () {
             do_remove_study_type(event);
         });
 
-        //handle event for delete study
+        //handle click event for sample attributes
+        $("#sample_table_div").on('click', 'a.sample-attributes', function (event) {
+            event.preventDefault();
+            return false;
+        });
+
+        //handle click event for delete sample attribute
+        $("#sample_attributes_div").on('click', 'a.sample-attribute-remove', function (event) {
+            do_remove_sample_attribute(event);
+        });
+
+        //handle event for study delete
         $("#studies_table_div").on('click', 'a.study-delete', function (event) {
             do_study_delete_confirmation(event);
+        });
+
+        //handle event for study table refresh under sample modal context
+        $(".sample-refresh-modal").click(function (event) {
+            refresh_study_sample_tree_data();
+        });
+
+        //handle event for study clone tree refresh
+        $(".study-refresh-modal").click(function (event) {
+            refresh_study_tree_data();
         });
 
 
@@ -67,10 +95,16 @@ $(document).ready(function () {
         });
 
         //handle edit sample
-        $("#sample_table_div").on('click', 'a.sample_edit', function (event) {
-            do_edit_sample(event);
+        $("#sample_table_div").on('click', 'a.sample-edit', function (event) {
+            do_edit_sample(event, "edit");
         });
 
+        //handle clone sample
+        $("#sample_table_div").on('click', 'a.sample-clone', function (event) {
+            do_edit_sample(event, "clone");
+        });
+
+        //handle modal hide event
         $('.modal').on('hidden.bs.modal', function () {
             $('.modal-backdrop').remove();
 
@@ -103,6 +137,47 @@ $(document).ready(function () {
             }
         });
     }
+
+
+    function do_get_sample_attributes(obj) {
+        var sample_id = obj.attr('id').split("_")[1];
+        var dataNode = $('#samplerowdataspan_' + sample_id).html();
+        data = dataNode;
+        obj.attr('data-content', data).data('bs.popover').setContent();
+    }
+
+    function do_check_all(event) {
+        var theObj = $($(event.target));
+
+        if ((typeof theObj.attr("name") !== "undefined")) {
+
+            if (theObj.attr("id") == "assign_sample_studies") {
+                if (theObj.is(':checked')) {
+                    $("input[name='study_sample_assign_chk']").each(function () {
+                        this.checked = true;
+                    });
+                } else {
+                    $("input[name='study_sample_assign_chk']").each(function () {
+                        this.checked = false;
+                    });
+                }
+            } else if (theObj.attr("name") == "study_sample_assign_chk") {
+                //if at least one is unchecked, uncheck the "check all" button, vice-versa
+                var checkedr = true;
+                $("input[name='study_sample_assign_chk']").each(function () {
+                    if (!this.checked) {
+                        checkedr = false;
+                        return;
+                    }
+                });
+
+                if (!checkedr) {
+                    $('#assign_sample_studies').prop('checked', false);
+                }
+            }
+        }
+    }
+
 
     function do_delete_study() {
         //get the study id...
@@ -139,14 +214,18 @@ $(document).ready(function () {
         var studyRef = $($(event.target)).parent().attr("custom-data-reference");
         var studyType = $($(event.target)).parent().attr("custom-data-type");
 
-        if (targetId.slice(-9) == "st_delete") {
-            studyId = targetId.slice(0, -10);
-            studyRow = studyId + "_study_row";
+        if (typeof targetId !== "undefined") {
+            var literalPart = "st_delete";
+            if (targetId.slice(-(parseInt(literalPart.length))) == literalPart) {
+                studyId = targetId.slice(0, -(parseInt(literalPart.length + 1)));
+                studyRow = studyId + "_study_row";
 
-            $("#" + studyRow).attr('class', 'row-delete-higlight');
-            $("#target_study_delete_span").html(studyRef + " (" + studyType + ")");
-            $("#target_study_delete").val(studyId);
+                $("#" + studyRow).attr('class', 'row-delete-higlight');
+                $("#target_study_delete_span").html(studyRef + " (" + studyType + ")");
+                $("#target_study_delete").val(studyId);
+            }
         }
+
     }
 
     function display_tree_node_status(node, checked) {
@@ -277,10 +356,9 @@ $(document).ready(function () {
 
     }
 
-    function do_edit_sample(event) {
-        var sample_id = $($(event.target)).attr("id");
+    function do_edit_sample(event, option) {
+        var sample_id = $($(event.target)).parent().attr("id");
 
-        //get actual sample id
         sample_id = sample_id.split("_")[1];
 
         var collection_head_id = $("#collection_head_id").val();
@@ -298,7 +376,7 @@ $(document).ready(function () {
                 'sample_id': sample_id
             },
             success: function (data) {
-                display_sample_edit(data);
+                display_sample_edit(data, option);
             },
             error: function () {
                 alert("Couldn't retrieve sample!");
@@ -306,7 +384,65 @@ $(document).ready(function () {
         });
     }
 
-    function display_sample_edit(data) {
+    function refresh_study_sample_form() {
+        $("#newStudySampleModal").find('form')[0].reset();
+
+        //need to get suggested attributes to display
+        var collection_head_id = $("#collection_head_id").val();
+
+        formURL = $("#add_new_study_sample_form").attr("action");
+        csrftoken = $.cookie('csrftoken');
+
+        $.ajax({
+            url: formURL,
+            type: "POST",
+            headers: {'X-CSRFToken': csrftoken},
+            data: {
+                'task': 'get_sample_attributes',
+                'collection_head_id': collection_head_id
+            },
+            success: function (data) {
+                display_sample_attributes(data);
+            },
+            error: function () {
+                alert("Couldn't retrieve sample attributes!");
+            }
+        });
+
+    }
+
+    function display_sample_attributes(data) {
+        //first remove redundant attributes left on the form...
+        $("div[id^='sample_attribute_div']").each(function () {
+            if (this.id != "sample_attribute_div_0") {
+                this.remove();
+            }
+        });
+
+        //display suggested attributes
+        var characteristics = data.sample_attributes;
+        for (var i = 0; i < characteristics.length; i++) {
+
+            do_add_sample_attribute();
+
+            //set properties for the element
+            $("#categoryTerm_" + characteristics[i].id).val(characteristics[i].label);
+            $("#categoryTerm_" + characteristics[i].id).attr("readonly", "readonly");
+
+            if (characteristics[i].has_unit == "no") {
+                $("#unit_" + characteristics[i].id).remove();
+            }
+
+            $("#sample_attribute_message_" + characteristics[i].id).attr("data-content", data.messages.system_suggested_attribute_message);
+
+        }
+
+        $("#mySampleModalLabel").html(data.messages.sample_add);
+
+        refresh_tool_tips();
+    }
+
+    function display_sample_edit(data, option) {
         //todo: this mostly works for 'texty' kind of inputs. Will need to handle other types
         //todo: one way of doing that would be to check the tagName of the input, and deciding thence
 
@@ -317,21 +453,71 @@ $(document).ready(function () {
             var fieldId = this.id;
             var splitIndex = fieldId.lastIndexOf(".");
             var fieldTarget = fieldId.substr(splitIndex + 1);
-            $(this).val(sample[fieldTarget]);
+
+            var fieldValue = sample[fieldTarget];
+
+            //sample names must be unique
+            if (option == "clone" && fieldTarget == "sampleName") {
+                var d = new Date();
+                var n = d.getTime();
+                fieldValue = sample[fieldTarget] + "_" + n;
+            }
+            $(this).val(fieldValue);
         });
 
-        //hold the id of this sample for eventual persisting
+        //re-display sample attributes
+        //first remove redundant ones...
+
+        $("div[id^='sample_attribute_div']").each(function () {
+            if (this.id != "sample_attribute_div_0") {
+                this.remove();
+            }
+        });
+
+        //display characteristics
+        var characteristics = data.sample_data.characteristics;
+        for (var i = 0; i < characteristics.length; i++) {
+            if (i == 0) {
+                $("termAccessionNumber_organism").val(characteristics[i].termAccessionNumber);
+                $("#termSourceREF_organism").val(characteristics[i].termSourceREF);
+                continue;
+            }
+
+            //create element, get the element just created, and bind values
+            var targetElementId = do_add_sample_attribute();
+            var indexPart = targetElementId.substr(targetElementId.lastIndexOf("_") + 1);
+
+            $("#categoryTerm_" + indexPart).val(characteristics[i].categoryTerm);
+            $("#characteristics_" + indexPart).val(characteristics[i].characteristics);
+
+            //...and some may not have defined a unit
+            if (typeof characteristics[i].unit == "undefined" || characteristics[i].unit == "n/a") {
+                $("#unit_" + indexPart).val("n/a");
+                $("#unit_" + indexPart).attr("readonly", "readonly");
+            } else {
+                $("#unit_" + indexPart).val(characteristics[i].unit);
+            }
+
+            $("#termAccessionNumber_" + indexPart).val(characteristics[i].termAccessionNumber);
+            $("#termSourceREF_" + indexPart).val(characteristics[i].termSourceREF);
+
+            //no need displaying attribute message
+            $("#sample_attribute_message_" + indexPart).parent().remove();
+
+        }
+
+
+        //hold the id of this sample for eventual db action
         $('#current_sample_id').val(sample["id"]);
 
         //set the task too
-        $('#current_sample_task').val("edit");
+        $('#current_sample_task').val(option);
 
         //update tree view to show only unassigned studies
-        $('#study_type_sample_tree').tree({
-            data: data.ena_studies
-        });
+        $('#study_type_sample_tree').html(data.ena_studies);
 
-        $('#study_type_sample_tree').tree('expandAll');
+
+        $('#mySampleModalLabel').html(data.messages[option]);
         $('#newStudySampleModal').modal('show');
 
     }
@@ -430,22 +616,16 @@ $(document).ready(function () {
 
         //also refresh the study table
         display_new_study(data);
+
+        refresh_tool_tips();
     }
 
     function display_new_study(data) {
-        //clone an existing study as template for minting new ones
-
-       $('#studies_table_div').html(data.study_data);
-
-        //refresh tree data
-        refresh_study_tree_data();
-
-        //also refresh tree in sample modal
-        refresh_study_sample_tree_data();
+        $('#studies_table_div').html(data.study_data);
+        refresh_tool_tips();
     }
 
     function do_disengage_study_clone_modal() {
-        refresh_study_tree_data();
         $('#info_panel_display').html("");
         $("#cloned_panel_display").hide();
         $('#studyReference_clone_value').val("");
@@ -455,7 +635,7 @@ $(document).ready(function () {
     function do_disengage_sample_modal() {
         $('#current_sample_id').val("");
         $('#current_sample_task').val("");
-        refresh_study_sample_tree_data();
+        refresh_study_sample_form();
     }
 
     function do_disengage_study_modal() {
@@ -496,23 +676,25 @@ $(document).ready(function () {
 
         var auto_fields = JSON.stringify(form_values);
 
-        var selectedStudies = do_get_tree_checked("study_type_sample_tree");
+        //get assigned studies
         var study_types = [];
-
-        for (var i = 0; i < selectedStudies.length; i++) {
-            study_types[i] = selectedStudies[i].id;
-        }
+        $("input[name=study_sample_assign_chk]:checked:enabled").each(function () {
+            study_types.push($(this).val());
+        });
 
         study_types = study_types.join(",");
 
 
         var collection_head_id = $("#collection_head_id").val();
 
+        //set task
         var sample_id = ""
         var task = "add_new_study_sample"
         if ($("#current_sample_task").val() == "edit") {
             task = "edit_study_sample";
             sample_id = $("#current_sample_id").val();
+        } else if ($("#current_sample_task").val() == "clone") {
+            task = "clone_study_sample";
         }
 
 
@@ -581,16 +763,26 @@ $(document).ready(function () {
                 'collection_head_id': collection_head_id
             },
             success: function (data) {
-                $('#study_type_sample_tree').tree({
-                    data: data.ena_studies
-                });
-                $('#study_type_sample_tree').tree('expandAll');
+                $('#study_type_sample_tree').html(data.ena_studies);
             },
             error: function () {
                 alert("Couldn't retrieve studies data!");
             }
         });
 
+    }
+
+    function refresh_tool_tips() {
+        $("[data-toggle='tooltip']").tooltip();
+        $("[data-toggle='popover']").popover();
+
+        $("[data-toggle='popover']").on('show.bs.popover', function () {
+            if ((typeof $(this).attr("id") !== "undefined")) {
+                if ($(this).attr('id').split("_")[0] == "samplerowpopoverspan") {
+                    do_get_sample_attributes($(this));
+                }
+            }
+        });
     }
 
 

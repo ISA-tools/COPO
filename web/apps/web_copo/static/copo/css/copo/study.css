@@ -18,18 +18,6 @@
     padding: 0;
 }
 
-.type_remove i,
-.study-type-remove i {
-    color: #800000;
-    font-size: 1.0em;
-}
-
-.type_add i,
-.study-type-add i {
-    color: darkgreen;
-    font-size: 1.0em;
-}
-
 table, td {
     color: darkgrey;
 }
@@ -168,7 +156,24 @@ span.study-node-title {
 }
 
 .row-delete-higlight {
-    background-color: #c12e2a;
+    background-image: linear-gradient(to bottom, #a94442 0%, #a94442 100%);
+    background-repeat: repeat-x;
+    border-color: #a94442;
 }
+
+.row-delete-higlight td {
+    color: white !important;
+}
+
+.check-pointer {
+    cursor: pointer;
+}
+
+div.study-component-table-div {
+    width: inherit !important;
+    overflow: scroll;
+}
+
+
 
 

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "studies.study.assays.assaysTable.metagenomeSeq.sampleName",
+    "ref": "Sample Name"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.metagenomeSeq.libraryConstruction.libraryStrategy",
+    "ref": "Parameter Value[library strategy]"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.qualityScorer",
+    "ref": "Parameter Value[quality scorer]"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.baseCaller",
+    "ref": "Parameter Value[base caller]"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.metagenomeSeq.libraryConstruction.libraryLayout",
+    "ref": "Parameter Value[library layout]"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.metagenomeSeq.sequenceAssembly.normalizationName",
+    "ref": "Normalization Name"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.metagenomeSeq.libraryConstruction.mid",
+    "ref": "Parameter Value[mid]"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.metagenomeSeq.sequenceAssembly.derivedDataFile",
+    "ref": "Derived Data File"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.export",
+    "ref": "Comment[Export]"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.rawDataFile",
+    "ref": "Raw Data File"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.metagenomeSeq.libraryConstruction.librarySelection",
+    "ref": "Parameter Value[library selection]"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.sequencingInstrument",
+    "ref": "Parameter Value[sequencing instrument]"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidSequencing.assayName",
+    "ref": "Assay Name"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.metagenomeSeq.nucleicAcidExtraction.extractName",
+    "ref": "Extract Name"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.metagenomeSeq.sequenceAssembly.dataTransformationName",
+    "ref": "Data Transformation Name"
+  }
+]

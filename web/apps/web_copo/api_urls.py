@@ -2,7 +2,7 @@ __author__ = 'felix.shaw@tgac.ac.uk - 14/05/15'
 
 from django.conf.urls import patterns, url
 
-import web_copo.api.views as api_views
+import web.apps.web_copo.api.views as api_views
 
 urlpatterns = patterns('web_copo.api.views',
                        url(r'^submit_to_figshare/(?P<article_id>[a-z0-9]+)', api_views.submit_to_figshare,
@@ -13,6 +13,8 @@ urlpatterns = patterns('web_copo.api.views',
                            name='delete_article'),
                        url(r'^generate_ena_template/$', 'generate_ena_template',
                            name='generate_ena_template'),
+                       url(r'^doi2publication_metadata/(?P<id_handle>.*)', 'doi2publication_metadata',
+                           name='doi2publication_metadata'),
                        url(r'^login_orcid/$', api_views.login_orcid,
                            name='login_orcid'),
                        url(r'^check_orcid_credentials/$', api_views.check_orcid_credentials,

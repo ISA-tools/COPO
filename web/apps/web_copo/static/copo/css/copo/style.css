@@ -1,7 +1,7 @@
 
-body{
+body {
 
-        font-family: 'Quattrocento Sans', sans-serif;
+    font-family: 'Quattrocento Sans', sans-serif;
 
 }
 
@@ -10,16 +10,16 @@ body{
 }
 
 div[class^="col-"], div[class*=" col-"] {
-    //border: 1px solid black;
-}
-.row{
-	//border: 1px solid black;
+/ / border : 1 px solid black;
 }
 
+.row {
+/ / border : 1 px solid black;
+}
 
 /*HEADER CSS*/
 
-h1{
+h1 {
     font-size: x-large;
 }
 
@@ -39,68 +39,75 @@ h1{
 
 }
 
-#sidebar{
-	margin-left:30px;
-	width:150px;
+#sidebar {
+    margin-left: 30px;
+    width: 150px;
 }
 
-#sidebar ul{
+#sidebar ul {
 
-	margin-top:60px;
+    margin-top: 60px;
 
-}
-#sidebar li{
-	margin-bottom:10px;
-}
-#sidebar ul li .icon_text{
-	margin-left:10px;
-}
-#browse_header{
-	margin-top:60px;
-}
-#browse_header_left{
-	margin-top:30px;
-	float:left;
-}
-#search_bar{
-	float:left;
 }
 
-.work_area{
-    margin-top:30px;
-    margin-right:50px;
+#sidebar li {
+    margin-bottom: 10px;
 }
 
+#sidebar ul li .icon_text {
+    margin-left: 10px;
+}
+
+#browse_header {
+    margin-top: 60px;
+}
+
+#browse_header_left {
+    margin-top: 30px;
+    float: left;
+}
+
+#search_bar {
+    float: left;
+}
+
+.work_area {
+    margin-top: 30px;
+    margin-right: 50px;
+}
 
 .nav-pills > li.active > a {
-    background-color:#1B2B32;
+    background-color: #1B2B32;
 }
 
-.nav-pills>li.active>a:hover {
-    background-color:#1B2B32;
+.nav-pills > li.active > a:hover {
+    background-color: #1B2B32;
 }
 
 .nav-pills > li > a {
-    color:#1B2B32;
+    color: #1B2B32;
 }
 
 /* ICON CSS */
-.blue_icon{
-	float:left;
-	color:#163657;
-	margin-right:20px;
-	margin-top:5px;
+.blue_icon {
+    float: left;
+    color: #163657;
+    margin-right: 20px;
+    margin-top: 5px;
 }
-.blue_icon>a{
-    color:#163657;
+
+.blue_icon > a {
+    color: #163657;
 }
 
 .blue_icon > a:hover {
     color: grey;
 }
-.panel-heading{
+
+.panel-heading {
     padding: 8px 15px;
 }
+
 .btn {
     border-radius: 4px
 }
@@ -118,8 +125,8 @@ h1{
     margin-right: 20px; /* define margin as you see fit */
 }
 
-.vert-align{
-	float: none;
+.vert-align {
+    float: none;
     display: inline-block;
     vertical-align: middle;
 
@@ -133,24 +140,62 @@ h1{
     width: 300px;
 }
 
-.serif{
+.serif {
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif
 }
 
-.bolder{
+.bolder {
     font-weight: bold;
 }
 
 .copo-modal2 > .modal-dialog {
-    width:90% !important;
+    width: 90% !important;
+    height: 90% !important;
+    overflow: scroll !important;
 }
 
-.input-copo{
+.input-copo {
     height: 30px !important;
 }
 
-.breadcrumb{
-    margin:0 !important;
+.breadcrumb {
+    margin: 0 !important;
     background-color: whitesmoke;
 
 }
+
+/* Overriding some properties of Popover */
+.popover {
+    border: 1px dotted black;
+    width: auto !important;
+    max-width: none;
+}
+
+.copo-wizard-message-label {
+    font-weight: bold;
+    color: #163657;
+}
+
+.copo-icon-danger {
+    color: #c12e2a;
+    text-shadow: 1px 1px 1px #ccc;
+}
+
+.copo-icon-success {
+    color: #419641;
+    text-shadow: 1px 1px 1px #ccc;
+}
+
+.copo-icon-primary {
+    color: #265a88;
+    text-shadow: 1px 1px 1px #ccc;
+}
+
+.copo-icon-info {
+    color: #2aabd2;
+    /*text-shadow: 1px 1px 1px #ccc;*/
+}
+
+
+
+

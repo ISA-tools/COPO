@@ -15,6 +15,22 @@ $(document).ready(function () {
 
     })
 
+    //handle modal hide event
+    $('.modal').on('hidden.bs.modal', function () {
+        $('.modal-backdrop').remove();
+
+        try {
+            $(this).find('form')[0].reset();
+        } catch (err) {
+            ;
+        }
+
+        if (this.id == "newCollectionModal") {
+            do_disengage_study_modal();
+        }
+
+    });
+
     //hide delete button for first element in the study type group
     $("#study_type_remove_0").hide();
 
@@ -76,6 +92,23 @@ $(document).ready(function () {
                 })
             }
         })
+    }
+
+    function do_disengage_study_modal() {
+
+        //remove all redundant fields
+        $('.study-type-remove').each(function () {
+            var targetId = this.id;
+            var splitIndex = targetId.lastIndexOf("_");
+            var indexPart = targetId.substr(splitIndex + 1);
+
+            if (parseInt(indexPart) > 0) {
+                //remove study type object
+                $("#study_type_select_divs_" + indexPart).remove();
+            }
+
+        });
+
     }
 
 

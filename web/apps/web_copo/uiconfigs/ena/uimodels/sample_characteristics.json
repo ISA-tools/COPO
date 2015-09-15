@@ -1,0 +1,20 @@
+[
+  {
+    "id": "host",
+    "label": "host",
+    "has_unit": "no",
+    "tags":["animal sequencing"]
+  },
+  {
+    "id": "environment_feature",
+    "label": "environment (feature)",
+    "has_unit": "no",
+    "tags":["animal sequencing"]
+  },
+  {
+    "id": "environment_material",
+    "label": "environment (material)",
+    "has_unit": "no",
+    "tags":["animal sequencing"]
+  }
+]

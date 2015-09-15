@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static 'copo/css/bootstrap/bootstrapValidator.css' %}">
 
     <!-- Generic page styles -->
-    <link rel="stylesheet" href="{% static 'copo/css/copo/style.css' %}">
+
     <!-- blueimp Gallery styles -->
     <link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
     <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
@@ -25,6 +25,10 @@
     </noscript>
     <link rel="stylesheet" href="{% static 'copo/css/copo/collection.css' %}">
     <link rel="stylesheet" href="{% static 'copo/css/copo/study.css' %}">
+
+    <!-- jquery steps plugin css -->
+    <link rel="stylesheet" href="{% static 'copo/css/steps/steps.css' %}">
+    <link rel="stylesheet" href="{% static 'copo/css/steps/jquery.bootgrid.css' %}">
 
 {% endblock %}
 
@@ -100,6 +104,101 @@
 
 {% block content %}
 
+    <!--test begins-->
+
+
+    {#        <div id="example-basic">#}
+    {#            {% for sf in ui_template.fields %}#}
+    {#                <h3>{{ sf.id }}</h3>#}
+    {#                <section>#}
+    {#                    {{ sf.id|generate_ena_tags }}#}
+    {#                </section>#}
+    {#            {% endfor %}#}
+    {#        </div>#}
+
+
+
+{#    <table id="grid-basic" class="table table-condensed table-hover table-striped">#}
+{#        <thead>#}
+{#        <tr>#}
+{#            <th data-column-id="id" data-type="numeric">ID</th>#}
+{#            <th data-column-id="sender">Sender</th>#}
+{#            <th data-column-id="received" data-order="desc">Received</th>#}
+{#        </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#        <tr>#}
+{#            <td>10238</td>#}
+{#            <td>eduardo@pingpong.com</td>#}
+{#            <td>14.10.2013</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td>102338</td>#}
+{#            <td>eduardo@pingpong.com</td>#}
+{#            <td>14.10.2013</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td>102238</td>#}
+{#            <td>eduardo@pingpong.com</td>#}
+{#            <td>14.10.2013</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td>104238</td>#}
+{#            <td>eduardo@pingpong.com</td>#}
+{#            <td>14.10.2013</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td>1021138</td>#}
+{#            <td>eduardo@pingpong.com</td>#}
+{#            <td>14.10.2013</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td>1022238</td>#}
+{#            <td>eduardo@pingpong.com</td>#}
+{#            <td>14.10.2013</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td>1033238</td>#}
+{#            <td>eduardo@pingpong.com</td>#}
+{#            <td>14.10.2013</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td>10331238</td>#}
+{#            <td>eduardo@pingpong.com</td>#}
+{#            <td>14.10.2013</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td>1012238</td>#}
+{#            <td>eduardo@pingpong.com</td>#}
+{#            <td>14.10.2013</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td>1024338</td>#}
+{#            <td>tonietuk@pingpong.com</td>#}
+{#            <td>14.10.2013</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td>1015238</td>#}
+{#            <td>eduardo@pingpong.com</td>#}
+{#            <td>14.10.2013</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td>1066238</td>#}
+{#            <td>eduardo@pingpong.com</td>#}
+{#            <td>14.10.2013</td>#}
+{#        </tr>#}
+{#        <tr>#}
+{#            <td>1027738</td>#}
+{#            <td>eduardo@pingpong.com</td>#}
+{#            <td>14.10.2013</td>#}
+{#        </tr>#}
+{#        </tbody>#}
+{#    </table>#}
+
+
+
+    <!--test ends-->
+
     <div style="display: inline-block;"><h2 class="h2"><span
             id="study_reference_type_span">{{ study.studyCOPOMetadata.studyReference }}</span> (<span
             id="study_type_span">{{ study.studyCOPOMetadata.studyType|lookup_study_type_label }}</span>)
@@ -109,7 +208,6 @@
         <i class="fa fa-pencil-square-o"></i></a></div>
 
     <div class="grey-bg" id="show_quick_ref_update" style="display: none;">
-        {#        <button type="button" class="close" data-hide="alert">&times;</button>#}
         <form role="form" id="study_type_qupdate_form" action="{% url 'copo:add_to_study' %}"
               method="post">
             {% csrf_token %}
@@ -127,7 +225,7 @@
                 </div>
                 <div style="display: inline-block;">
                     <span id="study_type_qupdate_img" hidden="hidden"><img src="/static/copo/img/ajax_loader1.gif"
-                                                                           alt="Processing"></span>
+                                                                           alt="Saving..."></span>
                     <button type="button" id="btn_study_type_quick_update" class="btn btn-primary btn-xs">Update
                     </button>
                 </div>
@@ -152,7 +250,7 @@
                           method="post">
                         {% csrf_token %}
                         {% for sf in ui_template.fields %}
-                            <div class='form-group'>
+                            <div class="form-group">
                                 {{ sf.id|generate_ena_tags }}
                             </div>
                         {% endfor %}
@@ -182,10 +280,16 @@
             <div id="collapseOne" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <div style="display: inline-block; text-indent: 0.5em;">
-                        <button type="button" id="btn_study_type_quick_update" class="btn btn-primary btn-xs">Add Sample
-                        </button>
+                        <a class="study-samples-refresh-modal" data-toggle="modal"
+                           data-target="#samplesAssignModal" href="#">
+                            <button type="button" class="btn btn-primary btn-xs">Assign
+                                Sample
+                            </button>
+                        </a>
                     </div>
-                    <hr/>
+                    <div class="study-component-table-div" id="study_samples_table_div">
+                        {{ ena_collection_id|generate_study_samples_table:study.studyCOPOMetadata.id }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -202,108 +306,166 @@
             <div id="collapseTwo" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <div style="display: inline-block; text-indent: 0.5em;">
-                        <a data-toggle="modal" data-target="#newStudyTypeModal" href="#"><i
-                                class="glyphicon glyphicon-plus "></i><span>Add Study Publication</span></a>
+                        <a class="study-publications-refresh-modal" data-toggle="modal"
+                           data-target="#publicationAddModal" href="#">
+                            <button type="button" class="btn btn-primary btn-xs">Add
+                                Publication
+                            </button>
+                        </a>
                     </div>
-                    <hr/>
+                    <span style="white-space: nowrap; margin-left: 0.5em; margin-right: 0.5em;">OR</span>
+
+                    <div style="display: inline-block;">
+                        <form role="form" id="publication_doi_form" action="{% url 'copo:add_to_study' %}"
+                              method="post">
+                            {% csrf_token %}
+                            <div style="white-space: nowrap; margin-bottom: 0.5em;">
+                                <div style="display: inline-block;">
+                                    <input type="text" size="30" name="publication_doi"
+                                           id="publication_doi"
+                                           class="form_control input-copo"
+                                           placeholder="Enter DOI or PubMed ID"
+                                           value=""/>
+                                </div>
+                                <div style="display: inline-block;">
+                                    <span id="publication_doi_img" hidden="hidden">
+                                        <img src="/static/copo/img/ajax_loader1.gif" alt="Resolving...">
+                                    </span>
+                                    <button type="button" id="btn_publication_doi_resolve"
+                                            class="btn btn-primary btn-xs">Resolve
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="study-component-table-div" id="study_publications_table_div">
+                        {{ ena_collection_id|generate_study_publications_table:study.studyCOPOMetadata.id }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-    <!-- Modal for adding new study type -->
-    <div class="modal fade" id="newStudyTypeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span
-                            aria-hidden="true">&times;</span><span
-                            class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Add Study Type</h4>
+    <!-- Panel for Study Contacts -->
+    <div class="panel panel-default" id="panel3">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-target="#collapseThree" href="#collapseThree">
+                    Study Contacts
+                </a>
+            </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div style="display: inline-block; text-indent: 0.5em;">
+                    <a class="study-contacts-refresh-modal" data-toggle="modal"
+                       data-target="#contactAddModal" href="#">
+                        <button type="button" class="btn btn-primary btn-xs">Add
+                            Contact
+                        </button>
+                    </a>
                 </div>
-                <div class="modal-body">
-                    <form role="form" id="add_new_study_form" action="{% url 'copo:add_to_collection' %}" method="post">
-                        {% csrf_token %}
-                        <div>
-                            <div class="form-group">
-                                <label for="add_study_type">Add New</label><br/>
-                                {% for stud in study_types %}
-                                    <input type="checkbox" name="add_new_study_type" value="{{ stud.value }}">&nbsp;
-                                    {{ stud.label }}<br/>
-                                {% endfor %}
-                            </div>
-                            <div>
-                                <button id="btn_add_new_study_type" type="button"
-                                        class="btn btn-primary text-center">Add
-                                </button>
-                            </div>
-                            <hr/>
+                <span style="white-space: nowrap; margin-left: 0.5em; margin-right: 0.5em;">OR</span>
 
-                            <div class="form-group">
-                                <label for="clone_study_type">Clone Existing</label><br/>
-                                {% for st in study.copoInternal.studyTypes %}
-                                    <input type="checkbox" name="clone_study_type" value="{{ st.ref }}">&nbsp;
-                                    {{ st.name|lookup_study_type_label }} /{{ forloop.counter0 }}<br/>
-                                {% endfor %}
+                <div style="display: inline-block;">
+                    <form role="form" id="contact_doi_form" action="{% url 'copo:add_to_study' %}"
+                          method="post">
+                        {% csrf_token %}
+                        <div style="white-space: nowrap; margin-bottom: 0.5em;">
+                            <div style="display: inline-block;">
+                                <input type="text" size="30" name="contact_doi"
+                                       id="contact_doi"
+                                       class="form_control input-copo"
+                                       placeholder="Enter ORCiD"
+                                       value=""/>
                             </div>
-                            <div>
-                                <button id="btn_clone_study_type" type="button"
-                                        class="btn btn-primary text-center">Clone
+                            <div style="display: inline-block;">
+                                    <span id="contact_doi_img" hidden="hidden">
+                                        <img src="/static/copo/img/ajax_loader1.gif" alt="Resolving...">
+                                    </span>
+                                <button type="button" id="btn_contact_doi_resolve"
+                                        class="btn btn-primary btn-xs">Resolve
                                 </button>
                             </div>
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-
+                <div class="study-component-table-div" id="study_contacts_table_div">
+                    {{ ena_collection_id|generate_study_contacts_table:study.studyCOPOMetadata.id }}
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal for adding new study sample -->
-    <div class="modal fade" id="newStudySampleModal" tabindex="-1" role="dialog" aria-labelledby="mySampleModalLabel"
+    <!-- Panel for Study Assays -->
+    <div class="panel panel-default" id="panel7">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-target="#collapse7" href="#collapse7">
+                    Study Data Files
+                </a>
+            </h4>
+        </div>
+        <div id="collapseSix" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div style="display: inline-block; text-indent: 0.5em;">
+                    <form enctype="multipart/form-data" id="upload_0" method="POST"
+                          action="/rest/receive_data_file_chunked/"
+                          style="margin-right:40px">
+                        {% csrf_token %}
+                        <span id="upload_files_button"
+                              class="btn btn-primary btn-xs fileinput-button">
+                            <span>Select files...</span>
+                            <input type="file" name="file"
+                                   onchange="get_chunk_size(event)" multiple/>
+                            <input type="hidden" name="upload_id" value=""/>
+                            <input type="hidden" name="panel_ordering"
+                                   value="0"/>
+                            <input type="hidden" name="exp_id" value=""/>
+                        </span>
+                    </form>
+                    <div class="file_status_label"></div>
+                </div>
+
+                <div class="study-component-table-div" id="study_descriptors_table_div">
+                    {#                    {{ ena_collection_id|generate_study_protocols_table:study.studyCOPOMetadata.id }}#}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for adding study factors -->
+    <div class="modal fade" id="factorAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span
-                            aria-hidden="true">&times;</span><span
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span
                             class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="mySampleModalLabel">Add Study Sample</h4>
+
+                    <div style="display: inline-block;"><h4 class="modal-title" id="myFactorModalLabel">Add Study
+                        Factor</h4>
+                    </div>
+                    <div style="display: inline-block;"><span class="blue_icon">
+                        <a href="#" data-toggle="tooltip" title="{{ "publication_add_info"|lookup_info }}">
+                            <i class="glyphicon glyphicon-info-sign"></i></a></span></div>
                 </div>
                 <div class="modal-body">
-                    <form role="form" id="add_new_study_sample_form" action="{% url 'copo:add_to_collection' %}"
+                    <form role="form" id="add_new_factor_form" action="{% url 'copo:add_to_study' %}"
                           method="post">
                         {% csrf_token %}
                         <div>
-                            {% for sf in ui_template.studySamples.fields %}
-                                <div class='form-group'>
-                                    {{ sf.id|generate_ena_tags }}
-                                </div>
-                            {% endfor %}
-
-                            {% for sf in ui_template.studySamples.sampleCollection.fields %}
-                                <div class='form-group'>
+                            {% for sf in ui_template.studyFactors.fields %}
+                                <div class="form-group">
                                     {{ sf.id|generate_ena_tags }}
                                 </div>
                             {% endfor %}
 
                             <hr/>
-
-                            <div class="form-group">
-                                <label for="assigned_study_type">Assign to...</label><br/>
-                                {% for st in study.copoInternal.studyTypes %}
-                                    <input type="checkbox" name="assigned_study_type" value="{{ st.ref }}">&nbsp;
-                                    {{ st.name|lookup_study_type_label }} /{{ forloop.counter0 }}<br/>
-                                {% endfor %}
-                            </div>
-
                             <div>
-                                <button id="btn_add_new_study_sample" type="button"
-                                        class="btn btn-primary text-center">Add Sample
+                                <button id="btn_add_new_factor" type="button"
+                                        class="btn btn-primary text-center">Submit
                                 </button>
                             </div>
                         </div>
@@ -315,6 +477,174 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Modal for adding study publication -->
+    <div class="modal fade" id="publicationAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span></button>
+
+                    <div style="display: inline-block;"><h4 class="modal-title" id="myPublicationModalLabel">Add Study
+                        Publication</h4>
+                    </div>
+                    <div style="display: inline-block;"><span class="blue_icon">
+                        <a href="#" data-toggle="tooltip" title="{{ "publication_add_info"|lookup_info }}">
+                            <i class="glyphicon glyphicon-info-sign"></i></a></span></div>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="add_new_publication_form" action="{% url 'copo:add_to_study' %}"
+                          method="post">
+                        {% csrf_token %}
+                        <div>
+                            {% for sf in ui_template.studyPublications.fields %}
+                                <div class="form-group">
+                                    {{ sf.id|generate_ena_tags }}
+                                </div>
+                            {% endfor %}
+
+                            <hr/>
+                            <div>
+                                <button id="btn_add_new_publication" type="button"
+                                        class="btn btn-primary text-center">Submit
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for adding study contact -->
+    <div class="modal fade" id="contactAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span></button>
+
+                    <div style="display: inline-block;"><h4 class="modal-title" id="myContactModalLabel">Add Study
+                        Contact</h4>
+                    </div>
+                    <div style="display: inline-block;"><span class="blue_icon">
+                        <a href="#" data-toggle="tooltip" title="{{ "contact_add_info"|lookup_info }}">
+                            <i class="glyphicon glyphicon-info-sign"></i></a></span></div>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="add_new_contact_form" action="{% url 'copo:add_to_study' %}"
+                          method="post">
+                        {% csrf_token %}
+                        <div>
+                            {% for sf in ui_template.studyContacts.fields %}
+                                <div class='form-group'>
+                                    {{ sf.id|generate_ena_tags }}
+                                </div>
+                            {% endfor %}
+
+                            <hr/>
+                            <div>
+                                <button id="btn_add_new_contact" type="button"
+                                        class="btn btn-primary text-center">Submit
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for deleting study components e.g., sample, publication -->
+    <div class="modal fade" id="studyComponentsDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content alert alert-warning">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm <span id="delete_component"></span> Delete</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form role="form" id="delete_element_form_2" action="{% url 'copo:add_to_study' %}"
+                          method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="target_delete_id" value="">
+
+                        <p>You are about to delete the highlighted <span id="delete_component_message"></span>.</p>
+
+                        <p>Do you want to proceed?</p>
+
+                        <p class="debug-url"></p>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <a id="delete_task_btn" class="btn btn-danger btn-ok">Delete</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for assigning study samples -->
+    <div class="modal fade " id="samplesAssignModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span
+                            class="sr-only">Close</span></button>
+                    <div style="display: inline-block;"><h4 class="modal-title" id="myModalLabel">Assign Sample</h4>
+                    </div>
+                    <div style="display: inline-block;">
+                        <span class="blue_icon">
+                        <a href="#" data-toggle="tooltip" title="{{ "sample_assign_info"|lookup_info }}">
+                            <i class="glyphicon glyphicon-info-sign"></i>
+                        </a>
+                        </span>
+                    </div>
+
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="assign_sample_form_2" action="{% url 'copo:add_to_study' %}"
+                          method="post">
+                        {% csrf_token %}
+
+                        <div id="sample_tree_table"></div>
+                        <hr/>
+                        <div id="sample_assignment_warning" class="alert alert-danger" role="alert" hidden="hidden">
+                            <strong>Note! &nbsp;</strong>{{ "sample_unassign_warning"|lookup_info }}
+                        </div>
+                        <div style="display: inline-block;">
+                            <button id="submit_sample_assign_btn" type="button" class="btn btn-primary text-center">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
+
 
 
 {% endblock %}
@@ -327,13 +657,12 @@
     <script src="{% static 'copo/js/uploader/vendor/jquery.ui.widget.js' %}"></script>
     <script src="{% static 'copo/js/uploader/jquery.iframe-transport.js' %}"></script>
     <script src="{% static 'copo/js/uploader/jquery.fileupload.js' %}"></script>
-    <script src="{% static 'copo/js/uploader/vendor/jquery.ui.widget.js' %}"></script>
-    <script src="{% static 'copo/js/uploader/jquery.iframe-transport.js' %}"></script>
-    <script src="{% static 'copo/js/uploader/jquery.fileupload.js' %}"></script>
     <script src="{% static 'copo/js/uploader/jquery.fileupload-process.js' %}"></script>
     <script src="{% static 'copo/js/uploader/jquery.fileupload-ui.js' %}"></script>
     <script src="{% static 'copo/js/uploader/upload_wrapper.js' %}"></script>
     <script src="{% static 'copo/js/uploader/bootstrap_panel.js' %}"></script>
     <script src="{% static 'copo/js/uploader/upload_util.js' %}"></script>
+    <script src="{% static 'copo/js/steps/jquery.steps.min.js' %}"></script>
+    <script src="{% static 'copo/js/steps/jquery.bootgrid.js' %}"></script>
 
 {% endblock %}

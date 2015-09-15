@@ -4,6 +4,7 @@
     "commentLastOpenedWithConfiguration": "",
     "investigationContacts": [
       {
+        "commentInvestigationPersonREF": "",
         "investigationPersonLastName": "",
         "investigationPersonFirstName": "",
         "investigationPersonMidInitials": "",
@@ -87,6 +88,7 @@
         "commentStudyGrantNumber": "",
         "studyContacts": [
           {
+            "commentStudyPersonREF": "",
             "studyPersonLastName": "",
             "studyPersonFirstName": "",
             "studyPersonMidInitials": "",
@@ -174,8 +176,8 @@
       "studyCOPOMetadata": {
         "id": "",
         "studyType": "",
-        "studyReference":"",
-        "deleted":"1",
+        "studyReference": "",
+        "deleted": "1",
         "samples": [
           {
             "id": "",
@@ -186,7 +188,30 @@
     }
   ],
   "collectionCOPOMetadata": {
-    "samples": []
+    "samples": [
+      {
+        "sourceName": "",
+        "sampleName": "",
+        "characteristics": [
+          {
+            "categoryTerm": "",
+            "characteristics": "",
+            "unit": "",
+            "termSourceREF": "",
+            "termAccessionNumber": ""
+          }
+        ],
+        "factors": [
+          {
+            "factorName": "",
+            "factorValue": "",
+            "unit": "",
+            "termSourceREF": "",
+            "termAccessionNumber": ""
+          }
+        ]
+      }
+    ]
   }
 }
 

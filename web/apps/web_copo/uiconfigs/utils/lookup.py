@@ -17,8 +17,7 @@ SCHEMAS = {
                                                '/isaconfig-default_v2014-01-16/metagenome_seq.xml',
             'STUDY_ASSAY_TRANSCRIPTOME_ANALYSIS_FILE': 'https://raw.githubusercontent.com/ISA-tools/Configuration-Files/master'
                                                        '/isaconfig-default_v2014-01-16/transcription_seq.xml'
-
-        },
+            },
         'ATTRIBUTE_MAPPINGS': {
             'label': 'header',
             'control': 'data-type',
@@ -33,6 +32,13 @@ SCHEMAS = {
             'Long String': 'textarea',
             'List': 'select'
             # 'Ontology term':?
+        },
+        'ENA_DOI_PUBLICATION_MAPPINGS': {
+            'studyPublicationTitle': 'dc:title',
+            'studyPublicationAuthorList': 'dc:creator',
+            'studyPublicationDOI': 'dc:identifier_doi',
+            'studyPubMedID': 'dc:identifier_pmid',
+            'studyPublicationStatus': 'dc:status'
         }
     },
     'METABOLIGHTS': {
@@ -40,11 +46,11 @@ SCHEMAS = {
     }
 }
 
+
 # define options for drop-downs
 # wrapping items up in lists to maintain order
 # for upgrades, only update the label, but the 'value' field should remain intact
 # for referencing in codes.
-# So, for instance, it would be
 
 
 DROP_DOWNS = {
@@ -81,11 +87,6 @@ DROP_DOWNS = {
         }
     ],
     'STUDY_TYPES': [
-        # {
-        #     'value': 'dummy',
-        #     'label': 'Select Study Type...',
-        #     'description': 'dummy item'
-        # },
         {
             'value': 'genomeSeq',  # this matches the value defined in the object_model.py
             'label': 'Whole Genome Sequencing',
@@ -164,7 +165,8 @@ HTML_TAGS = {
             "<input class='input-copo' type='text' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'>",
     "textarea": "<label for='{elem_id!s}'>{elem_label!s}</label><br/>"
                 "<textarea rows='6' cols='40' id='{elem_id!s}'  name='{elem_id!s}'>{elem_value!s}</textarea>",
-    "select": "<select id='{elem_id!s}' name='{elem_id!s}'> {option_values!s} </select>",
+    "select": "<label for='{elem_id!s}'>{elem_label!s}</label><br/>"
+              "<select id='{elem_id!s}' name='{elem_id!s}'> {option_values!s} </select>",
     "date": "<label for='{elem_id!s}'>{elem_label!s}</label><br/>"
             "<input type='text' class='pop_date_picker input-copo' id='{elem_id!s}' name='{elem_id!s}' "
             "value='{elem_value!s}'>",
@@ -176,7 +178,20 @@ HTML_TAGS = {
 
 # for displaying information/guidance mostly via tooltips
 UI_INFO = {
-    'study_type_add_info': "Use form to add new study types",
-    'study_type_clone_info': "Use form to clone existing study types",
-    'sample_add_info': "Use form to add/edit study sample and assign to studies"
+    'study_type_add_info': "Use this form to add new study types",
+    'study_type_clone_info': "Use this form to clone existing study types",
+    'sample_add_info': "Use this form to add/edit study sample and assign to studies",
+    'sample_assign_info': "View allows for assigning samples to current study",
+    'sample_unassign_warning': 'Assigned samples about to be deleted!.',
+    'publication_add_info': 'Use this form to add a study publication',
+    'contact_add_info': 'Use form to add a study contact',
+    'publication_doi_resolution': 'Enter a DOI or PubMed ID to be resolved',
+    'user_defined_attribute_message': "This will be treated as a user-defined attribute",
+    'system_suggested_attribute_message': "This is a system-suggested attribute"
+}
+
+UI_LABELS = {
+    "sample_edit": "Edit Study Sample",
+    "sample_add": "Add Study Sample",
+    "sample_clone": "Clone Study Sample"
 }

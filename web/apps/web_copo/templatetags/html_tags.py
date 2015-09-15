@@ -3,9 +3,9 @@ __author__ = 'tonietuk'
 from django import template
 from django.utils.safestring import mark_safe
 
-import web_copo.uiconfigs.utils.data_utils as d_utils
+import web.apps.web_copo.uiconfigs.utils.data_utils as d_utils
 from dal.ena_da import EnaCollection
-import web_copo.uiconfigs.utils.lookup as lkup
+import web.apps.web_copo.uiconfigs.utils.lookup as lkup
 
 register = template.Library()
 
@@ -42,27 +42,53 @@ def generate_sample_table2(ena_collection_id):
 
 def generate_sample_html(ena_collection_id):
     html_tag = ""
-    ena_collection = EnaCollection().GET(ena_collection_id)
-    samples = ena_collection["collectionCOPOMetadata"]["samples"]
     sample_data = get_samples_data(ena_collection_id)
 
-    if samples:
+    if sample_data["data"]:
         html_tag += "<hr/>"
         html_tag += "<table class='table-bordered' id='samples_table'>"
 
         html_tag += "<tr>"
         for sh in sample_data["headers"][1:]:
             html_tag += "<th>" + sh + "</th>"
+        html_tag += "<th>&nbsp;</th>"
         html_tag += "</tr>"
 
         for sdata in sample_data["data"]:
             html_tag += "<tr>"
+
             for idx, sd in enumerate(sdata[1:]):
-                if idx == 0:
-                    html_tag += " <td><a id='samplerow_" + sdata[0] + "' class='sample_edit' href='#'"
-                    html_tag += " title = 'Edit Sample' >" + sd + "</a></td>"
-                else:
-                    html_tag += "<td>" + sd + "</td>"
+                html_tag += "<td>" + sd + "</td>"
+
+            html_tag += " <td>"
+            attribute_data = generate_sample_characteristics_html(ena_collection_id, sdata[0])
+            html_tag += " <span> "
+
+            row_id = "samplerowdataspan_" + sdata[0]
+            html_tag += " <div id='{row_id!s}' style='display:none;'>{attribute_data!s}</div>".format(**locals())
+
+            row_id = "samplerowpopoverspan_" + sdata[0]
+            html_tag += " <a id='{row_id!s}' data-toggle='popover' " \
+                        "data-html='true' data-trigger='hover' data-placement='bottom' " \
+                        "title='Sample Attributes' data-content='' " \
+                        "class='sample-attributes' " \
+                        "href='#'>".format(**locals())
+            html_tag += " <i class='fa fa-info-circle copo-icon-info'></i></a>"
+            html_tag += " </span>&nbsp;".format(**locals())
+
+            row_id = "samplerowclonespan_" + sdata[0]
+            html_tag += " <span data-toggle='tooltip' title='Clone Sample'> "
+            html_tag += " <a id='{row_id!s}' class='sample-clone' href='#'>".format(**locals())
+            html_tag += " <i class='fa fa-clone fa-sm copo-icon-primaryr'></i></a>"
+            html_tag += " </span>&nbsp;"
+
+            html_tag += " <span data-toggle='tooltip' title='Update Sample'> "
+
+            row_id = "samplerowupdatespan_" + sdata[0]
+            html_tag += " <a id='{row_id!s}' class='sample-edit' href='#'>".format(**locals())
+            html_tag += " <i class='fa fa-pencil-square-o fa-sm copo-icon-success'></i></a>"
+            html_tag += " </span>"
+            html_tag += " </td>"
             html_tag += "</tr>"
 
         html_tag += "</table>"
@@ -70,26 +96,202 @@ def generate_sample_html(ena_collection_id):
     return html_tag
 
 
-def get_field_order(prop):
+def generate_sample_characteristics_html(ena_collection_id, sample_id):
+    characteristics = EnaCollection().get_ena_sample(ena_collection_id, sample_id)["characteristics"]
+    html_tag = "No attributes data!"
+    if len(characteristics) > 1:  # if we have at least one characteristic other than the organism
+        html_tag = "<table class=''>"
+        html_tag += " <tr><th>Term</th><th>Value</th><th>Unit</th></tr>"
+        for att in characteristics[1:]:
+            term = att["categoryTerm"]
+            value = att["characteristics"]
+            unit = "n/a"
+            if "unit" in att:
+                unit = att["unit"]
+            html_tag += " <tr><td>{term!s}</td><td>{value!s}</td><td>{unit!s}</td></tr>".format(**locals())
+        html_tag += "</table>"
+    return html_tag
+
+
+@register.filter("generate_study_samples_table")
+def generate_study_samples_table(ena_collection_id, study_id):
+    # serves Django template via the mark_safe pipe
+    # not necessarily supported by calls via other routes e.g., AJAX calls. for such other calls,
+    # use the 'generate_study_samples_table2' function
+    return mark_safe(generate_study_samples_html(ena_collection_id, study_id))
+
+
+def generate_study_samples_table2(ena_collection_id, study_id):
+    return generate_study_samples_html(ena_collection_id, study_id)
+
+
+def generate_study_samples_html(ena_collection_id, study_id):
+    html_tag = ""
+    segments = [d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.sampleCollection.fields,
+                d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.fields]
+    fields_property = get_field_order(segments)
+    samples = EnaCollection().get_study_samples(ena_collection_id, study_id)
+
+    if samples:
+        html_tag += "<hr/>"
+        html_tag += "<table class='table-bordered'>"
+
+        html_tag += " <tr>"
+        for f_o in fields_property["dblabel"][1:]:
+            html_tag += " <th>" + f_o["label"] + "</th>"
+        html_tag += " <th>&nbsp;</th>"
+        html_tag += " </tr>"
+
+        for sd in samples:
+            sample_details = EnaCollection().get_ena_sample(ena_collection_id, sd["id"])
+            if sample_details:
+                delete_id = sd["id"] + "_sample_delete"
+                describe_id = sd["id"] + "_sample_describe"
+                row_id = sd["id"] + "_sample_row"
+                html_tag += " <tr id='{row_id!s}'>".format(**locals())
+                for f_o in fields_property["dblabel"][1:]:
+                    v = sample_details[f_o["db_name"]]
+                    html_tag += " <td>{v!s}</td>".format(**locals())
+                html_tag += "<td>"
+
+                # html_tag += " <span data-toggle='tooltip' title='Describe Sample'><a id='{describe_id!s}' class='btn btn-xs btn-info sample-describe' ".format(
+                #     **locals())
+                # html_tag += " data-toggle='modal' data-target='#sampleDescriptionModal' href='#'>"
+                # html_tag += " <i class='fa fa-tags fa-sm'></i> Describe</a>"
+                # html_tag += " </span>"
+
+                html_tag += " <span data-toggle='tooltip' title='Delete Sample'><a id='{delete_id!s}' class='sample-delete' ".format(
+                    **locals())
+                html_tag += " data-toggle='modal' data-target='#studyComponentsDeleteModal' href='#'>"
+                html_tag += " <i class='fa fa-trash-o fa-sm copo-icon-danger'></i></a>"
+                html_tag += " </span>"
+
+                html_tag += " </td>"
+                html_tag += "</tr>"
+        html_tag += "</table>"
+
+    return html_tag
+
+
+@register.filter("generate_study_publications_table")
+def generate_study_publications_table(ena_collection_id, study_id):
+    # serves Django template via the mark_safe pipe
+    # not necessarily supported by calls via other routes e.g., AJAX. for such other calls,
+    # use the 'generate_study_publications_table2' function
+    return mark_safe(generate_study_publications_html(ena_collection_id, study_id))
+
+
+def generate_study_publications_table2(ena_collection_id, study_id):
+    return generate_study_publications_html(ena_collection_id, study_id)
+
+
+def generate_study_publications_html(ena_collection_id, study_id):
+    html_tag = ""
+
+    segments = [d_utils.get_ena_ui_template_as_obj().studies.study.studyPublications.fields]
+    fields_property = get_field_order(segments)
+
+    publications = EnaCollection().get_study_publications(study_id, ena_collection_id)
+
+    if publications:
+        html_tag += "<hr/>"
+        html_tag += "<table class='table-bordered' id='study_publications_table'>"
+
+        html_tag += " <tr>"
+        for f_o in fields_property["dblabel"][1:]:
+            if f_o["label"]:
+                html_tag += " <th>" + f_o["label"] + "</th>"
+        html_tag += " <th>&nbsp;</th>"
+        html_tag += " </tr>"
+
+        for pb in publications:
+            delete_id = pb["id"] + "_publication_delete"
+            row_id = pb["id"] + "_publication_row"
+            html_tag += " <tr id='{row_id!s}'>".format(**locals())
+            for f_o in fields_property["dblabel"][1:]:
+                if f_o["label"]:
+                    v = pb[f_o["db_name"]]
+                    html_tag += " <td>{v!s}</td>".format(**locals())
+            html_tag += "<td>"
+
+            html_tag += " <span data-toggle='tooltip' title='Delete Publication'><a id='{delete_id!s}' class='publication-delete' ".format(
+                **locals())
+            html_tag += " data-toggle='modal' data-target='#studyComponentsDeleteModal' href='#'>"
+            html_tag += " <i class='fa fa-trash-o fa-sm copo-icon-danger'></i></a>"
+            html_tag += " </span>"
+
+            html_tag += " </td>"
+            html_tag += "</tr>"
+        html_tag += "</table>"
+
+    return html_tag
+
+
+@register.filter("generate_study_contacts_table")
+def generate_study_contacts_table(ena_collection_id, study_id):
+    # serves Django template via the mark_safe pipe
+    # not necessarily supported by calls via other routes e.g., AJAX. for such other calls,
+    # use the 'generate_study_contact_table2' function
+    return mark_safe(generate_study_contacts_html(ena_collection_id, study_id))
+
+
+def generate_study_contacts_table2(ena_collection_id, study_id):
+    return generate_study_contacts_html(ena_collection_id, study_id)
+
+
+def generate_study_contacts_html(ena_collection_id, study_id):
+    html_tag = ""
+
+    segments = [d_utils.get_ena_ui_template_as_obj().studies.study.studyContacts.fields]
+    fields_property = get_field_order(segments)
+
+    contacts = EnaCollection().get_study_contacts(study_id, ena_collection_id)
+
+    if contacts:
+        html_tag += "<hr/>"
+        html_tag += "<table class='table-bordered' id='study_contacts_table'>"
+
+        html_tag += " <tr>"
+        for f_o in fields_property["dblabel"][1:]:
+            if f_o["label"]:
+                html_tag += " <th>" + f_o["label"] + "</th>"
+        html_tag += " <th>&nbsp;</th>"
+        html_tag += " </tr>"
+
+        for pb in contacts:
+            delete_id = pb["id"] + "_contact_delete"
+            row_id = pb["id"] + "_contact_row"
+            html_tag += " <tr id='{row_id!s}'>".format(**locals())
+            for f_o in fields_property["dblabel"][1:]:
+                if f_o["label"]:
+                    v = pb[f_o["db_name"]]
+                    html_tag += " <td>{v!s}</td>".format(**locals())
+            html_tag += "<td>"
+
+            html_tag += " <span data-toggle='tooltip' title='Delete Contact'><a id='{delete_id!s}' class='contact-delete' ".format(
+                **locals())
+            html_tag += " data-toggle='modal' data-target='#studyComponentsDeleteModal' href='#'>"
+            html_tag += " <i class='fa fa-trash-o fa-sm copo-icon-danger'></i></a>"
+            html_tag += " </span>"
+
+            html_tag += " </td>"
+            html_tag += "</tr>"
+        html_tag += "</table>"
+
+    return html_tag
+
+
+# segments is a list of end-points, i.e. list of grouped fields from the ui config
+# e.g., studies.study.studySamples.fields
+def get_field_order(segments):
     a = {"db_name": "id", "label": "Id"}
     field_order = ["id"]
     headers = ["Id"]
 
     fields = [a]
 
-    if prop == "studySamples":
-        ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.fields
-
-        for f in ena_d:
-            headers.append(generate_ena_labels(f.id))
-            key_split = f.id.split(".")
-            field_order.append(key_split[len(key_split) - 1])
-            a = {"db_name": key_split[len(key_split) - 1], "label": generate_ena_labels(f.id)}
-            fields.append(a)
-
-        ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.sampleCollection.fields
-
-        for f in ena_d:
+    for sg in segments:
+        for f in sg:
             headers.append(generate_ena_labels(f.id))
             key_split = f.id.split(".")
             field_order.append(key_split[len(key_split) - 1])
@@ -105,10 +307,11 @@ def get_field_order(prop):
 
 
 def get_samples_data(ena_collection_id):
-    ena_collection = EnaCollection().GET(ena_collection_id)
-    samples = ena_collection["collectionCOPOMetadata"]["samples"]
+    samples = EnaCollection().get_all_samples(ena_collection_id)
 
-    fields_property = get_field_order("studySamples")
+    segments = [d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.sampleCollection.fields,
+                d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.fields]
+    fields_property = get_field_order(segments)
 
     data = []
     for sample in samples:
@@ -166,16 +369,19 @@ def generate_study_html(ena_collection_id):
             html_tag += " <td>{study_type!s}</td>".format(**locals())
             html_tag += " <td>{samples_count!s}</td>".format(**locals())
             html_tag += " <td>"
-            html_tag += " <span style='padding-right: 15px;'>"
-            html_tag += " <a class='study-type-edit' href='{edit_link!s}'>".format(**locals())
-            html_tag += " <i data-toggle='tooltip' title='Update Study' class='fa fa-pencil-square-o'></i></a>"
+
+            html_tag += " <span data-toggle='tooltip' title='Update Study'> "
+            html_tag += " <a href='{edit_link!s}'>".format(**locals())
+            html_tag += " <i class='fa fa-pencil-square-o fa-sm copo-icon-success'></i></a>"
+            html_tag += " </span>&nbsp;"
+
+            html_tag += " <span data-toggle='tooltip' title='Delete Study'><a id='{delete_id!s}' class='study-delete' ".format(
+                **locals())
+            html_tag += " data-toggle='modal' data-target='#studyDeleteModal' custom-data-reference='{study_reference!s}' custom-data-type='{study_type!s}' href='#'>".format(
+                **locals())
+            html_tag += " <i class='fa fa-trash-o fa-sm copo-icon-danger'></i></a>"
             html_tag += " </span>"
-            html_tag += " <span><a id='{delete_id!s}' class='study-type-remove study-delete' ".format(**locals())
-            html_tag += " data-toggle='modal' data-target='#studyDeleteModal' custom-data-reference='{study_reference!s}'".format(**locals())
-            html_tag += " custom-data-type='{study_type!s}' href='#'>".format(**locals())
-            html_tag += " <i data-toggle='tooltip' title='Delete Study'"
-            html_tag += " class='glyphicon glyphicon-remove-sign'></i></a>"
-            html_tag += " </span>"
+
             html_tag += " </td>"
             html_tag += " </tr>"
         html_tag += " </table>"
@@ -361,7 +567,9 @@ def get_study_attributes_tree(study, composite_attributes):
 
 
 def get_study_samples_children(ena_collection_id, study_id):
-    fields_property = get_field_order("studySamples")
+    segments = [d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.sampleCollection.fields,
+                d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.fields]
+    fields_property = get_field_order(segments)
     sample_children = []
 
     samples = EnaCollection().get_study_samples(ena_collection_id, study_id)
@@ -389,59 +597,120 @@ def get_study_samples_children(ena_collection_id, study_id):
     return sample_children
 
 
+# used in the context of adding new study sample
 def get_study_sample_tree(ena_collection_id):
-    studies = EnaCollection().get_ena_studies(ena_collection_id)
-    ena_studies = []
+    html_tag = ""
+    study_data = get_studies_data(ena_collection_id)
 
-    parent_node = {
-        "id": "all_studies",
-        "text": "All studies",
-        "state": "closed"
-    }
+    if study_data:
+        html_tag += " <hr/>"
+        html_tag += " <table class='table-bordered'>"
+        html_tag += " <tr>"
+        html_tag += " <th>Study Reference</th>"
+        html_tag += " <th>Study Type</th>"
+        html_tag += " <th># Samples</th>"
+        html_tag += " <th><input id='assign_sample_studies' name='assign_sample_studies' class='check-pointer' type='checkbox' value='yes'></th>"
+        html_tag += " </tr>"
 
-    for study in studies:
-        study_id = study["studyCOPOMetadata"]["id"]
-        a = {
-            "id": study_id,
-            "text": study["studyCOPOMetadata"]['studyReference'] + " (" + d_utils.lookup_study_type_label(
-                study["studyCOPOMetadata"]['studyType']) + ")",
-            "state": "open"
-        }
+        for sd in study_data:
+            study_id = sd["id"]
+            study_reference = sd["studyReference"]
+            study_type = sd["studyType"]
+            samples_count = sd["samplescount"]
 
-        ena_studies.append(a)
+            html_tag += " <tr>"
+            html_tag += " <td>{study_reference!s}</td>".format(**locals())
+            html_tag += " <td>{study_type!s}</td>".format(**locals())
+            html_tag += " <td>{samples_count!s}</td>".format(**locals())
+            html_tag += " <td>"
+            html_tag += " <input class='check-pointer' type='checkbox' name='study_sample_assign_chk' value='{study_id!s}'>".format(
+                **locals())
+            html_tag += " </td>"
+            html_tag += " </tr>"
+        html_tag += " </table>"
 
-    parent_node["children"] = ena_studies
-    return [parent_node]
+    return html_tag
 
 
+# used in the edit sample context
 def get_study_sample_tree_restrict(ena_collection_id, sample_id):
-    studies = EnaCollection().get_ena_studies(ena_collection_id)
-    ena_studies = []
+    html_tag = ""
+    study_data = get_studies_data(ena_collection_id)
 
-    parent_node = {
-        "id": "all_studies",
-        "text": "All studies",
-        "state": "closed"
-    }
+    if study_data:
+        html_tag += " <hr/>"
+        html_tag += " <table class='table-bordered'>"
+        html_tag += " <tr>"
+        html_tag += " <th>Study Reference</th>"
+        html_tag += " <th>Study Type</th>"
+        html_tag += " <th># Samples</th>"
+        html_tag += " <th><input id='assign_sample_studies' name='assign_sample_studies' class='check-pointer' type='checkbox' value='yes'></th>"
+        html_tag += " </tr>"
 
-    for study in studies:
-        study_id = study["studyCOPOMetadata"]["id"]
+        for sd in study_data:
+            study_id = sd["id"]
+            study_reference = sd["studyReference"]
+            study_type = sd["studyType"]
+            samples_count = sd["samplescount"]
 
-        a = {
-            "id": study_id,
-            "text": study["studyCOPOMetadata"]['studyReference'] + " (" + d_utils.lookup_study_type_label(
-                study["studyCOPOMetadata"]['studyType']) + ")",
-            "state": "open"
-        }
+            study_samples = EnaCollection().get_study_samples(ena_collection_id, study_id)
+            checked = ""
+            if any(d['id'] == sample_id for d in study_samples):
+                checked = "checked"
 
-        samples = EnaCollection().get_study_samples(ena_collection_id, study_id)
+            html_tag += " <tr>"
+            html_tag += " <td>{study_reference!s}</td>".format(**locals())
+            html_tag += " <td>{study_type!s}</td>".format(**locals())
+            html_tag += " <td>{samples_count!s}</td>".format(**locals())
+            html_tag += " <td>"
+            html_tag += " <input class='check-pointer' type='checkbox' name='study_sample_assign_chk' value='{study_id!s}' {checked!s}>".format(
+                **locals())
+            html_tag += " </td>"
+            html_tag += " </tr>"
+        html_tag += " </table>"
 
-        if any(d['id'] == sample_id for d in samples):
-            a["checked"] = True
-        ena_studies.append(a)
+    return html_tag
 
-    parent_node["children"] = ena_studies
-    return [parent_node]
+
+# samples already assigned to this study are highlighted (checked)
+def get_samples_4_study_tree(ena_collection_id, study_id):
+    html_tag = ""
+    segments = [d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.sampleCollection.fields,
+                d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.fields]
+    fields_property = get_field_order(segments)
+    all_samples = EnaCollection().get_all_samples(ena_collection_id)
+    study_samples = EnaCollection().get_study_samples(ena_collection_id, study_id)
+
+    if all_samples:
+        html_tag += "<hr/>"
+        html_tag += "<table class='table-bordered'>"
+
+        html_tag += " <tr>"
+        for f_o in fields_property["dblabel"][1:]:
+            html_tag += " <th>" + f_o["label"] + "</th>"
+        html_tag += " <th>&nbsp;</th>"
+        html_tag += " </tr>"
+
+        for all_sample in all_samples:
+            sample_id = all_sample['id']
+            row_id = sample_id + "_sample_assignment_row"
+
+            checked = ""
+            if any(study_sample['id'] == all_sample['id'] for study_sample in study_samples):
+                checked = "checked"
+
+            html_tag += " <tr id='{row_id!s}'>".format(**locals())
+            for f_o in fields_property["dblabel"][1:]:
+                v = all_sample[f_o["db_name"]]
+                html_tag += " <td>{v!s}</td>".format(**locals())
+            html_tag += "<td>"
+            html_tag += " <input class='check-pointer' type='checkbox' name='study_samples_assign_chk' value='{sample_id!s}' {checked!s}>".format(
+                **locals())
+            html_tag += " </td>"
+            html_tag += "</tr>"
+        html_tag += "</table>"
+
+    return html_tag
 
 
 @register.filter("lookup_study_type_label")
@@ -504,6 +773,11 @@ def study_type_drop_down(curr_val):
         option_values += "<option value='{sv!s}' {selected!s}>{sl!s}</option>".format(**locals())
 
     return mark_safe(option_values)
+
+
+@register.filter("id_to_class")
+def id_to_class(val):
+    return val.replace(".", "_")
 
 
 def do_tag(the_elem):

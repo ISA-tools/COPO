@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, url
 
-import web_copo.rest.EnaRest as rest
-import web_copo.api.views as api
-import web_copo.repos.figshare as figshare
+import web.apps.web_copo.rest.EnaRest as rest
+import web.apps.web_copo.api.views as api
+import web.apps.web_copo.repos.figshare as figshare
 from chunked_upload.views import *
 
 

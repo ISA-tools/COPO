@@ -1,0 +1,15 @@
+[
+  {
+    "id": "studies.study.studySamples.sampleCollection.sampleName",
+    "ref": "Sample Name"
+  },
+  {
+    "id": "studies.study.studySamples.sourceName",
+    "ref": "Source Name"
+  },
+  {
+    "id": "studies.study.studySamples.organism",
+    "ref": "Characteristics[organism]",
+    "label": "NCBI Taxon"
+  }
+]

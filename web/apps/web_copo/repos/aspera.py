@@ -7,8 +7,9 @@ import os
 import re
 
 from services import *
-from dal.mongo_util import *
+from dal import ObjectId
 from dal.mongo_util import get_collection_ref
+from master_settings import BASE_DIR
 
 
 def do_aspera_transfer(aspera_transfer_id):

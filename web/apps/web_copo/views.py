@@ -1,7 +1,9 @@
 from threading import Thread
 import logging
+import datetime
 import sys
 import ast
+import os
 
 from django.shortcuts import render, render_to_response
 from django.shortcuts import get_object_or_404
@@ -13,23 +15,27 @@ from django.contrib.auth.models import User
 from django.template import RequestContext
 
 from error_codes import DB_ERROR_CODES, UI_ERROR_CODES
+from web.apps.web_copo.repos.aspera import do_aspera_transfer
 
 log = logging.getLogger(__name__)
 log.debug(sys.path)
 
-
 from dal.copo_base_da import Profile, Collection_Head
+from dal.mongo_util import get_collection_ref
 from dal.ena_da import EnaCollection
 from dal.orcid_da import Orcid
 
-from web_copo.repos.irods import *
-from web_copo.repos.aspera import *
+from web.apps.web_copo.repos.irods import *
 from chunked_upload.models import ChunkedUpload
-from web_copo.api.views import *
-import web_copo.uiconfigs.utils.lookup as lkup
-import web_copo.templatetags.html_tags as htags
+from web.apps.web_copo.api.views import *
+import web.apps.web_copo.uiconfigs.utils.lookup as lkup
+import web.apps.web_copo.templatetags.html_tags as htags
 from django_tools.middlewares import ThreadLocal
-import web_copo.uiconfigs.utils.data_utils as d_utils
+import web.apps.web_copo.uiconfigs.utils.data_utils as d_utils
+from dal import ObjectId
+from master_settings import MEDIA_ROOT
+from dal.copo_base_da import DataSchemas
+from api.doi_metadata import DOI2Metadata
 
 
 @login_required
@@ -61,6 +67,7 @@ def new_profile(request):
                           {'message': 'Error creating COPO ID for Profile - Are you on the network?'},
                           )
         return HttpResponseRedirect(reverse('copo:index'))
+
 
 '''
 def copo_login(request):
@@ -115,6 +122,7 @@ def copo_login(request):
         context_instance=RequestContext(request)
     )
 '''
+
 
 def copo_logout(request):
     logout(request)
@@ -229,7 +237,11 @@ def view_collection(request, collection_head_id):
             request.session['ena_collection_id'] = str(collection_head['collection_details'][0])
             profile = Profile().GET(profile_id)
             ena_collection = EnaCollection().GET(request.session['ena_collection_id'])
-            sample_data = htags.get_samples_data(request.session['ena_collection_id'])
+            sample_attributes = d_utils.get_sample_attributes()
+
+            messages = {}
+            messages["user_defined_attribute_message"] = lkup.UI_INFO["user_defined_attribute_message"]
+            messages["system_suggested_attribute_message"] = lkup.UI_INFO["system_suggested_attribute_message"]
 
             data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
                          'ena_collection_id': request.session['ena_collection_id'], 'profile_id': profile_id,
@@ -237,7 +249,8 @@ def view_collection(request, collection_head_id):
                          'profile': profile,
                          'ui_template': ui_template,
                          'study_types': study_types,
-                         'sample_data': sample_data
+                         'sample_attributes': sample_attributes,
+                         'messages': messages
                          }
         else:
             data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
@@ -266,7 +279,7 @@ def view_study(request, study_id):
     collection_head_id = request.session['collection_head_id']
     collection_head = Collection_Head().GET(collection_head_id)
 
-    ena_collection_id = str(collection_head['collection_details'])
+    ena_collection_id = str(collection_head['collection_details'][0])
     profile = Profile().GET(profile_id)
     study = EnaCollection().get_ena_study(study_id, ena_collection_id)
 
@@ -314,13 +327,72 @@ def add_to_study(request):
                                                "study_type_label": htags.lookup_study_type_label(
                                                    study["studyCOPOMetadata"]["studyType"]),
                                                "study_type_reference": study["studyCOPOMetadata"]["studyReference"]}
-    if task == "update_study_details":
+    elif task == "update_study_details":
         auto_fields = request.POST['auto_fields']
         EnaCollection().update_study_details(ena_collection_id, study_id, auto_fields)
         return_structure['study_data'] = EnaCollection().get_ena_study(study_id, ena_collection_id)["study"]
 
-    if task == "get_study_data":
+    elif task == "delete_sample_from_study":
+        sample_id = request.POST['sample_id']
+        EnaCollection().hard_delete_sample_from_study(sample_id, study_id, ena_collection_id)
+        return_structure['sample_data'] = htags.generate_study_samples_table2(ena_collection_id, study_id)
+
+    elif task == "delete_publication_from_study":
+        publication_id = request.POST['publication_id']
+        field_list = [{"deleted": "1"}]
+        EnaCollection().update_study_publication(publication_id, study_id, ena_collection_id, field_list)
+        return_structure['publication_data'] = htags.generate_study_publications_table2(ena_collection_id, study_id)
+
+    elif task == "delete_contact_from_study":
+        contact_id = request.POST['contact_id']
+        field_list = [{"deleted": "1"}]
+        EnaCollection().update_study_contact(contact_id, study_id, ena_collection_id, field_list)
+        return_structure['contact_data'] = htags.generate_study_contacts_table2(ena_collection_id, study_id)
+
+    elif task == "assign_samples_to_studies":
+        selected_study_samples_list = request.POST['selected_study_samples']
+        if selected_study_samples_list:
+            selected_study_samples_list = selected_study_samples_list.split(",")
+        else:
+            selected_study_samples_list = []
+
+        excluded_study_samples_list = request.POST['excluded_study_samples']
+        if excluded_study_samples_list:
+            excluded_study_samples_list = excluded_study_samples_list.split(",")
+        else:
+            excluded_study_samples_list = []
+        EnaCollection().add_delete_samples_in_study(study_id, ena_collection_id, selected_study_samples_list,
+                                                    excluded_study_samples_list)
+        return_structure['sample_data'] = htags.generate_study_samples_table2(ena_collection_id, study_id)
+
+    elif task == "add_new_publication":
+        auto_fields = request.POST['auto_fields']
+        EnaCollection().add_study_publication(study_id, ena_collection_id, auto_fields)
+        return_structure['publication_data'] = htags.generate_study_publications_table2(ena_collection_id, study_id)
+
+    elif task == "add_new_contact":
+        auto_fields = request.POST['auto_fields']
+        EnaCollection().add_study_contact(study_id, ena_collection_id, auto_fields)
+        return_structure['contact_data'] = htags.generate_study_contacts_table2(ena_collection_id, study_id)
+
+    elif task == "add_new_protocol":
+        auto_fields = request.POST['auto_fields']
+        EnaCollection().add_study_protocol(study_id, ena_collection_id, auto_fields)
+        return_structure['protocol_data'] = htags.generate_study_contacts_table2(ena_collection_id, study_id)
+
+    elif task == "resolve_publication_doi":
+        doi_handle = request.POST['doi_handle']
+        return_structure['publication_doi_data'] = DOI2Metadata(doi_handle).publication_metadata()
+        return_structure['ena_fields_mapping'] = lkup.SCHEMAS["ENA"]['ENA_DOI_PUBLICATION_MAPPINGS']
+
+    elif task == "get_tree_samples_4_studies":
+        return_structure['samples_tree'] = htags.get_samples_4_study_tree(ena_collection_id, study_id)
+
+    elif task == "get_study_data":
         return_structure['study_data'] = EnaCollection().get_ena_study(study_id, ena_collection_id)["study"]
+
+    elif task == "get_study_sample":
+        return_structure['sample_data'] = EnaCollection().get_ena_sample(ena_collection_id, request.POST['sample_id'])
 
     return_structure['exit_status'] = 'success'
     out = jsonpickle.encode(return_structure)
@@ -345,9 +417,11 @@ def add_to_collection(request):
 
         for k, v in study_fields.items():
             if k.startswith('study_type_select_'):
-                if 'study_type_reference_' + k[-1:] in study_fields:  # only add if a study reference has been provided
+                index_part = k.split("study_type_select_")[1]
+                # only add if a study reference has been provided
+                if 'study_type_reference_' + index_part in study_fields:
                     st_dict = {'study_type': study_fields[k],
-                               'study_type_reference': study_fields['study_type_reference_' + k[-1:]]}
+                               'study_type_reference': study_fields['study_type_reference_' + index_part]}
                     st_list.append(st_dict)
 
         if st_list:
@@ -376,12 +450,27 @@ def add_to_collection(request):
     elif task == "get_study_sample":
         return_structure['sample_data'] = EnaCollection().get_ena_sample(ena_collection_id, request.POST['sample_id'])
         return_structure['ena_studies'] = htags.get_study_sample_tree_restrict(ena_collection_id,
-                                                                               request.POST['sample_id'])
+                                                                             request.POST['sample_id'])
+        messages = {}
+        messages["edit"] = lkup.UI_LABELS["sample_edit"]
+        messages["clone"] = lkup.UI_LABELS["sample_clone"]
+        messages["add"] = lkup.UI_LABELS["sample_add"]
+        return_structure['messages'] = messages
 
-    elif task == "add_new_study_sample" or task == "edit_study_sample":
+    elif task == "get_sample_attributes":
+        return_structure['sample_attributes'] = d_utils.get_sample_attributes()
+        messages = {}
+        messages["system_suggested_attribute_message"] = lkup.UI_INFO["system_suggested_attribute_message"]
+        messages["sample_add"] = lkup.UI_LABELS["sample_add"]
+        return_structure['messages'] = messages
+
+    elif task == "add_new_study_sample" or task == "edit_study_sample" or task == "clone_study_sample":
         auto_fields = request.POST['auto_fields']
         study_type_list = request.POST['study_types']
-        study_type_list = study_type_list.split(",")
+        if study_type_list:
+            study_type_list = study_type_list.split(",")
+        else:
+            study_type_list = []
 
         if task == "edit_study_sample":
             sample_id = request.POST['sample_id']
@@ -397,21 +486,6 @@ def add_to_collection(request):
     return HttpResponse(out, content_type='json')
 
 
-def remove_from_collection(request):
-    task = request.GET['task']
-
-    collection_head_id = request.GET['collection_head_id']
-    collection = Collection_Head().GET(collection_head_id)
-    ena_collection_id = str(collection['collection_details'][0])
-
-    if task == "remove_study_sample":
-        study_samples_id = request.GET['study_samples_id']
-        # EnaCollection().remove_study_sample(ena_collection_id, study_samples_id)
-
-    return_structure = {'exit_status': 'success'}
-    out = jsonpickle.encode(return_structure)
-    return HttpResponse(out, content_type='json')
-
 def save_figshare_collection(request):
     # make new entries for collection
     input_files = request.POST.getlist('files[]')
@@ -421,6 +495,7 @@ def save_figshare_collection(request):
     collection_head_id = request.session['collection_head_id']
     a = FigshareCollection().save_article(input_files, tags, article_type, description, collection_head_id)
     return HttpResponse(jsonpickle.encode(a))
+
 
 def initiate_repo(request):
     initiate_status = ""

@@ -3,13 +3,15 @@ __author__ = 'felix.shaw@tgac.ac.uk - 14/05/15'
 import requests
 from django.http import HttpResponse
 import jsonpickle
+import json
 
-import web_copo.repos.figshare as f
+import web.apps.web_copo.repos.figshare as f
 import dal.figshare_da as fs
 from dal.figshare_da import FigshareCollection
 from services import *
 from dal.copo_base_da import DataSchemas
-from web_copo.uiconfigs.utils.data_formats import DataFormats
+from web.apps.web_copo.uiconfigs.utils.data_formats import DataFormats
+from api.doi_metadata import DOI2Metadata
 
 
 def upload_to_figshare_profile(request):
@@ -19,6 +21,7 @@ def upload_to_figshare_profile(request):
         repo_type = request.POST['repo']
         out = fs.FigshareCollection.receive_data_file(file, repo_type, user)
         return HttpResponse(out, content_type='json')
+
 
 def submit_to_figshare(request, article_id):
     # check status of figshare collection
@@ -69,11 +72,14 @@ def check_orcid_credentials(request):
 # call only if you want to generate a new template
 def generate_ena_template(request):
     temp_dict = DataFormats("ENA").generate_ui_template()
-
-    # purify output (...again!) and store a copy in DB
-    if temp_dict["status"] == "success" and temp_dict["data"]:
-        temp_dict["data"] = DataFormats("ENA").purify(temp_dict["data"])
-        DataSchemas("ENA").add_ui_template(temp_dict["data"])
-
     return HttpResponse(jsonpickle.encode(temp_dict))
 
+
+def doi2publication_metadata(request, id_handle):
+    if id_handle:
+        out_dict = DOI2Metadata(id_handle).publication_metadata()
+    else:
+        message = "DOI missing"
+        out_dict = {"status": "failed", "messages": message, "data": {}}
+
+    return HttpResponse(json.dumps(out_dict, ensure_ascii=False))

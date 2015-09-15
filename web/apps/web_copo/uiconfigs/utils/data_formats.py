@@ -1,12 +1,14 @@
+import json
+
 __author__ = 'etuka'
 
 import re
+import itertools
 import xml.etree.ElementTree as ET
 from urllib.request import urlopen
 
-import web_copo.uiconfigs.utils.lookup as lkup
-import web_copo.uiconfigs.ena.uimodels.object_model as om
-import web_copo.uiconfigs.ena.uimodels.ena_copo_config as ecc
+import web.apps.web_copo.uiconfigs.utils.lookup as lkup
+import web.apps.web_copo.uiconfigs.ena.uimodels.ena_copo_config as ecc
 
 
 class DataFormats:
@@ -16,15 +18,16 @@ class DataFormats:
 
     # generates template for UI rendering
     def generate_ui_template(self):
-        out_dict = om.OUT_DICT
-        new_dict = self.merge_dicts(self.do_mapping_ena("INVESTIGATION_FILE"),
-                                    self.do_mapping_ena("STUDY_SAMPLE_FILE"),
-                                    self.do_mapping_ena("STUDY_ASSAY_GENOME_SEQ_FILE"),
-                                    self.do_mapping_ena("STUDY_ASSAY_METAGENOME_SEQ_FILE")
-                                    )
-        if new_dict:
-            out_dict = self.objectify(new_dict, out_dict)
-            out_dict = self.purify(out_dict)
+        out_dict = self.json_to_pytype(ecc.MODEL_FILES["ISA_OBJECT_MODEL"])
+
+        new_list = list(itertools.chain(self.do_mapping_ena("INVESTIGATION_FILE"),
+                                        self.do_mapping_ena("STUDY_SAMPLE_FILE"),
+                                        self.do_mapping_ena("STUDY_ASSAY_GENOME_SEQ_FILE"),
+                                        self.do_mapping_ena("STUDY_ASSAY_METAGENOME_SEQ_FILE")
+                                        ))
+
+        if new_list:
+            out_dict = self.objectify(new_list, out_dict)
             out_dict = {"status": "success", "data": out_dict}
         else:
             out_dict = {}
@@ -41,8 +44,8 @@ class DataFormats:
                 lkup.SCHEMAS[self.schema]['PATHS_AND_URIS'][arm] + "!")
             return
 
-        new_dict = ecc.ELEMENTS[arm]
-        current_dict = ecc.ELEMENTS[arm]
+        new_list = self.json_to_pytype(ecc.CONFIG_FILES[arm])
+        current_list = new_list
 
         root = tree.getroot()
 
@@ -51,69 +54,66 @@ class DataFormats:
 
         fields = tree.findall(".//{%s}field" % ns)
 
-        for key, value in current_dict.items():
+        for elem_dict in current_list:
+            if "ref" not in elem_dict or "id" not in elem_dict:
+                continue
+
+            # get index and retain for accessing copy element in new_list
+            indx = new_list.index(elem_dict)
             attr = lkup.SCHEMAS[self.schema]['ATTRIBUTE_MAPPINGS']
-            # initialise attributes as defined in lookup, maintain default ones defined in the model
+            # assign attributes defined in lkup, maintain default ones defined in the model
             for k in attr:
-                if k in value.keys() and current_dict[key][k]:
-                    new_dict[key].update({k: current_dict[key][k]})
-                else:
-                    new_dict[key].update({k: ''})
+                if k not in elem_dict.keys():
+                    new_list[indx][k] = ""
 
             for f in iter(fields):
-                # 'ref' key in the config dictionary defined to match 'header' attribute in the xml file
-                try:
-                    if f.get("header") == current_dict[key]["ref"]:
-                        for k, v in attr.items():
-                            # modify for file field
-                            if f.get("is-file-field") == "true" and k == "control":
-                                try:
-                                    # no need retaining the mapping key
-                                    del new_dict[key][k]
-                                    new_dict[key].update({k: "file"})
-                                except KeyError:
-                                    pass
-                            if not current_dict[key][k]:
-                                if v or k == "option_values":
-                                    if k == "option_values":
-                                        # get list values
-                                        if f.get("data-type") == "List":
-                                            try:
-                                                ls = f.findall(".//{%s}list-values" % ns)
-                                                options_split = ls[0].text.split(",")
-                                                new_dict[key].update({k: options_split})
-                                            except IndexError:
-                                                pass
-                                    else:
-                                        new_dict[key].update({k: f.get(v)})
-                                        if v == "data-type" and f.get(v) in lkup.SCHEMAS[self.schema][
-                                            'CONTROL_MAPPINGS'].keys():
-                                            new_dict[key].update(
-                                                {k: lkup.SCHEMAS[self.schema]['CONTROL_MAPPINGS'][f.get(v)]})
+                # 'ref' key in the config is defined to match 'header' attribute in the ISA xml
+                if f.get("header") == elem_dict["ref"]:
 
-                except KeyError:
-                    pass
+                    # modify for file fields
+                    if f.get("is-file-field") == "true":
+                        new_list[indx]["control"] = "file"
 
-        return new_dict
+                    # handle list values
+                    if f.get("data-type") == "List":
+                        try:
+                            ls = f.findall(".//{%s}list-values" % ns)
+                            options_split = ls[0].text.split(",")
+                            new_list[indx]["option_values"] = options_split
+                        except IndexError:
+                            pass
 
-    def objectify(self, source_dict, output_dict):
-        new_dict = source_dict
+                    for k, v in attr.items():
+                        if not new_list[indx][k]:
+                            new_list[indx][k] = f.get(v)
+
+                            if v == "data-type" and f.get(v) in lkup.SCHEMAS[self.schema]['CONTROL_MAPPINGS'].keys():
+                                new_list[indx][k] = lkup.SCHEMAS[self.schema]['CONTROL_MAPPINGS'][f.get(v)]
+
+        return new_list
+
+    def objectify(self, source_list, output_dict):
+        new_list = source_list
         out_dict = output_dict
 
-        for key in new_dict:
+        for elem_dict in new_list:
             # no need retaining the mapping key
-            if "ref" in new_dict[key]:
-                del new_dict[key]["ref"]
+            if "ref" in elem_dict:
+                del elem_dict["ref"]
 
             # remove option_values for non select elements
-            if not new_dict[key]["control"] == "select":
-                del new_dict[key]["option_values"]
+            if not elem_dict["control"] == "select":
+                del elem_dict["option_values"]
 
-            new_dict[key].update({'id': key})
-            key_split = key.split(".")
+            # set all null fields to ""
+            for k, v in elem_dict.items():
+                if not v:
+                    elem_dict[k] = ""
+
+            key_split = elem_dict["id"].split(".")
 
             if len(key_split) >= 2:
-                out_dict = self.set_model_fields(out_dict, key_split[:-1], new_dict[key])
+                out_dict = self.set_model_fields(out_dict, key_split[:-1], elem_dict)
 
         return out_dict
 
@@ -123,15 +123,6 @@ class DataFormats:
             out = out[k]
         out[keys[-1]]["fields"].append(val)
         return d
-
-    def merge_dicts(self, *dict_args):
-        result = {}
-
-        for dictionary in dict_args:
-            if dictionary:
-                result.update(dictionary)
-
-        return result
 
     def purify(self, out_dict):
         for k, v in out_dict.items():
@@ -151,3 +142,9 @@ class DataFormats:
     def namespace(self, element):
         match = re.search(r'\{(.+)\}', element.tag)
         return match.group(1) if match else ''
+
+    def json_to_pytype(self, path_to_json):
+        data = ""
+        with open(path_to_json, encoding='utf-8') as data_file:
+            data = json.loads(data_file.read())
+        return data

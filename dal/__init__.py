@@ -10,4 +10,5 @@ from orcid_da import Orcid
 from figshare_da import FigshareCollection
 from ena_da import EnaCollection
 
-__all__=[Resource, Profile, Collection_Head, get_collection_ref, ObjectId, Orcid, FigshareCollection, EnaCollection, Profile_Status_Info, mongo_util, DataSchemas]
+__all__ = [Resource, Profile, Collection_Head, get_collection_ref, ObjectId, Orcid, FigshareCollection, EnaCollection,
+           Profile_Status_Info, mongo_util, DataSchemas]
