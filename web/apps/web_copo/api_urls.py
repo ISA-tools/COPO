@@ -19,4 +19,8 @@ urlpatterns = patterns('web_copo.api.views',
                            name='login_orcid'),
                        url(r'^check_orcid_credentials/$', api_views.check_orcid_credentials,
                            name='check_orcid_credentials'),
+                       url(r'^get_collection_type/$', api_views.get_collection_type,
+                           name='get_collection_type'),
+                       url(r'^convert_to_sra/$', api_views.convert_to_sra,
+                           name='convert_to_sra')
                        )

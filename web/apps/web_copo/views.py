@@ -12,6 +12,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
+
 from django.template import RequestContext
 
 from error_codes import DB_ERROR_CODES, UI_ERROR_CODES
@@ -24,14 +25,15 @@ from dal.copo_base_da import Profile, Collection_Head
 from dal.mongo_util import get_collection_ref
 from dal.ena_da import EnaCollection
 from dal.orcid_da import Orcid
+from web.apps.web_copo.copo_maps.utils.data_utils import get_collection_head_dc
 
 from web.apps.web_copo.repos.irods import *
 from chunked_upload.models import ChunkedUpload
 from web.apps.web_copo.api.views import *
-import web.apps.web_copo.uiconfigs.utils.lookup as lkup
+import web.apps.web_copo.copo_maps.utils.lookup as lkup
 import web.apps.web_copo.templatetags.html_tags as htags
 from django_tools.middlewares import ThreadLocal
-import web.apps.web_copo.uiconfigs.utils.data_utils as d_utils
+import web.apps.web_copo.copo_maps.utils.data_utils as d_utils
 from dal import ObjectId
 from master_settings import MEDIA_ROOT
 from dal.copo_base_da import DataSchemas
@@ -175,7 +177,11 @@ def new_collection_head(request):
     # create the new collection
     c_type = request.POST['collection_type']
     c_name = request.POST['collection_name']
-    collection_head_id = Collection_Head().PUT(c_type, c_name)
+    collection_head_id = Collection_Head().PUT()
+    collection_head_dc = get_collection_head_dc()
+    collection_head_dc['name']=c_name
+    collection_head_dc['type']=c_type
+    Collection_Head().update(collection_head_id, collection_head_dc)
 
     # add a template for ENA submission
     coll_type = request.POST['collection_type']
@@ -256,7 +262,7 @@ def view_collection(request, collection_head_id):
             data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
                          'profile_id': profile_id}
         return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
-    elif collection_head['type'].lower() == 'pdf file' or collection_head['type'].lower() == 'image':
+    elif collection_head['type'].lower() == 'figshare':
         articles = FigshareCollection().get_articles_in_collection(collection_head_id)
         data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
                      'profile_id': profile_id,
@@ -548,6 +554,9 @@ def initiate_repo(request):
                         }
     out = jsonpickle.encode(return_structure)
     return HttpResponse(out, content_type='json')
+
+def submit_to_repo(request):
+    pass
 
 
 def register_to_irods(request):

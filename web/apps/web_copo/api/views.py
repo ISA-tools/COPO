@@ -10,7 +10,7 @@ import dal.figshare_da as fs
 from dal.figshare_da import FigshareCollection
 from services import *
 from dal.copo_base_da import DataSchemas
-from web.apps.web_copo.uiconfigs.utils.data_formats import DataFormats
+from web.apps.web_copo.copo_maps.utils.data_formats import DataFormats
 from api.doi_metadata import DOI2Metadata
 
 
@@ -81,5 +81,20 @@ def doi2publication_metadata(request, id_handle):
     else:
         message = "DOI missing"
         out_dict = {"status": "failed", "messages": message, "data": {}}
+    return HttpResponse(jsonpickle.encode(temp_dict))
+
+def get_collection_type(request):
+    from dal.copo_base_da import Collection_Head
+    collection_id = request.GET['collection_id']
+    c = Collection_Head().GET(collection_id)
+    return HttpResponse(c['type'])
+
+def convert_to_sra(request):
+    from converters.ena.copo_hokey import exporter
+    from services import EXPORT_LOCATIONS
+    collection_id = request.POST['collection_id']
+    if exporter().do_validate(collection_id):
+        exporter().do_export(collection_id, EXPORT_LOCATIONS['ENA']['export_path'])
+    return HttpResponse('here')
 
     return HttpResponse(json.dumps(out_dict, ensure_ascii=False))

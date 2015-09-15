@@ -33,3 +33,12 @@ class Orcid(Resource):
             return orc
         else:
             return ''
+
+    def get_current_affliation(self, user):
+        orc = self.get_orcid_profile(user)
+        if orc:
+            name = 'unknown'
+            for a in orc['op']['orcid_profile']['orcid_activities']['affiliations']['affiliation']:
+                if a['end_date'] == None:
+                    return a['organization']['name']
+            return name

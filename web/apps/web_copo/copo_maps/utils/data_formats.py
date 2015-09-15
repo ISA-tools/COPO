@@ -2,13 +2,13 @@ import json
 
 __author__ = 'etuka'
 
-import re
 import itertools
 import xml.etree.ElementTree as ET
 from urllib.request import urlopen
 
-import web.apps.web_copo.uiconfigs.utils.lookup as lkup
-import web.apps.web_copo.uiconfigs.ena.uimodels.ena_copo_config as ecc
+import re
+import web.apps.web_copo.copo_maps.utils.lookup as lkup
+import web.apps.web_copo.copo_maps.ena.uimodels.ena_copo_config as ecc
 
 
 class DataFormats:

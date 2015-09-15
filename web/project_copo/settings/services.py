@@ -60,3 +60,9 @@ NCBI_SERVICES = {
         "pmid_doi_esummary": "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id={pmid!s}&retmode=json"
     }
 }
+
+EXPORT_LOCATIONS = {
+    'ENA': {
+        'export_path': '~/Desktop/'
+    }
+}

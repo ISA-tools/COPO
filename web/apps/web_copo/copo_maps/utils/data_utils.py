@@ -3,8 +3,8 @@ __author__ = 'etuka'
 import json
 from collections import namedtuple
 
-import web.apps.web_copo.uiconfigs.ena.uimodels.ena_copo_config as ecc
-import web.apps.web_copo.uiconfigs.utils.lookup as lkup
+import web.apps.web_copo.copo_maps.ena.uimodels.ena_copo_config as ecc
+import web.apps.web_copo.copo_maps.utils.lookup as lkup
 from dal import DataSchemas
 
 
@@ -61,3 +61,9 @@ def json_to_pytype(path_to_json):
         with open(path_to_json, encoding='utf-8') as data_file:
             data = json.loads(data_file.read())
         return data
+def get_collection_head_dc():
+    f_path=lookup.SCHEMAS['COPO']['PATHS_AND_URIS']['COPO_COLLECTION_HEAD_FILE']
+    with open(f_path) as json_data:
+        data = json.load(json_data)
+    return data
+

@@ -7,7 +7,13 @@ import uuid
 import ast
 
 import dal.mongo_util as mutil
-import web.apps.web_copo.uiconfigs.utils.data_utils as d_utils
+
+
+
+#from dal.resource import *
+#from web_copo.mongo.mongo_util import *
+import random
+import web.apps.web_copo.copo_maps.utils.data_utils as d_utils
 
 from dal.mongo_util import get_collection_ref
 from dal.base_resource import Resource

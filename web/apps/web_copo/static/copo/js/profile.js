@@ -7,7 +7,9 @@ $(document).ready(function () {
     $('.spinner').hide()
     $('.coolHandLuke li').on('click', function (e) {
         if ($(e.target).prev().hasClass('red')) {
-            submit_to_figshare(e)
+            // find type of submission
+            var collection_id = $(e.target).closest('tr').attr('data-collection_id')
+            var type = delegate_handler(e, collection_id)
         }
         else {
             view_in_figshare(e)
@@ -53,7 +55,7 @@ $(document).ready(function () {
 
 
     function submit_to_figshare(e) {
-        e.preventDefault()
+
 
         var spinner = $(e.target).closest('td').find('.spinner')
         var color_span = $(e.target).prev()
@@ -112,4 +114,20 @@ $(document).ready(function () {
     }
 
 
+    function delegate_handler(e, collection_id) {
+        e.preventDefault()
+        var csrftoken = $.cookie('csrftoken');
+        $.get("/api/get_collection_type/", {'collection_id': collection_id})
+            .done(function (data) {
+                if (data == 'Figshare') {
+                    submit_to_figshare(e)
+                }
+                else if (data == 'ENA Submission') {
+                    $.post('/api/convert_to_sra/', {'collection_id': collection_id, 'csrfmiddlewaretoken': csrftoken})
+                        .done(function(data){
+                            console.log(data)
+                        })
+                }
+            })
+    }
 })

@@ -3,9 +3,9 @@ __author__ = 'tonietuk'
 from django import template
 from django.utils.safestring import mark_safe
 
-import web.apps.web_copo.uiconfigs.utils.data_utils as d_utils
+import web.apps.web_copo.copo_maps.utils.data_utils as d_utils
 from dal.ena_da import EnaCollection
-import web.apps.web_copo.uiconfigs.utils.lookup as lkup
+import web.apps.web_copo.copo_maps.utils.lookup as lkup
 
 register = template.Library()
 
