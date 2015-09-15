@@ -18,9 +18,7 @@ SCHEMAS = {
             'STUDY_ASSAY_TRANSCRIPTOME_ANALYSIS_FILE': 'https://raw.githubusercontent.com/ISA-tools/Configuration-Files/master'
                                                        '/isaconfig-default_v2014-01-16/transcription_seq.xml',
 
-
         },
-            },
         'ATTRIBUTE_MAPPINGS': {
             'label': 'header',
             'control': 'data-type',
@@ -42,19 +40,17 @@ SCHEMAS = {
             'studyPublicationDOI': 'dc:identifier_doi',
             'studyPubMedID': 'dc:identifier_pmid',
             'studyPublicationStatus': 'dc:status'
-        },
-    'COPO':{
-        'PATHS_AND_URIS':{
+        }
+    },
+    'COPO': {
+        'PATHS_AND_URIS': {
             'COPO_COLLECTION_HEAD_FILE': PROJ_HOME + '/web/apps/web_copo/copo_maps/copo/dbmodels/collection_head_model.json'
         }
     },
     'METABOLIGHTS': {
 
     }
-}
-
-
-# define options for drop-downs
+}  # define options for drop-downs
 # wrapping items up in lists to maintain order
 # for upgrades, only update the label, but the 'value' field should remain intact
 # for referencing in codes.

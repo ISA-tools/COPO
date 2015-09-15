@@ -14,10 +14,10 @@ from master_settings import PROJ_HOME
 # The path to the files holding the configs are defined below:
 
 CONFIG_FILES = {
-    'INVESTIGATION_FILE': PROJ_HOME + '/web/apps/web_copo/uiconfigs/ena/uimodels/investigation.json',
-    'STUDY_SAMPLE_FILE': PROJ_HOME + '/web/apps/web_copo/uiconfigs/ena/uimodels/study_sample.json',
-    'STUDY_ASSAY_GENOME_SEQ_FILE': PROJ_HOME + '/web/apps/web_copo/uiconfigs/ena/uimodels/assay_genome_seq.json',
-    'STUDY_ASSAY_METAGENOME_SEQ_FILE': PROJ_HOME + '/web/apps/web_copo/uiconfigs/ena/uimodels/assay_metagenome_seq.json'
+    'INVESTIGATION_FILE': PROJ_HOME + '/web/apps/web_copo/copo_maps/ena/uimodels/investigation.json',
+    'STUDY_SAMPLE_FILE': PROJ_HOME + '/web/apps/web_copo/copo_maps/ena/uimodels/study_sample.json',
+    'STUDY_ASSAY_GENOME_SEQ_FILE': PROJ_HOME + '/web/apps/web_copo/copo_maps/ena/uimodels/assay_genome_seq.json',
+    'STUDY_ASSAY_METAGENOME_SEQ_FILE': PROJ_HOME + '/web/apps/web_copo/copo_maps/ena/uimodels/assay_metagenome_seq.json'
 
 }
 
@@ -31,6 +31,6 @@ CONFIG_FILES = {
 
 
 MODEL_FILES = {
-    'ISA_OBJECT_MODEL': PROJ_HOME + '/web/apps/web_copo/uiconfigs/ena/uimodels/object_model.json',
-    'SAMPLE_ATTRIBUTES': PROJ_HOME + '/web/apps/web_copo/uiconfigs/ena/uimodels/sample_characteristics.json'
+    'ISA_OBJECT_MODEL': PROJ_HOME + '/web/apps/web_copo/copo_maps/ena/uimodels/object_model.json',
+    'SAMPLE_ATTRIBUTES': PROJ_HOME + '/web/apps/web_copo/copo_maps/ena/uimodels/sample_characteristics.json'
 }
