@@ -249,6 +249,7 @@ def view_collection(request, collection_head_id):
             messages["user_defined_attribute_message"] = lkup.UI_INFO["user_defined_attribute_message"]
             messages["system_suggested_attribute_message"] = lkup.UI_INFO["system_suggested_attribute_message"]
 
+
             data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
                          'ena_collection_id': request.session['ena_collection_id'], 'profile_id': profile_id,
                          'ena_collection': ena_collection,
@@ -256,7 +257,7 @@ def view_collection(request, collection_head_id):
                          'ui_template': ui_template,
                          'study_types': study_types,
                          'sample_attributes': sample_attributes,
-                         'messages': messages
+                         'messages': messages,
                          }
         else:
             data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
@@ -301,6 +302,7 @@ def view_study(request, study_id):
 
     # get study types
     study_types = lkup.DROP_DOWNS['STUDY_TYPES']
+    files_already_in_study = 4;
 
     data_dict = {'collection_head_id': collection_head_id,
                  'profile_id': profile_id,
@@ -309,7 +311,8 @@ def view_study(request, study_id):
                  'ena_collection_id': ena_collection_id,
                  'study': study,
                  'study_types': study_types,
-                 'ui_template': ui_template
+                 'ui_template': ui_template,
+                 'files_already_in_study': 4,
                  }
     return render(request, 'copo/ena_study.html', data_dict, context_instance=RequestContext(request))
 

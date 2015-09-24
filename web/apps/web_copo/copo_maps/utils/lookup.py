@@ -190,7 +190,8 @@ UI_INFO = {
     'contact_add_info': 'Use form to add a study contact',
     'publication_doi_resolution': 'Enter a DOI or PubMed ID to be resolved',
     'user_defined_attribute_message': "This will be treated as a user-defined attribute",
-    'system_suggested_attribute_message': "This is a system-suggested attribute"
+    'system_suggested_attribute_message': "This is a system-suggested attribute",
+    'files_add_info': 'Use this dialog to specify the specific details of the file you just uploaded'
 }
 
 UI_LABELS = {

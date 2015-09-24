@@ -2,6 +2,7 @@ from django.conf.urls import patterns, url
 
 import web.apps.web_copo.rest.EnaRest as rest
 import web.apps.web_copo.api.views as api
+import web.apps.web_copo.wizard_views as wizard
 import web.apps.web_copo.repos.figshare as figshare
 from chunked_upload.views import *
 
@@ -12,6 +13,7 @@ urlpatterns = patterns('web_copo.rest.EnaRest',
                        url(r'^ena_new_sample/', rest.save_ena_sample_callback, name='save_ena_sample'),
                        url(r'^populate_samples_form/', rest.populate_samples_form, name='populate_samples_form'),
                        url(r'^get_sample_html/(?P<sample_id>\d+)', rest.get_sample_html, name='get_sample_html'),
+                       url(r'^get_next_wizard_stage/', wizard.get_next_wizard_stage, name='get_next_wizard_stage'),
                        url(r'^get_sample_html/', rest.get_sample_html, name='get_sample_html_param'),
                        url(r'^populate_data_dropdowns/', rest.populate_data_dropdowns, name='populate_data_dropdowns'),
                        url(r'^get_instrument_models/', rest.get_instrument_models, name='get_instrument_models'),
@@ -29,4 +31,5 @@ urlpatterns = patterns('web_copo.rest.EnaRest',
                        url(r'^check_figshare_credentials/', figshare.check_figshare_credentials, name='check_figshare_credentials'),
                        url(r'^set_figshare_credentials/', figshare.set_figshare_credentials, name='set_figshare_credentials'),
                        url(r'^small_file_upload/', api.upload_to_figshare_profile, name='receive_data_file'),
+
 )
