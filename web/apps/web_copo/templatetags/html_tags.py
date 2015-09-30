@@ -12,11 +12,32 @@ register = template.Library()
 
 @register.filter("generate_ena_tags")
 def generate_ena_tags(field_id):
+    return mark_safe(generate_tag(field_id))
+
+
+# this will handle calls from other routes (e.g., AJAX) besides Django
+def generate_ena_tags_2(field_id):
+    return generate_tag(field_id)
+
+
+def generate_tag(field_id):
+    html_tag = ""
+    out_list = get_fields_list(field_id)
+    for f in out_list:
+        if f["id"] == field_id:
+            html_tag = mark_safe(do_tag(f))
+            break
+    return html_tag
+
+
+@register.filter("generate_ena_tags")
+def generate_ena_tags(field_id):
     out_list = get_fields_list(field_id)
     for f in out_list:
         if f["id"] == field_id:
             return mark_safe(do_tag(f))
     return ""  # in order to render 'nothing' if no tag was generated
+
 
 
 @register.filter("generate_ena_labels")
@@ -782,7 +803,7 @@ def id_to_class(val):
 
 def do_tag(the_elem):
     elem_id = the_elem["id"]
-    elem_label = the_elem["label"]
+    elem_label = trim_parameter_value_label(the_elem["label"])
     elem_value = the_elem["default_value"]
     elem_control = the_elem["control"].lower()
     option_values = ""
@@ -804,3 +825,9 @@ def do_tag(the_elem):
             html_tag = html_all_tags[elem_control].format(**locals())
 
     return html_tag
+
+def trim_parameter_value_label(label):
+    if "Parameter Value" in label:
+        return str.capitalize(label[label.index('[')+1:label.index(']')])
+    else:
+        return label
