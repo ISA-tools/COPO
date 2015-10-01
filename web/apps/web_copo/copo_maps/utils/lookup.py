@@ -44,7 +44,8 @@ SCHEMAS = {
     },
     'COPO': {
         'PATHS_AND_URIS': {
-            'COPO_COLLECTION_HEAD_FILE': PROJ_HOME + '/web/apps/web_copo/copo_maps/copo/dbmodels/collection_head_model.json'
+            'COPO_COLLECTION_HEAD_FILE': PROJ_HOME + '/web/apps/web_copo/copo_maps/copo/dbmodels/collection_head_model.json',
+            'ASPERA_COLLECTION': PROJ_HOME + '/web/apps/web_copo/copo_maps/copo/dbmodels/aspera_db_model.json'
         }
     },
     'METABOLIGHTS': {
@@ -190,7 +191,9 @@ UI_INFO = {
     'contact_add_info': 'Use form to add a study contact',
     'publication_doi_resolution': 'Enter a DOI or PubMed ID to be resolved',
     'user_defined_attribute_message': "This will be treated as a user-defined attribute",
-    'system_suggested_attribute_message': "This is a system-suggested attribute"
+    'system_suggested_attribute_message': "This is a system-suggested attribute",
+    'component_delete_body': "<p>You are about to delete the highlighted {component_name!s}.</p> <p>Do you want to proceed?</p>",
+    'component_delete_title': "<h4 class='modal-title'>Confirm <span style='text-transform: capitalize;'>{component_name!s}</span> Delete</h4>"
 }
 
 UI_LABELS = {

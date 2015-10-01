@@ -211,18 +211,10 @@ $(document).ready(function () {
 
     function inspect_uploaded_files(file_id, tform) {
         //this function calls the server to ask it to inspect the files just uploaded and provide
-        //the front end with any information to autocomplete the input form
+        //the front end with any information to present to the user
 
-        //var finished = $('.alert-success')
-        //var file_id = $(finished[finished.length-1]).children('input').val()
-        type_warning = $('input[value=' + file_id + ']').parents().eq(5).find('.file_type_warning')
-        file_type = $('input[value=' + file_id + ']').parents().eq(5).find('select[name=select_file_type]')
-
-        //etuka start
         var ena_collection_id = $("#ena_collection_id").val();
         var studyId = $("#study_id").val();
-        //etuka stop
-
 
         $.ajax({
             url: '/rest/inspect_file/',
@@ -234,45 +226,44 @@ $(document).ready(function () {
                 'study_id': studyId
             }
         }).done(function (data) {
-            /*etuka begin*/
-            // Add an exception to NOT do gzip and hash as this takes up user's time; should be done in the background
+            //refresh study datafiles table
             $("#study_data_table_div").html(data.data_file_html);
-            $('#uploaded_file_id').val(file_id).trigger('change');
 
-            return false;
-            /*etuka end*/
+            //trigger event to refresh tooltips
+            var data_file_id = data.data_file_id
+            $('#new_data_file_id').val(data_file_id).trigger('change');
+            $('#new_data_file_id').val(""); //reset
 
-            //now search through list of filetypes in dropdown
-            //and make correct type selected
-            $(file_type).children().removeAttr('selected').each(function (index, val) {
-                if ($(val).val() == data.file_type) {
-                    $(val).prop('selected', 'selected')
-                }
-            })
-            if (data.file_type != 'unknown' && type_warning.children().length == 0) {
-                var warning_label = "<h4><small> We think your file is a </small>" +
-                    data.file_type + "<small> file. If this is incorrect please change accordingly.</small></h4><br/>"
-
-                $(type_warning).append(warning_label).fadeIn('fast')
-            }
-
-            //check if the file was gzipped, and if not send request to server to gzip
-            if (data.file_type == 'fastq' && data.gzip == false) {
+            //check if the file needs compression; send request to server to gzip
+            if (data.do_compress) {
                 $("input[value='" + file_id + "']").parent().next().children('.zip-image').fadeIn('4000')
                 $.ajax({
                     url: '/rest/zip_file/',
                     type: 'GET',
                     dataType: 'json',
-                    data: {'file_id': file_id},
+                    data: {
+                        'file_id': file_id,
+                        'ena_collection_id': ena_collection_id,
+                        'study_id': studyId
+                    },
                     success: function (data) {
                         $("input[value='" + file_id + "']").parent().next().children('.zip-image').fadeOut('4000')
                         //now change the file name and file size in the alert div
-                        var new_name = data.file_name
-                        var new_size = data.file_size
-                        var node = $('input[value=' + file_id + ']')
-                        $(node).next().find('strong').html(new_name)
-                        $(node).next().find('.file_size').html(new_size + ' MB')
-                        get_hash(file_id, tform)
+                        var new_name = data.file_name;
+                        var new_size = data.file_size;
+                        var node = $('input[value=' + file_id + ']');
+                        $(node).next().find('strong').html(new_name);
+                        $(node).next().find('.file_size').html(new_size + ' MB');
+
+                        //refresh study datafiles table
+                        $("#study_data_table_div").html(data.data_file_html);
+
+                        //trigger event to refresh tooltips
+                        $('#new_data_file_id').val(data_file_id).trigger('change');
+                        $('#new_data_file_id').val(""); //reset
+
+                        //do hash
+                        get_hash(file_id, data_file_id, tform)
                     },
                     error: function (data) {
                         console.log(data)
@@ -280,101 +271,41 @@ $(document).ready(function () {
                 })
             }
             else {
-                get_hash(file_id, tform)
+                get_hash(file_id, data_file_id, tform)
             }
         })
     }
 
 })
 
-function get_hash(id, tform) {
-    $("input[value='" + id + "']").parent().next().children('.hash-image').show()
+function get_hash(id, data_file_id, tform) {
+    $("input[value='" + id + "']").parent().next().children('.hash-image').show();
+
+    var ena_collection_id = $("#ena_collection_id").val();
+    var studyId = $("#study_id").val();
+
     $.ajax({
         url: "/rest/hash_upload/",
         type: "GET",
-        data: {file_id: id},
-        dataType: 'text'
+        data: {
+            file_id: id,
+            'ena_collection_id': ena_collection_id,
+            'study_id': studyId
+        },
+        dataType: 'json'
     }).done(function (data) {
         //now find the correct div and append the hash to it
-        var obj = jQuery.parseJSON(data)
-        $d = $("input[value='" + obj.file_id + "']").parent()
-        html = '<h5><span class="hash_span label label-success">' + obj.output_hash + '</span></h5>'
-        $d.children('ul').append(html)
-        $("input[value='" + id + "']").parent().next().children('.hash-image').hide()
-        //now finalise group update box heading and close panel if necessary
-        finalise_group(id, tform)
-    })
+        $d = $("input[value='" + data.file_id + "']").parent();
+        html = '<h5><span class="hash_span label label-success">' + data.output_hash + '</span></h5>';
+        $d.children('ul').append(html);
+        $("input[value='" + id + "']").parent().next().children('.hash-image').hide();
+
+        //refresh study datafiles table
+        $("#study_data_table_div").html(data.data_file_html);
+
+        //trigger event to refresh tooltips
+        $('#new_data_file_id').val(data_file_id).trigger('change');
+
+    });
 
 }
-
-function finalise_group(file_id, tform) {
-    //if this is the last upload
-    if ($(tform).fileupload('active') < 1) {
-        var total = 0
-        var file_type = ''
-        var ext = ''
-        //get all the input success alerts
-        $('input[value=' + file_id + ']').parents().eq(3).children('.alert-success').each(function (i, value) {
-            //iterate over them counting the sizes of their files
-            var f_name = $(value).parent().find('strong').html()
-            if (i == 0) {
-                file_type = f_name.split('.').pop()
-            }
-            else {
-                f_ext = f_name.split('.').pop()
-                if (file_type != f_ext) {
-                    file_type = 'Mixed'
-                }
-            }
-            total = total + parseFloat($(value).find('li[class=file_size]').text().replace(' MB', ''))
-            //console.log(parseFloat($(value).find('li[class=file_size]').text().replace(' MB', '')))
-
-        })
-        //$('input[value=' + file_id + ']').parents().eq(6).find('.panel-title').html(file_type + ' Files Group - ' + total + ' MB')
-        //$('input[value=' + file_id + ']').parents().eq(5).css('display', 'none')
-    }
-}
-/*
- get_upload_box_html()
-
- this code is to calculate an md5 checksum on the client side, but is very slow
- document.getElementById("file_upload").addEventListener("change", function() {
- var blobSlice = File.prototype.slice || File.prototype.mozSlice || File.prototype.webkitSlice,
- file = this.files[0],
- chunkSize = 2097152,                               // read in chunks of 2MB
- chunks = Math.ceil(file.size / chunkSize),
- currentChunk = 0,
- spark = new SparkMD5.ArrayBuffer(),
- frOnload = function(e) {
- console.log("read chunk nr", currentChunk + 1, "of", chunks);
- spark.append(e.target.result);                 // append array buffer
- currentChunk++;
-
- if (currentChunk < chunks) {
- loadNext();
- }
- else {
- console.log("finished loading");
- console.info("computed hash", spark.end()); // compute hash
- $('#md5').val(spark.end())
- }
- },
- frOnerror = function () {
- console.warn("oops, something went wrong.");
- };
-
- function loadNext() {
- var fileReader = new FileReader();
- fileReader.onload = frOnload;
- fileReader.onerror = frOnerror;
-
- var start = currentChunk * chunkSize,
- end = ((start + chunkSize) >= file.size) ? file.size : start + chunkSize;
-
- fileReader.readAsArrayBuffer(blobSlice.call(file, start, end));
- };
-
- loadNext();
- })
- */
-

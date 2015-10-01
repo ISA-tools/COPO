@@ -21,6 +21,7 @@ class Migration(migrations.Migration):
                 ('upload_id', models.CharField(editable=False, unique=True, default=chunked_upload.models.generate_upload_id, max_length=32)),
                 ('file', models.FileField(upload_to=chunked_upload.models.generate_filename, max_length=255)),
                 ('filename', models.CharField(max_length=255)),
+                ('hashed', models.CharField(max_length=255)),
                 ('panel_id', models.IntegerField(default=1)),
                 ('offset', models.PositiveIntegerField(default=0)),
                 ('created_on', models.DateTimeField(auto_now_add=True)),

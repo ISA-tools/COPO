@@ -1,31 +1,49 @@
 __author__ = 'tonietuk'
 
+import datetime
 from django import template
 from django.utils.safestring import mark_safe
 
 import web.apps.web_copo.copo_maps.utils.data_utils as d_utils
 from dal.ena_da import EnaCollection
 import web.apps.web_copo.copo_maps.utils.lookup as lkup
+from chunked_upload.models import ChunkedUpload
+import web.apps.web_copo.utils.EnaUtils as u
 
 register = template.Library()
 
 
+# given an ENA-based field id, generates the html tag corresponding to the definition in the config
 @register.filter("generate_ena_tags")
 def generate_ena_tags(field_id):
+    return mark_safe(generate_tag(field_id))
+
+
+# similar to the 'generate_ena_tags' method, but...
+# this handles calls from other routes (e.g., AJAX) besides Django
+def generate_ena_tags2(field_id):
+    return generate_tag(field_id)
+
+
+def generate_tag(field_id):
+    html_tag = ""
     out_list = get_fields_list(field_id)
     for f in out_list:
         if f["id"] == field_id:
-            return mark_safe(do_tag(f))
-    return ""  # in order to render 'nothing' if no tag was generated
+            html_tag = mark_safe(do_tag(f))
+            break
+    return html_tag
 
 
 @register.filter("generate_ena_labels")
 def generate_ena_labels(field_id):
     out_list = get_fields_list(field_id)
+    label = ""
     for f in out_list:
         if f["id"] == field_id:
-            return f["label"]
-    return ""
+            label = f["label"]
+            break
+    return label
 
 
 @register.filter("generate_sample_table")
@@ -51,6 +69,7 @@ def generate_sample_html(ena_collection_id):
         html_tag += "<tr>"
         for sh in sample_data["headers"][1:]:
             html_tag += "<th>" + sh + "</th>"
+        html_tag += "<th>Attributes</th>"
         html_tag += "<th>&nbsp;</th>"
         html_tag += "</tr>"
 
@@ -62,22 +81,17 @@ def generate_sample_html(ena_collection_id):
 
             html_tag += " <td>"
             attribute_data = generate_sample_characteristics_html(ena_collection_id, sdata[0])
-            html_tag += " <span> "
 
-            row_id = "samplerowdataspan_" + sdata[0]
-            html_tag += " <div id='{row_id!s}' style='display:none;'>{attribute_data!s}</div>".format(**locals())
+            html_tag += " <span class='popinfo' data-popinfo-title='Sample Attributes' data-popinfo-trigger='click'>"
+            html_tag += " <button title='click for attributes' class='btn btn-xs btn-info' type='button'><span class='fa fa-info-circle'></span></button>"
+            html_tag += " <span class='popinfo-content' style='display: none'>{attribute_data!s}</span>".format(
+                **locals())
+            html_tag += " </span>"
+            html_tag += " </td>"
 
-            row_id = "samplerowpopoverspan_" + sdata[0]
-            html_tag += " <a id='{row_id!s}' data-toggle='popover' " \
-                        "data-html='true' data-trigger='hover' data-placement='bottom' " \
-                        "title='Sample Attributes' data-content='' " \
-                        "class='sample-attributes' " \
-                        "href='#'>".format(**locals())
-            html_tag += " <i class='fa fa-info-circle copo-icon-info'></i></a>"
-            html_tag += " </span>&nbsp;".format(**locals())
-
+            html_tag += " <td>"
             row_id = "samplerowclonespan_" + sdata[0]
-            html_tag += " <span data-toggle='tooltip' title='Clone Sample'> "
+            html_tag += " <span data-toggle='tooltip' title='Clone Sample'> ".format(**locals())
             html_tag += " <a id='{row_id!s}' class='sample-clone' href='#'>".format(**locals())
             html_tag += " <i class='fa fa-clone fa-sm copo-icon-primaryr'></i></a>"
             html_tag += " </span>&nbsp;"
@@ -99,17 +113,67 @@ def generate_sample_html(ena_collection_id):
 def generate_sample_characteristics_html(ena_collection_id, sample_id):
     characteristics = EnaCollection().get_ena_sample(ena_collection_id, sample_id)["characteristics"]
     html_tag = "No attributes data!"
-    if len(characteristics) > 1:  # if we have at least one characteristic other than the organism
-        html_tag = "<table class=''>"
-        html_tag += " <tr><th>Term</th><th>Value</th><th>Unit</th></tr>"
+    if len(characteristics) > 1:  # if we have any other characteristics besides the organism
+
+        header_class = "Headingx"
+        cell_class = "Cellx"
+        row_class = "Rowx"
+
+        html_tag = "<div class='Tablex'>"
+        html_tag += "<div class='{header_class!s}'>".format(**locals())
+        html_tag += "<div class='{cell_class!s}'><p>term</p></div>".format(**locals())
+        html_tag += "<div class='{cell_class!s}'><p>value</p></div>".format(**locals())
+        html_tag += "<div class='{cell_class!s}'><p>unit</p></div>".format(**locals())
+        html_tag += "</div>"
         for att in characteristics[1:]:
             term = att["categoryTerm"]
             value = att["characteristics"]
             unit = "n/a"
             if "unit" in att:
                 unit = att["unit"]
-            html_tag += " <tr><td>{term!s}</td><td>{value!s}</td><td>{unit!s}</td></tr>".format(**locals())
-        html_tag += "</table>"
+            html_tag += "<div class='{row_class!s}'>".format(**locals())
+            html_tag += "<div class='{cell_class!s}'><p>{term!s}</p></div>".format(**locals())
+            html_tag += "<div class='{cell_class!s}'><p>{value!s}</p></div>".format(**locals())
+            html_tag += "<div class='{cell_class!s}'><p>{unit!s}</p></div>".format(**locals())
+            html_tag += "</div>"
+        html_tag += "</div>"
+    return html_tag
+
+
+def generate_file_attributes(file_id):
+    chunked_upload = ChunkedUpload.objects.get(id=int(file_id))
+
+    header_class = "Headingx"
+    cell_class = "Cellx"
+    row_class = "Rowx"
+
+    size = u.filesize_toString(chunked_upload.offset)
+
+    uploaded_on = (str(chunked_upload.completed_on)).split(".")[0]
+    dt_format1 = '%Y-%m-%d %H:%M:%S'
+    dt_format2 = '%d-%m-%Y %H:%M:%S'
+    uploaded_on = datetime.datetime.strptime(str(uploaded_on), dt_format1).strftime(dt_format2)
+    hash = chunked_upload.hash
+
+    html_tag = "<div class='Tablex'>"
+    # row
+    html_tag += "<div class='{row_class!s}'>".format(**locals())
+    html_tag += "<div class='{cell_class!s}'><p><strong>Size:</strong></p></div>".format(**locals())
+    html_tag += "<div class='{cell_class!s}'><p>{size!s}</p></div>".format(**locals())
+    html_tag += "</div>"
+    # row
+    html_tag += "<div class='{row_class!s}'>".format(**locals())
+    html_tag += "<div class='{cell_class!s}'><p><strong>Uploaded on:</strong></p></div>".format(**locals())
+    html_tag += "<div class='{cell_class!s}'><p>{uploaded_on!s}</p></div>".format(**locals())
+    html_tag += "</div>"
+    # row
+    html_tag += "<div class='{row_class!s}'>".format(**locals())
+    html_tag += "<div class='{cell_class!s}'><p><strong>Hash:</strong></p></div>".format(**locals())
+    html_tag += "<div class='{cell_class!s}'><p>{hash!s}</p></div>".format(**locals())
+    html_tag += "</div>"
+
+    html_tag += "</div>"
+
     return html_tag
 
 
@@ -143,24 +207,15 @@ def generate_study_samples_html(ena_collection_id, study_id):
         html_tag += " </tr>"
 
         for sd in samples:
-            sample_details = EnaCollection().get_ena_sample(ena_collection_id, sd["id"])
+            sample_id = sd["id"]
+            sample_details = EnaCollection().get_ena_sample(ena_collection_id, sample_id)
             if sample_details:
-                delete_id = sd["id"] + "_sample_delete"
-                describe_id = sd["id"] + "_sample_describe"
-                row_id = sd["id"] + "_sample_row"
-                html_tag += " <tr id='{row_id!s}'>".format(**locals())
+                html_tag += " <tr id='{sample_id!s}_sample_row'>".format(**locals())
                 for f_o in fields_property["dblabel"][1:]:
                     v = sample_details[f_o["db_name"]]
                     html_tag += " <td>{v!s}</td>".format(**locals())
                 html_tag += "<td>"
-
-                # html_tag += " <span data-toggle='tooltip' title='Describe Sample'><a id='{describe_id!s}' class='btn btn-xs btn-info sample-describe' ".format(
-                #     **locals())
-                # html_tag += " data-toggle='modal' data-target='#sampleDescriptionModal' href='#'>"
-                # html_tag += " <i class='fa fa-tags fa-sm'></i> Describe</a>"
-                # html_tag += " </span>"
-
-                html_tag += " <span data-toggle='tooltip' title='Delete Sample'><a id='{delete_id!s}' class='sample-delete' ".format(
+                html_tag += " <span data-toggle='tooltip' title='Delete Sample'><a target-component='sample' target-id='{sample_id!s}' target-title='sample' class='component-row-delete' ".format(
                     **locals())
                 html_tag += " data-toggle='modal' data-target='#studyComponentsDeleteModal' href='#'>"
                 html_tag += " <i class='fa fa-trash-o fa-sm copo-icon-danger'></i></a>"
@@ -168,6 +223,122 @@ def generate_study_samples_html(ena_collection_id, study_id):
 
                 html_tag += " </td>"
                 html_tag += "</tr>"
+        html_tag += "</table>"
+
+    return html_tag
+
+
+@register.filter("generate_study_data_table")
+def generate_study_data_table(ena_collection_id, study_id):
+    # serves Django template via the mark_safe pipe
+    # not necessarily supported by calls via other routes e.g., AJAX calls. for such other calls,
+    # use the 'generate_study_data_table2' function
+    return mark_safe(generate_study_data_html(ena_collection_id, study_id))
+
+
+def generate_study_data_table2(ena_collection_id, study_id):
+    return generate_study_data_html(ena_collection_id, study_id)
+
+
+def generate_study_data_html(ena_collection_id, study_id):
+    html_tag = ""
+    datafiles = EnaCollection().get_study_datafiles(ena_collection_id, study_id)
+
+    if datafiles:
+        html_tag += "<hr/>"
+        html_tag += "<table class='table-bordered'>"
+        html_tag += "<col width='50%'/>"
+        html_tag += "<col width='45%'/>"
+        html_tag += "<col width='5%'/>"
+
+        html_tag += "<tr>"
+        html_tag += "<th>File</th>"
+        html_tag += "<th>Sample</th>"
+        html_tag += "<th>Actions</th>"
+        html_tag += "</tr>"
+
+        for df in datafiles:
+            data_file_id = df["id"]  # id of the record
+            data_file_samples = df["samples"]  # samples
+            df_file_id = df["fileId"]  # file id
+
+            # get samples assigned to this study to populate list
+            samples = EnaCollection().get_study_samples(ena_collection_id, study_id)
+            samples_html_tag = ""
+            for sd in samples:
+                sample_id = sd["id"]
+                # get details of sample
+                sample_details = EnaCollection().get_ena_sample(ena_collection_id, sample_id)
+                if sample_details:
+                    selected = ""
+                    sample_name = sample_details["sampleName"]
+                    item_value = data_file_id + "," + sample_id
+                    if sample_id in data_file_samples:
+                        selected = "selected"
+                    samples_html_tag += " <option value='{item_value!s}' {selected!s}>{sample_name!s}</option>".format(
+                        **locals())
+
+            html_tag += "<tr id='{data_file_id!s}_datafile_row'>".format(**locals())
+
+            # get details of the file from the file object
+            chunked_upload = ChunkedUpload.objects.get(id=int(df_file_id))
+
+            # get file attributes from chunked upload
+            attribute_data = generate_file_attributes(df_file_id)
+
+            html_tag += " <td>"
+            html_tag += " <div style='display: inline-block;'>" + chunked_upload.filename + "</div>"
+            html_tag += " <div style='display: inline-block;'>"
+            html_tag += " <span class='popinfo' data-popinfo-title='File Attributes' data-popinfo-trigger='hover'>"
+            html_tag += " <a href='#' class='data-file-attribute'><i class='fa fa-info-circle'></i></a>"
+            html_tag += " <span class='popinfo-content' style='display: none'>{attribute_data!s}</span>".format(
+                **locals())
+            html_tag += " </span>"
+            html_tag += " </div>"
+            html_tag += "</td>"
+
+            html_tag += "<td>"
+            html_tag += "<div class='control-group'>"
+
+            html_tag += "<select class='file-sample-select' multiple placeholder='Attach Sample...'>"
+            html_tag += "<option value=""></option>"
+            html_tag += samples_html_tag
+            html_tag += "</select>"
+            html_tag += "</div>"
+
+            html_tag += "</td>"
+
+            html_tag += "<td>"
+            html_tag += "<div class='dropdown'>"
+            html_tag += "<button class='btn btn-primary btn-sm dropdown-toggle' title='click for actions' type='button' data-toggle='dropdown'>"
+            html_tag += "<span class='caret'></span></button>"
+            html_tag += "<ul class='dropdown-menu'>"
+            html_tag += " <li data-toggle='tooltip' title='Describe Data File'><a target-id='{data_file_id!s}' class='experiment-describe' ".format(
+                **locals())
+            html_tag += " data-toggle='modal' data-target='#sampleDescriptionModal' href='#'>"
+            html_tag += " <i class='fa fa-tags fa-sm copo-icon-info'></i></a>"
+            html_tag += " </li>"
+            html_tag += " <li data-toggle='tooltip' title='Send to Dropbox'><a target-id='{data_file_id!s}' class='repo-upload' ".format(
+                **locals())
+            html_tag += " href='#'>"
+            html_tag += " <i class='fa fa-cloud fa-sm copo-icon-primary'></i></a>"
+            html_tag += " </li>"
+
+            component_name = "data file"
+            component_message = lkup.UI_INFO["component_delete_body"].format(**locals())
+            component_title = lkup.UI_INFO["component_delete_title"].format(**locals())
+            component_title = "Welcome"
+
+            html_tag += " <li data-toggle='tooltip' title='Delete Data File'><a target-name='datafile' target-id='{data_file_id!s}' component-message='{component_message!s}' component-title='{component_title!s}' class='component-row-delete' ".format(
+                **locals())
+            html_tag += " data-toggle='modal' data-target='#studyComponentsDeleteModal' href='#'><div class='themess' style='display: none'>{component_title2!s}</div>".format(**locals())
+            html_tag += " <i class='fa fa-trash-o fa-sm copo-icon-danger'></i></a>"
+            html_tag += " </li>"
+            html_tag += "</ul></div>"
+            html_tag += "</td>"
+
+            html_tag += "</tr>"
+
         html_tag += "</table>"
 
     return html_tag
@@ -205,16 +376,15 @@ def generate_study_publications_html(ena_collection_id, study_id):
         html_tag += " </tr>"
 
         for pb in publications:
-            delete_id = pb["id"] + "_publication_delete"
-            row_id = pb["id"] + "_publication_row"
-            html_tag += " <tr id='{row_id!s}'>".format(**locals())
+            publication_id = pb["id"]
+            html_tag += " <tr id='{publication_id!s}_publication_row'>".format(**locals())
             for f_o in fields_property["dblabel"][1:]:
                 if f_o["label"]:
                     v = pb[f_o["db_name"]]
                     html_tag += " <td>{v!s}</td>".format(**locals())
             html_tag += "<td>"
 
-            html_tag += " <span data-toggle='tooltip' title='Delete Publication'><a id='{delete_id!s}' class='publication-delete' ".format(
+            html_tag += " <span data-toggle='tooltip' title='Delete Publication'><a target-component='publication' target-id='{publication_id!s}' target-title='publication' class='component-row-delete' ".format(
                 **locals())
             html_tag += " data-toggle='modal' data-target='#studyComponentsDeleteModal' href='#'>"
             html_tag += " <i class='fa fa-trash-o fa-sm copo-icon-danger'></i></a>"
@@ -259,16 +429,15 @@ def generate_study_contacts_html(ena_collection_id, study_id):
         html_tag += " </tr>"
 
         for pb in contacts:
-            delete_id = pb["id"] + "_contact_delete"
-            row_id = pb["id"] + "_contact_row"
-            html_tag += " <tr id='{row_id!s}'>".format(**locals())
+            contact_id = pb["id"]
+            html_tag += " <tr id='{contact_id!s}_contact_row'>".format(**locals())
             for f_o in fields_property["dblabel"][1:]:
                 if f_o["label"]:
                     v = pb[f_o["db_name"]]
                     html_tag += " <td>{v!s}</td>".format(**locals())
             html_tag += "<td>"
 
-            html_tag += " <span data-toggle='tooltip' title='Delete Contact'><a id='{delete_id!s}' class='contact-delete' ".format(
+            html_tag += " <span data-toggle='tooltip' title='Delete Contact'><a target-component='contact' target-id='{contact_id!s}' target-title='contact' class='component-row-delete' ".format(
                 **locals())
             html_tag += " data-toggle='modal' data-target='#studyComponentsDeleteModal' href='#'>"
             html_tag += " <i class='fa fa-trash-o fa-sm copo-icon-danger'></i></a>"
@@ -688,7 +857,7 @@ def get_samples_4_study_tree(ena_collection_id, study_id):
         html_tag += " <tr>"
         for f_o in fields_property["dblabel"][1:]:
             html_tag += " <th>" + f_o["label"] + "</th>"
-        html_tag += " <th>&nbsp;</th>"
+        html_tag += " <th><input id='assign_samples_study' name='assign_samples_study' class='check-pointer' type='checkbox' value='yes'></th>"
         html_tag += " </tr>"
 
         for all_sample in all_samples:
@@ -743,19 +912,13 @@ def lookup_collection_type_label(val):
 
 
 def get_fields_list(field_id):
-    main_dict = d_utils.get_ena_ui_template_as_dict()
-    out_list = []
-
     key_split = field_id.split(".")
-    fmtout = "main_dict"
-    if len(key_split) >= 2:
-        order = len(key_split) - 1
-        for i in range(0, order):
-            fmtout += "['" + key_split[i] + "']"
-        fmtout += "['fields']"
-        out_list = eval(fmtout)
+    new_dict = d_utils.get_ena_ui_template_as_dict()
 
-    return out_list
+    for kp in key_split[:-1]:
+        new_dict = new_dict[kp]
+
+    return new_dict["fields"]
 
 
 @register.filter("study_type_drop_down")

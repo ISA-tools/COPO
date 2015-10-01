@@ -196,6 +196,108 @@ h1 {
     /*text-shadow: 1px 1px 1px #ccc;*/
 }
 
+/*test pop*/
 
+/* CUSTOM POPOVERS */
 
+.popover1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1060;
+    display: none;
+    min-width: 250px;
+    padding: 1px;
+    text-align: left;
+    white-space: nowrap;
+    background-color: #fff !important;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 5px !important;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+    color: #1b2b32;
+    font-size: 12px;
+}
+
+.popover-title {
+    padding: 7px 9px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 16px;
+    text-align: left;
+    color: #1b2b32;
+    background-color: #D4E4ED;
+    border-bottom: 1px solid #ccc;
+    border-radius: 5px 5px 0 0;
+}
+
+.popover1.left {
+    margin-left: -10px;
+}
+
+.popover1 > .arrow,
+.popover1 > .arrow:after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+}
+
+.popover1 > .arrow {
+    border-width: 11px;
+}
+
+.popover1 > .arrow:after {
+    content: "";
+    border-width: 10px;
+}
+
+.popover1.left > .arrow {
+    top: 50%;
+    right: -11px;
+    margin-top: -11px;
+    border-right-width: 0;
+    border-left-color: #999;
+    border-left-color: rgba(0, 0, 0, .25);
+}
+
+.popover1.left > .arrow:after {
+    right: 1px;
+    bottom: -10px;
+    content: " ";
+    border-right-width: 0;
+    border-left-color: #ebebeb;
+}
+
+/* END CUSTOM POPOVERS*/
+
+/*div table */
+.Tablex {
+    display: table;
+}
+
+.Headingx {
+    display: table-row;
+    font-weight: bold;
+    /*text-align: left;*/
+}
+
+.Rowx {
+    display: table-row;
+}
+
+.Cellx {
+    display: table-cell;
+    /*border: dotted;*/
+    border-width: 0.1em;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/*div table end*/
 

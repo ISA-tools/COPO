@@ -26,10 +26,6 @@
     <link rel="stylesheet" href="{% static 'copo/css/copo/collection.css' %}">
     <link rel="stylesheet" href="{% static 'copo/css/copo/study.css' %}">
 
-    <!-- jquery steps plugin css -->
-    <link rel="stylesheet" href="{% static 'copo/css/steps/steps.css' %}">
-    <link rel="stylesheet" href="{% static 'copo/css/steps/jquery.bootgrid.css' %}">
-
 {% endblock %}
 
 
@@ -66,6 +62,8 @@
         <input type="hidden" id="sample_attr_counter" value="1"/>
 
         <input type="hidden" id="file_id" value=""/>
+
+        <input type="hidden" id="new_data_file_id" value=""/>
 
         <!-- this hidden field is to keep track of the number of upload info divs currently displaying-->
         <input type="hidden" id="upload_info_count" value="0"/>
@@ -106,132 +104,9 @@
 
     <!--test begins-->
 
-
-    {#        <div id="example-basic">#}
-    {#            {% for sf in ui_template.fields %}#}
-    {#                <h3>{{ sf.id }}</h3>#}
-    {#                <section>#}
-    {#                    {{ sf.id|generate_ena_tags }}#}
-    {#                </section>#}
-    {#            {% endfor %}#}
-    {#        </div>#}
-
-
-
-{#    <table id="grid-basic" class="table table-condensed table-hover table-striped">#}
-{#        <thead>#}
-{#        <tr>#}
-{#            <th data-column-id="id" data-type="numeric">ID</th>#}
-{#            <th data-column-id="sender">Sender</th>#}
-{#            <th data-column-id="received" data-order="desc">Received</th>#}
-{#        </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
-{#        <tr>#}
-{#            <td>10238</td>#}
-{#            <td>eduardo@pingpong.com</td>#}
-{#            <td>14.10.2013</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <td>102338</td>#}
-{#            <td>eduardo@pingpong.com</td>#}
-{#            <td>14.10.2013</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <td>102238</td>#}
-{#            <td>eduardo@pingpong.com</td>#}
-{#            <td>14.10.2013</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <td>104238</td>#}
-{#            <td>eduardo@pingpong.com</td>#}
-{#            <td>14.10.2013</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <td>1021138</td>#}
-{#            <td>eduardo@pingpong.com</td>#}
-{#            <td>14.10.2013</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <td>1022238</td>#}
-{#            <td>eduardo@pingpong.com</td>#}
-{#            <td>14.10.2013</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <td>1033238</td>#}
-{#            <td>eduardo@pingpong.com</td>#}
-{#            <td>14.10.2013</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <td>10331238</td>#}
-{#            <td>eduardo@pingpong.com</td>#}
-{#            <td>14.10.2013</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <td>1012238</td>#}
-{#            <td>eduardo@pingpong.com</td>#}
-{#            <td>14.10.2013</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <td>1024338</td>#}
-{#            <td>tonietuk@pingpong.com</td>#}
-{#            <td>14.10.2013</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <td>1015238</td>#}
-{#            <td>eduardo@pingpong.com</td>#}
-{#            <td>14.10.2013</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <td>1066238</td>#}
-{#            <td>eduardo@pingpong.com</td>#}
-{#            <td>14.10.2013</td>#}
-{#        </tr>#}
-{#        <tr>#}
-{#            <td>1027738</td>#}
-{#            <td>eduardo@pingpong.com</td>#}
-{#            <td>14.10.2013</td>#}
-{#        </tr>#}
-{#        </tbody>#}
-{#    </table>#}
-
-
+    <button type="button" class="btn btn-default take-me-out" target-did="welcome to the world">Default</button>
 
     <!--test ends-->
-
-    <div style="display: inline-block;"><h2 class="h2"><span
-            id="study_reference_type_span">{{ study.studyCOPOMetadata.studyReference }}</span> (<span
-            id="study_type_span">{{ study.studyCOPOMetadata.studyType|lookup_study_type_label }}</span>)
-    </h2></div>
-    <div style="display: inline-block;"><a id="study_reference_qupdate" href="#"
-                                           title="Quick Update Study Type/Reference">
-        <i class="fa fa-pencil-square-o"></i></a></div>
-
-    <div class="grey-bg" id="show_quick_ref_update" style="display: none;">
-        <form role="form" id="study_type_qupdate_form" action="{% url 'copo:add_to_study' %}"
-              method="post">
-            {% csrf_token %}
-            <div style="white-space: nowrap; margin-bottom: 0.5em;">
-                <div style="display: inline-block;">
-                    <input type="text" name="study_reference_quick_update" id="study_reference_quick_update"
-                           class="form_control input-copo"
-                           value="{{ study.studyCOPOMetadata.studyReference }}"/>
-                </div>
-                <div style="display: inline-block;">
-                    <select name="study_type_quick_update" id="study_type_quick_update"
-                            class="form-control">
-                        {{ study.studyCOPOMetadata.studyType|study_type_drop_down }}
-                    </select>
-                </div>
-                <div style="display: inline-block;">
-                    <span id="study_type_qupdate_img" hidden="hidden"><img src="/static/copo/img/ajax_loader1.gif"
-                                                                           alt="Saving..."></span>
-                    <button type="button" id="btn_study_type_quick_update" class="btn btn-primary btn-xs">Update
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
 
     <div class="panel-group" id="accordion">
 
@@ -289,6 +164,43 @@
                     </div>
                     <div class="study-component-table-div" id="study_samples_table_div">
                         {{ ena_collection_id|generate_study_samples_table:study.studyCOPOMetadata.id }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel for Study Data Files -->
+        <div class="panel panel-default" id="panel7">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-target="#collapse7" href="#collapse7">
+                        Study Data Files
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseSix" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div style="display: inline-block; text-indent: 0.5em;">
+                        <form enctype="multipart/form-data" id="upload_0" method="POST"
+                              action="/rest/receive_data_file_chunked/"
+                              style="margin-right:40px">
+                            {% csrf_token %}
+                        <span id="upload_files_button"
+                              class="btn btn-primary btn-xs fileinput-button">
+                            <span>Select files...</span>
+                            <input type="file" name="file"
+                                   onchange="get_chunk_size(event)" multiple/>
+                            <input type="hidden" name="upload_id" value=""/>
+                            <input type="hidden" name="panel_ordering"
+                                   value="0"/>
+                            <input type="hidden" name="exp_id" value=""/>
+                        </span>
+                        </form>
+                        <div class="file_status_label"></div>
+                    </div>
+
+                    <div id="study_data_table_div">
+                        {{ ena_collection_id|generate_study_data_table:study.studyCOPOMetadata.id }}
                     </div>
                 </div>
             </div>
@@ -392,43 +304,6 @@
                 </div>
                 <div class="study-component-table-div" id="study_contacts_table_div">
                     {{ ena_collection_id|generate_study_contacts_table:study.studyCOPOMetadata.id }}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Panel for Study Assays -->
-    <div class="panel panel-default" id="panel7">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a data-toggle="collapse" data-target="#collapse7" href="#collapse7">
-                    Study Data Files
-                </a>
-            </h4>
-        </div>
-        <div id="collapseSix" class="panel-collapse collapse in">
-            <div class="panel-body">
-                <div style="display: inline-block; text-indent: 0.5em;">
-                    <form enctype="multipart/form-data" id="upload_0" method="POST"
-                          action="/rest/receive_data_file_chunked/"
-                          style="margin-right:40px">
-                        {% csrf_token %}
-                        <span id="upload_files_button"
-                              class="btn btn-primary btn-xs fileinput-button">
-                            <span>Select files...</span>
-                            <input type="file" name="file"
-                                   onchange="get_chunk_size(event)" multiple/>
-                            <input type="hidden" name="upload_id" value=""/>
-                            <input type="hidden" name="panel_ordering"
-                                   value="0"/>
-                            <input type="hidden" name="exp_id" value=""/>
-                        </span>
-                    </form>
-                    <div class="file_status_label"></div>
-                </div>
-
-                <div class="study-component-table-div" id="study_descriptors_table_div">
-                    {#                    {{ ena_collection_id|generate_study_protocols_table:study.studyCOPOMetadata.id }}#}
                 </div>
             </div>
         </div>
@@ -575,7 +450,9 @@
 
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Confirm <span id="delete_component"></span> Delete</h4>
+                    <h4 class="modal-title" id="myModalLabel">Confirm <span id="delete_component"
+                                                                            style="text-transform: capitalize;"></span>
+                        Delete</h4>
                 </div>
 
                 <div class="modal-body">
@@ -583,8 +460,10 @@
                           method="post">
                         {% csrf_token %}
                         <input type="hidden" id="target_delete_id" value="">
+                        <input type="hidden" id="target_delete_component" value="">
 
-                        <p>You are about to delete the highlighted <span id="delete_component_message"></span>.</p>
+                        <p>You are about to delete the highlighted <span id="delete_component_message"
+                                                                         style="text-transform: lowercase;"></span>.</p>
 
                         <p>Do you want to proceed?</p>
 
@@ -602,7 +481,7 @@
     </div>
 
     <!-- Modal for assigning study samples -->
-    <div class="modal fade " id="samplesAssignModal" tabindex="-1" role="dialog"
+    <div class="modal copo-modal2 fade" id="samplesAssignModal" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -627,7 +506,7 @@
                           method="post">
                         {% csrf_token %}
 
-                        <div id="sample_tree_table"></div>
+                        <div class="study-component-table-div" id="sample_tree_table"></div>
                         <hr/>
                         <div id="sample_assignment_warning" class="alert alert-danger" role="alert" hidden="hidden">
                             <strong>Note! &nbsp;</strong>{{ "sample_unassign_warning"|lookup_info }}
@@ -644,14 +523,13 @@
         </div>
     </div>
 
-
-
-
 {% endblock %}
 
 
 {% block js_block %}
+    <script src="{% static 'copo/js/collection_functions.js' %}"></script>
     <script src="{% static 'copo/js/study.js' %}"></script>
+    <script src="{% static 'copo/js/repojs.js' %}"></script>
     <script src="{% static 'copo/js/jquery.form.js' %}"></script>
     <script src="{% static 'copo/js/bootstrapValidator.js' %}"></script>
     <script src="{% static 'copo/js/uploader/vendor/jquery.ui.widget.js' %}"></script>
@@ -659,10 +537,8 @@
     <script src="{% static 'copo/js/uploader/jquery.fileupload.js' %}"></script>
     <script src="{% static 'copo/js/uploader/jquery.fileupload-process.js' %}"></script>
     <script src="{% static 'copo/js/uploader/jquery.fileupload-ui.js' %}"></script>
-    <script src="{% static 'copo/js/uploader/upload_wrapper.js' %}"></script>
+    <script src="{% static 'copo/js/uploader/ena_upload_wrapper.js' %}"></script>
     <script src="{% static 'copo/js/uploader/bootstrap_panel.js' %}"></script>
     <script src="{% static 'copo/js/uploader/upload_util.js' %}"></script>
-    <script src="{% static 'copo/js/steps/jquery.steps.min.js' %}"></script>
-    <script src="{% static 'copo/js/steps/jquery.bootgrid.js' %}"></script>
 
 {% endblock %}

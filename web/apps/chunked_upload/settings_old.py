@@ -21,7 +21,7 @@ EXPIRATION_DELTA = getattr(settings, 'CHUNKED_UPLOAD_EXPIRATION_DELTA',
 
 
 # Path where uploading files will be stored until completion
-DEFAULT_UPLOAD_PATH = 'chunked_uploads/%Y/%m/%d'
+DEFAULT_UPLOAD_PATH = 'chunked_uploads/%Y_%m_%d'
 UPLOAD_PATH = getattr(settings, 'CHUNKED_UPLOAD_PATH', DEFAULT_UPLOAD_PATH)
 
 

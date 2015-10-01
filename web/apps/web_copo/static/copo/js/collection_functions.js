@@ -151,3 +151,28 @@ function toggle_collection_type(collection_type) {
 }
 
 
+//function to refresh tooltips and popup after automatic component redisplay
+function refresh_tool_tips() {
+    $("[data-toggle='tooltip']").tooltip();
+    $('[data-toggle="popover"]').popover();
+
+    //implements custom popover by extending Bootstrap's
+    $('.popinfo').each(function () {
+        var elem = $(this);
+        var title = elem.attr('data-popinfo-title');
+        var trigger = elem.attr('data-popinfo-trigger');
+
+        elem.popover({
+            trigger: trigger,
+            toggle: 'popover',
+            placement: 'left',
+            title: title,
+            html: true,
+            template: '<div class="popover1" role="tooltip"><div class="arrow"></div><div class="popover-title"></div><div class="popover-content"></div></div>',
+            content: elem.find('.popinfo-content').html()
+        });
+    });
+}
+
+
+

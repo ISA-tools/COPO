@@ -27,8 +27,7 @@ CONFIG_FILES = {
 # For instance, access the elements associated with 'investigation'
 # as: investigation.fields, or, investigation.investigationContacts.fields
 # or as a dictionary: ['investigation']['fields'].
-# This path to the model file is defined in the following dictionary:
-
+# The path to the model file is defined in the following json:
 
 MODEL_FILES = {
     'ISA_OBJECT_MODEL': PROJ_HOME + '/web/apps/web_copo/copo_maps/ena/uimodels/object_model.json',

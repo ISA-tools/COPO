@@ -10,8 +10,8 @@ import dal.mongo_util as mutil
 
 
 
-#from dal.resource import *
-#from web_copo.mongo.mongo_util import *
+# from dal.resource import *
+# from web_copo.mongo.mongo_util import *
 import random
 import web.apps.web_copo.copo_maps.utils.data_utils as d_utils
 
@@ -33,13 +33,12 @@ class EnaCollection(Resource):
         return EnaCollections.insert(doc)
 
     def add_ena_study(self, ena_collection_id, study_type_list):
-        # first study in list is left blank (flat set to delete though)
-        # for the purpose of cloning subsequent ones
-        doc = EnaCollections.find_one({"_id": ObjectId(ena_collection_id)})['studies'][0]
+        # get study template from the ENA db template
+        study_template = d_utils.get_ena_db_template()['studies'][0]
 
-        if doc:
+        if study_template:
             for st in study_type_list:
-                study_dict = doc
+                study_dict = study_template
                 study_dict["studyCOPOMetadata"]["id"] = uuid.uuid4().hex
                 study_dict["studyCOPOMetadata"]["studyType"] = st['study_type']
 
@@ -56,10 +55,11 @@ class EnaCollection(Resource):
                                       {"$push": {"studies": study_dict}})
 
     def clone_ena_study(self, ena_collection_id, cloned_elements):
-        doc = EnaCollections.find_one({"_id": ObjectId(ena_collection_id)})['studies'][0]
+        # get study template from the ENA db template
+        study_template = d_utils.get_ena_db_template()['studies'][0]
 
-        if doc:
-            study_dict = doc
+        if study_template:
+            study_dict = study_template
 
             study_dict["studyCOPOMetadata"]["id"] = uuid.uuid4().hex
             study_dict["studyCOPOMetadata"]["deleted"] = "0"
@@ -272,6 +272,33 @@ class EnaCollection(Resource):
 
         return data[0] if data else []
 
+    def add_file_to_ena_study(self, study_id, ena_collection_id, file_id):
+        # get study dataFile template from the ENA db template
+        datafile_template = d_utils.get_ena_db_template()['studies'][0]['studyCOPOMetadata']['dataFiles'][0]
+        data_file_id = uuid.uuid4().hex
+        if datafile_template:
+            datafile_dict = datafile_template
+            datafile_dict["id"] = data_file_id
+            datafile_dict["fileId"] = file_id
+            datafile_dict["deleted"] = "0"
+
+            EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
+                                  {'$push': {"studies.$.studyCOPOMetadata.dataFiles": datafile_dict}})
+        return data_file_id
+
+    def update_ena_datafile(self, study_id, ena_collection_id, data_file_id, fields):
+        data_file = self.get_study_datafile(study_id, ena_collection_id, data_file_id)
+        all_data_files = self.get_study_datafiles_all(ena_collection_id, study_id)
+
+        # get index of the target record in the list of datafiles
+        indx = all_data_files.index(data_file)
+
+        if indx:
+            for k, v in fields.items():
+                EnaCollections.update(
+                    {"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
+                    {'$set': {"studies.$.studyCOPOMetadata.dataFiles." + str(indx) + "." + k: v}})
+
     def add_ena_sample(self, ena_collection_id, study_type_list, auto_fields):
         ena_d = d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.fields
         auto_fields = ast.literal_eval(auto_fields)
@@ -310,15 +337,15 @@ class EnaCollection(Resource):
         for category in categories:
             index_part = category.split("categoryTerm_")[1]
             if auto_fields['categoryTerm_' + index_part]:
-                    ch = {
-                        "categoryTerm": auto_fields['categoryTerm_' + index_part],
-                        "characteristics": auto_fields['characteristics_' + index_part],
-                        "termSourceREF": auto_fields['termSourceREF_' + index_part],
-                        "termAccessionNumber": auto_fields['termAccessionNumber_' + index_part],
-                        "unit": auto_fields['unit_' + index_part]
-                    }
+                ch = {
+                    "categoryTerm": auto_fields['categoryTerm_' + index_part],
+                    "characteristics": auto_fields['characteristics_' + index_part],
+                    "termSourceREF": auto_fields['termSourceREF_' + index_part],
+                    "termAccessionNumber": auto_fields['termAccessionNumber_' + index_part],
+                    "unit": auto_fields['unit_' + index_part]
+                }
 
-                    characteristics.append(ch)
+                characteristics.append(ch)
 
         a["characteristics"] = characteristics
 
@@ -370,15 +397,15 @@ class EnaCollection(Resource):
         for category in categories:
             index_part = category.split("categoryTerm_")[1]
             if auto_fields['categoryTerm_' + index_part]:
-                    ch = {
-                        "categoryTerm": auto_fields['categoryTerm_' + index_part],
-                        "characteristics": auto_fields['characteristics_' + index_part],
-                        "termSourceREF": auto_fields['termSourceREF_' + index_part],
-                        "termAccessionNumber": auto_fields['termAccessionNumber_' + index_part],
-                        "unit": auto_fields['unit_' + index_part]
-                    }
+                ch = {
+                    "categoryTerm": auto_fields['categoryTerm_' + index_part],
+                    "characteristics": auto_fields['characteristics_' + index_part],
+                    "termSourceREF": auto_fields['termSourceREF_' + index_part],
+                    "termAccessionNumber": auto_fields['termAccessionNumber_' + index_part],
+                    "unit": auto_fields['unit_' + index_part]
+                }
 
-                    characteristics.append(ch)
+                characteristics.append(ch)
 
         EnaCollections.update(
             {"_id": ObjectId(ena_collection_id), "collectionCOPOMetadata.samples.id": sample_id},
@@ -425,11 +452,44 @@ class EnaCollection(Resource):
 
         return mutil.verify_doc_type(doc)
 
+    def get_study_datafiles(self, ena_collection_id, study_id):
+        doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
+                                        {"$unwind": "$studies"},
+                                        {"$match": {"studies.studyCOPOMetadata.id": study_id}},
+                                        {"$unwind": "$studies.studyCOPOMetadata.dataFiles"},
+                                        {"$match": {"studies.studyCOPOMetadata.dataFiles.deleted": "0"}},
+                                        {"$group": {"_id": "$_id",
+                                                    "data": {"$push": "$studies.studyCOPOMetadata.dataFiles"}}}])
+
+        return mutil.verify_doc_type(doc)
+
+    def get_study_datafiles_all(self, ena_collection_id, study_id):
+        doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
+                                        {"$unwind": "$studies"},
+                                        {"$match": {"studies.studyCOPOMetadata.id": study_id}},
+                                        {"$unwind": "$studies.studyCOPOMetadata.dataFiles"},
+                                        {"$group": {"_id": "$_id",
+                                                    "data": {"$push": "$studies.studyCOPOMetadata.dataFiles"}}}])
+
+        return mutil.verify_doc_type(doc)
+
+    def get_study_datafile(self, study_id, ena_collection_id, data_file_id):
+        doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
+                                        {"$unwind": "$studies"},
+                                        {"$match": {"studies.studyCOPOMetadata.id": study_id}},
+                                        {"$unwind": "$studies.studyCOPOMetadata.dataFiles"},
+                                        {"$match": {"studies.studyCOPOMetadata.dataFiles.id": data_file_id}},
+                                        {"$group": {"_id": "$_id",
+                                                    "data": {"$push": "$studies.studyCOPOMetadata.dataFiles"}}}])
+
+        data = mutil.verify_doc_type(doc)
+        return data[0] if data else {}
+
     def add_sample_to_ena_study(self, study_id, ena_collection_id, sample):
         EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
                               {'$push': {"studies.$.studyCOPOMetadata.samples": sample}})
 
-    def add_delete_samples_in_study(self, study_id, ena_collection_id, add_list, remove_list):
+    def assign_samples_in_study(self, study_id, ena_collection_id, add_list, remove_list):
         if remove_list:
             for sample_id in remove_list:
                 self.hard_delete_sample_from_study(sample_id, study_id, ena_collection_id)
@@ -440,7 +500,7 @@ class EnaCollection(Resource):
                 a = {'id': sample_id, 'deleted': '0'}
                 self.add_sample_to_ena_study(study_id, ena_collection_id, a)
 
-    # this allows the total removal of the specified sample record from a study
+    # this function allows the total removal of the specified sample record from a study
     def hard_delete_sample_from_study(self, sample_id, study_id, ena_collection_id):
         EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
                               {'$pull': {"studies.$.studyCOPOMetadata.samples": {'id': sample_id}}})

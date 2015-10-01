@@ -9,10 +9,9 @@
     <title>{% block title %}COPO - Collaborative Open Plant Omics{% endblock %}</title>
 
 
-
-
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{% static 'copo/css/bootstrap/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'copo/css/bootstrap/bootstrap-dialog.css' %}">
 
     <link rel="stylesheet" href="{% static 'copo/css/bootstrap/bootstrap-theme.css' %}">
     <link rel="stylesheet" href="{% static 'copo/css/copo/style.css' %}">
@@ -23,6 +22,8 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{% static 'copo/css/awesome/css/font-awesome.css' %}">
 
+    <!-- Selectize Components -->
+    <link rel="stylesheet" href="{% static 'copo/css/selectize/selectize.css' %}">
 
     <!-- Google Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Quattrocento+Sans' rel='stylesheet' type='text/css'>
@@ -35,6 +36,9 @@
     <script src="{% static 'copo/js/jquery.cookie.js' %}"></script>
     <script src="{% static 'copo/js/serialize_form_json.js' %}"></script>
     <script src="{% static 'copo/js/bootstrap.js' %}"></script>
+    <script src="{% static 'copo/js/bootstrap-dialog.js' %}"></script>
+
+    <script src="{% static 'copo/js/selectize.js' %}"></script>
 
     <!-- Additional javascripts -->
     {% block js_block %}{% endblock %}
@@ -61,7 +65,8 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <header>
-                <h1><a href="{% url 'copo:index' %}"><span class="bolder">COPO</span> - Collaborative Open Plant Omics</a></h1>
+                <h1><a href="{% url 'copo:index' %}"><span class="bolder">COPO</span> - Collaborative Open Plant
+                    Omics</a></h1>
                 <nav>
                     <ul>
                         <li class="dropdown">
@@ -73,20 +78,22 @@
                             </a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
                                 {% for issue in issue_description_list %}
-                                    <li class="status" role="presentation">
-                                        {% autoescape off %}{{ issue }}{% endautoescape %}
+                                <li class="status" role="presentation">
+                                    {% autoescape off %}{{ issue }}{% endautoescape %}
 
-                                    </li>
+                                </li>
                                 {% empty %}
-                                    <li class="status" role="presentation">
-                                        Profile up to date.
-                                    </li>
+                                <li class="status" role="presentation">
+                                    Profile up to date.
+                                </li>
                                 {% endfor %}
                             </ul>
                         </li>
-                        <li><a href="{% url 'copo:index' %}"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span>Alerts<span
+                        <li><a href="{% url 'copo:index' %}"><span class="glyphicon glyphicon-bell"
+                                                                   aria-hidden="true"></span>Alerts<span
                                 class="badge"></span></a></li>
-                        <li><a href="{% url 'copo:index' %}"><span class="glyphicon glyphicon-cog"></span>Settings</a></li>
+                        <li><a href="{% url 'copo:index' %}"><span class="glyphicon glyphicon-cog"></span>Settings</a>
+                        </li>
                         <li class="dropdown">
                             <a id="dropdownMenu1" data-toggle="dropdown"
                                aria-expanded="true">

@@ -62,12 +62,6 @@ $(document).ready(function () {
             do_remove_study_type(event);
         });
 
-        //handle click event for sample attributes
-        $("#sample_table_div").on('click', 'a.sample-attributes', function (event) {
-            event.preventDefault();
-            return false;
-        });
-
         //handle click event for delete sample attribute
         $("#sample_attributes_div").on('click', 'a.sample-attribute-remove', function (event) {
             do_remove_sample_attribute(event);
@@ -136,14 +130,6 @@ $(document).ready(function () {
                 refresh_study_clone_info();
             }
         });
-    }
-
-
-    function do_get_sample_attributes(obj) {
-        var sample_id = obj.attr('id').split("_")[1];
-        var dataNode = $('#samplerowdataspan_' + sample_id).html();
-        data = dataNode;
-        obj.attr('data-content', data).data('bs.popover').setContent();
     }
 
     function do_check_all(event) {
@@ -771,19 +757,5 @@ $(document).ready(function () {
         });
 
     }
-
-    function refresh_tool_tips() {
-        $("[data-toggle='tooltip']").tooltip();
-        $("[data-toggle='popover']").popover();
-
-        $("[data-toggle='popover']").on('show.bs.popover', function () {
-            if ((typeof $(this).attr("id") !== "undefined")) {
-                if ($(this).attr('id').split("_")[0] == "samplerowpopoverspan") {
-                    do_get_sample_attributes($(this));
-                }
-            }
-        });
-    }
-
 
 })

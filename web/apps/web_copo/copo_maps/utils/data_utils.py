@@ -57,13 +57,14 @@ def get_sample_attributes():
 
 
 def json_to_pytype(path_to_json):
-        data = ""
-        with open(path_to_json, encoding='utf-8') as data_file:
-            data = json.loads(data_file.read())
-        return data
+    data = ""
+    with open(path_to_json, encoding='utf-8') as data_file:
+        data = json.loads(data_file.read())
+    return data
+
+
 def get_collection_head_dc():
-    f_path=lookup.SCHEMAS['COPO']['PATHS_AND_URIS']['COPO_COLLECTION_HEAD_FILE']
+    f_path = lkup.SCHEMAS['COPO']['PATHS_AND_URIS']['COPO_COLLECTION_HEAD_FILE']
     with open(f_path) as json_data:
         data = json.load(json_data)
     return data
-

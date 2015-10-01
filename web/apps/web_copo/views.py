@@ -16,7 +16,7 @@ from django.contrib.auth.models import User
 from django.template import RequestContext
 
 from error_codes import DB_ERROR_CODES, UI_ERROR_CODES
-from web.apps.web_copo.repos.aspera import do_aspera_transfer
+from web.apps.web_copo.repos.aspera import AsperaTransfer
 
 log = logging.getLogger(__name__)
 log.debug(sys.path)
@@ -27,7 +27,6 @@ from dal.ena_da import EnaCollection
 from dal.orcid_da import Orcid
 from web.apps.web_copo.copo_maps.utils.data_utils import get_collection_head_dc
 
-from web.apps.web_copo.repos.irods import *
 from chunked_upload.models import ChunkedUpload
 from web.apps.web_copo.api.views import *
 import web.apps.web_copo.copo_maps.utils.lookup as lkup
@@ -38,6 +37,7 @@ from dal import ObjectId
 from master_settings import MEDIA_ROOT
 from dal.copo_base_da import DataSchemas
 from api.doi_metadata import DOI2Metadata
+from master_settings import BASE_DIR
 
 
 @login_required
@@ -69,61 +69,6 @@ def new_profile(request):
                           {'message': 'Error creating COPO ID for Profile - Are you on the network?'},
                           )
         return HttpResponseRedirect(reverse('copo:index'))
-
-
-'''
-def copo_login(request):
-    # pdb.set_trace()
-    if request.user.is_authenticated():
-        copo_logout(request)
-
-    login_err_message = LOGIN_ERROR_CODES["LOGIN_LOGIN_PROMPT"]
-    username = password = ''
-    next_loc = request.REQUEST.get('next', '')
-
-    if request.method == "POST":
-        username = request.POST['frm_login_username']
-        password = request.POST['frm_login_password']
-
-        if not (username and password):
-            login_err_message = LOGIN_ERROR_CODES["LOGIN_NO_USERNAME_PASSWORD"]
-        else:
-            user = authenticate(username=username, password=password)
-            if user is not None:
-
-                if user.is_active:
-                    login(request, user)
-                    # successfully logged in!
-                    if not next_loc:
-                        next_loc = "/copo"
-                    return HttpResponseRedirect(next_loc)
-                else:
-                    login_err_message = LOGIN_ERROR_CODES["LOGIN_INACTIVE_ACCOUNT"]
-            else:
-                login_err_message = LOGIN_ERROR_CODES["LOGIN_INCORRECT_USERNAME_PASSWORD"]
-    else:
-        # check if we had a code parameter in the GET, if so
-        s = request.GET.get('next', '')
-        try:
-            index = s.index('=')
-        except:
-            return render_to_response(
-                'copo/templates/account/login.html',
-                {'login_err_message': login_err_message, 'username': username, 'next': next_loc},
-                context_instance=RequestContext(request)
-            )
-        orcid_code = s[index + 1:]
-        if orcid_code != '':
-            handle_orcid_authorise(orcid_code)
-        if not next_loc:
-            next_loc = "/copo"
-        return HttpResponseRedirect(reverse('copo:index'))
-    return render_to_response(
-        'copo/templates/account/login.html',
-        {'login_err_message': login_err_message, 'username': username, 'next': next_loc},
-        context_instance=RequestContext(request)
-    )
-'''
 
 
 def copo_logout(request):
@@ -179,8 +124,8 @@ def new_collection_head(request):
     c_name = request.POST['collection_name']
     collection_head_id = Collection_Head().PUT()
     collection_head_dc = get_collection_head_dc()
-    collection_head_dc['name']=c_name
-    collection_head_dc['type']=c_type
+    collection_head_dc['name'] = c_name
+    collection_head_dc['type'] = c_type
     Collection_Head().update(collection_head_id, collection_head_dc)
 
     # add a template for ENA submission
@@ -342,6 +287,8 @@ def add_to_study(request):
         sample_id = request.POST['sample_id']
         EnaCollection().hard_delete_sample_from_study(sample_id, study_id, ena_collection_id)
         return_structure['sample_data'] = htags.generate_study_samples_table2(ena_collection_id, study_id)
+        # get updated table info to display
+        return_structure['data_file_html'] = htags.generate_study_data_table2(ena_collection_id, study_id)
 
     elif task == "delete_publication_from_study":
         publication_id = request.POST['publication_id']
@@ -355,7 +302,7 @@ def add_to_study(request):
         EnaCollection().update_study_contact(contact_id, study_id, ena_collection_id, field_list)
         return_structure['contact_data'] = htags.generate_study_contacts_table2(ena_collection_id, study_id)
 
-    elif task == "assign_samples_to_studies":
+    elif task == "assign_samples_to_study":
         selected_study_samples_list = request.POST['selected_study_samples']
         if selected_study_samples_list:
             selected_study_samples_list = selected_study_samples_list.split(",")
@@ -367,9 +314,11 @@ def add_to_study(request):
             excluded_study_samples_list = excluded_study_samples_list.split(",")
         else:
             excluded_study_samples_list = []
-        EnaCollection().add_delete_samples_in_study(study_id, ena_collection_id, selected_study_samples_list,
-                                                    excluded_study_samples_list)
+        EnaCollection().assign_samples_in_study(study_id, ena_collection_id, selected_study_samples_list,
+                                                excluded_study_samples_list)
         return_structure['sample_data'] = htags.generate_study_samples_table2(ena_collection_id, study_id)
+        # get updated table info to display in datafiles panel
+        return_structure['data_file_html'] = htags.generate_study_data_table2(ena_collection_id, study_id)
 
     elif task == "add_new_publication":
         auto_fields = request.POST['auto_fields']
@@ -399,6 +348,21 @@ def add_to_study(request):
 
     elif task == "get_study_sample":
         return_structure['sample_data'] = EnaCollection().get_ena_sample(ena_collection_id, request.POST['sample_id'])
+
+    elif task == "attach_file_sample":
+        samples = request.POST['samples']
+        samples = ast.literal_eval(samples)
+        data_file_id = request.POST['data_file_id']
+        fields = {"samples": samples}
+        EnaCollection().update_ena_datafile(study_id, ena_collection_id, data_file_id, fields)
+        # get updated table info for UI display
+        return_structure['data_file_html'] = htags.generate_study_data_table2(ena_collection_id, study_id)
+    elif task == "delete_datafile_from_study":
+        data_file_id = request.POST['data_file_id']
+        fields = {"deleted": "1"}
+        EnaCollection().update_ena_datafile(study_id, ena_collection_id, data_file_id, fields)
+        # get updated table info for UI display
+        return_structure['data_file_html'] = htags.generate_study_data_table2(ena_collection_id, study_id)
 
     return_structure['exit_status'] = 'success'
     out = jsonpickle.encode(return_structure)
@@ -456,7 +420,7 @@ def add_to_collection(request):
     elif task == "get_study_sample":
         return_structure['sample_data'] = EnaCollection().get_ena_sample(ena_collection_id, request.POST['sample_id'])
         return_structure['ena_studies'] = htags.get_study_sample_tree_restrict(ena_collection_id,
-                                                                             request.POST['sample_id'])
+                                                                               request.POST['sample_id'])
         messages = {}
         messages["edit"] = lkup.UI_LABELS["sample_edit"]
         messages["clone"] = lkup.UI_LABELS["sample_clone"]
@@ -503,57 +467,74 @@ def save_figshare_collection(request):
     return HttpResponse(jsonpickle.encode(a))
 
 
-def initiate_repo(request):
-    initiate_status = ""
-    aspera_transfer_id = ""
-    pct_complete = ""
-    exit_status = ""
-    asperacollections = get_collection_ref("AsperaCollections")
+def upload_to_dropbox(request):
+    # set up an Aspera collection handle
+    AsperaCollection = get_collection_ref("AsperaCollections")
+    transfer_token = ""
 
-    if request.method == "POST":
-        files = request.POST["files"]
-        # todo: should expand this to include multiple files
+    task = request.POST['task']
 
-        try:
-            file_object = get_object_or_404(ChunkedUpload, pk=files)
-            path_to_files = os.path.join(MEDIA_ROOT, file_object.file.name)
+    if task == "initiate_transfer":  # initiate the transfer process
+        # get the target datafile and obtain the file reference
+        study_id = request.POST["study_id"]
+        ena_collection_id = request.POST["ena_collection_id"]
+        data_file_id = request.POST["data_file_id"]
+        data_file = EnaCollection().get_study_datafile(study_id, ena_collection_id, data_file_id)
+        chunked_upload = ChunkedUpload.objects.get(id=int(data_file["fileId"]))
 
-            document = {
-                "file": path_to_files,
-                "user_id": request.user.id,
-                "started_on": datetime.now(),
-                "completed_on": '',
-                "transfer_rate": '',
-                "pct_complete": '',
-                "exit_status": '',
-                "elapsed_time": '',
-                "file_size (bytes)": '',
-                "bytes_lost": ''
-            }
+        # set a new document in the aspera collection,
+        # thus obtaining a transfer token to orchestrate the process
+        path_to_json = lkup.SCHEMAS["COPO"]['PATHS_AND_URIS']['ASPERA_COLLECTION']
+        db_template = d_utils.json_to_pytype(path_to_json)
+        transfer_token = AsperaCollection.insert(db_template)
+    elif task == "transfer_progress":
+        pass
 
-            aspera_transfer_id = asperacollections.insert(document)
-            initiate_status = "success"
-        except:
-            initiate_status = "error"
 
-        process = Thread(target=do_aspera_transfer, args=(aspera_transfer_id,))
-        process.start()
+    # if request.method == "POST":
+    #     data_file_id = request.POST["data_file_id"]
+    #
+    #     try:
+    #         file_object = get_object_or_404(ChunkedUpload, pk=files)
+    #         path_to_files = os.path.join(MEDIA_ROOT, file_object.file.name)
+    #
+    #         document = {
+    #             "file": path_to_files,
+    #             "user_id": request.user.id,
+    #             "started_on": datetime.now(),
+    #             "completed_on": '',
+    #             "transfer_rate": '',
+    #             "pct_complete": '',
+    #             "exit_status": '',
+    #             "elapsed_time": '',
+    #             "file_size (bytes)": '',
+    #             "bytes_lost": ''
+    #         }
+    #
+    #         aspera_transfer_id = asperacollections.insert(document)
+    #         initiate_status = "success"
+    #     except:
+    #         initiate_status = "error"
+    #
+    #     # process = Thread(target=do_aspera_transfer, args=(aspera_transfer_id,))
+    #     # process.start()
+    #
+    # elif request.method == "GET":
+    #     aspera_transfer_id = request.GET["transfer_id"]
+    #
+    #     document = list(asperacollections.find({"_id": ObjectId(aspera_transfer_id)},
+    #                                            {"pct_complete": 1, "exit_status": 1}))
+    #     pct_complete = document[0]['pct_complete']
+    #     exit_status = document[0]['exit_status']
 
-    elif request.method == "GET":
-        aspera_transfer_id = request.GET["transfer_id"]
-
-        document = list(asperacollections.find({"_id": ObjectId(aspera_transfer_id)},
-                                               {"pct_complete": 1, "exit_status": 1}))
-        pct_complete = document[0]['pct_complete']
-        exit_status = document[0]['exit_status']
-
-    return_structure = {'pct_complete': pct_complete,
-                        'exit_status': exit_status,
-                        'initiate_status': initiate_status,
-                        "transfer_id": str(aspera_transfer_id)
-                        }
-    out = jsonpickle.encode(return_structure)
+    # return_structure = {'pct_complete': pct_complete,
+    #                     'exit_status': exit_status,
+    #                     'initiate_status': initiate_status,
+    #                     "transfer_id": str(aspera_transfer_id)
+    #                     }
+    out = jsonpickle.encode({'transfer_token': str(transfer_token)})
     return HttpResponse(out, content_type='json')
+
 
 def submit_to_repo(request):
     pass

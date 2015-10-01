@@ -4,37 +4,49 @@ var handle = 0;
 var csrftoken = "";
 
 $(document).ready(function () {
-    $('#frm_initiate_button').on('click', function () {
-        before_repo_upload(); //do some housekeeping
-
-        formURL = $("#frm_initiate_repo").attr("action");
-        csrftoken = $.cookie('csrftoken');
-        var files = "21" //file ids to be transferred, comma separated list
-
-        aspera_initiate(files);
+    //handle repo upload: sends selected file to the repo via aspera
+    $("body").on('click', 'a.repo-upload', function (event) {
+        event.preventDefault();
+        do_repo_upload(event);
     });
 
-    function aspera_initiate(files) {
+
+    function do_repo_upload(event) {
+        before_repo_upload(); //do some housekeeping
+
+        var data_file_id = $($(event.target)).parent().attr("target-id");
+
+        var ena_collection_id = $("#ena_collection_id").val();
+        var study_id = $("#study_id").val();
+
+        var csrftoken = $.cookie('csrftoken');
+
         $.ajax(
             {
-                url: formURL,
+                url: "/copo/upload_to_dropbox/",
                 type: "POST",
                 headers: {'X-CSRFToken': csrftoken},
-                data: {'files': files},
+                data: {
+                    'task': 'initiate_transfer',
+                    'ena_collection_id': ena_collection_id,
+                    'study_id': study_id,
+                    'data_file_id': data_file_id
+                },
                 success: function (data) {
-                    if (data.initiate_status == "error") {
-                        imessage = 'No data returned!'
-                        report_error(imessage);
-                        terminate_process();
-                    } else if (data.initiate_status == "success") {
-                        transfer_id = data.transfer_id;
-                        start_process();
-                    }
+                    console.log(data);
+                    //if (data.initiate_status == "error") {
+                    //    imessage = 'No data returned!'
+                    //    report_error(imessage);
+                    //    terminate_process();
+                    //} else if (data.initiate_status == "success") {
+                    //    transfer_id = data.transfer_id;
+                    //    start_process();
+                    //}
                 },
                 error: function () {
-                    imessage = 'No data returned!'
-                    report_error(imessage);
-                    terminate_process();
+                    //imessage = 'No data returned!'
+                    //report_error(imessage);
+                    //terminate_process();
                 }
             });
     }

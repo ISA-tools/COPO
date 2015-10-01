@@ -29,6 +29,8 @@ class ChunkedUpload(models.Model):
     file = models.FileField(max_length=255, upload_to=generate_filename,
                             storage=STORAGE)
     filename = models.CharField(max_length=255)
+    hash = models.CharField(max_length=255, default='')
+    type = models.CharField(max_length=255, default='')
     panel_id = models.IntegerField(default=1)
     user = models.ForeignKey(AUTH_USER_MODEL, related_name='chunked_uploads')
     offset = models.PositiveIntegerField(default=0)

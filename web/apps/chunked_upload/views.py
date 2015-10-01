@@ -3,13 +3,14 @@ from django.shortcuts import get_object_or_404
 from django.core.files.base import ContentFile
 from django.utils import timezone
 import jsonpickle
+import re
 
 from .settings_old import MAX_BYTES
 from .models import ChunkedUpload
 from .response import Response
 from .constants import http_status, COMPLETE, FAILED
 from .exceptions import ChunkedUploadError
-from web_copo.repos.irods import *
+# from web_copo.repos.irods import *
 
 
 class ChunkedUploadBaseView(View):
@@ -231,7 +232,7 @@ class ChunkedUploadCompleteView(ChunkedUploadBaseView):
         """
         Placeholder method to define what to do when upload is complete.
         """
-        irods_status = register_to_irods()
+        # irods_status = register_to_irods()
 
     def is_valid_chunked_upload(self, chunked_upload):
         """

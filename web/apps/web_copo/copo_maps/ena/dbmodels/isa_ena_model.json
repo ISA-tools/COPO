@@ -183,6 +183,15 @@
             "id": "",
             "deleted": "1"
           }
+        ],
+        "dataFiles": [
+          {
+            "id": "",
+            "fileId": "",
+            "samples": [],
+            "attributes": [],
+            "deleted": "1"
+          }
         ]
       }
     }
