@@ -8,10 +8,22 @@ from web_copo.templatetags.html_tags import generate_ena_tags_2
 
 
 def get_next_wizard_stage(request):
+    # create session variable for collecting wizard data if not already exist
+    collected = request.session.setdefault('collected', {})
+
+    last_stage = request.GET['last']
+    if last_stage == 'true':
+        # commit this data to the submission
+        collection_id = request.session['ena_collection_id']
+
+        return HttpResponse(jsonpickle.encode({}))
+
 
     # get the ui_template for the required study
     study_type = request.GET['study_type']
     prev_question = request.GET['prev_question']
+    answer = request.GET['answer']
+
     ui_template = DataSchemas("ENA").get_ui_template()
     if not ui_template:
         return HttpResponse(
@@ -32,20 +44,27 @@ def get_next_wizard_stage(request):
                     field_track.append(f)
 
 
-
+    r = {'num_steps': len(field_track)}
     if prev_question == '':
         # we are dealing with the first question
-        out = generate_wizard_html(field_track[1])
-        r = {'response': 1, 'detail': out}
+        out = generate_wizard_html(field_track[0])
+        r['response'] = 1
+        r['detail'] = out
         return HttpResponse(jsonpickle.encode(r))
     elif prev_question != '':
+        # store the previous question and answer
+        collected[prev_question] = answer
+        request.session['collected'] = collected
+        print(request.session['collected'])
         for idx in range(0, len(field_track)):
             index = field_track[idx]
             if index['id'] == prev_question:
+
                 out = generate_wizard_html(field_track[idx+1])
-                r = {'response': 1, 'detail': out}
+                r['response'] = 1
+                r['detail'] = out
                 return HttpResponse(jsonpickle.encode(r))
-    r = {'response': 0}
+
     return HttpResponse(jsonpickle.encode(r))
 
 

@@ -27,6 +27,7 @@ SESSION_REDIS_PORT = 6379
 SITE_ID = 2
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/web/apps/web_copo/static/'
 # MEDIA_ROOT = '/Users/etuka/Desktop/copo_uploads'
 # MEDIA_ROOT = '/Users/etuka/COPOIrodsMount'
 MEDIA_ROOT = '/Users/etuka/Desktop/copo_uploads'

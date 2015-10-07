@@ -534,8 +534,8 @@
         <div id="wizard"></div>
         <div class="modal-footer">
           <div id="file_details_button_div" class="pull-right">
-            <div class="btn btn-primary" id="test_wiz">Wiz</div>
-            <div class="btn btn-primary" id="file_info_send">Send</div>
+            <div class="btn btn-primary" id="prev_wiz">Prev</div>
+            <div class="btn btn-primary" id="next_wiz">Next</div>
           </div>
         </div>
       </div>
@@ -548,7 +548,9 @@
       $("#wizard").steps({
         headerTag: "h2",
         bodyTag: "section",
-        transitionEffect: "slideLeft"
+        transitionEffect: "slideLeft",
+        enableFinishButton: false,
+        enablePagination: false
       });
     });
   </script>

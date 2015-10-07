@@ -15,7 +15,7 @@ LOGIN_URL = '/accounts/login/'
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
-ALLOWED_HOSTS = ['http://v0514.nbi.ac.uk']
+ALLOWED_HOSTS = ['http://v0514.nbi.ac.uk', '127.0.0.1', 'localhost']
 
 # Application definition
 INSTALLED_APPS = (
