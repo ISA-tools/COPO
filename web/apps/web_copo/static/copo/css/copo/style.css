@@ -165,11 +165,6 @@ h1 {
 }
 
 /* Overriding some properties of Popover */
-.popover {
-    border: 1px dotted black;
-    width: auto !important;
-    max-width: none;
-}
 
 .copo-wizard-message-label {
     font-weight: bold;
@@ -205,7 +200,7 @@ h1 {
     top: 0;
     left: 0;
     z-index: 1060;
-    display: none;
+    display: block;
     min-width: 250px;
     padding: 1px;
     text-align: left;
@@ -221,12 +216,12 @@ h1 {
     font-size: 12px;
 }
 
-.popover-title {
+.popover1-title {
     padding: 7px 9px;
     margin: 0;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
-    line-height: 16px;
+    line-height: 25px;
     text-align: left;
     color: #1b2b32;
     background-color: #D4E4ED;
@@ -300,4 +295,10 @@ h1 {
 }
 
 /*div table end*/
+
+
+/*customising Bootstrap badge*/
+.label-as-badge {
+    border-radius: 1em;
+}
 

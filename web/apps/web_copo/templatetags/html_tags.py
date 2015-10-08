@@ -21,7 +21,7 @@ def generate_ena_tags(field_id):
 
 # similar to the 'generate_ena_tags' method, but...
 # this handles calls from other routes (e.g., AJAX) besides Django
-def generate_ena_tags2(field_id):
+def generate_ena_tags_2(field_id):
     return generate_tag(field_id)
 
 
@@ -69,39 +69,43 @@ def generate_sample_html(ena_collection_id):
         html_tag += "<tr>"
         for sh in sample_data["headers"][1:]:
             html_tag += "<th>" + sh + "</th>"
-        html_tag += "<th>Attributes</th>"
-        html_tag += "<th>&nbsp;</th>"
+        html_tag += "<th>Actions</th>"
         html_tag += "</tr>"
 
         for sdata in sample_data["data"]:
             html_tag += "<tr>"
+            sample_id = sdata[0]
 
+            last = len(sdata[1:]) - 1
             for idx, sd in enumerate(sdata[1:]):
-                html_tag += "<td>" + sd + "</td>"
+                html_sub_tag = ""
+                if idx == last:
+                    attribute_data = generate_sample_characteristics_html(ena_collection_id, sdata[0])
+
+                    html_sub_tag += " <span class='popinfo' data-popinfo-title='Sample Attributes' data-popinfo-trigger='click'>"
+                    html_sub_tag += " <a href='#' class='view-sample-attribute'><i class='fa fa-info-circle'></i></a>"
+                    html_sub_tag += " <span class='popinfo-content' style='display: none'>{attribute_data!s}</span>".format(
+                        **locals())
+                    html_sub_tag += " </span>"
+                html_tag += "<td>" + sd + html_sub_tag + "</td>"
 
             html_tag += " <td>"
-            attribute_data = generate_sample_characteristics_html(ena_collection_id, sdata[0])
 
-            html_tag += " <span class='popinfo' data-popinfo-title='Sample Attributes' data-popinfo-trigger='click'>"
-            html_tag += " <button title='click for attributes' class='btn btn-xs btn-info' type='button'><span class='fa fa-info-circle'></span></button>"
-            html_tag += " <span class='popinfo-content' style='display: none'>{attribute_data!s}</span>".format(
+            html_tag += "<div class='dropdown'>"
+            html_tag += "<button class='btn btn-primary btn-sm dropdown-toggle' title='click for actions' type='button' data-toggle='dropdown'>"
+            html_tag += "<span class='caret'></span></button>"
+            html_tag += "<ul class='dropdown-menu'>"
+            html_tag += " <li data-toggle='tooltip' title='Clone Sample'><a href='#' id='samplerowclonespan_{sample_id!s}' class='sample-clone'>".format(
                 **locals())
-            html_tag += " </span>"
-            html_tag += " </td>"
+            html_tag += " <i class='fa fa-clone fa-sm copo-icon-primary'></i></a>"
+            html_tag += " </li>"
 
-            html_tag += " <td>"
-            row_id = "samplerowclonespan_" + sdata[0]
-            html_tag += " <span data-toggle='tooltip' title='Clone Sample'> ".format(**locals())
-            html_tag += " <a id='{row_id!s}' class='sample-clone' href='#'>".format(**locals())
-            html_tag += " <i class='fa fa-clone fa-sm copo-icon-primaryr'></i></a>"
-            html_tag += " </span>&nbsp;"
-
-            html_tag += " <span data-toggle='tooltip' title='Update Sample'> "
-
-            row_id = "samplerowupdatespan_" + sdata[0]
-            html_tag += " <a id='{row_id!s}' class='sample-edit' href='#'>".format(**locals())
+            html_tag += " <li data-toggle='tooltip' title='Update Sample'><a href='#' id='samplerowupdatespan_{sample_id!s}' class='sample-edit'>".format(
+                **locals())
             html_tag += " <i class='fa fa-pencil-square-o fa-sm copo-icon-success'></i></a>"
-            html_tag += " </span>"
+            html_tag += " </li>"
+
+            html_tag += "</ul></div>"
             html_tag += " </td>"
             html_tag += "</tr>"
 
@@ -189,6 +193,7 @@ def generate_study_samples_table2(ena_collection_id, study_id):
     return generate_study_samples_html(ena_collection_id, study_id)
 
 
+# generates samples assigned to a specific study
 def generate_study_samples_html(ena_collection_id, study_id):
     html_tag = ""
     segments = [d_utils.get_ena_ui_template_as_obj().studies.study.studySamples.sampleCollection.fields,
@@ -208,17 +213,27 @@ def generate_study_samples_html(ena_collection_id, study_id):
 
         for sd in samples:
             sample_id = sd["id"]
+            component_name = "sample"  # this is used in alert messages
+
             sample_details = EnaCollection().get_ena_sample(ena_collection_id, sample_id)
             if sample_details:
-                html_tag += " <tr id='{sample_id!s}_sample_row'>".format(**locals())
+                html_tag += "<tr id='{sample_id!s}{component_name!s}' >".format(**locals())
                 for f_o in fields_property["dblabel"][1:]:
                     v = sample_details[f_o["db_name"]]
                     html_tag += " <td>{v!s}</td>".format(**locals())
                 html_tag += "<td>"
-                html_tag += " <span data-toggle='tooltip' title='Delete Sample'><a target-component='sample' target-id='{sample_id!s}' target-title='sample' class='component-row-delete' ".format(
+
+                component_body = lkup.UI_INFO["component_unassign_body"].format(**locals())
+                component_title = lkup.UI_INFO["component_unassign_title"].format(**locals())
+
+                html_tag += " <span data-toggle='tooltip' title='Unassign Sample'>"
+                html_tag += " <a target-name='{component_name!s}' target-id='{sample_id!s}' class='component-row-delete' href='#'>".format(
                     **locals())
-                html_tag += " data-toggle='modal' data-target='#studyComponentsDeleteModal' href='#'>"
-                html_tag += " <i class='fa fa-trash-o fa-sm copo-icon-danger'></i></a>"
+                html_tag += " <span class='component-content-body' style='display: none'>{component_body!s}</span>".format(
+                    **locals())
+                html_tag += " <span class='component-content-title' style='display: none'>{component_title!s}</span>".format(
+                    **locals())
+                html_tag += " <i class='fa fa-toggle-off fa-sm copo-icon-danger'></i></a>"
                 html_tag += " </span>"
 
                 html_tag += " </td>"
@@ -261,6 +276,8 @@ def generate_study_data_html(ena_collection_id, study_id):
             data_file_id = df["id"]  # id of the record
             data_file_samples = df["samples"]  # samples
             df_file_id = df["fileId"]  # file id
+            component_name = "data file"  # this is used in alert messages
+            component_name_4_id = "datafile"  # this is used for constructing id
 
             # get samples assigned to this study to populate list
             samples = EnaCollection().get_study_samples(ena_collection_id, study_id)
@@ -278,7 +295,7 @@ def generate_study_data_html(ena_collection_id, study_id):
                     samples_html_tag += " <option value='{item_value!s}' {selected!s}>{sample_name!s}</option>".format(
                         **locals())
 
-            html_tag += "<tr id='{data_file_id!s}_datafile_row'>".format(**locals())
+            html_tag += "<tr id='{data_file_id!s}{component_name_4_id!s}' >".format(**locals())
 
             # get details of the file from the file object
             chunked_upload = ChunkedUpload.objects.get(id=int(df_file_id))
@@ -289,8 +306,16 @@ def generate_study_data_html(ena_collection_id, study_id):
             html_tag += " <td>"
             html_tag += " <div style='display: inline-block;'>" + chunked_upload.filename + "</div>"
             html_tag += " <div style='display: inline-block;'>"
-            html_tag += " <span class='popinfo' data-popinfo-title='File Attributes' data-popinfo-trigger='hover'>"
+            html_tag += " <span class='popinfo' data-popinfo-title='File Attributes' data-popinfo-trigger='click'>"
             html_tag += " <a href='#' class='data-file-attribute'><i class='fa fa-info-circle'></i></a>"
+            html_tag += " <span class='popinfo-content' style='display: none'>{attribute_data!s}</span>".format(
+                **locals())
+            html_tag += " </span>"
+            html_tag += " </div>"
+            html_tag += " <div style='display: inline-block; margin-left: 3em; vertical-align: middle;'>"
+            html_tag += " <span class='popinfo' data-popinfo-title='Transfer Progress' data-popinfo-trigger='hover'>"
+            html_tag += " <a href='#'><div class='progress-circularum' id='uploadprog_{data_file_id!s}' style='display: none;'></div></>".format(
+                **locals())
             html_tag += " <span class='popinfo-content' style='display: none'>{attribute_data!s}</span>".format(
                 **locals())
             html_tag += " </span>"
@@ -321,17 +346,19 @@ def generate_study_data_html(ena_collection_id, study_id):
             html_tag += " <li data-toggle='tooltip' title='Send to Dropbox'><a target-id='{data_file_id!s}' class='repo-upload' ".format(
                 **locals())
             html_tag += " href='#'>"
-            html_tag += " <i class='fa fa-cloud fa-sm copo-icon-primary'></i></a>"
+            html_tag += " <i class='fa fa-cloud-upload fa-sm copo-icon-primary'></i></a>"
             html_tag += " </li>"
 
-            component_name = "data file"
-            component_message = lkup.UI_INFO["component_delete_body"].format(**locals())
+            component_body = lkup.UI_INFO["component_delete_body"].format(**locals())
             component_title = lkup.UI_INFO["component_delete_title"].format(**locals())
-            component_title = "Welcome"
 
-            html_tag += " <li data-toggle='tooltip' title='Delete Data File'><a target-name='datafile' target-id='{data_file_id!s}' component-message='{component_message!s}' component-title='{component_title!s}' class='component-row-delete' ".format(
+            html_tag += " <li data-toggle='tooltip' title='Delete Data File'>"
+            html_tag += " <a target-name='{component_name_4_id!s}' target-id='{data_file_id!s}' class='component-row-delete' href='#'>".format(
                 **locals())
-            html_tag += " data-toggle='modal' data-target='#studyComponentsDeleteModal' href='#'><div class='themess' style='display: none'>{component_title2!s}</div>".format(**locals())
+            html_tag += " <span class='component-content-body' style='display: none'>{component_body!s}</span>".format(
+                **locals())
+            html_tag += " <span class='component-content-title' style='display: none'>{component_title!s}</span>".format(
+                **locals())
             html_tag += " <i class='fa fa-trash-o fa-sm copo-icon-danger'></i></a>"
             html_tag += " </li>"
             html_tag += "</ul></div>"
@@ -377,17 +404,28 @@ def generate_study_publications_html(ena_collection_id, study_id):
 
         for pb in publications:
             publication_id = pb["id"]
-            html_tag += " <tr id='{publication_id!s}_publication_row'>".format(**locals())
+            component_name = "publication"  # this is used in alert messages
+
+            html_tag += "<tr id='{publication_id!s}{component_name!s}' >".format(**locals())
             for f_o in fields_property["dblabel"][1:]:
                 if f_o["label"]:
                     v = pb[f_o["db_name"]]
                     html_tag += " <td>{v!s}</td>".format(**locals())
             html_tag += "<td>"
 
-            html_tag += " <span data-toggle='tooltip' title='Delete Publication'><a target-component='publication' target-id='{publication_id!s}' target-title='publication' class='component-row-delete' ".format(
+            html_tag += " <span data-toggle='tooltip' title='Delete Publication'>"
+
+            component_body = lkup.UI_INFO["component_delete_body"].format(**locals())
+            component_title = lkup.UI_INFO["component_delete_title"].format(**locals())
+
+            html_tag += " <a target-name='{component_name!s}' target-id='{publication_id!s}' class='component-row-delete' href='#'>".format(
                 **locals())
-            html_tag += " data-toggle='modal' data-target='#studyComponentsDeleteModal' href='#'>"
+            html_tag += " <span class='component-content-body' style='display: none'>{component_body!s}</span>".format(
+                **locals())
+            html_tag += " <span class='component-content-title' style='display: none'>{component_title!s}</span>".format(
+                **locals())
             html_tag += " <i class='fa fa-trash-o fa-sm copo-icon-danger'></i></a>"
+
             html_tag += " </span>"
 
             html_tag += " </td>"
@@ -430,17 +468,28 @@ def generate_study_contacts_html(ena_collection_id, study_id):
 
         for pb in contacts:
             contact_id = pb["id"]
-            html_tag += " <tr id='{contact_id!s}_contact_row'>".format(**locals())
+            component_name = "contact"  # this is used in alert messages
+
+            html_tag += "<tr id='{contact_id!s}{component_name!s}' >".format(**locals())
             for f_o in fields_property["dblabel"][1:]:
                 if f_o["label"]:
                     v = pb[f_o["db_name"]]
                     html_tag += " <td>{v!s}</td>".format(**locals())
             html_tag += "<td>"
 
-            html_tag += " <span data-toggle='tooltip' title='Delete Contact'><a target-component='contact' target-id='{contact_id!s}' target-title='contact' class='component-row-delete' ".format(
+            html_tag += " <span data-toggle='tooltip' title='Delete Contact'>"
+
+            component_body = lkup.UI_INFO["component_delete_body"].format(**locals())
+            component_title = lkup.UI_INFO["component_delete_title"].format(**locals())
+
+            html_tag += " <a target-name='{component_name!s}' target-id='{contact_id!s}' class='component-row-delete' href='#'>".format(
                 **locals())
-            html_tag += " data-toggle='modal' data-target='#studyComponentsDeleteModal' href='#'>"
+            html_tag += " <span class='component-content-body' style='display: none'>{component_body!s}</span>".format(
+                **locals())
+            html_tag += " <span class='component-content-title' style='display: none'>{component_title!s}</span>".format(
+                **locals())
             html_tag += " <i class='fa fa-trash-o fa-sm copo-icon-danger'></i></a>"
+
             html_tag += " </span>"
 
             html_tag += " </td>"
@@ -517,11 +566,16 @@ def generate_study_html(ena_collection_id):
     if study_data:
         html_tag += "<hr/>"
         html_tag += "<table class='table-bordered' id='study_table'>"
+        html_tag += "<col width='40%'/>"
+        html_tag += "<col width='40%'/>"
+        html_tag += "<col width='10%'/>"
+        html_tag += "<col width='10%'/>"
+
         html_tag += "<tr>"
         html_tag += "<th>Study Reference</th>"
         html_tag += "<th>Study Type</th>"
-        html_tag += "<th># Samples</th>"
-        html_tag += "<th>&nbsp;</th>"
+        html_tag += "<th>#Samples</th>"
+        html_tag += "<th>Actions</th>"
         html_tag += "</tr>"
 
         for sd in study_data:
@@ -536,7 +590,8 @@ def generate_study_html(ena_collection_id):
             html_tag += " <tr class='{row_class!s}' id='{row_id!s}'>".format(**locals())
             html_tag += " <td><a href='{edit_link!s}'>{study_reference!s}</a></td>".format(**locals())
             html_tag += " <td>{study_type!s}</td>".format(**locals())
-            html_tag += " <td>{samples_count!s}</td>".format(**locals())
+            html_tag += " <td align='center'><span class='label label-success label-as-badge'>{samples_count!s}</span></td>".format(
+                **locals())
             html_tag += " <td>"
 
             html_tag += " <span data-toggle='tooltip' title='Update Study'> "

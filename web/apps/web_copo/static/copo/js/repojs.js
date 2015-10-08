@@ -1,7 +1,6 @@
-var formURL = "";
-var transfer_id = "";
 var handle = 0;
-var csrftoken = "";
+var transfer_tokens = {};
+var animation_objects = {};
 
 $(document).ready(function () {
     //handle repo upload: sends selected file to the repo via aspera
@@ -12,10 +11,7 @@ $(document).ready(function () {
 
 
     function do_repo_upload(event) {
-        before_repo_upload(); //do some housekeeping
-
         var data_file_id = $($(event.target)).parent().attr("target-id");
-
         var ena_collection_id = $("#ena_collection_id").val();
         var study_id = $("#study_id").val();
 
@@ -33,41 +29,80 @@ $(document).ready(function () {
                     'data_file_id': data_file_id
                 },
                 success: function (data) {
-                    console.log(data);
-                    //if (data.initiate_status == "error") {
-                    //    imessage = 'No data returned!'
-                    //    report_error(imessage);
-                    //    terminate_process();
-                    //} else if (data.initiate_status == "success") {
-                    //    transfer_id = data.transfer_id;
-                    //    start_process();
-                    //}
+                    //keep track of this transfer token
+                    transfer_tokens[data.initiate_data.transfer_token] = data_file_id;
+
+                    //set up progress animation for token, hence target element
+                    progress_animation(data.initiate_data.transfer_token);
+
+                    if (handle == 0) {
+                        start_process();
+                    }
+
                 },
                 error: function () {
-                    //imessage = 'No data returned!'
-                    //report_error(imessage);
-                    //terminate_process();
+                    alert("Could not initiate transfer!");
                 }
             });
     }
 
-    function aspera_report() {
-        $.ajax({
-            type: "GET",
-            url: formURL,
-            dataType: "json",
-            data: {'transfer_id': transfer_id},
-            success: function (data) {
-                report_transfer_progress(data);
-            },
-            error: function () {
-                alert('no data returned')
+    function transfer_progress() {
+        // needless continuing if there are no tokens to serve
+        var count = 0;
+        $.each(transfer_tokens, function (index, value) {
+            count++;
+        });
+
+        if (count == 0) {
+            terminate_process();
+            return false;
+        }
+
+        var tokens = JSON.stringify(transfer_tokens);
+
+        var csrftoken = $.cookie('csrftoken');
+
+        $.ajax(
+            {
+                url: "/copo/upload_to_dropbox/",
+                type: "POST",
+                headers: {'X-CSRFToken': csrftoken},
+                data: {
+                    'task': 'transfer_progress',
+                    'tokens': tokens
+                },
+                success: function (data) {
+                    progress_display(data.progress_data);
+                },
+                error: function () {
+                    alert('no data returned')
+                }
+            });
+    }
+
+    function progress_animation(transfer_token) {
+        var elem = "uploadprog_"+transfer_tokens[transfer_token];
+
+        var circle = new ProgressBar.Circle('#' + elem, {
+            color: '#80B280',
+            strokeWidth: 5,
+            trailWidth: 5,
+            easing: 'easeInOut',
+            duration: 200,
+            text: {
+                className: 'progress-circularum-label',
+                style: {
+                    color: '#163657'
+                }
             }
         });
+
+        animation_objects[transfer_token] = circle;
+        $('#'+elem).show();
     }
 
     function start_process() {
-        handle = setInterval(aspera_report, 1000);
+        handle = setInterval(transfer_progress, 1000);
     }
 
     function terminate_process() {
@@ -75,41 +110,27 @@ $(document).ready(function () {
         handle = 0;
     }
 
-    function before_repo_upload() {
-        $("#repo-feedback-1").attr("style", "width: 0%");
-        $("#repo-feedback-span-1").html("0% Complete");
-        $("#frm_initiate_button").prop("disabled", true);
-        $("#repo-feedback-cnt-1").hide();
-    }
 
-    function report_error(imessage) {
-        $("#repo-alert-cnt-1").attr('class', 'alert alert-danger alert-dismissible');
-        $("#repo-alert-span-1").html("<strong>Error:</strong> " + imessage);
-        $("#repo-feedback-cnt-1").hide();
-        $("#repo-alert-cnt-1").show();
-    }
+    function progress_display(progress_data) {
+        progress_data.forEach(function (progress) {
 
-    function report_post_transfer_success() {
-        $("#repo-alert-span-1").html("<strong>Success:</strong> File humming in repo!");
-        $("#repo-feedback-cnt-1").hide();
-        $("#repo-alert-cnt-1").show();
-    }
+            var elem = "uploadprog_"+transfer_tokens[progress.transfer_token];
+            var progressPercent = progress.pct_completed;
 
-    function report_transfer_progress(data) {
-        if (data.exit_status == "") {
-            if (parseInt(data.pct_complete) > 0) {
-                $("#repo-feedback-cnt-1").show();
+            if(progress.transfer_status == "success") {
+                // doing this here, ...since I am slow with handling the 100% completion mark server-side
+                progressPercent = 100;
             }
-            $("#repo-feedback-1").attr("style", "width: " + data.pct_complete + "%");
-            $("#repo-feedback-span-1").html(data.pct_complete + "%");
-        } else if (data.exit_status == "success") {
-            report_post_transfer_success();
-            terminate_process();
-        } else {
-            imessage = "Error!";
-            report_error(imessage);
-            terminate_process();
-        }
+
+            animation_objects[progress.transfer_token].animate(progressPercent / 100, function () {
+                animation_objects[progress.transfer_token].setText(progressPercent + "%");
+            });
+
+            //remove from token if completed or aborted...
+            if (progress.transfer_status != "transferring") {
+                delete transfer_tokens[progress.transfer_token];
+            }
+        });
     }
 
 }) //end of document.ready

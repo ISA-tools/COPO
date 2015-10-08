@@ -162,17 +162,20 @@ function refresh_tool_tips() {
         var title = elem.attr('data-popinfo-title');
         var trigger = elem.attr('data-popinfo-trigger');
 
-        elem.popover({
+        var $popover1 = elem.popover({
             trigger: trigger,
             toggle: 'popover',
             placement: 'left',
-            title: title,
+            //title: title, //not picking up this assignment, found its place in template below
             html: true,
-            template: '<div class="popover1" role="tooltip"><div class="arrow"></div><div class="popover-title"></div><div class="popover-content"></div></div>',
-            content: elem.find('.popinfo-content').html()
+            content: elem.find('.popinfo-content').html(),
+            template: '<div class="popover1" role="tooltip"><div class="arrow"></div>' +
+            '<div class="popover1-title">' + title + '</div><div class="popover-content"></div></div>'
         });
+
     });
 }
+
 
 
 

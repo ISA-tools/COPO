@@ -5,7 +5,7 @@
   "transfer_completed": "",
   "transfer_rate": "",
   "pct_completed": "",
-  "exit_status": "",
+  "transfer_status": "",
   "elapsed_time": "",
   "file_size(bytes)": "",
   "bytes_lost": ""

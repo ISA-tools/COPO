@@ -36,6 +36,10 @@ $(document).ready(function () {
             do_delete_study();
         });
 
+        $('.view-sample-attribute').on('click', function (event) {
+            event.preventDefault();
+        });
+
         //handle event for clone study
         $('#submit_study_clone_btn').on('click', function () {
             do_clone_study();
@@ -90,11 +94,13 @@ $(document).ready(function () {
 
         //handle edit sample
         $("#sample_table_div").on('click', 'a.sample-edit', function (event) {
+            event.preventDefault();
             do_edit_sample(event, "edit");
         });
 
         //handle clone sample
         $("#sample_table_div").on('click', 'a.sample-clone', function (event) {
+            event.preventDefault();
             do_edit_sample(event, "clone");
         });
 

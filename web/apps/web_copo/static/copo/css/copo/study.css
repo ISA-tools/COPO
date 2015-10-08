@@ -174,6 +174,42 @@ div.study-component-table-div {
     overflow: scroll;
 }
 
+.carousel-control.left {
+    background-image: none;
+}
 
+.carousel-control.right {
+    background-image: none;
+}
 
+.carousel-indicators {
+    /*bottom:-50px;*/
+}
 
+.carousel-indicators li {
+    border-color: #999;
+    background-color: #ccc;
+}
+
+#file-carousel {
+    min-height: 150px;
+}
+
+/*progress circle used in file upload to dropbox*/
+.progress-circularum {
+    height: 40px;
+}
+
+.progress-circularum > svg {
+    height: 100%;
+    display: block;
+    background-color: inherit;
+}
+
+.progress-circularum-label {
+    font-size: 10px;
+    font-weight: lighter;
+    font-family: "Times New Roman", Georgia, Serif;
+}
+
+/*end of progress circle styling used in file upload to dropbox*/

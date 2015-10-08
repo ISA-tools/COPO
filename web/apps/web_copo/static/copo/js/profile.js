@@ -105,7 +105,7 @@ $(document).ready(function () {
             var indexPart = targetId.substr(splitIndex + 1);
 
             if (parseInt(indexPart) > 0) {
-                //remove study type object
+                //remove study type element
                 $("#study_type_select_divs_" + indexPart).remove();
             }
 
@@ -123,6 +123,7 @@ $(document).ready(function () {
                     submit_to_figshare(e)
                 }
                 else if (data == 'ENA Submission') {
+                    alert(1); return false;
                     $.post('/api/convert_to_sra/', {'collection_id': collection_id, 'csrfmiddlewaretoken': csrftoken})
                         .done(function(data){
                             console.log(data)

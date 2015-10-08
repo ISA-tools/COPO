@@ -165,13 +165,13 @@ DROP_DOWNS = {
 }
 
 HTML_TAGS = {
-    "text": "<label for='{elem_id!s}'>{elem_label!s}</label><br/>"
-            "<input class='input-copo' type='text' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'>",
-    "textarea": "<label for='{elem_id!s}'>{elem_label!s}</label><br/>"
-                "<textarea rows='6' cols='40' id='{elem_id!s}'  name='{elem_id!s}'>{elem_value!s}</textarea>",
-    "select": "<label for='{elem_id!s}'>{elem_label!s}</label><br/>"
-              "<select id='{elem_id!s}' name='{elem_id!s}'> {option_values!s} </select>",
-    "date": "<label for='{elem_id!s}'>{elem_label!s}</label><br/>"
+    "text": "<div class='form-group'><label for='{elem_id!s}'>{elem_label!s}</label><br/>"
+            "<input class='input-copo form-control' type='text' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'></div>",
+    "textarea": "<div class='form-group'><label for='{elem_id!s}'>{elem_label!s}</label><br/>"
+                "<textarea class='form-control' rows='6' cols='40' id='{elem_id!s}'  name='{elem_id!s}'>{elem_value!s}</textarea></div>",
+    "select": "<div class='form-group'><label for='{elem_id!s}'>{elem_label!s}</label><br/>"
+              "<select class='form-control' id='{elem_id!s}' name='{elem_id!s}'> {option_values!s} </select></div>",
+    "date": "<div class='form-group'><label for='{elem_id!s}'>{elem_label!s}</label><br/>"
             "<input type='text' class='pop_date_picker input-copo' id='{elem_id!s}' name='{elem_id!s}' "
             "value='{elem_value!s}'>",
     "hidden": "<input type='hidden' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'>",
@@ -192,8 +192,13 @@ UI_INFO = {
     'publication_doi_resolution': 'Enter a DOI or PubMed ID to be resolved',
     'user_defined_attribute_message': "This will be treated as a user-defined attribute",
     'system_suggested_attribute_message': "This is a system-suggested attribute",
+    'files_add_info': 'Use this dialog to specify the specific details of the file you just uploaded',
+    'system_suggested_attribute_message': "This is a system-suggested attribute",
     'component_delete_body': "<p>You are about to delete the highlighted {component_name!s}.</p> <p>Do you want to proceed?</p>",
-    'component_delete_title': "<h4 class='modal-title'>Confirm <span style='text-transform: capitalize;'>{component_name!s}</span> Delete</h4>"
+    'component_delete_title': "<h4 class='modal-title'>Confirm <span style='text-transform: capitalize;'>{component_name!s}</span> Delete</h4>",
+    'component_unassign_body': "<p>You are about to unassign the highlighted {component_name!s}.</p> <p>Do you want to proceed?</p>",
+    'component_unassign_title': "<h4 class='modal-title'>Confirm <span style='text-transform: capitalize;'>{component_name!s}</span> Unassignment</h4>"
+
 }
 
 UI_LABELS = {

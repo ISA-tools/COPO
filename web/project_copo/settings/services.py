@@ -1,14 +1,12 @@
 # define parameters for repositories
 
 REPOSITORIES = {
-    'ENA': {
-        'api': 'aspera',
+    'ASPERA': {
         'resource_path': 'reposit/aspera/Aspera Connect.app/Contents/Resources/',
-        'credentials': {
-            'user_token': 'Webin-39962@webin.ebi.ac.uk',
-            'password': 'toni12',  # TODO: probably in dal?
-            'remote_path': 'copo'
-        }
+        'user_token': 'Webin-39962@webin.ebi.ac.uk',
+        'password': 'toni12',  # TODO: probably in dal?
+        'remote_path': 'copo'
+
     },
     'IRODS': {
         'api': 'irods',

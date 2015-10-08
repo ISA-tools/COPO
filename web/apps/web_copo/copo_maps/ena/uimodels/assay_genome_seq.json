@@ -5,11 +5,13 @@
   },
   {
     "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidExtraction.extractName",
-    "ref": "Extract Name"
+    "ref": "Extract Name",
+    "hidden": "true"
   },
   {
     "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.rawDataFile",
-    "ref": "Raw Data File"
+    "ref": "Raw Data File",
+    "hidden": "true"
   },
   {
     "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.libraryLayout",
@@ -17,23 +19,28 @@
   },
   {
     "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.baseCaller",
-    "ref": "Parameter Value[base caller]"
+    "ref": "Parameter Value[base caller]",
+    "hidden": "true"
   },
   {
     "id": "studies.study.assays.assaysTable.genomeSeq.sequenceAssembly.dataTransformationName",
-    "ref": "Data Transformation Name"
+    "ref": "Data Transformation Name",
+    "hidden": "true"
   },
   {
     "id": "studies.study.assays.assaysTable.genomeSeq.sequenceAssembly.derivedDataFile",
-    "ref": "Derived Data File"
+    "ref": "Derived Data File",
+    "hidden": "true"
   },
   {
     "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.export",
-    "ref": "Comment[Export]"
+    "ref": "Comment[Export]",
+    "hidden": "true"
   },
   {
     "id": "studies.study.assays.assaysTable.genomeSeq.sequenceAssembly.normalizationName",
-    "ref": "Normalization Name"
+    "ref": "Normalization Name",
+    "hidden": "true"
   },
   {
     "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.libraryStrategy",
@@ -41,7 +48,8 @@
   },
   {
     "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.assayName",
-    "ref": "Assay Name"
+    "ref": "Assay Name",
+    "hidden": "true"
   },
   {
     "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.librarySource",

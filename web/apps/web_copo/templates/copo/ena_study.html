@@ -104,8 +104,6 @@
 
     <!--test begins-->
 
-    <button type="button" class="btn btn-default take-me-out" target-did="welcome to the world">Default</button>
-
     <!--test ends-->
 
     <div class="panel-group" id="accordion">
@@ -442,44 +440,6 @@
         </div>
     </div>
 
-    <!-- Modal for deleting study components e.g., sample, publication -->
-    <div class="modal fade" id="studyComponentsDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content alert alert-warning">
-
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Confirm <span id="delete_component"
-                                                                            style="text-transform: capitalize;"></span>
-                        Delete</h4>
-                </div>
-
-                <div class="modal-body">
-                    <form role="form" id="delete_element_form_2" action="{% url 'copo:add_to_study' %}"
-                          method="post">
-                        {% csrf_token %}
-                        <input type="hidden" id="target_delete_id" value="">
-                        <input type="hidden" id="target_delete_component" value="">
-
-                        <p>You are about to delete the highlighted <span id="delete_component_message"
-                                                                         style="text-transform: lowercase;"></span>.</p>
-
-                        <p>Do you want to proceed?</p>
-
-                        <p class="debug-url"></p>
-
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                            <a id="delete_task_btn" class="btn btn-danger btn-ok">Delete</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Modal for assigning study samples -->
     <div class="modal copo-modal2 fade" id="samplesAssignModal" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel"
@@ -540,5 +500,6 @@
     <script src="{% static 'copo/js/uploader/ena_upload_wrapper.js' %}"></script>
     <script src="{% static 'copo/js/uploader/bootstrap_panel.js' %}"></script>
     <script src="{% static 'copo/js/uploader/upload_util.js' %}"></script>
+    <script src="{% static 'copo/js/progressbar.js' %}"></script>
 
 {% endblock %}

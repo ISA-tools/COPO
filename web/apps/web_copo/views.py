@@ -1,6 +1,6 @@
 from threading import Thread
 import logging
-import datetime
+from datetime import datetime
 import sys
 import ast
 import os
@@ -33,6 +33,7 @@ import web.apps.web_copo.copo_maps.utils.lookup as lkup
 import web.apps.web_copo.templatetags.html_tags as htags
 from django_tools.middlewares import ThreadLocal
 import web.apps.web_copo.copo_maps.utils.data_utils as d_utils
+from web.apps.web_copo.repos.aspera import AsperaTransfer
 from dal import ObjectId
 from master_settings import MEDIA_ROOT
 from dal.copo_base_da import DataSchemas
@@ -201,7 +202,7 @@ def view_collection(request, collection_head_id):
                          'ui_template': ui_template,
                          'study_types': study_types,
                          'sample_attributes': sample_attributes,
-                         'messages': messages
+                         'messages': messages,
                          }
         else:
             data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
@@ -246,6 +247,7 @@ def view_study(request, study_id):
 
     # get study types
     study_types = lkup.DROP_DOWNS['STUDY_TYPES']
+    files_already_in_study = 4;
 
     data_dict = {'collection_head_id': collection_head_id,
                  'profile_id': profile_id,
@@ -254,7 +256,8 @@ def view_study(request, study_id):
                  'ena_collection_id': ena_collection_id,
                  'study': study,
                  'study_types': study_types,
-                 'ui_template': ui_template
+                 'ui_template': ui_template,
+                 'files_already_in_study': 4,
                  }
     return render(request, 'copo/ena_study.html', data_dict, context_instance=RequestContext(request))
 
@@ -355,8 +358,6 @@ def add_to_study(request):
         data_file_id = request.POST['data_file_id']
         fields = {"samples": samples}
         EnaCollection().update_ena_datafile(study_id, ena_collection_id, data_file_id, fields)
-        # get updated table info for UI display
-        return_structure['data_file_html'] = htags.generate_study_data_table2(ena_collection_id, study_id)
     elif task == "delete_datafile_from_study":
         data_file_id = request.POST['data_file_id']
         fields = {"deleted": "1"}
@@ -468,6 +469,7 @@ def save_figshare_collection(request):
 
 
 def upload_to_dropbox(request):
+    return_structure = {}
     # set up an Aspera collection handle
     AsperaCollection = get_collection_ref("AsperaCollections")
     transfer_token = ""
@@ -483,56 +485,42 @@ def upload_to_dropbox(request):
         chunked_upload = ChunkedUpload.objects.get(id=int(data_file["fileId"]))
 
         # set a new document in the aspera collection,
-        # thus obtaining a transfer token to orchestrate the process
+        # thus obtaining a transfer token to orchestrate the transfer process
         path_to_json = lkup.SCHEMAS["COPO"]['PATHS_AND_URIS']['ASPERA_COLLECTION']
         db_template = d_utils.json_to_pytype(path_to_json)
         transfer_token = AsperaCollection.insert(db_template)
+        path_to_file = os.path.join(MEDIA_ROOT, chunked_upload.file.name)
+
+        # update some initial fields
+        # assume transfer_status is 'transferring' initially to allow the progress monitor to kick-start
+        AsperaCollection.update({"_id": transfer_token},
+                                {"$set": {"transfer_commenced": str(datetime.now()),
+                                          "file_path": path_to_file,
+                                          "transfer_status": "transferring",
+                                          "pct_completed": 0}
+                                 })
+
+        # instantiate an aspera transfer process
+        process = Thread(target=AsperaTransfer, args=(transfer_token,))
+        process.start()
+
+        return_structure['initiate_data'] = {"transfer_token": str(transfer_token)}
+
     elif task == "transfer_progress":
-        pass
+        tokens = ast.literal_eval(request.POST["tokens"])
+        progress_list = []
 
+        for key, value in tokens.items():
+            doc = AsperaCollection.find_one({"_id": ObjectId(key)})
+            if doc:
+                progress = {"transfer_token": key, "pct_completed": doc["pct_completed"],
+                            "transfer_status": doc["transfer_status"]}
+                progress_list.append(progress)
 
-    # if request.method == "POST":
-    #     data_file_id = request.POST["data_file_id"]
-    #
-    #     try:
-    #         file_object = get_object_or_404(ChunkedUpload, pk=files)
-    #         path_to_files = os.path.join(MEDIA_ROOT, file_object.file.name)
-    #
-    #         document = {
-    #             "file": path_to_files,
-    #             "user_id": request.user.id,
-    #             "started_on": datetime.now(),
-    #             "completed_on": '',
-    #             "transfer_rate": '',
-    #             "pct_complete": '',
-    #             "exit_status": '',
-    #             "elapsed_time": '',
-    #             "file_size (bytes)": '',
-    #             "bytes_lost": ''
-    #         }
-    #
-    #         aspera_transfer_id = asperacollections.insert(document)
-    #         initiate_status = "success"
-    #     except:
-    #         initiate_status = "error"
-    #
-    #     # process = Thread(target=do_aspera_transfer, args=(aspera_transfer_id,))
-    #     # process.start()
-    #
-    # elif request.method == "GET":
-    #     aspera_transfer_id = request.GET["transfer_id"]
-    #
-    #     document = list(asperacollections.find({"_id": ObjectId(aspera_transfer_id)},
-    #                                            {"pct_complete": 1, "exit_status": 1}))
-    #     pct_complete = document[0]['pct_complete']
-    #     exit_status = document[0]['exit_status']
+        return_structure['progress_data'] = progress_list
 
-    # return_structure = {'pct_complete': pct_complete,
-    #                     'exit_status': exit_status,
-    #                     'initiate_status': initiate_status,
-    #                     "transfer_id": str(aspera_transfer_id)
-    #                     }
-    out = jsonpickle.encode({'transfer_token': str(transfer_token)})
+    return_structure['exit_status'] = 'success'
+    out = jsonpickle.encode(return_structure)
     return HttpResponse(out, content_type='json')
 
 
