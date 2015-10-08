@@ -3,8 +3,8 @@ import logging
 from datetime import datetime
 import sys
 import ast
-import os
 
+import os
 from django.shortcuts import render, render_to_response
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -12,7 +12,6 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
-
 from django.template import RequestContext
 
 from error_codes import DB_ERROR_CODES, UI_ERROR_CODES
@@ -172,6 +171,8 @@ def view_collection(request, collection_head_id):
     profile_id = request.session['profile_id']
     request.session['collection_head_id'] = collection_head_id
 
+
+    # ENA Type Handler-----------------------------------
     if collection_head['type'].lower() == 'ena submission':
         # get template for rendering the UI
         ui_template = DataSchemas("ENA").get_ui_template()
@@ -207,7 +208,12 @@ def view_collection(request, collection_head_id):
         else:
             data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,
                          'profile_id': profile_id}
+        request.session.delete('collected')
         return render(request, 'copo/ena_collection_multi.html', data_dict, context_instance=RequestContext(request))
+
+
+    # Figshare Type Handler -------------------------------------
+
     elif collection_head['type'].lower() == 'figshare':
         articles = FigshareCollection().get_articles_in_collection(collection_head_id)
         data_dict = {'collection_head': collection_head, 'collection_head_id': collection_head_id,

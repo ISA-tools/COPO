@@ -1,7 +1,6 @@
 __author__ = 'felix.shaw@tgac.ac.uk - 18/03/15'
 
 from datetime import date
-import random
 import string
 import uuid
 import ast
@@ -12,6 +11,9 @@ import dal.mongo_util as mutil
 
 # from dal.resource import *
 # from web_copo.mongo.mongo_util import *
+
+#from dal.resource import *
+#from web_copo.mongo.mongo_util import *
 import random
 import web.apps.web_copo.copo_maps.utils.data_utils as d_utils
 
@@ -788,3 +790,4 @@ class EnaCollection(Resource):
         return EnaCollections.update({"files.chunked_upload_id": int(file_id)},
                                      {"$pull": {"files": {"chunked_upload_id": int(file_id)
                                                           }}})
+

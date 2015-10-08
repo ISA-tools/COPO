@@ -170,14 +170,14 @@ HTML_TAGS = {
     "textarea": "<div class='form-group'><label for='{elem_id!s}'>{elem_label!s}</label><br/>"
                 "<textarea class='form-control' rows='6' cols='40' id='{elem_id!s}'  name='{elem_id!s}'>{elem_value!s}</textarea></div>",
     "select": "<div class='form-group'><label for='{elem_id!s}'>{elem_label!s}</label><br/>"
-              "<select class='form-control' id='{elem_id!s}' name='{elem_id!s}'> {option_values!s} </select></div>",
+              "<select class='form-control input-copo' id='{elem_id!s}' name='{elem_id!s}'> {option_values!s} </select></div>",
     "date": "<div class='form-group'><label for='{elem_id!s}'>{elem_label!s}</label><br/>"
             "<input type='text' class='pop_date_picker input-copo' id='{elem_id!s}' name='{elem_id!s}' "
             "value='{elem_value!s}'>",
     "hidden": "<input type='hidden' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'>",
     "file": "",
-    "ontology term": "<label for='{elem_id!s}'>{elem_label!s}</label><br/>"
-                     "<input class='input-copo' type='text' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'>"
+    "ontology term": "<div class='form-group'><label for='{elem_id!s}'>{elem_label!s}</label><br/>"
+                     "<input class='input-copo ontology-field' type='text' id='{elem_id!s}' name='{elem_id!s}' /></div>"
 }
 
 # for displaying information/guidance mostly via tooltips
