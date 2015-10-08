@@ -25,6 +25,15 @@ $(document).ready(function () {
 
             });
 
+            //handle assay wizard rendering
+            $("#wizard").steps({
+                headerTag: "h2",
+                bodyTag: "section",
+                transitionEffect: "slideLeft",
+                enableFinishButton: false,
+                enablePagination: false
+            });
+
             //handle event for date picker
             $('.pop_date_picker').datepick({
                 dateFormat: 'D, M d, yyyy',
