@@ -25,6 +25,7 @@
     </noscript>
     <link rel="stylesheet" href="{% static 'copo/css/copo/collection.css' %}">
     <link rel="stylesheet" href="{% static 'copo/css/copo/study.css' %}">
+	<link rel="stylesheet" href="{% static 'copo/jquery_steps/jquery.steps.css' %}">
 
 {% endblock %}
 
@@ -62,6 +63,8 @@
         <input type="hidden" id="sample_attr_counter" value="1"/>
 
         <input type="hidden" id="file_id" value=""/>
+
+		<input type="hidden" id="wizard_file_id" value=""/>
 
         <input type="hidden" id="new_data_file_id" value=""/>
 
@@ -489,15 +492,7 @@
           </span>
         </div>
     </div>
-    <div class="modal-body">
-        <div id="wizard"></div>
-        <div class="modal-footer">
-            <div id="file_details_button_div" class="pull-right">
-                <div class="btn btn-primary" id="prev_wiz">Prev</div>
-                <div class="btn btn-primary" id="next_wiz">Next</div>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Modal for adding file/assay details -->
     <div class="modal fade" id="filesAssignModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

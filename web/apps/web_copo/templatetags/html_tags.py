@@ -30,10 +30,16 @@ def generate_tag(field_id):
     out_list = get_fields_list(field_id)
     for f in out_list:
         if f["id"] == field_id:
+            f["label"] = trim_parameter_value_label(f["label"])
             html_tag = mark_safe(do_tag(f))
             break
     return html_tag
 
+def trim_parameter_value_label(label):
+    if "Parameter Value" in label:
+        return str.capitalize(label[label.index('[')+1:label.index(']')])
+    else:
+        return label
 
 @register.filter("generate_ena_labels")
 def generate_ena_labels(field_id):

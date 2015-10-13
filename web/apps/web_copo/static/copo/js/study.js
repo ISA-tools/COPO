@@ -34,6 +34,13 @@ $(document).ready(function () {
                 enablePagination: false
             });
 
+            $('.experiment-describe').on('click', function(){
+                //get file id
+                var file_id = $(this).attr('target-id')
+                $('#wizard_file_id').val($(this).attr('target-id'))
+                handle_click(file_id)
+            })
+
             //handle event for date picker
             $('.pop_date_picker').datepick({
                 dateFormat: 'D, M d, yyyy',

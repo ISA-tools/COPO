@@ -5,13 +5,11 @@
 $(document).ready(function () {
     $('#next_wiz').on('click', next_step);
     $('#prev_wiz').on('click', prev_step);
-
-
-    $('#test_wizard').on('click', handle_click)
-
 });
 
-function handle_click() {
+function handle_click(file_id) {
+
+
     if ($('#wizard').find('section').length == 0) {
         process_stage(false)
     }
@@ -44,6 +42,8 @@ function next_step() {
 
 function process_stage(last_stage) {
     var study_type = $('#study_type').val();
+    var study_id = $('#study_id').val()
+    var datafile_id = $('#wizard_file_id').val()
     var prev_step_id;
     var prev_question;
     var current_answer = '';
@@ -63,6 +63,8 @@ function process_stage(last_stage) {
 
 
     data_dict = {
+        'datafile_id': datafile_id,
+        'study_id': study_id,
         'answer': current_answer,
         'study_type': study_type,
         'prev_question': prev_question

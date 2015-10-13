@@ -12,8 +12,8 @@ import dal.mongo_util as mutil
 # from dal.resource import *
 # from web_copo.mongo.mongo_util import *
 
-#from dal.resource import *
-#from web_copo.mongo.mongo_util import *
+# from dal.resource import *
+# from web_copo.mongo.mongo_util import *
 import random
 import web.apps.web_copo.copo_maps.utils.data_utils as d_utils
 
@@ -487,6 +487,20 @@ class EnaCollection(Resource):
         data = mutil.verify_doc_type(doc)
         return data[0] if data else {}
 
+    def add_assay_data_to_datafile(self, study_id, ena_collection_id, data_file_id, assay_data):
+
+        data_file = self.get_study_datafile(study_id, ena_collection_id, data_file_id)
+        all_data_files = self.get_study_datafiles_all(ena_collection_id, study_id)
+
+        # get index of the target record in the list of datafiles
+        indx = all_data_files.index(data_file)
+        if indx:
+            EnaCollections.update(
+                {"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
+                {'$push': {"studies.$.studyCOPOMetadata.dataFiles." + str(indx) + ".attributes": assay_data}})
+
+
+
     def add_sample_to_ena_study(self, study_id, ena_collection_id, sample):
         EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
                               {'$push': {"studies.$.studyCOPOMetadata.samples": sample}})
@@ -790,4 +804,3 @@ class EnaCollection(Resource):
         return EnaCollections.update({"files.chunked_upload_id": int(file_id)},
                                      {"$pull": {"files": {"chunked_upload_id": int(file_id)
                                                           }}})
-

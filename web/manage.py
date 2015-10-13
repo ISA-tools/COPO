@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     sys.path.append(os.path.join(web_home, 'apps'))
 
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "master_settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project_copo.settings.master_settings")
     from django.core.management import execute_from_command_line
 
     execute_from_command_line(sys.argv)
