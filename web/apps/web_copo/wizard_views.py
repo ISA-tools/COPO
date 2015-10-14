@@ -9,19 +9,19 @@ from web.apps.web_copo.templatetags.html_tags import generate_ena_tags_2
 
 
 def get_next_wizard_stage(request):
-    # create session variable for collecting wizard data if not already exist
+
+    # get data from request
     ena_collection_id = request.session['ena_collection_id']
     datafile_id = request.GET['datafile_id']
     study_id = request.GET['study_id']
     last_stage = request.GET['last']
-    if last_stage == 'true':
-        return HttpResponse(jsonpickle.encode({}))
-
-    # make dict from required params
     study_type = request.GET['study_type']
     prev_question = request.GET['prev_question']
     answer = request.GET['answer']
     attrib = {'question': prev_question, 'answer': answer}
+
+
+
 
     # get the ui_template for the required study
     ui_template = DataSchemas("ENA").get_ui_template()
@@ -44,6 +44,7 @@ def get_next_wizard_stage(request):
                     field_track.append(f)
 
     r = {'num_steps': len(field_track)}
+
     if prev_question == '':
         # we are dealing with the first question
         out = generate_wizard_html(field_track[0])
@@ -55,6 +56,9 @@ def get_next_wizard_stage(request):
         # commit this data to the submission
         da().add_assay_data_to_datafile(study_id, ena_collection_id, datafile_id, attrib)
 
+        # if last stage, simply return
+        if last_stage == 'true':
+            return HttpResponse(jsonpickle.encode({}))
         for idx in range(0, len(field_track)):
             index = field_track[idx]
             if index['id'] == prev_question:
