@@ -48,6 +48,7 @@ function process_stage(last_stage) {
     var prev_question;
     var current_answer = '';
     var current_step;
+    var process_stage_url = $('#process_stage_url').val()
     try {
         current_step = $('#wizard').steps('getCurrentStep');
         prev_question = $(current_step).data('step_id')
@@ -70,19 +71,34 @@ function process_stage(last_stage) {
         'prev_question': prev_question
     };
 
-    if(last_stage)
+    if (last_stage)
         data_dict.last = true;
     else
         data_dict.last = false;
 
     $.ajax({
         type: 'get',
-        url: '/rest/get_next_wizard_stage/',
+        url: process_stage_url,
         dataType: 'json',
         data: data_dict
     }).done(function (d) {
         if (last_stage) {
             $('#filesAssignModal').modal('hide')
+        }
+        else if (d.detail.length > 0) {
+            var last_step = ''
+            $(d.detail).each(function (key, value) {
+                $('#wizard').steps('add', {
+                    title: value.title,
+                    content: value.element
+                });
+                last_step = value.id
+            })
+
+            $('#filesAssignModal').modal('show')
+            while($('#wizard').steps("next"));
+            var current_step = $('#wizard').steps('getCurrentStep');
+            $(current_step).data('step_id', last_step)
         }
         else {
             $('#wizard').steps('add', {
@@ -94,7 +110,7 @@ function process_stage(last_stage) {
             var num_steps = $('#wizard').find('section').length;
             while (num_steps > 1 && $('#wizard').steps('next')) {
             }
-            current_step = $('#wizard').steps('getCurrentStep');
+            var current_step = $('#wizard').steps('getCurrentStep');
             $(current_step).data('step_id', d.detail.id);
             $('.ontology-term').css('color', 'red');
             $('#filesAssignModal').modal('show')

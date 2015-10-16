@@ -20,6 +20,7 @@ from dal.ena_da import EnaCollection
 from dal.copo_base_da import Collection_Head
 from dal.mongo_util import cursor_to_list
 import web.apps.web_copo.templatetags.html_tags as htags
+from dal import EnaCollection
 
 
 class JSONResponse(HttpResponse):
@@ -466,3 +467,5 @@ def delete_file(request):
     EnaCollection().remove_file_from_experiment(file_id)
     ch.delete()
     return HttpResponse(request.POST.get('file_id'), content_type='text/plain')
+
+

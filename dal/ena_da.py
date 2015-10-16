@@ -7,7 +7,7 @@ import ast
 
 import dal.mongo_util as mutil
 
-
+from django_tools.middlewares import ThreadLocal
 
 # from dal.resource import *
 # from web_copo.mongo.mongo_util import *
@@ -497,7 +497,20 @@ class EnaCollection(Resource):
         if indx:
             EnaCollections.update(
                 {"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id},
-                {'$push': {"studies.$.studyCOPOMetadata.dataFiles." + str(indx) + ".attributes": assay_data}})
+                {'$push': {"studies.$.studyCOPOMetadata.dataFiles." + str(indx) + ".attributes": assay_data}},
+                upsert=True
+            )
+
+
+    def check_data_file_status(self, collection_id, study_id, file_id):
+        request = ThreadLocal.get_current_request()
+        file = self.get_study_datafile(study_id, collection_id, file_id)
+        if 'attributes' in file and len(file['attributes']) > 0:
+            request.session['wizard_add_attributes'] = True
+            return True
+        else:
+            request.session['wizard_add_attributes'] = False
+            return False
 
 
 
@@ -804,3 +817,4 @@ class EnaCollection(Resource):
         return EnaCollections.update({"files.chunked_upload_id": int(file_id)},
                                      {"$pull": {"files": {"chunked_upload_id": int(file_id)
                                                           }}})
+

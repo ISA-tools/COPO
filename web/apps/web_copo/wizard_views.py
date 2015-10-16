@@ -7,8 +7,15 @@ from dal.ena_da import EnaCollection as da
 from error_codes import UI_ERROR_CODES
 from web.apps.web_copo.templatetags.html_tags import generate_ena_tags_2
 
+def check_data_file_status(request):
+    file_id = request.POST['data_file_id']
+    collection_id = request.POST['ena_collection_id']
+    study_id = request.POST['study_id']
+    result = da().check_data_file_status(collection_id, study_id, file_id)
+    return HttpResponse(jsonpickle.encode({'details': result}))
 
-def get_next_wizard_stage(request):
+
+def process_stage(request):
 
     # get data from request
     ena_collection_id = request.session['ena_collection_id']
@@ -42,6 +49,25 @@ def get_next_wizard_stage(request):
             for f in field_set['fields']:
                 if f != 'fields' and f['hidden'] == "false":
                     field_track.append(f)
+
+    # at this point add in create the html for a completed assay set if session flag is set
+    if request.session['wizard_add_attributes']:
+        request.session['wizard_add_attributes'] = False
+        file = da().get_study_datafile(study_id, ena_collection_id, datafile_id)
+        for a in file['attributes']:
+            for t in field_track:
+                if(a['question'] == t['id']):
+                    t['default_value'] = a['answer']
+
+        # at this point we have all the default values which have been set so far
+        html = []
+        for t in field_track:
+            if t['default_value'] != '':
+                html.append(generate_wizard_html(t))
+        out = {}
+        out['response'] = 1
+        out['detail'] = html
+        return HttpResponse(jsonpickle.encode(out))
 
     r = {'num_steps': len(field_track)}
 
@@ -77,7 +103,7 @@ def generate_wizard_html(field):
 
 
     # create html for select type control
-    element = generate_ena_tags_2(field['id'])
+    element = generate_ena_tags_2(field['id'], field['default_value'])
     h['element'] = str(element)
     return h
 

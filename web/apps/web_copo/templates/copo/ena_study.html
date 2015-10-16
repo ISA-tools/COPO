@@ -64,6 +64,10 @@
 
         <input type="hidden" id="file_id" value=""/>
 
+		<input type="hidden" id="file_status_check_url" value="{% url 'rest:check_data_file_status' %}"/>
+
+		<input type="hidden" id="process_stage_url" value="{% url 'rest:process_stage' %}"/>
+
 		<input type="hidden" id="wizard_file_id" value=""/>
 
         <input type="hidden" id="new_data_file_id" value=""/>
