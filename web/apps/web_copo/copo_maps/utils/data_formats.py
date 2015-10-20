@@ -66,9 +66,12 @@ class DataFormats:
                 if k not in elem_dict.keys():
                     new_list[indx][k] = ""
 
+            seq_label = 0  # helps us to maintain order, since order matters in ISA!
             for f in iter(fields):
+                seq_label += 1
                 # 'ref' key in the config is defined to match 'header' attribute in the ISA xml
                 if f.get("header") == elem_dict["ref"]:
+                    new_list[indx]["rank"] = seq_label
 
                     # modify for file fields
                     if f.get("is-file-field") == "true":
@@ -97,10 +100,6 @@ class DataFormats:
         out_dict = output_dict
 
         for elem_dict in new_list:
-            # no need retaining the mapping key
-            if "ref" in elem_dict:
-                del elem_dict["ref"]
-
             # remove option_values for non select elements
             if not elem_dict["control"] == "select":
                 del elem_dict["option_values"]

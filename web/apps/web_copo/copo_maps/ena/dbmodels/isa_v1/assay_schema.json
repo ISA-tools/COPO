@@ -1,0 +1,38 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Assay JSON Schema",
+    "description": "JSON Schema describing an Assay",
+    "@context": {
+        "@base": "http://purl.org/isaterms/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "type": "object",
+    "properties": {
+        "fileName" : { "type" : "string" },
+        "measurementType" : {
+            "type" : "object",
+            "properties": {
+                "name" : {"type" : "string"},
+                "ontologyAnnotation" : {
+                    "$ref": "ontology_annotation_schema.json#"
+                }
+            }
+        },
+        "technologyType" : {
+            "type" : "object",
+            "properties": {
+                "name" : {"type" : "string"},
+                "ontologyAnnotation" : {
+                    "$ref": "ontology_annotation_schema.json#"
+                }
+            }
+        },
+        "technologyPlatform" : { "type" : "string"},
+        "processSequence": {
+              "type": "array",
+              "items" : {
+               "$ref" : "process_schema.json#"
+            }
+        }
+    }
+}

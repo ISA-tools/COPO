@@ -2,6 +2,7 @@ __author__ = 'etuka'
 
 import json
 from collections import namedtuple
+import re
 
 import web.apps.web_copo.copo_maps.ena.uimodels.ena_copo_config as ecc
 import web.apps.web_copo.copo_maps.utils.lookup as lkup
@@ -56,6 +57,13 @@ def get_sample_attributes():
     return sample_attributes
 
 
+def get_isajson_refactor_type(key):
+    out_dict = {}
+    if key in json_to_pytype(ecc.MODEL_FILES["ISA_JSON_REFACTOR_TYPES"]):
+        out_dict = json_to_pytype(ecc.MODEL_FILES["ISA_JSON_REFACTOR_TYPES"])[key]
+    return out_dict
+
+
 def json_to_pytype(path_to_json):
     data = ""
     with open(path_to_json, encoding='utf-8') as data_file:
@@ -68,3 +76,5 @@ def get_collection_head_dc():
     with open(f_path) as json_data:
         data = json.load(json_data)
     return data
+
+

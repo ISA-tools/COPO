@@ -31,5 +31,6 @@ CONFIG_FILES = {
 
 MODEL_FILES = {
     'ISA_OBJECT_MODEL': PROJ_HOME + '/web/apps/web_copo/copo_maps/ena/uimodels/object_model.json',
+    'ISA_JSON_REFACTOR_TYPES': PROJ_HOME + '/web/apps/web_copo/copo_maps/ena/uimodels/isajson_refactor.json',
     'SAMPLE_ATTRIBUTES': PROJ_HOME + '/web/apps/web_copo/copo_maps/ena/uimodels/sample_characteristics.json'
 }

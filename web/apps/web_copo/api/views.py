@@ -9,9 +9,10 @@ import web.apps.web_copo.repos.figshare as f
 import dal.figshare_da as fs
 from dal.figshare_da import FigshareCollection
 from services import *
-from dal.copo_base_da import DataSchemas
 from web.apps.web_copo.copo_maps.utils.data_formats import DataFormats
+from dal.copo_base_da import Collection_Head
 from api.doi_metadata import DOI2Metadata
+from dal.ena_da import EnaCollection
 
 
 def upload_to_figshare_profile(request):
@@ -81,13 +82,14 @@ def doi2publication_metadata(request, id_handle):
     else:
         message = "DOI missing"
         out_dict = {"status": "failed", "messages": message, "data": {}}
-    return HttpResponse(jsonpickle.encode(temp_dict))
+    return HttpResponse(jsonpickle.encode(out_dict))
+
 
 def get_collection_type(request):
-    from dal.copo_base_da import Collection_Head
     collection_id = request.GET['collection_id']
     c = Collection_Head().GET(collection_id)
     return HttpResponse(c['type'])
+
 
 def convert_to_sra(request):
     from converters.ena.copo_hokey import exporter
@@ -98,3 +100,18 @@ def convert_to_sra(request):
     return HttpResponse('here')
 
     return HttpResponse(json.dumps(out_dict, ensure_ascii=False))
+
+
+def refactor_collection_schema(request):
+    collection_head_id = request.POST['collection_head_id']
+    collection_type = request.POST['collection_type']
+
+    collection_head = Collection_Head().GET(collection_head_id)
+    status = ""
+
+    if collection_type.lower() == "ena submission":
+        ena_collection_id = str(collection_head['collection_details'][0])
+        status = EnaCollection().refactor_ena_schema(ena_collection_id)
+
+    out_dict = {"status": status}
+    return HttpResponse(jsonpickle.encode(out_dict), content_type='json')

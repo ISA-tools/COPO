@@ -123,12 +123,26 @@ $(document).ready(function () {
                     submit_to_figshare(e)
                 }
                 else if (data == 'ENA Submission') {
-                    alert(1); return false;
-                    $.post('/api/convert_to_sra/', {'collection_id': collection_id, 'csrfmiddlewaretoken': csrftoken})
-                        .done(function(data){
-                            console.log(data)
-                        })
+                    $.post('/api/refactor_collection_schema/',
+                        {
+                            'collection_head_id': collection_id,
+                            'collection_type': 'ENA Submission',
+                            'csrfmiddlewaretoken': csrftoken
+                        }
+                    ).done(function (data) {
+                            console.log(data.status);
+                            if (data.status == "success") {
+                                return false; //todo: need to remove this line later in order to access sra conversion...
+                                $.post('/api/convert_to_sra/', {
+                                    'collection_id': collection_id,
+                                    'csrfmiddlewaretoken': csrftoken
+                                }).done(function (data) {
+                                    console.log(data)
+                                });
+                            }
+
+                        });
                 }
-            })
+            });
     }
 })

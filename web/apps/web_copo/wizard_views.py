@@ -4,7 +4,7 @@ import jsonpickle
 
 from dal.copo_base_da import DataSchemas
 from error_codes import UI_ERROR_CODES
-from web_copo.templatetags.html_tags import generate_ena_tags_2
+from web.apps.web_copo.templatetags.html_tags import generate_ena_tags_2
 
 
 def get_next_wizard_stage(request):

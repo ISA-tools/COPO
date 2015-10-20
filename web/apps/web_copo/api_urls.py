@@ -22,5 +22,7 @@ urlpatterns = patterns('web_copo.api.views',
                        url(r'^get_collection_type/$', api_views.get_collection_type,
                            name='get_collection_type'),
                        url(r'^convert_to_sra/$', api_views.convert_to_sra,
-                           name='convert_to_sra')
+                           name='convert_to_sra'),
+                       url(r'^refactor_collection_schema/$', api_views.refactor_collection_schema,
+                           name='refactor_collection_schema')
                        )

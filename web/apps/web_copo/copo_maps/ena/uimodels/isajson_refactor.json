@@ -1,0 +1,62 @@
+{
+  "description": "JSON schema for describing ISA's sample and assays nodes",
+  "characteristics": {
+    "items": [
+      {
+        "categoryTerm": "",
+        "characteristics": "",
+        "termAccessionNumber": "",
+        "termSourceREF": ""
+      }
+    ],
+    "type": "isaMaterialAttribute"
+  },
+  "parametervalue": {
+    "items": [
+      {
+        "parameterTerm": "",
+        "parameterValue": "",
+        "termAccessionNumber": "",
+        "termSourceREF": ""
+      }
+    ],
+    "type": "isaParameterValue"
+  },
+  "factorvalue": {
+    "items": [
+      {
+        "factorName": "",
+        "factorValue": "",
+        "termAccessionNumber": "",
+        "termSourceREF": ""
+      }
+    ],
+    "type": "isaFactorValue"
+  },
+  "protocol": {
+    "name": "Protocol REF",
+    "type": "isaProtocolExecutionNode",
+    "value": ""
+  },
+  "comment": {
+    "commentTerm": "",
+    "name": "Comment",
+    "type": "isaComment",
+    "value": ""
+  },
+  "file": {
+    "name": "",
+    "type": "isaDataNode",
+    "value": ""
+  },
+  "assayname": {
+    "name": "",
+    "type": "isaProcessNode",
+    "value": ""
+  },
+  "generic": {
+    "name": "",
+    "type": "isaMaterialNode",
+    "value": ""
+  }
+}

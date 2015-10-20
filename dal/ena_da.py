@@ -1,22 +1,16 @@
 __author__ = 'felix.shaw@tgac.ac.uk - 18/03/15'
 
 from datetime import date
+import difflib
+import random
 import string
 import uuid
 import ast
+import re
 
 import dal.mongo_util as mutil
-
-
-
-# from dal.resource import *
-# from web_copo.mongo.mongo_util import *
-
-#from dal.resource import *
-#from web_copo.mongo.mongo_util import *
-import random
 import web.apps.web_copo.copo_maps.utils.data_utils as d_utils
-
+from chunked_upload.models import ChunkedUpload
 from dal.mongo_util import get_collection_ref
 from dal.base_resource import Resource
 from dal import ObjectId
@@ -568,6 +562,223 @@ class EnaCollection(Resource):
         EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id}, {
             '$set': auto_dict})
 
+    def refactor_ena_schema(self, ena_collection_id):
+        # get list of all studies in the collection and start gathering the different bits of metadata
+        studies = self.get_ena_studies(ena_collection_id)
+        for st in studies:
+            study_id = st["studyCOPOMetadata"]["id"]
+
+            # refactor for studySamples
+            # study_samples = self.refactor_ena_study_samples(ena_collection_id, study_id)
+            # EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id}, {
+            #     '$set': {"studies.$.study.studySamples": study_samples}})
+
+            # refactor for assays
+            study_assay = self.refactor_ena_study_assays(ena_collection_id, study_id)
+            EnaCollections.update({"_id": ObjectId(ena_collection_id), "studies.studyCOPOMetadata.id": study_id}, {
+                '$set': {"studies.$.study.assays": study_assay}})
+
+        status = "success"
+        return status
+
+    def refactor_ena_study_samples(self, ena_collection_id, study_id):
+        normalised_ranked_list = self.get_normalised_ranked_list([],
+                                                                 d_utils.get_ena_ui_template_as_dict()[
+                                                                     "studies"]["study"][
+                                                                     "studySamples"])
+
+        study_samples = []
+        samples = self.get_study_samples(ena_collection_id, study_id)
+
+        if samples:
+            for sd in samples:
+                sample_id = sd["id"]
+                sample_details = self.get_ena_sample(ena_collection_id, sample_id)
+                if sample_details:
+                    study_sample = []
+                    modified_ranked_list = self.get_modified_ranked_list(normalised_ranked_list)
+                    for elem_dict in modified_ranked_list:
+                        entry_dict = elem_dict
+                        # get target values from sample_details and delete irrelevant entries in "entry_dict"
+                        # also sort out "items" if entries exist for them
+                        if entry_dict["ref"] in sample_details:
+                            entry_dict["value"] = sample_details[entry_dict["ref"]]
+                        structure = ""
+                        if entry_dict["items"]:
+                            # it might well be an "all for one, one for all" arrangement here...
+                            # i.e., structure for a single entry under "items" suffices for the rest
+                            structure = entry_dict["items"][0]["structure"].replace(" ", "").lower()
+                        # now safe to delete redundant keys from entry_dict
+                        del entry_dict["ref"]
+                        del entry_dict["items"]
+                        study_sample.append(entry_dict)
+
+                        # another entry, this time for "items", that is, if exist!
+                        if structure and structure in sample_details:
+                            entry_dict = d_utils.get_isajson_refactor_type(structure)
+                            entry_dict["items"] = sample_details[structure]
+                            study_sample.append(entry_dict)
+                    study_samples.append(study_sample)
+
+        return study_samples
+
+    def refactor_ena_study_assays(self, ena_collection_id, study_id):
+        study_assay = d_utils.get_ena_db_template()['studies'][0]['study']['assays'][0]
+
+        # get study type to determine the context to represent
+        study_type = self.get_ena_study(study_id, ena_collection_id)["studyCOPOMetadata"]["studyType"]
+
+        normalised_ranked_list = self.get_normalised_ranked_list([],
+                                                                 d_utils.get_ena_ui_template_as_dict()[
+                                                                     "studies"]["study"][
+                                                                     "assays"]["assaysTable"][study_type])
+        assays_table = []
+        datafiles = self.get_study_datafiles(ena_collection_id, study_id)
+
+        if datafiles:
+            for df in datafiles:
+                # get samples, every sample attached to a file will also have an entry in assaysTables
+                if df["samples"]:
+                    for sample_id in df["samples"]:
+                        sample_details = self.get_ena_sample(ena_collection_id, sample_id)
+                        if sample_details:
+                            temp_dict = sample_details
+
+                            # sort out data file
+                            temp_dict["rawDataFile"] = ChunkedUpload.objects.get(id=int(df["fileId"])).file.name
+
+                            # sort out elements captured under attributes
+                            temp_dict["attributes"] = df["attributes"]
+
+                            # now start making entries
+                            assay = []
+                            modified_ranked_list = self.get_modified_ranked_list(normalised_ranked_list)
+                            for elem_dict in modified_ranked_list:
+                                entry_dict = elem_dict
+                                if entry_dict["ref"] in temp_dict:
+                                    entry_dict["value"] = temp_dict[entry_dict["ref"]]
+
+                                items = entry_dict["items"]
+                                # remove redundant fields
+                                del entry_dict["ref"]
+                                del entry_dict["items"]
+                                assay.append(entry_dict)
+
+                                if items:
+                                    # spin off another entry_dict to cater for these items
+
+                                    # it might well be an "all for one, one for all" arrangement here...
+                                    # i.e., structure for a single entry under "items" suffices for the rest
+                                    structure = items[0]["structure"].replace(" ", "").lower()
+                                    entry_dict = d_utils.get_isajson_refactor_type(structure)
+                                    # delete the blank entry in items
+                                    del entry_dict["items"][0]
+
+                                    for item in items:
+                                        for attribute in temp_dict["attributes"]:
+                                            if attribute["question"] == item["id"]:
+                                                # get the template, and sort out this entry
+                                                items_entry = d_utils.get_isajson_refactor_type(structure)["items"][0]
+                                                if "parameter" in structure:
+                                                    items_entry["parameterTerm"] = item["term"]
+                                                    items_entry["parameterValue"] = attribute["answer"]["value"]
+                                                    items_entry["termAccessionNumber"] = attribute["answer"][
+                                                        "termAccessionNumber"]
+                                                    items_entry["termSourceREF"] = attribute["answer"]["termSourceREF"]
+                                                elif "characteristics" in structure:
+                                                    pass
+                                                elif "factor" in structure:
+                                                    pass
+                                                entry_dict["items"].append(items_entry)
+                                                break
+
+                                    # del entry_dict["items"][0] # no need keeping this dummy entry
+                                    assay.append(entry_dict)
+                            assays_table.append(assay)
+            study_assay["assaysTable"] = assays_table
+        return study_assay
+
+    def get_normalised_ranked_list(self, ranked_list, target_dict):
+        # method normalises all elements in the "fields" list from all sub-documents in the target_dict,
+        # and sorts them by their rank (ISA-based)
+        for key, value in target_dict.items():
+            if key == "fields":
+                ranked_list = ranked_list + value
+            else:
+                ranked_list = self.get_normalised_ranked_list(ranked_list, value)
+        ranked_list = sorted(ranked_list, key=lambda k: k['rank'])
+        return ranked_list
+
+    def get_modified_ranked_list(self, ranked_list):
+        # this method produces a list of elements and their associated structured fields (items)
+
+        # first, get document context by comparing bases of element's id
+        d = difflib.Differ()
+        context = ranked_list[0]["id"]
+        for elem_dict in ranked_list[1:]:
+            v = list(d.compare(context, elem_dict["id"]))
+            h = ''.join(e.strip() for e in v)
+            context = h.split("-")[0]
+        context = context.strip(".").rsplit(".", 1)[1]
+
+        structured_labels = ["characteristics", "factor value", "parameter value"]
+
+        base_nodes_gap = []
+        modified_ranked_list = []
+
+        for indx, elem_dict in enumerate(ranked_list):
+            # grab key elements: i.e., non-structured nodes
+            element_base = elem_dict["id"].rsplit(".", 2)[1]
+
+            if not element_base == context:  # possible target for a protocol node
+                # add protocol node if not already added
+                entry_dict = d_utils.get_isajson_refactor_type("protocol")
+                entry_dict["value"] = re.sub("([a-z])([A-Z])", "\g<1> \g<2>", element_base).lower()
+                entry_dict["ref"] = element_base
+                entry_dict["items"] = []
+
+                if entry_dict not in modified_ranked_list:
+                    base_nodes_gap.append(indx)
+                    modified_ranked_list.append(entry_dict)
+
+            if elem_dict["ref"].split("[", 1)[0].lower() not in structured_labels:
+                if elem_dict["ref"].split("[", 1)[0].lower() == "comment":  # handles for comment elements
+                    entry_dict = d_utils.get_isajson_refactor_type("comment")
+                    entry_dict["commentTerm"] = elem_dict["ref"].split("[", 1)[1].strip("]")
+                elif elem_dict["control"].lower() == "file":  # handles for files
+                    entry_dict = d_utils.get_isajson_refactor_type("file")
+                    entry_dict["name"] = elem_dict["ref"]
+                elif d_utils.get_isajson_refactor_type(
+                        elem_dict["id"].rsplit(".", 1)[1].lower()):  # handles for very specific elements
+                    entry_dict = d_utils.get_isajson_refactor_type(elem_dict["id"].rsplit(".", 1)[1].lower())
+                    entry_dict["name"] = elem_dict["ref"]
+                else:
+                    entry_dict = d_utils.get_isajson_refactor_type("generic")
+                    entry_dict["name"] = elem_dict["ref"]
+                entry_dict["ref"] = elem_dict["id"].rsplit(".", 1)[1]
+                entry_dict["items"] = []
+
+                if entry_dict not in modified_ranked_list:
+                    base_nodes_gap.append(indx)
+                    modified_ranked_list.append(entry_dict)
+
+        base_nodes_gap.append(len(ranked_list))  # will allow interval to include last element in list
+
+        # now attach structured nodes as items to their respective "parents"
+        # exploit "base_nodes_gap" to inform this process
+        for indx, elem_dict in enumerate(modified_ranked_list):
+            for gap in range(base_nodes_gap[indx], base_nodes_gap[indx + 1]):
+                # search for and append structured items, if found, within the search "gap"
+                if ranked_list[gap]["ref"].split("[", 1)[0].lower() in structured_labels:
+                    elem_dict["items"].append(
+                        {"id": ranked_list[gap]["id"], "structure": ranked_list[gap]["ref"].split("[", 1)[0],
+                         "term": ranked_list[gap]["ref"].split("[", 1)[1].strip("]")}
+                    )
+
+        return modified_ranked_list
+
+    # todo: need to tidy up redundant methods from this point forward (down)
+
     def add_study(self, values, attributes):
         spec_attr = []
         for att_group in attributes:
@@ -790,4 +1001,3 @@ class EnaCollection(Resource):
         return EnaCollections.update({"files.chunked_upload_id": int(file_id)},
                                      {"$pull": {"files": {"chunked_upload_id": int(file_id)
                                                           }}})
-

@@ -37,7 +37,6 @@ from dal import ObjectId
 from master_settings import MEDIA_ROOT
 from dal.copo_base_da import DataSchemas
 from api.doi_metadata import DOI2Metadata
-from master_settings import BASE_DIR
 
 
 @login_required
@@ -170,7 +169,6 @@ def view_collection(request, collection_head_id):
     # get profile id for breadcrumb
     profile_id = request.session['profile_id']
     request.session['collection_head_id'] = collection_head_id
-
 
     # ENA Type Handler-----------------------------------
     if collection_head['type'].lower() == 'ena submission':

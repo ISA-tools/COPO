@@ -50,6 +50,14 @@ $(document).ready(function () {
                 refresh_tool_tips();
             });
 
+            //handle event for doi text box enter key
+            $('#publication_doi').on("keypress", function (e) {
+                if (e.keyCode == 13) {
+                    do_publication_doi();
+                    return false;
+                }
+            });
+
             //handles event to show/hide study reference/type form
             $('#study_reference_qupdate').on('click', function () {
                 $('#show_quick_ref_update').toggle();
