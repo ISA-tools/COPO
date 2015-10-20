@@ -503,14 +503,10 @@ class EnaCollection(Resource):
 
 
     def check_data_file_status(self, collection_id, study_id, file_id):
-        request = ThreadLocal.get_current_request()
+
         file = self.get_study_datafile(study_id, collection_id, file_id)
-        if 'attributes' in file and len(file['attributes']) > 0:
-            request.session['wizard_add_attributes'] = True
-            return True
-        else:
-            request.session['wizard_add_attributes'] = False
-            return False
+        return 'attributes' in file and len(file['attributes']) > 0
+
 
 
 

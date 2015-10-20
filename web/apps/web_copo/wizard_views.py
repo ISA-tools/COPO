@@ -1,7 +1,7 @@
 __author__ = 'felix.shaw@tgac.ac.uk - 22/09/15'
 from django.http import HttpResponse
 import jsonpickle
-
+import operator
 from dal.copo_base_da import DataSchemas
 from dal.ena_da import EnaCollection as da
 from error_codes import UI_ERROR_CODES
@@ -12,6 +12,7 @@ def check_data_file_status(request):
     collection_id = request.POST['ena_collection_id']
     study_id = request.POST['study_id']
     result = da().check_data_file_status(collection_id, study_id, file_id)
+    request.session['wizard_add_attributes'] = result
     return HttpResponse(jsonpickle.encode({'details': result}))
 
 
@@ -23,8 +24,14 @@ def process_stage(request):
     study_id = request.GET['study_id']
     last_stage = request.GET['last']
     study_type = request.GET['study_type']
-    prev_question = request.GET['prev_question']
-    answer = request.GET['answer']
+    try:
+        prev_question = request.GET['prev_question']
+    except:
+        prev_question = ''
+    try:
+        answer = request.GET['answer']
+    except:
+        answer = ''
     attrib = {'question': prev_question, 'answer': answer}
 
 
@@ -40,16 +47,19 @@ def process_stage(request):
     # create blank field list
     field_track = []
 
-    # get list of fields which are not hidden
+    # get list of attributes which are not hidden
     study_type = ui_template['studies']['study']['assays']['assaysTable'][study_type]
-    for index in study_type:
-        field_set = study_type[index]
+    study_type_sorted = sorted(study_type.items(), key=operator.itemgetter(0))
+    for idx in study_type_sorted:
+        # deal with non sample fields
+        if idx[0] != 'fields':
+            f = idx[1]
+            if type(f) is dict:
+                for field in f['fields']:
+                    if field['hidden'] == "false":
+                        field_track.append(field)
 
-        if type(field_set) is dict:
-            for f in field_set['fields']:
-                if f != 'fields' and f['hidden'] == "false":
-                    field_track.append(f)
-
+    r = {'num_steps': len(field_track)}
     # at this point add in create the html for a completed assay set if session flag is set
     if request.session['wizard_add_attributes']:
         request.session['wizard_add_attributes'] = False
@@ -64,12 +74,11 @@ def process_stage(request):
         for t in field_track:
             if t['default_value'] != '':
                 html.append(generate_wizard_html(t))
-        out = {}
-        out['response'] = 1
-        out['detail'] = html
-        return HttpResponse(jsonpickle.encode(out))
 
-    r = {'num_steps': len(field_track)}
+        r['response'] = 1
+        r['detail'] = html
+        return HttpResponse(jsonpickle.encode(r))
+
 
     if prev_question == '':
         # we are dealing with the first question

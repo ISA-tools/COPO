@@ -144,6 +144,19 @@ $(document).ready(function () {
 
             var url = $('#file_status_check_url').val()
 
+            try {
+                total_steps = $('#wizard').data('num_steps')
+            }
+            catch (Error) {
+                total_steps = 0
+            }
+
+            var steps = $('#wizard').find('section').length
+            for (var i = 0; i < steps; i++) {
+                console.log('removing: ' + i)
+                $('#wizard').steps('remove', i)
+            }
+
             $('#wizard_file_id').val($(this).attr('target-id'))
 
             $.ajax({
@@ -163,7 +176,6 @@ $(document).ready(function () {
                     alert("Couldn't check datafile status");
                 }
             });
-
 
 
         }

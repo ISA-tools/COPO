@@ -15,8 +15,6 @@ if __name__ == "__main__":
     sys.path.append(os.path.join(proj_home, 'dal'))
     sys.path.append(os.path.join(web_home, 'project_copo'))
     sys.path.append(os.path.join(web_home, 'project_copo', 'settings'))
-
-
     sys.path.append(os.path.join(web_home, 'apps'))
 
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project_copo.settings.master_settings")
