@@ -177,7 +177,7 @@ HTML_TAGS = {
     "hidden": "<input type='hidden' id='{elem_id!s}' name='{elem_id!s}' value='{elem_value!s}'>",
     "file": "",
     "ontology term": "<div class='form-group'><label for='{elem_id!s}'>{elem_label!s}</label><br/>"
-                     "<input class='input-copo ontology-field' type='text' id='{elem_id!s}' name='{elem_id!s}' /></div>"
+                     "<input class='input-copo ontology-field' type='text' id='{elem_id!s}' value='{elem_value!s}' name='{elem_id!s}' /></div>"
 }
 
 # for displaying information/guidance mostly via tooltips

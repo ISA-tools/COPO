@@ -21,19 +21,26 @@ def generate_ena_tags(field_id):
 
 # similar to the 'generate_ena_tags' method, but...
 # this handles calls from other routes (e.g., AJAX) besides Django
-def generate_ena_tags_2(field_id):
-    return generate_tag(field_id)
+def generate_ena_tags_2(field_id, default_value = None):
+    return generate_tag(field_id, default_value)
 
 
-def generate_tag(field_id):
+def generate_tag(field_id, default_value = None):
     html_tag = ""
     out_list = get_fields_list(field_id)
     for f in out_list:
         if f["id"] == field_id:
-            html_tag = mark_safe(do_tag(f))
+            f["label"] = trim_parameter_value_label(f["label"])
+            tag = do_tag(f, default_value)
+            html_tag = mark_safe(tag)
             break
     return html_tag
 
+def trim_parameter_value_label(label):
+    if "Parameter Value" in label:
+        return str.capitalize(label[label.index('[')+1:label.index(']')])
+    else:
+        return label
 
 @register.filter("generate_ena_labels")
 def generate_ena_labels(field_id):
@@ -998,10 +1005,13 @@ def id_to_class(val):
     return val.replace(".", "_")
 
 
-def do_tag(the_elem):
+def do_tag(the_elem, default_value=None):
     elem_id = the_elem["id"]
     elem_label = the_elem["label"]
-    elem_value = the_elem["default_value"]
+    if default_value == None:
+        elem_value = the_elem["default_value"]
+    else:
+        elem_value = default_value
     elem_control = the_elem["control"].lower()
     option_values = ""
     html_tag = ""

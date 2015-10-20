@@ -34,6 +34,8 @@ $(document).ready(function () {
                 enablePagination: false
             });
 
+            $('.experiment-describe').on('click', check_file_status)
+
             //handle event for date picker
             $('.pop_date_picker').datepick({
                 dateFormat: 'D, M d, yyyy',
@@ -142,6 +144,49 @@ $(document).ready(function () {
 
         }
 
+        function check_file_status(file_id) {
+
+            var study_id = $('#study_id').val()
+            var file_id = $(this).attr('target-id')
+            var ena_collection_id = $('#ena_collection_id').val()
+
+            var url = $('#file_status_check_url').val()
+
+            try {
+                total_steps = $('#wizard').data('num_steps')
+            }
+            catch (Error) {
+                total_steps = 0
+            }
+
+            var steps = $('#wizard').find('section').length
+            for (var i = 0; i < steps; i++) {
+                console.log('removing: ' + i)
+                $('#wizard').steps('remove', i)
+            }
+
+            $('#wizard_file_id').val($(this).attr('target-id'))
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                headers: {'X-CSRFToken': csrftoken},
+                data: {
+                    'task': 'check_data_file',
+                    'ena_collection_id': ena_collection_id,
+                    'study_id': study_id,
+                    'data_file_id': file_id
+                },
+                success: function (data) {
+                    handle_click(file_id)
+                },
+                error: function () {
+                    alert("Couldn't check datafile status");
+                }
+            });
+
+
+        }
 
         function do_check_all(event) {
             var theObj = $($(event.target));
@@ -217,7 +262,7 @@ $(document).ready(function () {
 
         }
 
-        //group of functions for managing deletion of study components
+//group of functions for managing deletion of study components
         var dispatchComponentDelete = {
             contact: function (contactId) {
                 var ena_collection_id = $("#ena_collection_id").val();
@@ -764,7 +809,7 @@ $(document).ready(function () {
             }, 400);
         }
 
-        //refreshes selectboxes to pick up events
+//refreshes selectboxes to pick up events
         function refresh_selectbox() {
             var funSelect = $('.file-sample-select').selectize({
                 onChange: function (value) {
