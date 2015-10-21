@@ -70,6 +70,7 @@
                 <tr data-collection_id="{{ c|mongo_id }}">
                     <td>
                         <a href="{% url 'copo:view_collection' collection_head_id=c|mongo_id %}">{{ c.name }}</a></td>
+
                     <td>
                         {{ c.type }}
                     </td>

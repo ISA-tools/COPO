@@ -1,0 +1,61 @@
+{% extends 'copo/base.html' %}
+
+{% load staticfiles %}
+{% load web_tags %}
+
+{% block stylesheet_block %}
+    <link rel="stylesheet" href="{% static 'copo/css/copo/color_button.css' %}">
+    <link rel="stylesheet" href="{% static 'copo/css/copo/browse_style.css' %}">
+    <link rel="stylesheet" href="{% static 'copo/css/copo/study.css' %}">
+    <link rel="stylesheet" href="{% static 'copo/css/bootstrap/bootstrap-dialog.css' %}">
+
+{% endblock %}
+
+
+{% block title_block %} Study {% endblock %}
+
+{% block tagline_block %}{% endblock %}
+
+{% block breadcrumb_block %}
+    <ol class="breadcrumb">
+        <li><a href="{% url 'copo:index' %}">Home</a></li>
+
+    </ol>
+{% endblock %}
+
+
+{% block browse_header_block %}
+
+    <div id="browse_header">
+        <span class="blue_icon">
+           <a><i class="fa fa-plus-circle" data-toggle="modal" data-target="#newStudyModal"></i></a>
+        </span>
+        <span class="blue_icon">
+            <a><i class="fa fa-pencil-square-o"></i></a>
+        </span>
+        <span class="blue_icon">
+            <a><i class="fa fa-trash-o"></i></a>
+        </span>
+
+        <div class="input-group input-group-sm">
+            <span class="input-group-addon">
+                <i class="fa fa-search"></i>
+            </span>
+            <input type="search" class="form-control" placeholder="Search">
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+
+THE CAKE IS A LIE!
+
+{% endblock %}
+
+
+{% block js_block %}
+    <script src="{% static 'copo/js/collection_functions.js' %}"></script>
+    <script src="{% static 'copo/js/profile.js' %}"></script>
+    <script src="{% static 'copo/js/bootstrap-dialog.js' %}"></script>
+{% endblock %}
