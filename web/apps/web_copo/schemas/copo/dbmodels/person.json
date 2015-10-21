@@ -1,40 +1,30 @@
 {
   "lastName": "",
   "firstName": "",
-  "midInitials": {
-    "type": "string"
-  },
-  "email": {
-    "type": "string",
-    "format": "email"
-  },
-  "phone": {
-    "type": "string"
-  },
-  "fax": {
-    "type": "string"
-  },
-  "address": {
-    "type": "string"
-  },
-  "affiliations": {
-    "type": "array",
-    "items": {
-      "$ref": "organization_schema.json#"
+  "midInitials": "",
+  "email": "",
+  "phone": "",
+  "fax": "",
+  "address": "",
+  "affiliations": [
+    {
+      "name": "",
+      "id": ""
     }
-  },
-  "roles": {
-    "type": "array",
-    "items": {
-      "type": "object",
-      "properties": {
-        "role": {
-          "type": "string"
-        },
-        "ontologyAnnotation": {
-          "$ref": "ontology_annotation_schema.json#"
-        }
-      }
+  ],
+  "roles": [
+    {
+      "role": "",
+      "ontologyAnnotation": {
+        "name": "",
+        "termSource": "",
+        "termAccession": ""
+      },
+      "id": ""
     }
-  }
+  ]
 }
+
+
+
+

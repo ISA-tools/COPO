@@ -9,8 +9,8 @@ from requests.exceptions import ConnectionError
 from bson.objectid import ObjectId
 
 from copo_id import get_uid
-from web_copo.vocab.status_vocab import STATUS_CODES
-from web_copo.copo_maps.utils.data_formats import DataFormats
+from web.apps.web_copo.vocab.status_vocab import STATUS_CODES
+from web.apps.web_copo.schemas.utils.data_formats import DataFormats
 from dal.mongo_util import get_collection_ref
 from dal.base_resource import Resource
 
