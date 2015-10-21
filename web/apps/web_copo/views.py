@@ -48,6 +48,9 @@ def index(request):
     request.META['test'] = 'test'
     return render(request, 'copo/index.html', context)
 
+@login_required
+def view_copo_profile(request, profile_id):
+    return render(request, 'copo/copo_profile.html')
 
 @login_required
 def goto_error(request, message="Something went wrong, but we're not sure what!"):
