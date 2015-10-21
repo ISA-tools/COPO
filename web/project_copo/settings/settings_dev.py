@@ -6,7 +6,7 @@
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
-        'NAME': 'test_copo_development',
+        'NAME': 'test',
         'USER': 'copo',
         'PASSWORD': 'copo',
         'Host': '127.0.0.1',
@@ -28,9 +28,9 @@ SITE_ID = 2
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/web/apps/web_copo/static/'
-# MEDIA_ROOT = '/Users/etuka/Desktop/copo_uploads'
+MEDIA_ROOT = '/Users/etuka/Desktop/copo_uploads'
 # MEDIA_ROOT = '/Users/etuka/COPOIrodsMount'
-MEDIA_ROOT = '/Users/fshaw/Desktop/copo_uploads'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

@@ -1,27 +1,27 @@
 [
   {
-    "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.qualityScorer",
-    "ref": "Parameter Value[quality scorer]",
-    "control": "ontology term"
-  },
-  {
     "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidExtraction.extractName",
     "ref": "Extract Name",
     "hidden": "true"
   },
   {
-    "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.rawDataFile",
+    "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.qualityScorer",
+    "ref": "Parameter Value[quality scorer]",
+    "control": "ontology term"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.baseCaller",
+    "ref": "Parameter Value[base caller]",
+    "hidden": "true"
+  },
+  {
+    "id": "studies.study.assays.assaysTable.genomeSeq.rawDataFile",
     "ref": "Raw Data File",
     "hidden": "true"
   },
   {
     "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.libraryLayout",
     "ref": "Parameter Value[library layout]"
-  },
-  {
-    "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.baseCaller",
-    "ref": "Parameter Value[base caller]",
-    "hidden": "true"
   },
   {
     "id": "studies.study.assays.assaysTable.genomeSeq.sequenceAssembly.dataTransformationName",
@@ -34,11 +34,6 @@
     "hidden": "true"
   },
   {
-    "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.export",
-    "ref": "Comment[Export]",
-    "hidden": "true"
-  },
-  {
     "id": "studies.study.assays.assaysTable.genomeSeq.sequenceAssembly.normalizationName",
     "ref": "Normalization Name",
     "hidden": "true"
@@ -48,7 +43,7 @@
     "ref": "Parameter Value[library strategy]"
   },
   {
-    "id": "studies.study.assays.assaysTable.genomeSeq.nucleicAcidSequencing.assayName",
+    "id": "studies.study.assays.assaysTable.genomeSeq.assayName",
     "ref": "Assay Name",
     "hidden": "true"
   },
@@ -56,17 +51,53 @@
     "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.librarySource",
     "ref": "Parameter Value[library source]",
     "control": "select",
-    "option_values": ["GENOMIC", "GENOMIC SINGLE CELL", "TRANSCRIPTOMIC", "TRANSCRIPTOMIC SINGLE CELL", "METAGENOMIC", "METATRANSCRIPTOMIC", "SYNTHETIC",
-    "VIRAL RNA", "OTHER"]
+    "option_values": [
+      "GENOMIC",
+      "GENOMIC SINGLE CELL",
+      "TRANSCRIPTOMIC",
+      "TRANSCRIPTOMIC SINGLE CELL",
+      "METAGENOMIC",
+      "METATRANSCRIPTOMIC",
+      "SYNTHETIC",
+      "VIRAL RNA",
+      "OTHER"
+    ]
   },
   {
     "id": "studies.study.assays.assaysTable.genomeSeq.libraryConstruction.librarySelection",
     "ref": "Parameter Value[library selection]",
     "control": "select",
-    "option_values": ["PCR", "RANDOM PCR", "RANDOM PCR", "HMPR", "MF", "repeat fractionation", "size fractionation", "MSLL", "cDNA", "cDNA_randomPriming",
-    "cDNA_oligo_dT", "PolyA", "Oligo-dT", "Inverse rRNA", "Inverse rRNA selection", "ChIP", "MNase", "DNase", "Hybrid Selection", "Reduced Representation",
-    "Restriction Digest", "5-methylcytidine antibody", "MBD2 protein methyl-CpG binding domain", "CAGE", "RACE", "MDA", "padlock probes capture method",
-    "other", "unspecified"]
+    "option_values": [
+      "PCR",
+      "RANDOM PCR",
+      "RANDOM PCR",
+      "HMPR",
+      "MF",
+      "repeat fractionation",
+      "size fractionation",
+      "MSLL",
+      "cDNA",
+      "cDNA_randomPriming",
+      "cDNA_oligo_dT",
+      "PolyA",
+      "Oligo-dT",
+      "Inverse rRNA",
+      "Inverse rRNA selection",
+      "ChIP",
+      "MNase",
+      "DNase",
+      "Hybrid Selection",
+      "Reduced Representation",
+      "Restriction Digest",
+      "5-methylcytidine antibody",
+      "MBD2 protein methyl-CpG binding domain",
+      "CAGE",
+      "RACE",
+      "MDA",
+      "padlock probes capture method",
+      "other",
+      "unspecified"
+    ]
   },
   {
     "id": "studies.study.assays.assaysTable.genomeSeq.sampleName",
