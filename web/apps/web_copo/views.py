@@ -24,14 +24,14 @@ from dal.copo_base_da import Profile, Collection_Head
 from dal.mongo_util import get_collection_ref
 from dal.ena_da import EnaCollection
 from dal.orcid_da import Orcid
-from web.apps.web_copo.copo_maps.utils.data_utils import get_collection_head_dc
+from web.apps.web_copo.schemas.utils.data_utils import get_collection_head_dc
 
 from chunked_upload.models import ChunkedUpload
 from web.apps.web_copo.api.views import *
-import web.apps.web_copo.copo_maps.utils.lookup as lkup
+import web.apps.web_copo.schemas.utils.lookup as lkup
 import web.apps.web_copo.templatetags.html_tags as htags
 from django_tools.middlewares import ThreadLocal
-import web.apps.web_copo.copo_maps.utils.data_utils as d_utils
+import web.apps.web_copo.schemas.utils.data_utils as d_utils
 from web.apps.web_copo.repos.aspera import AsperaTransfer
 from dal import ObjectId
 from master_settings import MEDIA_ROOT

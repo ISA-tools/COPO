@@ -1,0 +1,40 @@
+{
+  "lastName": "",
+  "firstName": "",
+  "midInitials": {
+    "type": "string"
+  },
+  "email": {
+    "type": "string",
+    "format": "email"
+  },
+  "phone": {
+    "type": "string"
+  },
+  "fax": {
+    "type": "string"
+  },
+  "address": {
+    "type": "string"
+  },
+  "affiliations": {
+    "type": "array",
+    "items": {
+      "$ref": "organization_schema.json#"
+    }
+  },
+  "roles": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "ontologyAnnotation": {
+          "$ref": "ontology_annotation_schema.json#"
+        }
+      }
+    }
+  }
+}

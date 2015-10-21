@@ -5,7 +5,7 @@ from master_settings import PROJ_HOME
 SCHEMAS = {
     'ENA': {
         'PATHS_AND_URIS': {
-            'ISA_json': PROJ_HOME + '/web/apps/web_copo/copo_maps/ena/dbmodels/isa_ena_model.json',
+            'ISA_json': PROJ_HOME + '/web/apps/web_copo/schemas/ena/dbmodels/isa_ena_model.json',
             'INVESTIGATION_FILE': 'https://raw.githubusercontent.com/ISA-tools/Configuration-Files/master'
                                   '/isaconfig-default_v2014-01-16/investigation.xml',
             'STUDY_SAMPLE_FILE': 'https://raw.githubusercontent.com/ISA-tools/Configuration-Files/master'
@@ -44,8 +44,8 @@ SCHEMAS = {
     },
     'COPO': {
         'PATHS_AND_URIS': {
-            'COPO_COLLECTION_HEAD_FILE': PROJ_HOME + '/web/apps/web_copo/copo_maps/copo/dbmodels/collection_head_model.json',
-            'ASPERA_COLLECTION': PROJ_HOME + '/web/apps/web_copo/copo_maps/copo/dbmodels/aspera_db_model.json'
+            'COPO_COLLECTION_HEAD_FILE': PROJ_HOME + '/web/apps/web_copo/schemas/copo/dbmodels/collection_head_model.json',
+            'ASPERA_COLLECTION': PROJ_HOME + '/web/apps/web_copo/schemas/copo/dbmodels/aspera_db_model.json'
         }
     },
     'METABOLIGHTS': {

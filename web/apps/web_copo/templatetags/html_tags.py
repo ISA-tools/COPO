@@ -4,9 +4,9 @@ import datetime
 from django import template
 from django.utils.safestring import mark_safe
 
-import web.apps.web_copo.copo_maps.utils.data_utils as d_utils
+import web.apps.web_copo.schemas.utils.data_utils as d_utils
 from dal.ena_da import EnaCollection
-import web.apps.web_copo.copo_maps.utils.lookup as lkup
+import web.apps.web_copo.schemas.utils.lookup as lkup
 from chunked_upload.models import ChunkedUpload
 import web.apps.web_copo.utils.EnaUtils as u
 

@@ -7,8 +7,8 @@ import xml.etree.ElementTree as ET
 from urllib.request import urlopen
 
 import re
-import web.apps.web_copo.copo_maps.utils.lookup as lkup
-import web.apps.web_copo.copo_maps.ena.uimodels.ena_copo_config as ecc
+import web.apps.web_copo.schemas.utils.lookup as lkup
+import web.apps.web_copo.schemas.ena.uimodels.ena_copo_config as ecc
 
 
 class DataFormats:

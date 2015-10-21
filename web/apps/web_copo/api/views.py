@@ -9,7 +9,7 @@ import web.apps.web_copo.repos.figshare as f
 import dal.figshare_da as fs
 from dal.figshare_da import FigshareCollection
 from services import *
-from web.apps.web_copo.copo_maps.utils.data_formats import DataFormats
+from web.apps.web_copo.schemas.utils.data_formats import DataFormats
 from dal.copo_base_da import Collection_Head
 from api.doi_metadata import DOI2Metadata
 from dal.ena_da import EnaCollection
