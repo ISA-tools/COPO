@@ -1,0 +1,23 @@
+[
+  {
+    "id": "copo.publication.title",
+    "ref": "Investigation Publication Title"
+  },
+  {
+    "id": "copo.publication.authorList",
+    "ref": "Investigation Publication Author List"
+  },
+  {
+    "id": "copo.publication.doi",
+    "ref": "Investigation Publication DOI"
+  },
+  {
+    "id": "copo.publication.pubMedID",
+    "ref": "Investigation PubMed ID"
+  },
+  {
+    "id": "copo.publication.status",
+    "ref": "Investigation Publication Status"
+  }
+
+]

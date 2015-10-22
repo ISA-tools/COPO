@@ -110,6 +110,7 @@ def view_profile(request, profile_id):
     except:
         pass
 
+    ui_template = DataSchemas("COPO").get_ui_template()
     collection_types = lkup.DROP_DOWNS['COLLECTION_TYPES']
     study_types = lkup.DROP_DOWNS['STUDY_TYPES']
 

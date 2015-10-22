@@ -45,7 +45,13 @@ SCHEMAS = {
     'COPO': {
         'PATHS_AND_URIS': {
             'COPO_COLLECTION_HEAD_FILE': PROJ_HOME + '/web/apps/web_copo/schemas/copo/dbmodels/collection_head_model.json',
-            'ASPERA_COLLECTION': PROJ_HOME + '/web/apps/web_copo/schemas/copo/dbmodels/aspera_db_model.json'
+            'ASPERA_COLLECTION': PROJ_HOME + '/web/apps/web_copo/schemas/copo/dbmodels/aspera_db_model.json',
+            'PERSON': PROJ_HOME + '/web/apps/web_copo/schemas/copo/dbmodels/person.json',
+            'PUBLICATION': PROJ_HOME + '/web/apps/web_copo/schemas/copo/dbmodels/publication.json',
+            'SAMPLE': PROJ_HOME + '/web/apps/web_copo/schemas/copo/dbmodels/sample.json',
+            'DATA': PROJ_HOME + '/web/apps/web_copo/schemas/copo/dbmodels/data.json',
+            'SUBMISSION': PROJ_HOME + '/web/apps/web_copo/schemas/copo/dbmodels/submission.json'
+
         }
     },
     'METABOLIGHTS': {
