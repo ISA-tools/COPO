@@ -2,9 +2,10 @@
 
 {% load staticfiles %}
 {% load web_tags %}
+{% load html_tags %}
 
 {% block stylesheet_block %}
-<link rel="stylesheet" href="{% static 'copo/css/copo/browse_style.css' %}" xmlns="http://www.w3.org/1999/html">
+	<link rel="stylesheet" href="{% static 'copo/css/copo/browse_style.css' %}" xmlns="http://www.w3.org/1999/html">
 
 {% endblock %}
 
@@ -18,15 +19,15 @@
 
 
 {% block breadcrumb_block %}
-<ol class="breadcrumb">
-    <li class="active"><a href="{% url 'copo:index' %}">Home</a></li>
+	<ol class="breadcrumb">
+		<li class="active"><a href="{% url 'copo:index' %}">Home</a></li>
 
-</ol>
+	</ol>
 {% endblock %}
 
 {% block browse_header_block %}
 
-<div id="browse_header">
+	<div id="browse_header">
         <span class="blue_icon">
            <a><i class="fa fa-plus-circle" data-toggle="modal" data-target="#newStudyModal"></i></a>
         </span>
@@ -37,61 +38,82 @@
             <a><i class="fa fa-trash-o"></i></a>
         </span>
 
-    <div class="input-group input-group-sm">
+		<div class="input-group input-group-sm">
             <span class="input-group-addon">
                 <i class="fa fa-search"></i>
             </span>
-        <input type="search" class="form-control" placeholder="Search">
-    </div>
-</div>
+			<input type="search" class="form-control" placeholder="Search">
+		</div>
+	</div>
 
 
-<!-- Modal -->
-<div class="modal fade" id="newStudyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
-                        class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">New Profile</h4>
-            </div>
-            <div class="modal-body">
+	<!-- Modal -->
+	<div class="modal fade" id="newStudyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		 aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span
+							aria-hidden="true">&times;</span><span
+							class="sr-only">Close</span></button>
+					<h4 class="modal-title" id="myModalLabel">New Profile</h4>
+				</div>
+				<div class="modal-body">
 
-                <form role="form" action="/copo/new_profile/" method="post">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="study_title">Title</label>
-                        <input type="text" class="form-control" name="study_title" placeholder="Enter Collection Name">
-                    </div>
-                    <div class="form-group">
-                        <label for="study_abstract">Abstract</label>
+					<form role="form" action="/copo/new_profile/" method="post">
+						{% csrf_token %}
+						<div class="form-group">
+							<label for="study_title">Title</label>
+							<input type="text" class="form-control" name="study_title"
+								   placeholder="Enter Collection Name">
+						</div>
+						<div class="form-group">
+							<label for="study_abstract">Abstract</label>
                         <textarea rows="6" class="form-control" name="study_abstract"
-                                  placeholder="Enter Abstract"></textarea>
-                    </div>
+								  placeholder="Enter Abstract"></textarea>
+						</div>
 
-                    <button type="submit" class="btn btn-default">Submit</button>
-                </form>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
 
-            </div>
-            <div class="modal-footer">
+				</div>
+				<div class="modal-footer">
 
-            </div>
-        </div>
-    </div>
-</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 {% endblock %}
 
 {% block content %}
 
-THE CAKE IS A LIE!
 
+
+	<form role="form" id="add_new_publication_form" action="{% url 'copo:edit_publication' %}"
+		  method="post">
+		{% csrf_token %}
+		<div>
+			{% for sf in pubs.fields %}
+				<div class="form-group">
+					{{ sf.id|generate_copo_tags }}
+				</div>
+			{% endfor %}
+
+			<hr/>
+			<div>
+				<button id="btn_add_new_publication" type="button"
+						class="btn btn-primary text-center">Submit
+				</button>
+			</div>
+		</div>
+	</form>
 
 {% endblock %}
 
 
 {% block js_block %}
-    <script src="{% static 'copo/js/index.js' %}"></script>
+	<script src="{% static 'copo/js/index.js' %}"></script>
+	<script src="{% static 'copo/js/publication.js' %}"></script>
 {% endblock %}

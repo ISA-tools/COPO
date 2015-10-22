@@ -37,6 +37,8 @@ from dal import ObjectId
 from master_settings import MEDIA_ROOT
 from dal.copo_base_da import DataSchemas
 from api.doi_metadata import DOI2Metadata
+from dal.copo_da import Publication
+
 
 
 @login_required
@@ -55,7 +57,17 @@ def view_copo_profile(request, profile_id):
 
 @login_required
 def copo_publications(request, profile_id):
-    return render(request, 'copo/copo_publications.html')
+    ui_template = DataSchemas("COPO").get_ui_template()
+    context = {'pubs':ui_template['copo']['publication']}
+    return render(request, 'copo/copo_publications.html', context)
+
+def edit_publication(request):
+    ui_template = DataSchemas("COPO").get_ui_template()
+    task = request.POST['task']
+    if task == 'save':
+        Publication().save_publication(request.POST['auto_fields'])
+
+    return HttpResponse("HELLO WORLD!")
 
 @login_required
 def goto_error(request, message="Something went wrong, but we're not sure what!"):
@@ -546,5 +558,7 @@ def register_to_irods(request):
     return_structure = {'exit_status': status}
     out = jsonpickle.encode(return_structure)
     return HttpResponse(out, content_type='json')
+
+
 
 

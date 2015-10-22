@@ -16,18 +16,23 @@ register = template.Library()
 # given an ENA-based field id, generates the html tag corresponding to the definition in the config
 @register.filter("generate_ena_tags")
 def generate_ena_tags(field_id):
-    return mark_safe(generate_tag(field_id))
+    return mark_safe(generate_tag(field_id, "ENA"))
+
+@register.filter("generate_copo_tags")
+def generate_copo_tags(field_id):
+    return mark_safe(generate_tag(field_id,"COPO"))
+
 
 
 # similar to the 'generate_ena_tags' method, but...
 # this handles calls from other routes (e.g., AJAX) besides Django
 def generate_ena_tags_2(field_id, default_value = None):
-    return generate_tag(field_id, default_value)
+    return generate_tag(field_id, "ENA", default_value)
 
 
-def generate_tag(field_id, default_value = None):
+def generate_tag(field_id, schema, default_value = None):
     html_tag = ""
-    out_list = get_fields_list(field_id)
+    out_list = get_fields_list(field_id, schema)
     for f in out_list:
         if f["id"] == field_id:
             f["label"] = trim_parameter_value_label(f["label"])
@@ -973,9 +978,12 @@ def lookup_collection_type_label(val):
     return ""
 
 
-def get_fields_list(field_id):
+def get_fields_list(field_id, schema):
     key_split = field_id.split(".")
-    new_dict = d_utils.get_ena_ui_template_as_dict()
+    if schema == "ENA":
+        new_dict = d_utils.get_ena_ui_template_as_dict()
+    else:
+        new_dict = d_utils.get_ui_template_as_dict(schema)
 
     for kp in key_split[:-1]:
         new_dict = new_dict[kp]

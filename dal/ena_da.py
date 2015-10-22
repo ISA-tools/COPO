@@ -8,7 +8,7 @@ import uuid
 import ast
 import re
 
-import dal.mongo_util as mutil
+from dal import verify_doc_type
 
 from django_tools.middlewares import ThreadLocal
 
@@ -181,7 +181,7 @@ class EnaCollection(Resource):
                                         {"$group": {"_id": "$_id",
                                                     "data": {"$push": "$studies.study.studyPublications"}}}])
 
-        return mutil.verify_doc_type(doc)
+        return verify_doc_type(doc)
 
     def get_study_publication(self, study_id, ena_collection_id, publication_id):
         doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
@@ -192,7 +192,7 @@ class EnaCollection(Resource):
                                         {"$group": {"_id": "$_id",
                                                     "data": {"$push": "$studies.study.studyPublications"}}}])
 
-        data = mutil.verify_doc_type(doc)
+        data = verify_doc_type(doc)
 
         return data[0] if data else {}
 
@@ -203,7 +203,7 @@ class EnaCollection(Resource):
                                         {"$group": {"_id": "$_id",
                                                     "data": {"$push": "$studies.study.studyPublications"}}}])
 
-        data = mutil.verify_doc_type(doc)
+        data = verify_doc_type(doc)
 
         return data[0] if data else []
 
@@ -216,7 +216,7 @@ class EnaCollection(Resource):
                                         {"$group": {"_id": "$_id",
                                                     "data": {"$push": "$studies.study.studyContacts"}}}])
 
-        return mutil.verify_doc_type(doc)
+        return verify_doc_type(doc)
 
     def get_study_contact(self, study_id, ena_collection_id, contact_id):
         doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
@@ -227,7 +227,7 @@ class EnaCollection(Resource):
                                         {"$group": {"_id": "$_id",
                                                     "data": {"$push": "$studies.study.studyContacts"}}}])
 
-        data = mutil.verify_doc_type(doc)
+        data = verify_doc_type(doc)
 
         return data[0] if data else {}
 
@@ -238,7 +238,7 @@ class EnaCollection(Resource):
                                         {"$group": {"_id": "$_id",
                                                     "data": {"$push": "$studies.study.studyContacts"}}}])
 
-        data = mutil.verify_doc_type(doc)
+        data = verify_doc_type(doc)
 
         return data[0] if data else []
 
@@ -251,7 +251,7 @@ class EnaCollection(Resource):
                                         {"$group": {"_id": "$_id",
                                                     "data": {"$push": "$studies.study.studyProtocols"}}}])
 
-        return mutil.verify_doc_type(doc)
+        return verify_doc_type(doc)
 
     def get_study_protocol(self, study_id, ena_collection_id, protocol_id):
         doc = EnaCollections.aggregate([{"$match": {"_id": ObjectId(ena_collection_id)}},
@@ -262,7 +262,7 @@ class EnaCollection(Resource):
                                         {"$group": {"_id": "$_id",
                                                     "data": {"$push": "$studies.study.studyProtocols"}}}])
 
-        data = mutil.verify_doc_type(doc)
+        data = verify_doc_type(doc)
 
         return data[0] if data else {}
 
@@ -273,7 +273,7 @@ class EnaCollection(Resource):
                                         {"$group": {"_id": "$_id",
                                                     "data": {"$push": "$studies.study.studyProtocols"}}}])
 
-        data = mutil.verify_doc_type(doc)
+        data = verify_doc_type(doc)
 
         return data[0] if data else []
 

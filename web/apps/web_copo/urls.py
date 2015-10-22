@@ -31,4 +31,5 @@ urlpatterns = patterns('web_copo.views',
                            name='view_copo_profile'),
                        url(r'^copo_publications/(?P<profile_id>[a-z0-9]+)/view', 'copo_publications',
                            name='copo_publications'),
+                       url(r'^edit_publication/$', 'edit_publication', name='edit_publication'),
                        )

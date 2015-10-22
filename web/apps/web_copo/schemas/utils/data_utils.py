@@ -3,6 +3,7 @@ __author__ = 'etuka'
 import json
 from collections import namedtuple
 import re
+import ast
 
 import web.apps.web_copo.schemas.ena.uimodels.ena_copo_config as ecc
 import web.apps.web_copo.schemas.utils.lookup as lkup
@@ -34,6 +35,11 @@ def lookup_study_type_label(val):
 
 def get_ena_ui_template_as_dict():
     ui_template = DataSchemas("ENA").get_ui_template()
+    return ui_template
+
+
+def get_ui_template_as_dict(schema):
+    ui_template = DataSchemas(schema).get_ui_template()
     return ui_template
 
 
@@ -87,3 +93,13 @@ def get_collection_head_dc():
     with open(f_path) as json_data:
         data = json.load(json_data)
     return data
+
+
+def get_schema_fields(autofields, schema):
+    auto_fields = ast.literal_eval(autofields)
+    auto_dict = {}
+    for f in schema['fields']:
+        key_split = f["id"].split(".")
+        if f["id"] in auto_fields.keys():
+            auto_dict[key_split[len(key_split) - 1]] = auto_fields[f["id"]]
+    return auto_dict
