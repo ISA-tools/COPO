@@ -18,13 +18,18 @@ class DataFormats:
 
     # generates template for UI rendering
     def generate_ui_template(self):
-        out_dict = self.json_to_pytype(ecc.MODEL_FILES["ISA_OBJECT_MODEL"])
+        out_dict = self.json_to_pytype(ecc.MODEL_FILES[self.schema + "_OBJECT_MODEL"])
 
-        new_list = list(itertools.chain(self.do_mapping_ena("INVESTIGATION_FILE"),
-                                        self.do_mapping_ena("STUDY_SAMPLE_FILE"),
-                                        self.do_mapping_ena("STUDY_ASSAY_GENOME_SEQ_FILE"),
-                                        self.do_mapping_ena("STUDY_ASSAY_METAGENOME_SEQ_FILE")
-                                        ))
+        if self.schema == "ENA":
+            new_list = list(itertools.chain(self.do_mapping_ena("INVESTIGATION_FILE"),
+                                            self.do_mapping_ena("STUDY_SAMPLE_FILE"),
+                                            self.do_mapping_ena("STUDY_ASSAY_GENOME_SEQ_FILE"),
+                                            self.do_mapping_ena("STUDY_ASSAY_METAGENOME_SEQ_FILE")
+                                            ))
+
+        elif self.schema == "COPO":
+            self.schema = "ENA"
+            new_list = self.do_mapping_copo()
 
         if new_list:
             out_dict = self.objectify(new_list, out_dict)
@@ -34,6 +39,67 @@ class DataFormats:
             out_dict = {"status": "failed", "messages": self.error_messages, "data": out_dict}
 
         return out_dict
+
+    def do_mapping_copo(self):
+        arm = "INVESTIGATION_FILE"
+        try:
+            tree = ET.parse(urlopen(lkup.SCHEMAS["ENA"]['PATHS_AND_URIS'][arm]))
+        except:
+            self.error_messages.append(
+                "Possible Network Error: Cannot access remote config resource:" +
+                lkup.SCHEMAS[self.schema]['PATHS_AND_URIS'][arm] + "!")
+            return
+
+        new_list = self.json_to_pytype(ecc.CONFIG_FILES["COPO_MAPPINGS"])
+        current_list = new_list
+
+        root = tree.getroot()
+
+        # get the namespace of the xml document
+        ns = self.namespace(root)
+
+        fields = tree.findall(".//{%s}field" % ns)
+
+        for elem_dict in current_list:
+            if "ref" not in elem_dict or "id" not in elem_dict:
+                continue
+
+            # get index and retain for accessing copy element in new_list
+            indx = new_list.index(elem_dict)
+            attr = lkup.SCHEMAS[self.schema]['ATTRIBUTE_MAPPINGS']
+            # assign attributes defined in lkup, maintain default ones defined in the model
+            for k in attr:
+                if k not in elem_dict.keys():
+                    new_list[indx][k] = ""
+
+            seq_label = 0  # helps us to maintain order, since order matters in ISA!
+            for f in iter(fields):
+                seq_label += 1
+                # 'ref' key in the config is defined to match 'header' attribute in the ISA xml
+                if f.get("header") == elem_dict["ref"]:
+                    new_list[indx]["rank"] = seq_label
+
+                    # modify for file fields
+                    if f.get("is-file-field") == "true":
+                        new_list[indx]["control"] = "file"
+
+                    # handle list values
+                    if f.get("data-type") == "List":
+                        try:
+                            ls = f.findall(".//{%s}list-values" % ns)
+                            options_split = ls[0].text.split(",")
+                            new_list[indx]["option_values"] = options_split
+                        except IndexError:
+                            pass
+
+                    for k, v in attr.items():
+                        if not new_list[indx][k]:
+                            new_list[indx][k] = f.get(v)
+
+                            if v == "data-type" and f.get(v) in lkup.SCHEMAS[self.schema]['CONTROL_MAPPINGS'].keys():
+                                new_list[indx][k] = lkup.SCHEMAS[self.schema]['CONTROL_MAPPINGS'][f.get(v)]
+
+        return new_list
 
     def do_mapping_ena(self, arm):
         try:

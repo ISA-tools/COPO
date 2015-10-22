@@ -10,8 +10,6 @@
 	<link rel="stylesheet" href="{% static 'copo/css/copo/profile_pricelist.css' %}">
 	<link rel="stylesheet" href="{% static 'copo/css/bootstrap/bootstrap-dialog.css' %}">
 
-
-
 {% endblock %}
 
 
@@ -53,161 +51,10 @@
 {% block content %}
 
 
-	<!-- Hidden Fields Section -->
-	<input type="hidden" value="{{ profile_id }}" name="profile_id" id="profile_id"/>
-	<input type="hidden" value="{% url 'copo:copo_publications' profile_id=p_id %}"  name="publications_url" id="publications_url" />
-
-	<div class="wrapper">
-        <!-- PRICING-TABLE CONTAINER -->
-        <div class="pricing-table group">
-            <!--
-			<h1 class="heading">
-                Profile
-            </h1>
-            -->
-            <!-- PERSONAL -->
-            <div class="block data fl">
-                <h2 class="title">data</h2>
-                <!-- CONTENT -->
-                <div class="content">
-                    <p class="price">
-                        <span>4</span>
-                    </p>
-                    <p class="hint">files in profile</p>
-                </div>
-                <!-- /CONTENT -->
-                <!-- FEATURES -->
-                <ul class="features">
-                    <li><span class="fontawesome-cog"></span>upload Data</li>
-                    <li><span class="fontawesome-star"></span>label with metadata</li>
-                    <li><span class="fontawesome-dashboard"></span>create bundles</li>
-
-                </ul>
-                <!-- /FEATURES -->
-                <!-- PT-FOOTER -->
-                <div class="pt-footer">
-                    <p>&nbsp</p>
-                </div>
-                <!-- /PT-FOOTER -->
-            </div>
-            <!-- /PERSONAL -->
-            <!-- PROFESSIONAL -->
-            <div class="block samples fl">
-                <h2 class="title">samples</h2>
-                <!-- CONTENT -->
-                <div class="content">
-                    <p class="price">
-                        <span>2</span>
-                    </p>
-                    <p class="hint">samples in profile</p>
-                </div>
-                <!-- /CONTENT -->
-                <!-- FEATURES -->
-                <ul class="features">
-                    <li><span class="fontawesome-cog"></span>describe samples</li>
-                    <li><span class="fontawesome-star"></span>recycle</li>
-                    <li><span class="fontawesome-dashboard"></span>share with collaborators</li>
-
-                </ul>
-                <!-- /FEATURES -->
-                <!-- PT-FOOTER -->
-                <div class="pt-footer">
-                    <p>&nbsp</p>
-                </div>
-                <!-- /PT-FOOTER -->
-            </div>
-            <!-- /PROFESSIONAL -->
-            <!-- BUSINESS -->
-            <div class="block submissions fl">
-                <h2 class="title">submissions</h2>
-                <!-- CONTENT -->
-                <div class="content">
-                    <p class="price">
-                        <span>2</span>
-
-                    </p>
-                    <p class="hint">submissions in profile</p>
-                </div>
-                <!-- /CONTENT -->
-
-                <!-- FEATURES -->
-                <ul class="features">
-                    <li><span class="fontawesome-cog"></span>Upload to repositories</li>
-                    <li><span class="fontawesome-star"></span>Share with the world</li>
-                    <li><span class="fontawesome-dashboard"></span>Get cited</li>
-                </ul>
-                <!-- /FEATURES -->
-
-                <!-- PT-FOOTER -->
-                <div class="pt-footer">
-                    <p>&nbsp</p>
-                </div>
-                <!-- /PT-FOOTER -->
-            </div>
-
-
-            <div class="block publication fl">
-                <h2 class="title">publications</h2>
-                <!-- CONTENT -->
-                <div class="content">
-                    <p class="price">
-                        <span>5</span>
-
-                    </p>
-                    <p class="hint">publications in profile</p>
-                </div>
-                <!-- /CONTENT -->
-
-                <!-- FEATURES -->
-                <ul class="features">
-                    <li><span class="fontawesome-cog"></span>share publications</li>
-                    <li><span class="fontawesome-star"></span>publish to journals</li>
-                    <li><span class="fontawesome-dashboard"></span>Get cited</li>
-                </ul>
-                <!-- /FEATURES -->
-
-                <!-- PT-FOOTER -->
-                <div class="pt-footer">
-                    <p>&nbsp</p>
-                </div>
-                <!-- /PT-FOOTER -->
-            </div>
-            <!-- /BUSINESS -->
-			<!-- BUSINESS -->
-            <div class="block people fl">
-                <h2 class="title">people</h2>
-                <!-- CONTENT -->
-                <div class="content">
-                    <p class="price">
-                        <span>13</span>
-
-                    </p>
-                    <p class="hint">people in group</p>
-                </div>
-                <!-- /CONTENT -->
-
-                <!-- FEATURES -->
-                <ul class="features">
-                    <li><span class="fontawesome-cog"></span>collaborate</li>
-                    <li><span class="fontawesome-star"></span>interact</li>
-                    <li><span class="fontawesome-dashboard"></span>share</li>
-                </ul>
-                <!-- /FEATURES -->
-
-                <!-- PT-FOOTER -->
-                <div class="pt-footer">
-                    <p>&nbsp</p>
-                </div>
-                <!-- /PT-FOOTER -->
-            </div>
-            <!-- /BUSINESS -->
-        </div>
-        <!-- /PRICING-TABLE -->
-    </div>
-
 {% endblock %}
 
 
 {% block js_block %}
+    <script src="{% static 'copo/js/bootstrap-dialog.js' %}"></script>
 	<script src="{% static "copo/js/copo_profile.js" %}"></script>
 {% endblock %}

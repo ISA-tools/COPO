@@ -50,6 +50,17 @@ def get_ena_db_template():
     return data
 
 
+def get_db_template(schema):
+    if schema == "ENA":
+        path_to_json = lkup.SCHEMAS["ENA"]['PATHS_AND_URIS']['ISA_json']
+    else:
+        path_to_json = lkup.SCHEMAS['COPO']['PATHS_AND_URIS'][schema.upper()]
+    data = ""
+    with open(path_to_json, encoding='utf-8') as data_file:
+        data = json.loads(data_file.read())
+    return data
+
+
 def get_sample_attributes():
     sample_attributes = json_to_pytype(ecc.MODEL_FILES["SAMPLE_ATTRIBUTES"])
     # maybe some logic here to filter the returned attributes,
@@ -76,5 +87,3 @@ def get_collection_head_dc():
     with open(f_path) as json_data:
         data = json.load(json_data)
     return data
-
-
