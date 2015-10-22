@@ -50,7 +50,12 @@ def index(request):
 
 @login_required
 def view_copo_profile(request, profile_id):
-    return render(request, 'copo/copo_profile.html')
+    context = {"p_id": profile_id}
+    return render(request, 'copo/copo_profile.html', context)
+
+@login_required
+def copo_publications(request, profile_id):
+    return render(request, 'copo/copo_publications.html')
 
 @login_required
 def goto_error(request, message="Something went wrong, but we're not sure what!"):
@@ -540,3 +545,5 @@ def register_to_irods(request):
     return_structure = {'exit_status': status}
     out = jsonpickle.encode(return_structure)
     return HttpResponse(out, content_type='json')
+
+

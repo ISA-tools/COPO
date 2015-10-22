@@ -9,7 +9,7 @@ urlpatterns = patterns('web_copo.views',
                        url(r'^register/', 'copo_register', name='register'),
                        url(r'^new_profile/', 'new_profile', name='new_bundle'),
                        url(r'^profile/(?P<profile_id>[a-z0-9]+)/view', 'view_profile', name='view_profile'),
-                       url(r'^copo_profile/(?P<profile_id>[a-z0-9]+)/view', views.view_copo_profile, name='view_copo_profile'),
+
                        url(r'^new_collection/', 'new_collection_head', name='new_collection'),
                        url(r'^collection/(?P<collection_head_id>[a-z0-9]+)/view', 'view_collection',
                            name='view_collection'),
@@ -25,4 +25,10 @@ urlpatterns = patterns('web_copo.views',
                        url(r'^error/', views.goto_error, name='error_page'),
                        url(r'^save_article/$', views.save_figshare_collection, name='save_article'),
                        url(r'^register_to_irods/$', 'register_to_irods', name='register_to_irods'),
+
+                       # urls from October 2015 refactor below
+                       url(r'^copo_profile/(?P<profile_id>[a-z0-9]+)/view', views.view_copo_profile,
+                           name='view_copo_profile'),
+                       url(r'^copo_publications/(?P<profile_id>[a-z0-9]+)/view', 'copo_publications',
+                           name='copo_publications'),
                        )

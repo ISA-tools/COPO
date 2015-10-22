@@ -1,1 +1,315 @@
-[21/Oct/2015 12:33:29] DEBUG [web.apps.web_copo.views:21] ['/Users/etuka/Dropbox/Dev/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages/setuptools-15.1-py3.4.egg', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/environments/venv3.4/lib/python34.zip', '/Users/etuka/environments/venv3.4/lib/python3.4', '/Users/etuka/environments/venv3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/lib-dynload', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/usr/local/Cellar/python3/3.4.3/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/etuka/environments/venv3.4/lib/python3.4/site-packages', '/Users/etuka/Dropbox/Dev/COPO', '/Users/etuka/Dropbox/Dev/COPO/api', '/Users/etuka/Dropbox/Dev/COPO/dal', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo', '/Users/etuka/Dropbox/Dev/COPO/web/project_copo/settings', '/Users/etuka/Dropbox/Dev/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[22/Oct/2015 14:21:49] ERROR [django.request:231] Internal Server Error: /copo/copo_profile/5616733191aaa91fc57df44a/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 537, in reverse
+    extra, resolver = resolver.namespace_dict[ns]
+KeyError: 'project_copo.copo'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 452, in render
+    current_app=context.current_app)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 547, in reverse
+    key)
+django.core.urlresolvers.NoReverseMatch: 'project_copo.copo' is not a registered namespace
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 54, in view_copo_profile
+    return render(request, 'copo/copo_profile.html', context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/shortcuts.py", line 50, in render
+    return HttpResponse(loader.render_to_string(*args, **kwargs),
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader.py", line 178, in render_to_string
+    return t.render(context_instance)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 148, in render
+    return self._render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader_tags.py", line 126, in render
+    return compiled_parent._render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 458, in render
+    six.reraise(*exc_info)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/utils/six.py", line 659, in reraise
+    raise value
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 444, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=context.current_app)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 551, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 468, in _reverse_with_prefix
+    (lookup_view_s, args, kwargs, len(patterns), patterns))
+django.core.urlresolvers.NoReverseMatch: Reverse for 'view_copo_publications' with arguments '()' and keyword arguments '{'profile_id': ''}' not found. 1 pattern(s) tried: ['copo/copo_publications/(?P<profile_id>[a-z0-9]+)/view']
+[22/Oct/2015 14:22:55] DEBUG [web_copo.views:21] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[22/Oct/2015 14:22:55] INFO [rdflib:81] RDFLib Version: 4.2.1
+[22/Oct/2015 14:22:55] DEBUG [web.apps.web_copo.views:21] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[22/Oct/2015 14:22:55] ERROR [django.request:231] Internal Server Error: /copo/copo_profile/5616733191aaa91fc57df44a/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 537, in reverse
+    extra, resolver = resolver.namespace_dict[ns]
+KeyError: 'project_copo.copo'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 452, in render
+    current_app=context.current_app)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 547, in reverse
+    key)
+django.core.urlresolvers.NoReverseMatch: 'project_copo.copo' is not a registered namespace
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 54, in view_copo_profile
+    return render(request, 'copo/copo_profile.html', context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/shortcuts.py", line 50, in render
+    return HttpResponse(loader.render_to_string(*args, **kwargs),
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader.py", line 178, in render_to_string
+    return t.render(context_instance)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 148, in render
+    return self._render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader_tags.py", line 126, in render
+    return compiled_parent._render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 458, in render
+    six.reraise(*exc_info)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/utils/six.py", line 659, in reraise
+    raise value
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 444, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=context.current_app)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 551, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 468, in _reverse_with_prefix
+    (lookup_view_s, args, kwargs, len(patterns), patterns))
+django.core.urlresolvers.NoReverseMatch: Reverse for 'copo_publications' with arguments '()' and keyword arguments '{'profile_id': ''}' not found. 1 pattern(s) tried: ['copo/copo_publications/(?P<profile_id>[a-z0-9]+)/view']
+[22/Oct/2015 14:23:40] ERROR [django.request:231] Internal Server Error: /copo/copo_profile/5616733191aaa91fc57df44a/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 537, in reverse
+    extra, resolver = resolver.namespace_dict[ns]
+KeyError: 'project_copo.copo'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 452, in render
+    current_app=context.current_app)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 547, in reverse
+    key)
+django.core.urlresolvers.NoReverseMatch: 'project_copo.copo' is not a registered namespace
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 54, in view_copo_profile
+    return render(request, 'copo/copo_profile.html', context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/shortcuts.py", line 50, in render
+    return HttpResponse(loader.render_to_string(*args, **kwargs),
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader.py", line 178, in render_to_string
+    return t.render(context_instance)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 148, in render
+    return self._render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader_tags.py", line 126, in render
+    return compiled_parent._render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 458, in render
+    six.reraise(*exc_info)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/utils/six.py", line 659, in reraise
+    raise value
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 444, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=context.current_app)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 551, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 468, in _reverse_with_prefix
+    (lookup_view_s, args, kwargs, len(patterns), patterns))
+django.core.urlresolvers.NoReverseMatch: Reverse for 'copo_publications' with arguments '()' and keyword arguments '{'profile_id': ''}' not found. 1 pattern(s) tried: ['copo/copo_publications/(?P<profile_id>[a-z0-9]+)/view']
+[22/Oct/2015 14:23:45] ERROR [django.request:231] Internal Server Error: /copo/copo_profile/5616733191aaa91fc57df44a/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 537, in reverse
+    extra, resolver = resolver.namespace_dict[ns]
+KeyError: 'project_copo.copo'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 452, in render
+    current_app=context.current_app)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 547, in reverse
+    key)
+django.core.urlresolvers.NoReverseMatch: 'project_copo.copo' is not a registered namespace
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 54, in view_copo_profile
+    return render(request, 'copo/copo_profile.html', context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/shortcuts.py", line 50, in render
+    return HttpResponse(loader.render_to_string(*args, **kwargs),
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader.py", line 178, in render_to_string
+    return t.render(context_instance)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 148, in render
+    return self._render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader_tags.py", line 126, in render
+    return compiled_parent._render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 142, in _render
+    return self.nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/base.py", line 844, in render
+    bit = self.render_node(node, context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/debug.py", line 80, in render_node
+    return node.render(context)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 458, in render
+    six.reraise(*exc_info)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/utils/six.py", line 659, in reraise
+    raise value
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/defaulttags.py", line 444, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=context.current_app)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 551, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/urlresolvers.py", line 468, in _reverse_with_prefix
+    (lookup_view_s, args, kwargs, len(patterns), patterns))
+django.core.urlresolvers.NoReverseMatch: Reverse for 'copo_publications' with arguments '()' and keyword arguments '{'profile_id': ''}' not found. 1 pattern(s) tried: ['copo/copo_publications/(?P<profile_id>[a-z0-9]+)/view']
+[22/Oct/2015 14:24:40] DEBUG [web_copo.views:21] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[22/Oct/2015 14:24:40] INFO [rdflib:81] RDFLib Version: 4.2.1
+[22/Oct/2015 14:24:40] DEBUG [web.apps.web_copo.views:21] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[22/Oct/2015 14:26:55] ERROR [django.request:231] Internal Server Error: /copo/copo_publications/5616733191aaa91fc57df44a/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 130, in get_response
+    % (callback.__module__, view_name))
+ValueError: The view web_copo.views.copo_publications didn't return an HttpResponse object. It returned None instead.
+[22/Oct/2015 14:28:56] DEBUG [web_copo.views:21] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[22/Oct/2015 14:28:57] INFO [rdflib:81] RDFLib Version: 4.2.1
+[22/Oct/2015 14:28:57] DEBUG [web.apps.web_copo.views:21] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[22/Oct/2015 14:28:59] ERROR [django.request:231] Internal Server Error: /copo/copo_publications/5616733191aaa91fc57df44a/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 58, in copo_publications
+    return render(request, 'copo/copo_publication')
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/shortcuts.py", line 50, in render
+    return HttpResponse(loader.render_to_string(*args, **kwargs),
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader.py", line 170, in render_to_string
+    t = get_template(template_name, dirs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader.py", line 144, in get_template
+    template, origin = find_template(template_name, dirs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader.py", line 136, in find_template
+    raise TemplateDoesNotExist(name)
+django.template.base.TemplateDoesNotExist: copo/copo_publication
+[22/Oct/2015 14:29:36] DEBUG [web_copo.views:21] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[22/Oct/2015 14:29:36] INFO [rdflib:81] RDFLib Version: 4.2.1
+[22/Oct/2015 14:29:36] DEBUG [web.apps.web_copo.views:21] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[22/Oct/2015 14:29:36] ERROR [django.request:231] Internal Server Error: /copo/copo_publications/5616733191aaa91fc57df44a/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 58, in copo_publications
+    return render(request, 'copo/copo_publications')
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/shortcuts.py", line 50, in render
+    return HttpResponse(loader.render_to_string(*args, **kwargs),
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader.py", line 170, in render_to_string
+    t = get_template(template_name, dirs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader.py", line 144, in get_template
+    template, origin = find_template(template_name, dirs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader.py", line 136, in find_template
+    raise TemplateDoesNotExist(name)
+django.template.base.TemplateDoesNotExist: copo/copo_publications
+[22/Oct/2015 14:29:42] ERROR [django.request:231] Internal Server Error: /copo/copo_publications/5616733191aaa91fc57df44a/view
+Traceback (most recent call last):
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps/web_copo/views.py", line 58, in copo_publications
+    return render(request, 'copo/copo_publications')
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/shortcuts.py", line 50, in render
+    return HttpResponse(loader.render_to_string(*args, **kwargs),
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader.py", line 170, in render_to_string
+    t = get_template(template_name, dirs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader.py", line 144, in get_template
+    template, origin = find_template(template_name, dirs)
+  File "/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages/django/template/loader.py", line 136, in find_template
+    raise TemplateDoesNotExist(name)
+django.template.base.TemplateDoesNotExist: copo/copo_publications
+[22/Oct/2015 14:30:16] DEBUG [web_copo.views:21] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[22/Oct/2015 14:30:16] INFO [rdflib:81] RDFLib Version: 4.2.1
+[22/Oct/2015 14:30:16] DEBUG [web.apps.web_copo.views:21] ['/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web', '/Applications/PyCharm.app/Contents/helpers/pydev', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python34.zip', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/lib-dynload', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4', '/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/plat-darwin', '/Users/fshaw/Documents/dev/environments/copo_python3.4/lib/python3.4/site-packages', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/api', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/dal', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/project_copo/settings', '/Users/fshaw/Dropbox/tgac_dev/prototypes/COPO/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
