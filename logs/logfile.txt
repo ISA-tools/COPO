@@ -1,0 +1,87 @@
+[28/Oct/2015 17:03:48] DEBUG [web_copo.views:21] ['/vagrant/web', '/usr/lib/python3.4', '/usr/lib/python3.4/plat-x86_64-linux-gnu', '/usr/lib/python3.4/lib-dynload', '/usr/local/lib/python3.4/dist-packages', '/usr/lib/python3/dist-packages', '/vagrant', '/vagrant/api', '/vagrant/dal', '/vagrant/web/project_copo', '/vagrant/web/project_copo/settings', '/vagrant/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[28/Oct/2015 17:03:48] INFO [rdflib:81] RDFLib Version: 4.2.1
+[28/Oct/2015 17:03:48] DEBUG [web.apps.web_copo.views:21] ['/vagrant/web', '/usr/lib/python3.4', '/usr/lib/python3.4/plat-x86_64-linux-gnu', '/usr/lib/python3.4/lib-dynload', '/usr/local/lib/python3.4/dist-packages', '/usr/lib/python3/dist-packages', '/vagrant', '/vagrant/api', '/vagrant/dal', '/vagrant/web/project_copo', '/vagrant/web/project_copo/settings', '/vagrant/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[28/Oct/2015 17:03:48] WARNING [django.request:143] Not Found: /
+[28/Oct/2015 17:03:57] INFO [requests.packages.urllib3.connectionpool:695] Starting new HTTPS connection (1): pub.orcid.org
+[28/Oct/2015 17:03:58] DEBUG [requests.packages.urllib3.connectionpool:374] Setting read timeout to None
+[28/Oct/2015 17:03:58] DEBUG [requests.packages.urllib3.connectionpool:414] "POST /oauth/token HTTP/1.1" 200 None
+[28/Oct/2015 17:03:58] INFO [requests.packages.urllib3.connectionpool:257] Starting new HTTP connection (1): pub.orcid.org
+[28/Oct/2015 17:03:58] DEBUG [requests.packages.urllib3.connectionpool:374] Setting read timeout to None
+[28/Oct/2015 17:03:58] DEBUG [requests.packages.urllib3.connectionpool:414] "GET /v1.2/0000-0002-2323-6847/orcid-profile HTTP/1.1" 200 None
+[28/Oct/2015 17:03:59] ERROR [django.request:231] Internal Server Error: /accounts/orcid/login/callback/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/django/base.py", line 121, in _execute_wrapper
+    return method(query, args)
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/cursor.py", line 507, in execute
+    self._handle_result(self._connection.cmd_query(stmt))
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/connection.py", line 722, in cmd_query
+    result = self._handle_result(self._send_cmd(ServerCmd.QUERY, query))
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/connection.py", line 640, in _handle_result
+    raise errors.get_exception(packet)
+mysql.connector.errors.IntegrityError: 1062 (23000): Duplicate entry '1-1' for key 'socialaccount_socialtoken_app_id_533cac24865106d3_uniq'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.4/dist-packages/django/core/handlers/base.py", line 111, in get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/vagrant/web/apps/allauth/socialaccount/providers/oauth2/views.py", line 58, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/vagrant/web/apps/allauth/socialaccount/providers/oauth2/views.py", line 128, in dispatch
+    log = complete_social_login(request, login)
+  File "/vagrant/web/apps/allauth/socialaccount/helpers.py", line 146, in complete_social_login
+    return _complete_social_login(request, sociallogin)
+  File "/vagrant/web/apps/allauth/socialaccount/helpers.py", line 162, in _complete_social_login
+    ret = _process_signup(request, sociallogin)
+  File "/vagrant/web/apps/allauth/socialaccount/helpers.py", line 51, in _process_signup
+    get_adapter().save_user(request, sociallogin, form=None)
+  File "/vagrant/web/apps/allauth/socialaccount/adapter.py", line 68, in save_user
+    sociallogin.save(request)
+  File "/vagrant/web/apps/allauth/socialaccount/models.py", line 227, in save
+    self.token.save()
+  File "/usr/local/lib/python3.4/dist-packages/django/db/models/base.py", line 590, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/usr/local/lib/python3.4/dist-packages/django/db/models/base.py", line 618, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/usr/local/lib/python3.4/dist-packages/django/db/models/base.py", line 699, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/usr/local/lib/python3.4/dist-packages/django/db/models/base.py", line 732, in _do_insert
+    using=using, raw=raw)
+  File "/usr/local/lib/python3.4/dist-packages/django/db/models/manager.py", line 92, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/usr/local/lib/python3.4/dist-packages/django/db/models/query.py", line 921, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/usr/local/lib/python3.4/dist-packages/django/db/models/sql/compiler.py", line 920, in execute_sql
+    cursor.execute(sql, params)
+  File "/usr/local/lib/python3.4/dist-packages/django/db/backends/utils.py", line 81, in execute
+    return super(CursorDebugWrapper, self).execute(sql, params)
+  File "/usr/local/lib/python3.4/dist-packages/django/db/backends/utils.py", line 65, in execute
+    return self.cursor.execute(sql, params)
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/django/base.py", line 141, in execute
+    return self._execute_wrapper(self.cursor.execute, query, args)
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/django/base.py", line 127, in _execute_wrapper
+    utils.IntegrityError(err.msg), sys.exc_info()[2])
+  File "/usr/local/lib/python3.4/dist-packages/django/utils/six.py", line 549, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/django/base.py", line 121, in _execute_wrapper
+    return method(query, args)
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/cursor.py", line 507, in execute
+    self._handle_result(self._connection.cmd_query(stmt))
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/connection.py", line 722, in cmd_query
+    result = self._handle_result(self._send_cmd(ServerCmd.QUERY, query))
+  File "/usr/local/lib/python3.4/dist-packages/mysql/connector/connection.py", line 640, in _handle_result
+    raise errors.get_exception(packet)
+django.db.utils.IntegrityError: Duplicate entry '1-1' for key 'socialaccount_socialtoken_app_id_533cac24865106d3_uniq'
+[28/Oct/2015 17:04:19] DEBUG [web_copo.views:21] ['/vagrant/web', '/usr/lib/python3.4', '/usr/lib/python3.4/plat-x86_64-linux-gnu', '/usr/lib/python3.4/lib-dynload', '/usr/local/lib/python3.4/dist-packages', '/usr/lib/python3/dist-packages', '/vagrant', '/vagrant/api', '/vagrant/dal', '/vagrant/web/project_copo', '/vagrant/web/project_copo/settings', '/vagrant/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[28/Oct/2015 17:04:19] INFO [rdflib:81] RDFLib Version: 4.2.1
+[28/Oct/2015 17:04:19] DEBUG [web.apps.web_copo.views:21] ['/vagrant/web', '/usr/lib/python3.4', '/usr/lib/python3.4/plat-x86_64-linux-gnu', '/usr/lib/python3.4/lib-dynload', '/usr/local/lib/python3.4/dist-packages', '/usr/lib/python3/dist-packages', '/vagrant', '/vagrant/api', '/vagrant/dal', '/vagrant/web/project_copo', '/vagrant/web/project_copo/settings', '/vagrant/web/apps', '/var/www/copo_www/COPO/', '/var/www/copo_www/COPO/api', '/var/www/copo_www/COPO/dal', '/var/www/copo_www/COPO/web/project_copo', '/var/www/copo_www/COPO/web/project_copo/settings', '/var/www/copo_www/COPO/web/apps']
+[28/Oct/2015 17:04:21] INFO [requests.packages.urllib3.connectionpool:695] Starting new HTTPS connection (1): pub.orcid.org
+[28/Oct/2015 17:04:22] DEBUG [requests.packages.urllib3.connectionpool:374] Setting read timeout to None
+[28/Oct/2015 17:04:22] DEBUG [requests.packages.urllib3.connectionpool:414] "POST /oauth/token HTTP/1.1" 200 None
+[28/Oct/2015 17:04:22] INFO [requests.packages.urllib3.connectionpool:257] Starting new HTTP connection (1): pub.orcid.org
+[28/Oct/2015 17:04:22] DEBUG [requests.packages.urllib3.connectionpool:374] Setting read timeout to None
+[28/Oct/2015 17:04:22] DEBUG [requests.packages.urllib3.connectionpool:414] "GET /v1.2/0000-0002-2323-6847/orcid-profile HTTP/1.1" 200 None
+[28/Oct/2015 17:04:27] INFO [requests.packages.urllib3.connectionpool:695] Starting new HTTPS connection (1): pub.orcid.org
+[28/Oct/2015 17:04:28] DEBUG [requests.packages.urllib3.connectionpool:374] Setting read timeout to None
+[28/Oct/2015 17:04:28] DEBUG [requests.packages.urllib3.connectionpool:414] "POST /oauth/token HTTP/1.1" 401 None
+[28/Oct/2015 17:05:26] INFO [requests.packages.urllib3.connectionpool:257] Starting new HTTP connection (1): v0514.nbi.ac.uk
