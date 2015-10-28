@@ -49,8 +49,6 @@ class Profile(Resource):
             return None
 
     def PUT(self, abstract, title, user_id):
-        import platform
-
         sa = abstract[:147]
         sa += '...'
 
@@ -58,10 +56,7 @@ class Profile(Resource):
         try:
             uid = get_uid()
         except ConnectionError:
-            if platform.system() == 'Linux':
-                return False
-            else:
-                uid = '0000000000000'
+            uid = '0000000000000'
 
         spec = {
             "copo_id": uid,
