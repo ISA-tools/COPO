@@ -15,7 +15,7 @@ class copo {
     exec {
         "sql_patch_socialaccount":
             cwd => "$PROJ_DIR/setup",
-            command => "mysql -ufshaw -pApple123 copo_development < test_copo_development_2015-10-28.sql",
+            command => "mysql -ufshaw -pApple123 copo_development < social_account_setup.sql",
     }
 
 }
