@@ -11,6 +11,6 @@ Installation:
 
 `vagrant up`
 
-To start COPO, login with `vagrant ssh` navigate to `/vagrant/web` and do `python3 runserver 0.0.0.0:8000`
+To start COPO, login with `vagrant ssh` navigate to `/vagrant/web` and do `python3 manage.py runserver 0.0.0.0:8000`
 
 Connect from host machine to `127.0.0.1:8001`
